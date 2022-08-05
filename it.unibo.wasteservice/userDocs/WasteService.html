@@ -247,7 +247,44 @@
             <h3>Meaning of nouns and verbs</h3>
             <kc>NOUNS</kc>:
             <ul>
-                <li><ks>DDR Robot</ks>: Differential Drive Robot.</li>
+                <li><ks>WasteService</ks>: software that allows a Waste truck to deposit it's load in the proper container.</li> <!--TODO-->
+                <li><ks>DDR Robot</ks>: Differential Drive Robot. Capable of moving in the environment by executing simple move commands. 
+                    It must be capable of moving objects as a transpot trolley with a squared form of fixed side length;</li>
+                <li><ks>Service Area</ks>: a rectuangular area that includes an INDOOR port, a PlasticBox container and a GlassBox container.
+                    It's free from any internal obstacles;</li>
+                <li><ks>INDOOR</ks>: a port to the Service Area. It's formal position and usage will be later defined;</li>
+                <li><ks>PlasticBox</ks>: a container devoted to store objects made of plastic up to a limited capacity;</li>
+                <li><ks>GlassBox</ks>: a container devoted to store objects made of glass up to a limited capacity;</li>
+                <li><ks>HOME</ks>: the initial and default location of the Robot. It is found inside the Service Area in a formal location later defined;</li>
+                <li><ks>Waste truck</ks>: a transport vehicle that brings waste material to the INDOOR port;</li>
+                <li><ks>Driver</ks>: the driver of the Waste truck which uses a smart device to interact with the WasteService;</li>
+                <li><ks>ServiceManager</ks>: a human being that supervises the state of the WasteService;</li>
+                <li><ks>WasteServiceStatusGUI</ks>: user interactive component used by the ServiceManager to observe the status of the WasteService;</li>
+                <li><ks>Sonar</ks>: a device that measures a distance. Is connected to the RaspberryPi;</li>
+                <li><ks>Led</ks>: a light that can be switched on or off. Is connected to the RaspberryPi;</li>
+                <li><ks>RaspberryPi</ks>: an hardware device that can interact with components of the WasteService;</li>
+
+                <li><ks>MAXPB</ks>: fixed max kg of material which can be stored in the PlasticBox;</li>
+                <li><ks>MAXGB</ks>: fixed max kg of material which can be stored in the GlassBox;</li>
+                <li><ks>DLIMIT</ks>: fixed distance compared to the distance measured by the sonar, if the latter is less than this value the Robot must be stopped;</li>
+            </ul>
+            <kc>VERBS</kc>:
+            <ul>
+                <li><ks>Send</ks>: 
+                </li>
+                <li><ks>Answer</ks>: 
+                </li>
+
+                <li><ks>Start the robot</ks>: 
+                </li>
+                <li><ks>Stop the robot</ks>: 
+                </li>
+
+                <li><ks>Pick up load</ks>: 
+                </li>
+                <li><ks>Deposit load</ks>: 
+                </li>
+
             </ul>
         </div>
 
