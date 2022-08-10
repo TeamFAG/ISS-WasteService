@@ -259,33 +259,34 @@
                 <li><ks>Waste truck</ks>: a transport vehicle that brings waste material to the INDOOR port;</li>
                 <li><ks>Driver</ks>: the driver of the Waste truck which uses a smart device to interact with the WasteService;</li>
                 <li><ks>ServiceManager</ks>: a human being that supervises the state of the WasteService;</li>
-                <li><ks>WasteServiceStatusGUI</ks>: user interactive component used by the ServiceManager to observe the status of the WasteService;</li>
+                <li><ks>WasteServiceStatusGUI</ks>: user interactive component used by the ServiceManager to observe the status of the WasteService:</li>
+                <ul>
+                    <li>the current state of the transport trolley and it position in the room;</li>
+                    <li>the current weigth of the material stored in the two waste-containers;</li>
+                    <li>the current state of the Led.</li>
+                </ul>
                 <li><ks>Sonar</ks>: a device that measures a distance. Is connected to the RaspberryPi;</li>
                 <li><ks>Led</ks>: a light that can be switched on or off. Is connected to the RaspberryPi;</li>
                 <li><ks>RaspberryPi</ks>: an hardware device that can interact with components of the WasteService;</li>
-
+                <li><ks>Loadaccept</ks>: the answer sent by the WasteService if the load can be accepted;</li>
+                <li><ks>Loadarejected</ks>: the answer sent by the WasteService if the load can't be accepted;</li>
                 <li><ks>MAXPB</ks>: fixed max kg of material which can be stored in the PlasticBox;</li>
                 <li><ks>MAXGB</ks>: fixed max kg of material which can be stored in the GlassBox;</li>
                 <li><ks>DLIMIT</ks>: fixed distance compared to the distance measured by the sonar, if the latter is less than this value the Robot must be stopped;</li>
             </ul>
             <kc>VERBS</kc>:
             <ul>
-                <li><ks>Send</ks>: 
-                </li>
-                <li><ks>Answer</ks>: 
-                </li>
-
-                <li><ks>Start the robot</ks>: 
-                </li>
-                <li><ks>Stop the robot</ks>: 
-                </li>
-
-                <li><ks>Pick up load</ks>: 
-                </li>
-                <li><ks>Deposit load</ks>: 
-                </li>
-
+                <li><ks>Start the robot</ks>: start the robot from the position it is currently at. This operation is always managed by the WasteService;</li>
+                <li><ks>Stop the robot</ks>: stops the robot in the position it is currently at. This operation is always managed by the WasteService;</li>
+                <li><ks>Pick up load</ks>: the robot takes the waste load from the Waste Truck;</li>
+                <li><ks>Deposit load</ks>: the robot unloads the waste in the appropriate container;</li>
             </ul>
+        </div>
+
+        <div class="remark">
+            <h3>Definition of a formal model of the requirements</h3>
+
+            
         </div>
 
 
