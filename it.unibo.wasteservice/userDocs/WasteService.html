@@ -345,8 +345,11 @@
             The <ki>Waste truck</ki> actor comprehends the <i>truck</i>, the <i>driver</i> and the <i>smart device</i> (used to comunicate with the service) as they can all work as one entity.
             Their actions are the following:
             <ul>
-                <li>Approach INDOOR: </li>
+                <li>Approach INDOOR: the actor approaches the INDOOR port and sends a Store Request.</li>
+                <li>Leave INDOOR: the actor leaves the INDOOR port once "REFERENCE TO TODO line 339".</li>
             </ul>
+
+            The <ki>ServiceManager</ki> has only one responsibility, it observes the state of the system thanks to the <ks>ServiceManagerGUI</ks>.
 
             <h3>Definition of a formal model of the requirements</h3>
 
