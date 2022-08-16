@@ -100,6 +100,13 @@
         font-size: 90%;
     }
 
+    ki {
+        font-family: "Arial";
+        color: #6d6d6d;
+        font-weight: bold;
+        font-size: 90%;
+    }
+
     pre {
         font-family: "Consolas";
         font-size: 85%;
@@ -124,6 +131,7 @@
         font-weight: bold;
         font-size: 90%;
     }
+    
 
     h1 {
         font-size: 150%;
@@ -217,6 +225,13 @@
         width: 85%;
         margin: auto;
     }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
 </style>
 
 <head>
@@ -271,9 +286,9 @@
                 </ul>
                 <br/>
                 <li><ks>Sonar</ks>: a device that measures a distance. Is connected to the RaspberryPi.
-                <br/>The customer provides us the code <a href="www.google.it"><kc>SonarAlone.c</kc></a>: this C program continuously reads the distance from a phisical sonar connected to a Raspberry and print it to the standard output;</li>
+                <br/>The customer provides us the code <a href="www.google.it"><kc>SonarAlone.c</kc></a>: this C program continuously reads the distance from a phisical sonar connected to a Raspberry and print it to the standard output;</li> <!--TODO: insert HREF-->
                 <li><ks>Led</ks>: a light that can be switched on or off. Is connected to the RaspberryPi;
-                <br/>The customer provides us the code <a href="www.google.it"><kc>Led25GpioTurnOn.sh</kc></a> and <a href="www.google.it"><kc>Led25GpioTurnOff.sh</kc></a>: these bash scripts simply turn on and off the led connected to a Raspberry;</li>
+                <br/>The customer provides us the code <a href="www.google.it"><kc>Led25GpioTurnOn.sh</kc></a> and <a href="www.google.it"><kc>Led25GpioTurnOff.sh</kc></a>: these bash scripts simply turn on and off the led connected to a Raspberry;</li> <!--TODO: insert HREF-->
                 <li><ks>RaspberryPi</ks>: an hardware device that can interact with components of the WasteService;</li>
                 <br/>
                 <li><ks>Loadaccept</ks>: the <strong>reply</strong> sent by the WasteService if the load can be accepted;</li>
@@ -318,7 +333,26 @@
         </div>
 
         <div class="remark">
+
+            <!--TODO: explain why we use QAK instead of UML-->
+
+            <!--TODO: on a loadaccepted does the truck leave the load and goes away or does he wait for the robot, store the load on top of him and then leave?-->
+
+            <h3>Use Cases</h3>
+
+            <img src="./imgs/UseCases.drawio.svg" alt="UseCases" width="40%" height="40%" class="center">
+            <br/>
+            The <ki>Waste truck</ki> actor comprehends the <i>truck</i>, the <i>driver</i> and the <i>smart device</i> (used to comunicate with the service) as they can all work as one entity.
+            Their actions are the following:
+            <ul>
+                <li>Approach INDOOR: </li>
+            </ul>
+
             <h3>Definition of a formal model of the requirements</h3>
+
+            <kc>Driver Request</kc>:
+            <br/>
+            <img src="./imgs/TruckServiceInteraction.drawio.svg" alt="TruckServiceInt" width="40%" height="40%" class="center">
 
             
         </div>
@@ -358,7 +392,10 @@
     </div>
 
     <div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
-        By studentName email: student@studio.unibo.it
+        By Team FAG: <br/>
+        federico.andrucci@studio.unibo.it, <br/>
+        alex.gianelli@live.it, <br/>
+        gabriele.marconi@studio.unibo.it <br/>
         <img src="./img/emiglio.png" alt="mbot" width="15%" height="15%">
     </div>
 </body>
