@@ -1,6 +1,24 @@
 System wasteservice
 
+Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Reply loadAccepted : loadAccepted(_)
+Reply loadRejected : loadRejected(_)
 
+Context ctxrequest_wasteservice ip [host="localhost" port=8010]
 
+QActor wasteservice context ctxrequest_wasteservice {
+	
+	State init initial {
+		
+	}
+	
+	
+}
 
-Context request_wasteservice ip [host="localhost" port=8010]
+QActor wastetruck context ctxrequest_wasteservice {
+	
+	State init initial {
+		
+	}
+	
+}
