@@ -9,16 +9,40 @@ Context ctxrequest_wasteservice ip [host="localhost" port=8010]
 QActor wasteservice context ctxrequest_wasteservice {
 	
 	State init initial {
-		
+		printCurrentMessage
+		// cose
 	}
 	
+	Transition t1 whenRequest storeRequest -> handleRequest
 	
+	
+	State handleRequest {
+		
+	}	
+	
+	
+	Goto init	
 }
 
 QActor wastetruck context ctxrequest_wasteservice {
 	
 	State init initial {
+		printCurrentMessage
+		// cose
+	}
+	
+	Transition t1 whenReply loadAccepted -> handleAccepted
+				  whenReply loadRejected -> handleRejected
+				  
+	State handleAccepted {
 		
 	}
 	
+	State handleRejected {
+		
+	}
+	
+	State termination {
+		
+	}
 }

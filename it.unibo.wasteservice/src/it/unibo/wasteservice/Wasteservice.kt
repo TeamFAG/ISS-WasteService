@@ -17,7 +17,14 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
 					}
+					 transition(edgeName="t10",targetState="handleRequest",cond=whenRequest("storeRequest"))
+				}	 
+				state("handleRequest") { //this:State
+					action { //it:State
+					}
+					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
 			}
 		}

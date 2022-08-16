@@ -17,6 +17,21 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
+					}
+					 transition(edgeName="t11",targetState="handleAccepted",cond=whenReply("loadAccepted"))
+					transition(edgeName="t12",targetState="handleRejected",cond=whenReply("loadRejected"))
+				}	 
+				state("handleAccepted") { //this:State
+					action { //it:State
+					}
+				}	 
+				state("handleRejected") { //this:State
+					action { //it:State
+					}
+				}	 
+				state("termination") { //this:State
+					action { //it:State
 					}
 				}	 
 			}
