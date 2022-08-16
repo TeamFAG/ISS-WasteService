@@ -1,0 +1,6 @@
+System wasteservice
+
+
+
+
+Context request_wasteservice ip [host="localhost" port=8010]
