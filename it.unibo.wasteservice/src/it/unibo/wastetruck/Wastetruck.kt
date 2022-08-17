@@ -14,24 +14,40 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 		return "init"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
+		
+				var Material = ""
+				var Qty = 0.0
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
+						
+									Material = if(kotlin.random.Random.nextBoolean()) "glass" else "plastic"
+									Qty = kotlin.random.Random.nextDouble(100.0, 120.0)
+						println("WasteTruck with $Qty KG of $Material")
+						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
 					}
 					 transition(edgeName="t11",targetState="handleAccepted",cond=whenReply("loadAccepted"))
 					transition(edgeName="t12",targetState="handleRejected",cond=whenReply("loadRejected"))
 				}	 
 				state("handleAccepted") { //this:State
 					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
+						println("Store Accepted")
 					}
+					 transition( edgeName="goto",targetState="termination", cond=doswitch() )
 				}	 
 				state("handleRejected") { //this:State
 					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
+						println("Store Rejected")
 					}
+					 transition( edgeName="goto",targetState="termination", cond=doswitch() )
 				}	 
 				state("termination") { //this:State
 					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
+						println("Termination")
 					}
 				}	 
 			}

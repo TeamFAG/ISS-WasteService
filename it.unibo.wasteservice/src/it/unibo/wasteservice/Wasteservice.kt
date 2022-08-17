@@ -19,6 +19,8 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				var occupiedPlastic = 0.0
 				var currentMaterial = ""
 				var currentQuantity = 0.0
+				var MAXPB = 100.0
+				var MAXGP = 100.0
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -33,7 +35,14 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												currentMaterial = payloadArg(0)
-												currentQuantity = payloadArg(0).toDouble()
+												currentQuantity = payloadArg(1).toDouble()
+								println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
+								if(  currentMaterial == "glass" && occupiedGlass + currentQuantity < MAXGP || currentMaterial == "plastic" && occupiedPlastic + currentQuantity < MAXPB  
+								 ){answer("storeRequest", "loadAccepted", "loadAccepted(_)"   )  
+								}
+								else
+								 {answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
+								 }
 						}
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
