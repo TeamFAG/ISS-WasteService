@@ -8,16 +8,29 @@ Context ctxrequest_wasteservice ip [host="localhost" port=8010]
 
 QActor wasteservice context ctxrequest_wasteservice {
 	
+	[#
+		var occupiedGlass = 0.0
+		var occupiedPlastic = 0.0
+		var currentMaterial = ""
+		var currentQuantity = 0.0
+	#]
+	
 	State init initial {
 		printCurrentMessage
-		// cose
 	}
 	
 	Transition t1 whenRequest storeRequest -> handleRequest
 	
 	
 	State handleRequest {
+		printCurrentMessage
 		
+		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+			[#
+				currentMaterial = payloadArg(0)
+				currentQuantity = payloadArg(0).toDouble()
+			#]
+		}		
 	}	
 	
 	

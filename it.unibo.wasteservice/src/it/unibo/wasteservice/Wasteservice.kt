@@ -14,6 +14,11 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 		return "init"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
+		
+				var occupiedGlass = 0.0
+				var occupiedPlastic = 0.0
+				var currentMaterial = ""
+				var currentQuantity = 0.0
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -23,6 +28,13 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				}	 
 				state("handleRequest") { //this:State
 					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
+						if( checkMsgContent( Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								
+												currentMaterial = payloadArg(0)
+												currentQuantity = payloadArg(0).toDouble()
+						}
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
