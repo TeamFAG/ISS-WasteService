@@ -336,8 +336,6 @@
 
             <!--TODO: explain why we use QAK instead of UML-->
 
-            <!--TODO: on a loadaccepted does the truck leave the load and goes away or does he wait for the robot, store the load on top of him and then leave?-->
-
             <h3>Use Cases</h3>
 
             <img src="./imgs/UseCases.drawio.svg" alt="UseCases" width="40%" height="40%" class="center">
@@ -346,7 +344,7 @@
             Their actions are the following:
             <ul>
                 <li>Approach INDOOR: the actor approaches the INDOOR port and sends a Store Request.</li>
-                <li>Leave INDOOR: the actor leaves the INDOOR port once "REFERENCE TO TODO line 339".</li>
+                <li>Leave INDOOR: the actor leaves the INDOOR port once he recieves a <i>loadrejected</i> answer or once his load has been taken by the trolley.</li>
             </ul>
 
             The <ki>ServiceManager</ki> has only one responsibility, it observes the state of the system thanks to the <ks>ServiceManagerGUI</ks>.
