@@ -41,7 +41,8 @@ QActor wasteservice context ctxrequest_wasteservice {
 			}
 		}		
 	}	
-	Goto init	
+	Goto init
+	
 }
 
 QActor wastetruck context ctxrequest_wasteservice {
