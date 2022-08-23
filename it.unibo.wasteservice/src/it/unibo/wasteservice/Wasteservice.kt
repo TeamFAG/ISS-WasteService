@@ -15,42 +15,33 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		
-				var StoredPlastic = 0.0
-				var StoredGlass = 0.0
+					var occupiedGlass = 0.0
+					var occupiedPlastic = 0.0
+					var currentMaterial = ""
+					var currentQuantity = 0.0
+					var MAXPB = 100.0
+					var MAXGP = 100.0
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
-						delay(1000) 
 					}
-					 transition( edgeName="goto",targetState="sendDeposit", cond=doswitch() )
+					 transition(edgeName="t10",targetState="handleRequest",cond=whenRequest("storeRequest"))
 				}	 
-				state("sendDeposit") { //this:State
-					action { //it:State
-						
-									var MaterialType = if(kotlin.random.Random.nextBoolean()) "glass" else "plastic"
-									var Quantity = kotlin.random.Random.nextDouble(10.0, 50.0)
-						forward("requestDeposit", "requestDeposit($MaterialType,$Quantity)" ,"transporttrolley" ) 
-					}
-					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
-				}	 
-				state("idle") { //this:State
+				state("handleRequest") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
-					}
-					 transition(edgeName="t00",targetState="updateValues",cond=whenDispatch("updateWasteService"))
-				}	 
-				state("updateValues") { //this:State
-					action { //it:State
-						if( checkMsgContent( Term.createTerm("updateWasteService(MATERIAL,QUANTITY)"), Term.createTerm("updateWasteService(MATERIAL,QUANTITY)"), 
+						if( checkMsgContent( Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								if(  payloadArg(0) == "plastic"  
-								 ){ StoredPlastic += payloadArg(1).toDouble()  
+								
+												currentMaterial = payloadArg(0)
+												currentQuantity = payloadArg(1).toDouble()
+								println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
+								if(  currentMaterial == "glass" && occupiedGlass + currentQuantity < MAXGP || currentMaterial == "plastic" && occupiedPlastic + currentQuantity < MAXPB  
+								 ){answer("storeRequest", "loadAccepted", "loadAccepted(_)"   )  
 								}
 								else
-								 { StoredGlass += payloadArg(1).toDouble()  
+								 {answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
 								 }
 						}
 					}
