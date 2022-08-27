@@ -14,6 +14,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 		return "init"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
+		val interruptedStateTransitions = mutableListOf<Transition>()
 		
 				var Material = ""
 				var Qty = 0.0

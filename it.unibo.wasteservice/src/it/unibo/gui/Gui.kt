@@ -14,6 +14,7 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 		return "init"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
+		val interruptedStateTransitions = mutableListOf<Transition>()
 		
 				var POSITION = "HOME"
 				var TROLLEY = "IDLE"

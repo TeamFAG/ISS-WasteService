@@ -1,5 +1,6 @@
 System wasteservice
 
+
 Dispatch requestDeposit : requestDeposit(MATERIAL, QUANTITY)
 Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
 

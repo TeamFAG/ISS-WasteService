@@ -1,5 +1,6 @@
 System wasteservice
 
+
 Request storeRequest : storeRequest(MATERIAL, QUANTITY)
 Reply loadAccepted : loadAccepted(_)
 Reply loadRejected : loadRejected(_)
