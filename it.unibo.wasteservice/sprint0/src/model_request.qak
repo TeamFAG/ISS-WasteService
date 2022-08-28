@@ -1,0 +1,85 @@
+System wasteservice
+
+
+Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Reply loadAccepted : loadAccepted(_)
+Reply loadRejected : loadRejected(_)
+
+Context ctxrequest ip [host="localhost" port=8010]
+
+QActor wasteservice context ctxrequest {
+	
+		[#
+			var occupiedGlass : Double = 0.0
+			var occupiedPlastic : Double = 0.0
+			var currentMaterial : ws.Material
+			var currentQuantity : Double
+		#]
+	
+	State init initial {
+		printCurrentMessage
+	}
+	Transition t1 whenRequest storeRequest -> handleRequest
+	
+	
+	State handleRequest {
+		printCurrentMessage
+		
+		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+			[#
+				currentMaterial = ws.Material.valueOf(payloadArg(0))
+				currentQuantity = payloadArg(1).toDouble()
+			#]
+			
+			println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
+			
+			if [# currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB #] {
+				replyTo storeRequest with loadAccepted : loadAccepted(_)
+			} else {
+				replyTo storeRequest with loadRejected : loadRejected(_)
+			}
+		}		
+	}	
+	Goto init
+	
+}
+
+QActor wastetruck context ctxrequest {
+	
+	[#
+		var Material : ws.Material
+		var Qty : Double
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		
+		[#
+			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+			Qty = kotlin.random.Random.nextDouble(100.0, 120.0)
+		#]
+		
+		println("WasteTruck with $Qty KG of $Material")
+		
+		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
+	}
+	Transition t1 whenReply loadAccepted -> handleAccepted
+				  whenReply loadRejected -> handleRejected
+				  
+	State handleAccepted {
+		printCurrentMessage
+		println("Store Accepted")		
+	}
+	Goto termination
+	
+	State handleRejected {
+		printCurrentMessage
+		println("Store Rejected")
+	}
+	Goto termination
+	
+	State termination {
+		printCurrentMessage
+		println("Termination")
+	}
+}
