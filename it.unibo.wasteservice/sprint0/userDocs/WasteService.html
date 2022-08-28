@@ -5,6 +5,32 @@
 <script type="text/javascript" src="../css/issStyle.js"></script>
 -->
 <style type="text/css">
+
+    pre {
+        border: 1px solid black;
+        padding:5px;
+        white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
+        white-space: -pre-wrap; /* Opera */
+        white-space: -o-pre-wrap; /* Opera */
+        white-space: pre-wrap; /* CSS3 – Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+        word-wrap: break-word; /* IE 5.5+ */
+        border-radius: 8px;
+    }
+    pre code {
+        counter-reset: line-numbering;
+    }
+
+    pre code .line::before {
+        content: counter(line-numbering);
+        counter-increment: line-numbering;
+        padding-right: .8em; /* space after numbers */
+        margin-right: 5px;
+        width: 1.5em;
+        text-align: right;
+        opacity: 0.5;
+        background-color:#efefef;
+    }
+
     body {
         margin-left: 30px;
         margin-right: 30px;
@@ -34,6 +60,9 @@
         background-color: #cccccc;
     }
 
+    dd{
+        margin-bottom: 7px;
+    }
 
     hr {
         clear: both;
@@ -236,6 +265,7 @@
 
 <head>
     <title>Waste Service</title>
+    <script src="code.js"></script>
 </head>
 
 <body>
@@ -261,67 +291,113 @@
         <div class="remark">
             <h3>Meaning of nouns and verbs</h3>
             <kc>NOUNS</kc>:
-            <ul>
-                <li><ks>WasteService</ks>: software that allows a Waste truck to deposit it's load in the proper container.</li> <!--TODO: to be formalized-->
-                <li><ks>DDR Robot</ks>: Differential Drive Robot, that can be virtual or real. Capable of moving in the environment by executing simple move commands. 
-                    It must be capable of moving objects as a transpot trolley with a squared form of fixed side length equal to <kc>RD</kc>. 
-                    <br />The customer provides the software that further defines it's capabilities: <a href="https://github.com/anatali/issLab2022/tree/main/unibo.basicrobot22"><kc>it.unibo.basicRobot22</kc></a>;</li>
-                <br/>    
-                <li><ks>Service Area</ks>: a rectuangular area that includes an INDOOR port, a PlasticBox container and a GlassBox container.
-                    It's free from any internal obstacles;</li> <!--TODO: to be formalized-->
-                <li><ks>INDOOR</ks>: a port to the Service Area. It's formal position and usage will be later defined;</li>
-                <li><ks>PlasticBox</ks>: a container devoted to store objects made of plastic up to a limited capacity;</li>
-                <li><ks>GlassBox</ks>: a container devoted to store objects made of glass up to a limited capacity;</li>
-                <li><ks>HOME</ks>: the initial and default location of the Robot. It is found inside the Service Area in a formal location later defined;</li>
-                <br/>    
-                <li><ks>Waste truck</ks>: a transport vehicle that brings waste material to the INDOOR port;</li>
-                <li><ks>Driver</ks>: the driver of the Waste truck which uses a smart device to interact with the WasteService;</li>
-                <br/>  
-                <li><ks>ServiceManager</ks>: a human being that supervises the state of the WasteService;</li>
-                <li><ks>WasteServiceStatusGUI</ks>: user interactive component used by the ServiceManager to observe the status of the WasteService:</li>
-                <ul>
-                    <li>the current state of the transport trolley and it position in the room;</li>
-                    <li>the current weigth of the material stored in the two waste-containers;</li>
-                    <li>the current state of the Led.</li>
-                </ul>
-                <br/>
-                <li><ks>Sonar</ks>: a device that measures a distance. Is connected to the RaspberryPi.
-                <br/>The customer provides us the code <a href="www.google.it"><kc>SonarAlone.c</kc></a>: this C program continuously reads the distance from a phisical sonar connected to a Raspberry and print it to the standard output;</li> <!--TODO: insert HREF-->
-                <li><ks>Led</ks>: a light that can be switched on or off. Is connected to the RaspberryPi;
-                <br/>The customer provides us the code <a href="www.google.it"><kc>Led25GpioTurnOn.sh</kc></a> and <a href="www.google.it"><kc>Led25GpioTurnOff.sh</kc></a>: these bash scripts simply turn on and off the led connected to a Raspberry;</li> <!--TODO: insert HREF-->
-                <li><ks>RaspberryPi</ks>: an hardware device that can interact with components of the WasteService;</li>
-                <br/>
-                <li><ks>Loadaccept</ks>: the <strong>reply</strong> sent by the WasteService if the load can be accepted;</li>
-                <li><ks>Loadarejected</ks>: the <strong>reply</strong> sent by the WasteService if the load can't be accepted;</li>
-                <br/>
-                <!--
+            <br/>
+            <h4>Abstract Entities</h4>
+            <dl>
+                <dt><ks>WasteService</ks>:</dt>
+                <dd>Software that allows a Waste truck to deposit it's load in the proper container.</dd>
 
-                    <li><ks>MAXPB</ks>: fixed max kg of material which can be stored in the PlasticBox;</li>
-                    <li><ks>MAXGB</ks>: fixed max kg of material which can be stored in the GlassBox;</li>
-                    <li><ks>DLIMIT</ks>: fixed distance compared to the distance measured by the sonar, if the latter is less than this value the Robot must be stopped;</li>
-                -->
-                <table style="width:100%" border="1">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <ul>
-                                    <li><ks>MAXPB</ks>: fixed max kg of material which can be stored in the PlasticBox;</li>
-                                    <li><ks>MAXGB</ks>: fixed max kg of material which can be stored in the GlassBox;</li>
-                                    <li><ks>DLIMIT</ks>: fixed distance compared to the distance measured by the sonar, if the latter is less than this value the Robot must be stopped;</li>
-                                </ul>
-                            </td>
-                            <td>
-                                These constants can be defined in different ways:
-                                <ul>
-                                    <li><strong>Hardcoded</strong>: witten directly inside the code;</li>
-                                    <li><strong>Configuration file</strong>: saved in an external file;</li>
-                                    <li>altre idee</li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <dt><ks>DDR Robot</ks>:</dt>
+                <dd>
+                    Differential Drive Robot, that can be virtual or real. Capable of moving in the environment by executing simple move commands. 
+                    It must be capable of moving objects as a transpot trolley with a squared form of fixed side length equal to <kc>RD</kc>. 
+                    <br />The customer provides the software that further defines it's capabilities: <a href="https://github.com/anatali/issLab2022/tree/main/unibo.basicrobot22"><kc>it.unibo.basicRobot22</kc></a>;
+                </dd>
+                
+                <dt><ks>Service Area</ks>:</dt>
+                <dd>A rectuangular area that includes an INDOOR port, a PlasticBox container and a GlassBox container. It's free from any internal obstacles;</dd> <!--TODO: to be formalized-->
+                
+
+                <dt><ks>INDOOR</ks>:</dt>
+                <dd>A port to the Service Area. It's formal position and usage will be later defined;</dd>
+
+                <dt><ks>PlasticBox</ks>:</dt>
+                <dd>A container devoted to store objects made of plastic up to a limited capacity;</dd>
+
+                <dt><ks>GlassBox</ks>:</dt>
+                <dd>A container devoted to store objects made of glass up to a limited capacity;</dd>
+
+                <dt><ks>HOME</ks>:</dt>
+                <dd>The initial and default location of the Robot. It is found inside the Service Area in a formal location later defined;</dd>
+
+                <dt><ks>Driver</ks>:</dt>
+                <dd>The driver of the Waste truck which uses a smart device to interact with the WasteService;</dd>
+
+                <dt><ks>ServiceManager</ks>:</dt>
+                <dd>A human being that supervises the state of the WasteService;</dd>
+
+                <dt><ks>RaspberryPi</ks>:</dt>
+                <dd>An hardware device that can interact with components of the WasteService;</dd>
+            </dl>
+
+            <h4>Formalized Entities</h4>
+
+            <dl>
+                <dt><ks>Waste truck</ks>:</dt>
+                <dd>A transport vehicle that brings waste material to the INDOOR port;</dd>
+
+                <dt><ks>WasteServiceStatusGUI</ks>:</dt>
+                <dd>User interactive component used by the ServiceManager to observe the status of the WasteService:</li>
+                    <ul>
+                        <li>the current state of the transport trolley and it position in the room;</li>
+                        <li>the current weigth of the material stored in the two waste-containers;</li>
+                        <li>the current state of the Led.</li>
+                    </ul>
+                </dd>
+
+                <dt><ks>Sonar</ks>:</dt>
+                <dd>
+                    A device that measures a distance. Is connected to the RaspberryPi.
+                    <br/>The customer provides us the code <a href="www.google.it"><kc>SonarAlone.c</kc></a>: this C program continuously reads the distance from a phisical sonar connected to a Raspberry and print it to the standard output; <!--TODO: insert HREF-->
+                </dd>
+
+                <dt><ks>Led</ks>:</dt>
+                <dd>
+                    A light that can be switched on or off. Is connected to the RaspberryPi;
+                    <br/>The customer provides us the code <a href="www.google.it"><kc>Led25GpioTurnOn.sh</kc></a> and <a href="www.google.it"><kc>Led25GpioTurnOff.sh</kc></a>: these bash scripts simply turn on and off the led connected to a Raspberry; <!--TODO: insert HREF-->
+                </dd>
+
+                <dt><ks>StoreRequest</ks>:</dt>
+                <dd>
+                    The <strong>request</strong> sent by the WasteTruck;
+                    <pre><code>Request storeRequest : storeRequest(MATERIAL, QUANTITY)</code></pre>
+                </dd>
+
+                <dt><ks>Loadaccepted</ks>:</dt>
+                <dd>The <strong>reply</strong> sent by the WasteService if the load can be accepted;
+                    <pre><code>Reply loadAccepted : loadAccepted(_)</code></pre>
+                </dd>
+                
+                <dt><ks>Loadrejected</ks>:</dt>
+                <dd>The <strong>reply</strong> sent by the WasteService if the load can't be accepted;
+                    <pre><code>Reply loadRejected : loadRejected(_)</code></pre>
+                </dd>
+                
+                <dt><ks>MAXPB</ks>:</dt>
+                <dd>
+                    Fixed max kg of material which can be stored in the PlasticBox;
+                    <pre><code>val MAXPB : Float</code></pre>
+                </dd>
+
+                <dt><ks>MAXGB</ks>:</dt>
+                <dd>
+                    Fixed max kg of material which can be stored in the GlassBox;
+                    <pre><code>val MAXGB : Float</code></pre>
+                </dd>
+
+                <dt><ks>DLIMIT</ks>:</dt>
+                <dd>
+                    Fixed distance compared to the distance measured by the sonar, if the latter is less than this value the Robot must be stopped;
+                    <pre><code>val DLIMIT : Float</code></pre>
+                </dd>
+            </dl>
+            These constants can be defined in different ways:
+            <ul>
+                <li><strong>Hardcoded</strong>: witten directly inside the code;</li>
+                <li><strong>Configuration file</strong>: saved in an external file;</li>
+                <li>altre idee</li>
             </ul>
+            
             <kc>VERBS</kc>:
             <ul>
                 <li><ks>Start the robot</ks>: start the robot from the position it is currently at. This operation is always managed by the WasteService;</li>
@@ -349,13 +425,113 @@
 
             The <ki>ServiceManager</ki> has only one responsibility, it observes the state of the system thanks to the <ks>ServiceManagerGUI</ks>.
 
+            
+            
+        </div>
+        
+        <div class="remark">
             <h3>Definition of a formal model of the requirements</h3>
-
-            <kc>Driver Request</kc>:
-            <br/>
+    
+            <h4>Driver Request Requirement</h4>
             <img src="./imgs/TruckServiceInteraction.drawio.svg" alt="TruckServiceInt" width="40%" height="40%" class="center">
 
+            <dd>
+                <pre>
+                    <code>
+System wasteservice
+
+Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Reply loadAccepted : loadAccepted(_)
+Reply loadRejected : loadRejected(_)
+
+Context ctxrequest ip [host="localhost" port=8010]
+
+QActor wasteservice context ctxrequest {
+	
+		[#
+			var occupiedGlass : Double = 0.0
+			var occupiedPlastic : Double = 0.0
+			var currentMaterial : ws.Material
+			var currentQuantity : Double
+		#]
+	
+	State init initial {
+		printCurrentMessage
+	}
+	Transition t1 whenRequest storeRequest -> handleRequest
+	
+	
+	State handleRequest {
+		printCurrentMessage
+		
+		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+			[#
+				currentMaterial = ws.Material.valueOf(payloadArg(0))
+				currentQuantity = payloadArg(1).toDouble()
+			#]
+			
+			println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
+			
+			if [# currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB #] {
+				replyTo storeRequest with loadAccepted : loadAccepted(_)
+			} else {
+				replyTo storeRequest with loadRejected : loadRejected(_)
+			}
+		}		
+	}	
+	Goto init
+	
+}
+
+QActor wastetruck context ctxrequest {
+	
+	[#
+		var Material : ws.Material
+		var Qty : Double
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		
+		[#
+			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+			Qty = kotlin.random.Random.nextDouble(100.0, 120.0)
+		#]
+		
+		println("WasteTruck with $Qty KG of $Material")
+		
+		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
+	}
+	Transition t1 whenReply loadAccepted -> handleAccepted
+				  whenReply loadRejected -> handleRejected
+				  
+	State handleAccepted {
+		printCurrentMessage
+		println("Store Accepted")		
+	}
+	Goto termination
+	
+	State handleRejected {
+		printCurrentMessage
+		println("Store Rejected")
+	}
+	Goto termination
+	
+	State termination {
+		printCurrentMessage
+		println("Termination")
+	}
+}
+                    </code>
+                </pre>
+            </dd>
+
+
+            <h4>Deposit Requirement</h4>
             
+            
+            <h4>ServiceManagerGUI Requirement</h4>
+
         </div>
 
 
