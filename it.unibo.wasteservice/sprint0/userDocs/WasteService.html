@@ -115,6 +115,12 @@
         background-color: #fcf8c7;
     }
 
+    k {
+        font-family: "Arial";
+        font-weight: bold;
+        color: #930000;
+        font-size: 90%;
+    }
     ks {
         font-family: "Arial";
         font-weight: bold;
@@ -409,9 +415,6 @@
         </div>
 
         <div class="remark">
-
-            <!--TODO: explain why we use QAK instead of UML-->
-
             <h3>Use Cases</h3>
 
             <img src="./imgs/UseCases.drawio.svg" alt="UseCases" width="40%" height="40%" class="center">
@@ -431,101 +434,48 @@
         
         <div class="remark">
             <h3>Definition of a formal model of the requirements</h3>
+
+            <!--TODO: reasons why we use QAK instead of UML-->
+            <i>[WHY DO WE USE QAK]</i>
     
             <h4>Driver Request Requirement</h4>
+            <dd>
+                The first <k>model</k> explains the interaction between the <ks>driver/WasteTruck</ks> and the WasteService. </br>
+                The <ks>driver</ks>, the <ks>WasteTruck</ks> and the <ks>Smart Device</ks> used for the request have been all joined in a single <k>Actor</k>, called []. </br>
+                This was done to simplify the visualization and understanding of the model.
+                The complete model can be seen here: <a href="../src/model_request.qak"><kc>model_request.qak</kc></a>
+            
+
             <img src="./imgs/TruckServiceInteraction.drawio.svg" alt="TruckServiceInt" width="40%" height="40%" class="center">
 
             <dd>
-                <pre>
-                    <code>
-System wasteservice
-
-Request storeRequest : storeRequest(MATERIAL, QUANTITY)
-Reply loadAccepted : loadAccepted(_)
-Reply loadRejected : loadRejected(_)
-
-Context ctxrequest ip [host="localhost" port=8010]
-
-QActor wasteservice context ctxrequest {
-	
-		[#
-			var occupiedGlass : Double = 0.0
-			var occupiedPlastic : Double = 0.0
-			var currentMaterial : ws.Material
-			var currentQuantity : Double
-		#]
-	
-	State init initial {
-		printCurrentMessage
-	}
-	Transition t1 whenRequest storeRequest -> handleRequest
-	
-	
-	State handleRequest {
-		printCurrentMessage
-		
-		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
-			[#
-				currentMaterial = ws.Material.valueOf(payloadArg(0))
-				currentQuantity = payloadArg(1).toDouble()
-			#]
-			
-			println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
-			
-			if [# currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB #] {
-				replyTo storeRequest with loadAccepted : loadAccepted(_)
-			} else {
-				replyTo storeRequest with loadRejected : loadRejected(_)
-			}
-		}		
-	}	
-	Goto init
-	
-}
-
-QActor wastetruck context ctxrequest {
-	
-	[#
-		var Material : ws.Material
-		var Qty : Double
-	#]
-	
-	State init initial {
-		printCurrentMessage
-		
-		[#
-			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
-			Qty = kotlin.random.Random.nextDouble(100.0, 120.0)
-		#]
-		
-		println("WasteTruck with $Qty KG of $Material")
-		
-		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
-	}
-	Transition t1 whenReply loadAccepted -> handleAccepted
-				  whenReply loadRejected -> handleRejected
-				  
-	State handleAccepted {
-		printCurrentMessage
-		println("Store Accepted")		
-	}
-	Goto termination
-	
-	State handleRejected {
-		printCurrentMessage
-		println("Store Rejected")
-	}
-	Goto termination
-	
-	State termination {
-		printCurrentMessage
-		println("Termination")
-	}
-}
-                    </code>
-                </pre>
+                <pre><code>request wasteservice -m storeRequest : storeRequest($Material, $Qty)</code></pre>
             </dd>
 
+
+
+            <dd>
+<pre><code>onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+    [#
+	    currentMaterial = ws.Material.valueOf(payloadArg(0))
+	    currentQuantity = payloadArg(1).toDouble()
+    #]
+    		
+    if [# currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || 
+                currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB #] {
+	    replyTo storeRequest with loadAccepted : loadAccepted(_)
+    } else {
+	    replyTo storeRequest with loadRejected : loadRejected(_)
+    }
+}</code></pre>
+            </dd>
+
+            <dd>
+<pre><code>Transition t1 whenReply loadAccepted -> handleAccepted
+              whenReply loadRejected -> handleRejected</code></pre>
+            </dd>
+
+            </dd>
 
             <h4>Deposit Requirement</h4>
             
