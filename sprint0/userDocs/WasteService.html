@@ -1,0 +1,530 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+
+    pre {
+        border: 1px solid black;
+        padding:5px;
+        white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
+        white-space: -pre-wrap; /* Opera */
+        white-space: -o-pre-wrap; /* Opera */
+        white-space: pre-wrap; /* CSS3 – Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+        word-wrap: break-word; /* IE 5.5+ */
+        border-radius: 8px;
+    }
+    pre code {
+        counter-reset: line-numbering;
+    }
+
+    pre code .line::before {
+        content: counter(line-numbering);
+        counter-increment: line-numbering;
+        padding-right: .8em; /* space after numbers */
+        margin-right: 5px;
+        width: 1.5em;
+        text-align: right;
+        opacity: 0.5;
+        background-color:#efefef;
+    }
+
+    body {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    ;
+
+    P {
+        font-family: Tahoma;
+        font-size: 10pt;
+    }
+
+    ;
+
+    a,
+    a:visited,
+    a:active,
+    a:link,
+    a:hover {
+        text-decoration: underline;
+        color: #545454;
+        background-color: transparent;
+        font-size: 93%;
+    }
+
+    a:hover {
+        background-color: #cccccc;
+    }
+
+    dd{
+        margin-bottom: 7px;
+    }
+
+    hr {
+        clear: both;
+        height: 1px;
+        color: #242424;
+        background-color: transparent;
+    }
+
+    h1,
+    h2,
+    h3 {
+        color: #242424;
+        clear: left;
+        font: 100% Tahoma, Helvetica, Arial, sans-serif;
+        margin-bottom: 0.5em;
+        padding-top: 0.5em;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    top {
+        width: 100%;
+    }
+
+
+    #i {
+        color: #ff1010;
+    }
+
+    tt {
+        font-family: "Arial";
+        font-size: 90%;
+        color: #006600;
+    }
+
+    em {
+        font-family: "Arial";
+        font-size: 80%;
+        font-weight: bold;
+        border-style: solid;
+        border-color: #abe876;
+        color: #1632cc;
+    }
+
+    bc {
+        font-family: "Arial";
+        font-size: 90%;
+        font-weight: bold;
+        color: #990000;
+        background-color: #fcf8c7;
+    }
+
+    k {
+        font-family: "Arial";
+        font-weight: bold;
+        color: #930000;
+        font-size: 90%;
+    }
+    ks {
+        font-family: "Arial";
+        font-weight: bold;
+        color: #0000CD;
+        font-size: 90%;
+    }
+
+    kc {
+        font-family: "Arial";
+        font-weight: bold;
+        color: #008000;
+        font-size: 90%;
+    }
+
+    ki {
+        font-family: "Arial";
+        color: #6d6d6d;
+        font-weight: bold;
+        font-size: 90%;
+    }
+
+    pre {
+        font-family: "Consolas";
+        font-size: 85%;
+        background-color: #f5f5f5;
+        border: 1.5px solid silver;
+        padding: 5px;
+    }
+
+    m {
+        font-family: "Helvetica";
+        line-height: 100%;
+        font-size: 75%;
+    }
+
+    div.body {
+
+        font-size: 18px;
+    }
+
+    k {
+        color: #990000;
+        font-weight: bold;
+        font-size: 90%;
+    }
+    
+
+    h1 {
+        font-size: 150%;
+        background-color: #b2c0ff;
+        padding: 10px;
+    }
+
+    h2 {
+        background-color: #9ed8ff;
+        font-size: 130%;
+    }
+
+    h3 {
+        background-color: #e6ccff;
+        font-size: 100%;
+    }
+
+    h4 {
+        background-color: #ccffcc;
+        font-size: 100%;
+        width: 95%;
+        border-radius: 5px;
+        padding: 2px;
+    }
+
+    h5 {
+        background-color: #d5ffb0;
+        font-size: 100%;
+
+    }
+
+    div.req {
+        background-color: #d9ffb3;
+        font-size: 18px;
+        width: 700px;
+        border: 3px solid green;
+        padding: 15px;
+        margin: 10px;
+    }
+
+    div.remark {
+        background-color: #E3F2FD;
+        border: 1.5px solid #d5f2ed;
+        padding: 15px;
+        margin: 10px;
+        border-radius: 25px;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    ol,
+    ul,
+    li {
+        margin: 0;
+        margin-left: 10px;
+        padding: 0;
+        padding-bottom: 5px;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+
+    img {
+        border: 1.5px solid #d5f2ed
+    }
+
+    a,
+    a:visited,
+    a:active,
+    a:link,
+    a:hover {
+        text-decoration: underline;
+        color: #545454;
+        background-color: transparent;
+    }
+
+    div.wrapdesc {
+        width: 90%;
+        margin: auto;
+    }
+
+    div.imagedesc {
+        width: 85%;
+        margin: auto;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>
+
+<head>
+    <title>Waste Service</title>
+    <script src="code.js"></script>
+</head>
+
+<body>
+    <div id="top">
+        <h1>LABORATORIO DI INGEGNERIA DEI SISTEMI SOFTWARE <font size="5"></font>
+        </h1>
+    </div>
+
+    <div class="body">
+        <h2>Introduction</h2>
+
+
+
+        <h2>Requirements</h2>
+        <div class="remark">
+            <a href="https://github.com/anatali/issLab2022/blob/main/it.unibo.issLabStart/userDocs/Dispense/lezioni/html/TemaFinale22.html">
+                TemaFinale22
+            </a>
+        </div>
+
+        
+        <h2>Requirement analysis</h2>
+        <div class="remark">
+            <h3>Meaning of nouns and verbs</h3>
+            <kc>NOUNS</kc>:
+            <br/>
+            <h4>Abstract Entities</h4>
+            <dl>
+                <dt><ks>WasteService</ks>:</dt>
+                <dd>Software that allows a Waste truck to deposit it's load in the proper container.</dd>
+
+                <dt><ks>DDR Robot</ks>:</dt>
+                <dd>
+                    Differential Drive Robot, that can be virtual or real. Capable of moving in the environment by executing simple move commands. 
+                    It must be capable of moving objects as a transpot trolley with a squared form of fixed side length equal to <kc>RD</kc>. 
+                    <br />The customer provides the software that further defines it's capabilities: <a href="https://github.com/anatali/issLab2022/tree/main/unibo.basicrobot22"><kc>it.unibo.basicRobot22</kc></a>;
+                </dd>
+                
+                <dt><ks>Service Area</ks>:</dt>
+                <dd>A rectuangular area that includes an INDOOR port, a PlasticBox container and a GlassBox container. It's free from any internal obstacles;</dd> <!--TODO: to be formalized-->
+                
+
+                <dt><ks>INDOOR</ks>:</dt>
+                <dd>A port to the Service Area. It's formal position and usage will be later defined;</dd>
+
+                <dt><ks>PlasticBox</ks>:</dt>
+                <dd>A container devoted to store objects made of plastic up to a limited capacity;</dd>
+
+                <dt><ks>GlassBox</ks>:</dt>
+                <dd>A container devoted to store objects made of glass up to a limited capacity;</dd>
+
+                <dt><ks>HOME</ks>:</dt>
+                <dd>The initial and default location of the Robot. It is found inside the Service Area in a formal location later defined;</dd>
+
+                <dt><ks>Driver</ks>:</dt>
+                <dd>The driver of the Waste truck which uses a smart device to interact with the WasteService;</dd>
+
+                <dt><ks>ServiceManager</ks>:</dt>
+                <dd>A human being that supervises the state of the WasteService;</dd>
+
+                <dt><ks>RaspberryPi</ks>:</dt>
+                <dd>An hardware device that can interact with components of the WasteService;</dd>
+            </dl>
+
+            <h4>Formalized Entities</h4>
+
+            <dl>
+                <dt><ks>Waste truck</ks>:</dt>
+                <dd>A transport vehicle that brings waste material to the INDOOR port;</dd>
+
+                <dt><ks>WasteServiceStatusGUI</ks>:</dt>
+                <dd>User interactive component used by the ServiceManager to observe the status of the WasteService:</li>
+                    <ul>
+                        <li>the current state of the transport trolley and it position in the room;</li>
+                        <li>the current weigth of the material stored in the two waste-containers;</li>
+                        <li>the current state of the Led.</li>
+                    </ul>
+                </dd>
+
+                <dt><ks>Sonar</ks>:</dt>
+                <dd>
+                    A device that measures a distance. Is connected to the RaspberryPi.
+                    <br/>The customer provides us the code <a href="www.google.it"><kc>SonarAlone.c</kc></a>: this C program continuously reads the distance from a phisical sonar connected to a Raspberry and print it to the standard output; <!--TODO: insert HREF-->
+                </dd>
+
+                <dt><ks>Led</ks>:</dt>
+                <dd>
+                    A light that can be switched on or off. Is connected to the RaspberryPi;
+                    <br/>The customer provides us the code <a href="www.google.it"><kc>Led25GpioTurnOn.sh</kc></a> and <a href="www.google.it"><kc>Led25GpioTurnOff.sh</kc></a>: these bash scripts simply turn on and off the led connected to a Raspberry; <!--TODO: insert HREF-->
+                </dd>
+
+                <dt><ks>StoreRequest</ks>:</dt>
+                <dd>
+                    The <strong>request</strong> sent by the WasteTruck;
+                    <pre><code>Request storeRequest : storeRequest(MATERIAL, QUANTITY)</code></pre>
+                </dd>
+
+                <dt><ks>Loadaccepted</ks>:</dt>
+                <dd>The <strong>reply</strong> sent by the WasteService if the load can be accepted;
+                    <pre><code>Reply loadAccepted : loadAccepted(_)</code></pre>
+                </dd>
+                
+                <dt><ks>Loadrejected</ks>:</dt>
+                <dd>The <strong>reply</strong> sent by the WasteService if the load can't be accepted;
+                    <pre><code>Reply loadRejected : loadRejected(_)</code></pre>
+                </dd>
+                
+                <dt><ks>MAXPB</ks>:</dt>
+                <dd>
+                    Fixed max kg of material which can be stored in the PlasticBox;
+                    <pre><code>val MAXPB : Float</code></pre>
+                </dd>
+
+                <dt><ks>MAXGB</ks>:</dt>
+                <dd>
+                    Fixed max kg of material which can be stored in the GlassBox;
+                    <pre><code>val MAXGB : Float</code></pre>
+                </dd>
+
+                <dt><ks>DLIMIT</ks>:</dt>
+                <dd>
+                    Fixed distance compared to the distance measured by the sonar, if the latter is less than this value the Robot must be stopped;
+                    <pre><code>val DLIMIT : Float</code></pre>
+                </dd>
+            </dl>
+            These constants can be defined in different ways:
+            <ul>
+                <li><strong>Hardcoded</strong>: witten directly inside the code;</li>
+                <li><strong>Configuration file</strong>: saved in an external file;</li>
+                <li>altre idee</li>
+            </ul>
+            
+            <kc>VERBS</kc>:
+            <ul>
+                <li><ks>Start the robot</ks>: start the robot from the position it is currently at. This operation is always managed by the WasteService;</li>
+                <li><ks>Stop the robot</ks>: stops the robot in the position it is currently at. This operation is always managed by the WasteService;</li>
+                <li><ks>Pick up load</ks>: the robot takes the waste load from the Waste Truck;</li>
+                <li><ks>Deposit load</ks>: the robot unloads the waste in the appropriate container;</li>
+                <li><ks>Send store request</ks>: </li>
+            </ul>
+        </div>
+
+        <div class="remark">
+            <h3>Use Cases</h3>
+
+            <img src="./imgs/UseCases.drawio.svg" alt="UseCases" width="40%" height="40%" class="center">
+            <br/>
+            The <ki>Waste truck</ki> actor comprehends the <i>truck</i>, the <i>driver</i> and the <i>smart device</i> (used to comunicate with the service) as they can all work as one entity.
+            Their actions are the following:
+            <ul>
+                <li>Approach INDOOR: the actor approaches the INDOOR port and sends a Store Request.</li>
+                <li>Leave INDOOR: the actor leaves the INDOOR port once he recieves a <i>loadrejected</i> answer or once his load has been taken by the trolley.</li>
+            </ul>
+
+            The <ki>ServiceManager</ki> has only one responsibility, it observes the state of the system thanks to the <ks>ServiceManagerGUI</ks>.
+
+            
+            
+        </div>
+        
+        <div class="remark">
+            <h3>Definition of a formal model of the requirements</h3>
+
+            <!--TODO: reasons why we use QAK instead of UML-->
+            <i>[WHY DO WE USE QAK]</i>
+    
+            <h4>Driver Request Requirement</h4>
+            <dd>
+                The first <k>model</k> explains the interaction between the <ks>driver/WasteTruck</ks> and the WasteService. </br>
+                The <ks>driver</ks>, the <ks>WasteTruck</ks> and the <ks>Smart Device</ks> used for the request have been all joined in a single <k>Actor</k>, called []. </br>
+                This was done to simplify the visualization and understanding of the model.
+                The complete model can be seen here: <a href="../src/model_request.qak"><kc>model_request.qak</kc></a>
+            
+
+            <img src="./imgs/TruckServiceInteraction.drawio.svg" alt="TruckServiceInt" width="40%" height="40%" class="center">
+
+            <dd>
+                <pre><code>request wasteservice -m storeRequest : storeRequest($Material, $Qty)</code></pre>
+            </dd>
+
+
+
+            <dd>
+<pre><code>onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+    [#
+	    currentMaterial = ws.Material.valueOf(payloadArg(0))
+	    currentQuantity = payloadArg(1).toDouble()
+    #]
+    		
+    if [# currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || 
+                currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB #] {
+	    replyTo storeRequest with loadAccepted : loadAccepted(_)
+    } else {
+	    replyTo storeRequest with loadRejected : loadRejected(_)
+    }
+}</code></pre>
+            </dd>
+
+            <dd>
+<pre><code>Transition t1 whenReply loadAccepted -> handleAccepted
+              whenReply loadRejected -> handleRejected</code></pre>
+            </dd>
+
+            </dd>
+
+            <h4>Deposit Requirement</h4>
+            
+            
+            <h4>ServiceManagerGUI Requirement</h4>
+
+        </div>
+
+
+        <h2>Problem analysis</h2>
+    
+    
+        <h2>Test plans</h2>
+    
+    
+        <h2>Project</h2>
+    
+        </div>
+    
+        <h2>Testing</h2>
+    
+    
+        <h2>Deployment</h2>
+    
+    
+        <h2>Maintenance</h2>
+    </div>
+
+
+    <!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+
+    <br /><br />
+    </div>
+
+    <div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+        By Team FAG: <br/>
+        federico.andrucci@studio.unibo.it, <br/>
+        alex.gianelli@live.it, <br/>
+        gabriele.marconi@studio.unibo.it <br/>
+        <img src="./img/emiglio.png" alt="mbot" width="15%" height="15%">
+    </div>
+</body>
+
+</html>

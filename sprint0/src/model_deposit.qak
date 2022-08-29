@@ -1,0 +1,148 @@
+System wasteservice_deposit
+
+
+Dispatch requestDeposit : requestDeposit(MATERIAL, QUANTITY)
+Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
+
+Context ctxdeposit_wasteservice ip [host="localhost" port=8020]
+
+
+QActor wasteservice context ctxdeposit_wasteservice {
+	[#
+		var StoredPlastic = 0.0
+		var StoredGlass = 0.0
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		println("\tWasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
+		delay 1000
+	}
+	Goto sendDeposit
+	
+	State sendDeposit {
+		[#
+			var MaterialType = if(kotlin.random.Random.nextBoolean()) "glass" else "plastic"
+			var Quantity = kotlin.random.Random.nextDouble(10.0, 50.0)
+		#]
+		
+		forward transporttrolley -m requestDeposit : requestDeposit($MaterialType, $Quantity)
+	}
+	Goto idle
+	
+	State idle {
+		printCurrentMessage
+		println("\tWasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
+	}
+	Transition t0 whenMsg updateWasteService -> updateValues
+	
+	State updateValues {
+		onMsg( updateWasteService : updateWasteService(MATERIAL, QUANTITY) ) {
+			if [# payloadArg(0) == "plastic" #] {
+				[# StoredPlastic += payloadArg(1).toDouble() #]
+			} else {
+				[# StoredGlass += payloadArg(1).toDouble() #]
+			}
+		}	
+	}
+	//Goto idle
+	// change this Goto in order to send multiple requests
+	 Goto init
+}
+
+QActor transporttrolley context ctxdeposit_wasteservice {
+	
+	[#
+		var CarriedMaterialType = ""
+		var CarriedQuantity = 0.0
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		println("\tTransportTrolley | init at HOME")
+		//updateResource [# "pos(home)" #]
+	}
+	Transition t0 whenMsg requestDeposit -> go_indoor
+	
+	State go_home {
+		printCurrentMessage
+		println("\tTransportTrolley | going back to HOME")
+		delay 500
+	}
+	Goto home
+	
+	State home {
+		printCurrentMessage
+		println("\tTransportTrolley | at HOME")
+	}
+	Goto done 
+	
+	State go_indoor {
+		printCurrentMessage
+		println("\tTransportTrollye | going to INDOOR port")
+		
+		onMsg( requestDeposit : requestDeposit(MATERIAL, QUANTITY) ) {
+			[#
+				CarriedMaterialType = payloadArg(0)
+				CarriedQuantity = payloadArg(1).toDouble() 
+			#]
+		}
+		
+		delay 500
+	}
+	Goto indoor
+	
+	State indoor {
+		printCurrentMessage
+		println("\tTransportTrolley | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
+		// updateResource [# "pos(indoor)" #]
+	}
+	Goto go_box
+	
+	State go_box {
+		printCurrentMessage
+		println("\tTransportTrolley | going to $CarriedMaterialType box")
+		
+		if [# CarriedMaterialType == "plastic" #] {
+			delay 500
+		} else {
+			delay 700
+		}
+	}
+	Goto box
+	
+	State box {
+		printCurrentMessage
+		println("\tTransportTrolley | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
+		// updateResource [# "pos("$CarriedMaterialType"_box)" #]
+		delay 250
+		
+		forward wasteservice -m updateWasteService : updateWasteService($CarriedMaterialType, $CarriedQuantity)
+		
+		[#
+			CarriedMaterialType = ""
+			CarriedQuantity = 0.0
+		#]
+	}
+	Goto go_home
+	
+	State done {
+		printCurrentMessage
+		println("\tTransportTrolley | done")
+	}
+	Goto init
+	
+	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sarà giusto una volta initi i modelli
+}
+
+
+
+
+
+
+
+
+
+
+
+
