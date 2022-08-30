@@ -20,7 +20,6 @@ QActor wasteservice context ctxrequest {
 	}
 	Transition t1 whenRequest storeRequest -> handleRequest
 	
-	
 	State handleRequest {
 		printCurrentMessage
 		
@@ -39,8 +38,7 @@ QActor wasteservice context ctxrequest {
 			}
 		}		
 	}	
-	Goto init
-	
+	Goto init	
 }
 
 
@@ -56,7 +54,7 @@ QActor wastetruck context ctxrequest {
 		
 		[#
 			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
-			Qty = kotlin.random.Random.nextDouble(100.0, 120.0)
+			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
 		#]
 		
 		println("WasteTruck with $Qty KG of $Material")

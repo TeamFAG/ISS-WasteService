@@ -1,7 +1,7 @@
 from diagrams import Cluster, Diagram, Edge
 from diagrams.custom import Custom
 import os
-os.environ['PATH'] += os.pathsep + 'D:/Programmi/Graphviz/bin'
+os.environ['PATH'] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
 
 graphattr = {     #https://www.graphviz.org/doc/info/attrs.html
     'fontsize': '22',

@@ -16,8 +16,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-				var CarriedMaterialType = ""
-				var CarriedQuantity = 0.0
+					var CarriedQuantity : Double = 0.0
+					var CarriedMaterialType = ws.Material.PLASTIC
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -48,7 +48,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						if( checkMsgContent( Term.createTerm("requestDeposit(MATERIAL,QUANTITY)"), Term.createTerm("requestDeposit(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-												CarriedMaterialType = payloadArg(0)
+												CarriedMaterialType = ws.Material.valueOf(payloadArg(0))
 												CarriedQuantity = payloadArg(1).toDouble() 
 						}
 						delay(500) 
@@ -66,7 +66,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	TransportTrolley | going to $CarriedMaterialType box")
-						if(  CarriedMaterialType == "plastic"  
+						if(  CarriedMaterialType == ws.Material.PLASTIC  
 						 ){delay(500) 
 						}
 						else
@@ -81,9 +81,6 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						println("	TransportTrolley | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
 						delay(250) 
 						forward("updateWasteService", "updateWasteService($CarriedMaterialType,$CarriedQuantity)" ,"wasteservice" ) 
-						
-									CarriedMaterialType = ""
-									CarriedQuantity = 0.0
 					}
 					 transition( edgeName="goto",targetState="go_home", cond=doswitch() )
 				}	 

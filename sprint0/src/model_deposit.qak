@@ -1,17 +1,15 @@
 System wasteservice_deposit
 
-
 Dispatch requestDeposit : requestDeposit(MATERIAL, QUANTITY)
 Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
 
-Context ctxdeposit_wasteservice ip [host="localhost" port=8020]
+Context ctxdeposit ip [host="localhost" port=8020]
 
-
-QActor wasteservice context ctxdeposit_wasteservice {
-	[#
-		var StoredPlastic = 0.0
-		var StoredGlass = 0.0
-	#]
+QActor wasteservice context ctxdeposit {
+		[#
+			var StoredPlastic = 0.0
+			var StoredGlass = 0.0
+		#]
 	
 	State init initial {
 		printCurrentMessage
@@ -22,7 +20,7 @@ QActor wasteservice context ctxdeposit_wasteservice {
 	
 	State sendDeposit {
 		[#
-			var MaterialType = if(kotlin.random.Random.nextBoolean()) "glass" else "plastic"
+			var MaterialType = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
 			var Quantity = kotlin.random.Random.nextDouble(10.0, 50.0)
 		#]
 		
@@ -38,7 +36,7 @@ QActor wasteservice context ctxdeposit_wasteservice {
 	
 	State updateValues {
 		onMsg( updateWasteService : updateWasteService(MATERIAL, QUANTITY) ) {
-			if [# payloadArg(0) == "plastic" #] {
+			if [# ws.Material.valueOf(payloadArg(0)) == ws.Material.PLASTIC #] {
 				[# StoredPlastic += payloadArg(1).toDouble() #]
 			} else {
 				[# StoredGlass += payloadArg(1).toDouble() #]
@@ -50,12 +48,11 @@ QActor wasteservice context ctxdeposit_wasteservice {
 	 Goto init
 }
 
-QActor transporttrolley context ctxdeposit_wasteservice {
-	
-	[#
-		var CarriedMaterialType = ""
-		var CarriedQuantity = 0.0
-	#]
+QActor transporttrolley context ctxdeposit {
+		[#
+			var CarriedQuantity : Double = 0.0
+			var CarriedMaterialType = ws.Material.PLASTIC
+		#]
 	
 	State init initial {
 		printCurrentMessage
@@ -83,7 +80,7 @@ QActor transporttrolley context ctxdeposit_wasteservice {
 		
 		onMsg( requestDeposit : requestDeposit(MATERIAL, QUANTITY) ) {
 			[#
-				CarriedMaterialType = payloadArg(0)
+				CarriedMaterialType = ws.Material.valueOf(payloadArg(0))
 				CarriedQuantity = payloadArg(1).toDouble() 
 			#]
 		}
@@ -103,7 +100,7 @@ QActor transporttrolley context ctxdeposit_wasteservice {
 		printCurrentMessage
 		println("\tTransportTrolley | going to $CarriedMaterialType box")
 		
-		if [# CarriedMaterialType == "plastic" #] {
+		if [# CarriedMaterialType == ws.Material.PLASTIC #] {
 			delay 500
 		} else {
 			delay 700
@@ -118,11 +115,6 @@ QActor transporttrolley context ctxdeposit_wasteservice {
 		delay 250
 		
 		forward wasteservice -m updateWasteService : updateWasteService($CarriedMaterialType, $CarriedQuantity)
-		
-		[#
-			CarriedMaterialType = ""
-			CarriedQuantity = 0.0
-		#]
 	}
 	Goto go_home
 	
@@ -132,17 +124,8 @@ QActor transporttrolley context ctxdeposit_wasteservice {
 	}
 	Goto init
 	
-	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sarà giusto una volta initi i modelli
+	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sarï¿½ giusto una volta initi i modelli
 }
-
-
-
-
-
-
-
-
-
 
 
 

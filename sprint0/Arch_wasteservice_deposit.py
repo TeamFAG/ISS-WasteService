@@ -1,7 +1,7 @@
 from diagrams import Cluster, Diagram, Edge
 from diagrams.custom import Custom
 import os
-os.environ['PATH'] += os.pathsep + 'D:/Programmi/Graphviz/bin'
+os.environ['PATH'] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
 
 graphattr = {     #https://www.graphviz.org/doc/info/attrs.html
     'fontsize': '22',
@@ -19,7 +19,7 @@ eventedgeattr = {
 with Diagram('wasteservice_depositArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
-     with Cluster('ctxdeposit_wasteservice', graph_attr=nodeattr):
+     with Cluster('ctxdeposit', graph_attr=nodeattr):
           wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
      wasteservice >> Edge(color='blue', style='solid', xlabel='requestDeposit') >> transporttrolley

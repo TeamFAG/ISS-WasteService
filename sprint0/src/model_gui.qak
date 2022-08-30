@@ -17,9 +17,9 @@ Context ctxwasteservicegui ip[host="localhost" port=8030]
 QActor gui context ctxwasteservicegui {
 	
 	[#
-		var POSITION = "HOME"
-		var TROLLEY = "IDLE"
-		var LED = "OFF"
+		var POSITION = ws.TrolleyPosition.HOME
+		var TROLLEY = ws.TrolleyStatus.IDLE
+		var LED = ws.LedState.OFF
 		var PLASTIC = 0.0
 		var GLASS = 0.0
 	#]
@@ -39,7 +39,7 @@ QActor gui context ctxwasteservicegui {
 		
 		onMsg(update_position : update_position(POSITION)) {
 			[#
-				POSITION = payloadArg(0)	
+				POSITION = ws.TrolleyPosition.valueOf(payloadArg(0))	
 			#]
 			
 			// updateResources
@@ -52,7 +52,7 @@ QActor gui context ctxwasteservicegui {
 		
 		onMsg(update_trolley_status : update_trolley_status(STATUS)) {
 			[#
-				TROLLEY = payloadArg(0)	
+				TROLLEY = ws.TrolleyStatus.valueOf(payloadArg(0))	
 			#]
 			
 			// updateResources
@@ -65,7 +65,7 @@ QActor gui context ctxwasteservicegui {
 		
 		onMsg(update_led_status : update_led_status(STATUS)) {
 			[#
-				LED = payloadArg(0)	
+				LED = ws.LedState.valueOf(payloadArg(0))	
 			#]
 			
 			// updateResources
@@ -78,8 +78,8 @@ QActor gui context ctxwasteservicegui {
 		
 		onMsg(update_weight : update_WEIGHT(GLASS, PLASTIC)) {
 			[#
-				var GLASS = payloadArg(0)
-				var PLASTIC = payloadArg(1)
+				var GLASS = payloadArg(0).toDouble()
+				var PLASTIC = payloadArg(1).toDouble()
 			#]
 			
 			// updateResources

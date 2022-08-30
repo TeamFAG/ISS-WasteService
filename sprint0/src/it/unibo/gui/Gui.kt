@@ -16,9 +16,9 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-				var POSITION = "HOME"
-				var TROLLEY = "IDLE"
-				var LED = "OFF"
+				var POSITION = ws.TrolleyPosition.HOME
+				var TROLLEY = ws.TrolleyStatus.IDLE
+				var LED = ws.LedState.OFF
 				var PLASTIC = 0.0
 				var GLASS = 0.0
 		return { //this:ActionBasciFsm
@@ -37,7 +37,7 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						if( checkMsgContent( Term.createTerm("update_position(POSITION)"), Term.createTerm("update_position(POSITION)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-												POSITION = payloadArg(0)	
+												POSITION = ws.TrolleyPosition.valueOf(payloadArg(0))	
 						}
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
@@ -48,7 +48,7 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						if( checkMsgContent( Term.createTerm("update_trolley_status(STATUS)"), Term.createTerm("update_trolley_status(STATUS)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-												TROLLEY = payloadArg(0)	
+												TROLLEY = ws.TrolleyStatus.valueOf(payloadArg(0))	
 						}
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
@@ -59,7 +59,7 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						if( checkMsgContent( Term.createTerm("update_led_status(STATUS)"), Term.createTerm("update_led_status(STATUS)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-												LED = payloadArg(0)	
+												LED = ws.LedState.valueOf(payloadArg(0))	
 						}
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
@@ -70,8 +70,8 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						if( checkMsgContent( Term.createTerm("update_weight(GLASS,PLASTIC)"), Term.createTerm("update_WEIGHT(GLASS,PLASTIC)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-												var GLASS = payloadArg(0)
-												var PLASTIC = payloadArg(1)
+												var GLASS = payloadArg(0).toDouble()
+												var PLASTIC = payloadArg(1).toDouble()
 						}
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )

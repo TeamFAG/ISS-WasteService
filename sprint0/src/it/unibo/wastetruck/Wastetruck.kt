@@ -24,7 +24,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						println("$name in ${currentState.stateName} | $currentMsg")
 						
 									Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
-									Qty = kotlin.random.Random.nextDouble(100.0, 120.0)
+									Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
 						println("WasteTruck with $Qty KG of $Material")
 						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
 					}
