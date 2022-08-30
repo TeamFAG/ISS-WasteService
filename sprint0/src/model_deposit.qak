@@ -1,6 +1,6 @@
 System wasteservice_deposit
 
-Dispatch requestDeposit : requestDeposit(MATERIAL, QUANTITY)
+Dispatch notifyDeposit : notifyDeposit(MATERIAL, QUANTITY)
 Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
 
 Context ctxdeposit ip [host="localhost" port=8020]
@@ -24,7 +24,7 @@ QActor wasteservice context ctxdeposit {
 			var Quantity = kotlin.random.Random.nextDouble(10.0, 50.0)
 		#]
 		
-		forward transporttrolley -m requestDeposit : requestDeposit($MaterialType, $Quantity)
+		forward transporttrolley -m notifyDeposit : notifyDeposit($MaterialType, $Quantity)
 	}
 	Goto idle
 	
@@ -59,9 +59,9 @@ QActor transporttrolley context ctxdeposit {
 		println("\tTransportTrolley | init at HOME")
 		//updateResource [# "pos(home)" #]
 	}
-	Transition t0 whenMsg requestDeposit -> go_indoor
+	Transition t0 whenMsg notifyDeposit -> goIndoor
 	
-	State go_home {
+	State goHome {
 		printCurrentMessage
 		println("\tTransportTrolley | going back to HOME")
 		delay 500
@@ -74,11 +74,11 @@ QActor transporttrolley context ctxdeposit {
 	}
 	Goto done 
 	
-	State go_indoor {
+	State goIndoor {
 		printCurrentMessage
 		println("\tTransportTrollye | going to INDOOR port")
 		
-		onMsg( requestDeposit : requestDeposit(MATERIAL, QUANTITY) ) {
+		onMsg( notifyDeposit : notifyDeposit(MATERIAL, QUANTITY) ) {
 			[#
 				CarriedMaterialType = ws.Material.valueOf(payloadArg(0))
 				CarriedQuantity = payloadArg(1).toDouble() 
@@ -94,9 +94,9 @@ QActor transporttrolley context ctxdeposit {
 		println("\tTransportTrolley | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
 		// updateResource [# "pos(indoor)" #]
 	}
-	Goto go_box
+	Goto goBox
 	
-	State go_box {
+	State goBox {
 		printCurrentMessage
 		println("\tTransportTrolley | going to $CarriedMaterialType box")
 		
@@ -116,7 +116,7 @@ QActor transporttrolley context ctxdeposit {
 		
 		forward wasteservice -m updateWasteService : updateWasteService($CarriedMaterialType, $CarriedQuantity)
 	}
-	Goto go_home
+	Goto goHome
 	
 	State done {
 		printCurrentMessage

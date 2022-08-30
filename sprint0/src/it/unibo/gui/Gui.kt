@@ -26,15 +26,15 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 					}
-					 transition(edgeName="t00",targetState="handle_position",cond=whenEvent("update_position"))
-					transition(edgeName="t01",targetState="handle_trolley_status",cond=whenEvent("update_trolley_status"))
-					transition(edgeName="t02",targetState="handle_led_status",cond=whenEvent("update_led_status"))
-					transition(edgeName="t03",targetState="handle_weight",cond=whenEvent("update_weight"))
+					 transition(edgeName="t00",targetState="handlePosition",cond=whenEvent("updatePosition"))
+					transition(edgeName="t01",targetState="handleTrolleyStatus",cond=whenEvent("updateTrolleyStatus"))
+					transition(edgeName="t02",targetState="handleLedStatus",cond=whenEvent("updateLedStatus"))
+					transition(edgeName="t03",targetState="handleWeight",cond=whenEvent("updateWeight"))
 				}	 
-				state("handle_position") { //this:State
+				state("handlePosition") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						if( checkMsgContent( Term.createTerm("update_position(POSITION)"), Term.createTerm("update_position(POSITION)"), 
+						if( checkMsgContent( Term.createTerm("updatePosition(POSITION)"), Term.createTerm("updatePosition(POSITION)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												POSITION = ws.TrolleyPosition.valueOf(payloadArg(0))	
@@ -42,10 +42,10 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
-				state("handle_trolley_status") { //this:State
+				state("handleTrolleyStatus") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						if( checkMsgContent( Term.createTerm("update_trolley_status(STATUS)"), Term.createTerm("update_trolley_status(STATUS)"), 
+						if( checkMsgContent( Term.createTerm("updateTrolleyStatus(STATUS)"), Term.createTerm("updateTrolleyStatus(STATUS)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												TROLLEY = ws.TrolleyStatus.valueOf(payloadArg(0))	
@@ -53,10 +53,10 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
-				state("handle_led_status") { //this:State
+				state("handleLedStatus") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						if( checkMsgContent( Term.createTerm("update_led_status(STATUS)"), Term.createTerm("update_led_status(STATUS)"), 
+						if( checkMsgContent( Term.createTerm("updateLedStatus(STATUS)"), Term.createTerm("updateLedStatus(STATUS)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												LED = ws.LedState.valueOf(payloadArg(0))	
@@ -64,10 +64,10 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					}
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
-				state("handle_weight") { //this:State
+				state("handleWeight") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						if( checkMsgContent( Term.createTerm("update_weight(GLASS,PLASTIC)"), Term.createTerm("update_WEIGHT(GLASS,PLASTIC)"), 
+						if( checkMsgContent( Term.createTerm("updateWeight(GLASS,PLASTIC)"), Term.createTerm("updateWeight(GLASS,PLASTIC)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												var GLASS = payloadArg(0).toDouble()

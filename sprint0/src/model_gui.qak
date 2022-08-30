@@ -6,13 +6,12 @@
 // LED STATUS: ON | OFF | BLINKING
 // WEIGHT: duble values
 
-Event update_position : update_position(POSITION)
-Event update_trolley_status : update_trolley_status(STATUS)
-Event update_led_status : update_led_status(STATUS)
-Event update_weight : update_weight(GLASS, PLASTIC)
+Event updatePosition : updatePosition(POSITION)
+Event updateTrolleyStatus : updateTrolleyStatus(STATUS)
+Event updateLedStatus : updateLedStatus(STATUS)
+Event updateWeight : updateWeight(GLASS, PLASTIC)
 
 Context ctxwasteservicegui ip[host="localhost" port=8030]
-
 
 QActor gui context ctxwasteservicegui {
 	
@@ -28,16 +27,16 @@ QActor gui context ctxwasteservicegui {
 	   printCurrentMessage
 	   
 	}
-	Transition t0 whenEvent update_position -> handle_position
-				  whenEvent update_trolley_status -> handle_trolley_status
-				  whenEvent update_led_status -> handle_led_status
-				  whenEvent update_weight -> handle_weight
+	Transition t0 whenEvent updatePosition -> handlePosition
+				  whenEvent updateTrolleyStatus -> handleTrolleyStatus
+				  whenEvent updateLedStatus -> handleLedStatus
+				  whenEvent updateWeight -> handleWeight
 	
 	
-	State handle_position {
+	State handlePosition {
 		printCurrentMessage
 		
-		onMsg(update_position : update_position(POSITION)) {
+		onMsg(updatePosition : updatePosition(POSITION)) {
 			[#
 				POSITION = ws.TrolleyPosition.valueOf(payloadArg(0))	
 			#]
@@ -47,10 +46,10 @@ QActor gui context ctxwasteservicegui {
 	}
 	Goto init
 	
-	State handle_trolley_status {
+	State handleTrolleyStatus {
 		printCurrentMessage
 		
-		onMsg(update_trolley_status : update_trolley_status(STATUS)) {
+		onMsg(updateTrolleyStatus : updateTrolleyStatus(STATUS)) {
 			[#
 				TROLLEY = ws.TrolleyStatus.valueOf(payloadArg(0))	
 			#]
@@ -60,10 +59,10 @@ QActor gui context ctxwasteservicegui {
 	}
 	Goto init
 	
-	State handle_led_status {
+	State handleLedStatus {
 		printCurrentMessage
 		
-		onMsg(update_led_status : update_led_status(STATUS)) {
+		onMsg(updateLedStatus : updateLedStatus(STATUS)) {
 			[#
 				LED = ws.LedState.valueOf(payloadArg(0))	
 			#]
@@ -73,10 +72,10 @@ QActor gui context ctxwasteservicegui {
 	}
 	Goto init
 	
-	State handle_weight {
+	State handleWeight {
 		printCurrentMessage
 		
-		onMsg(update_weight : update_WEIGHT(GLASS, PLASTIC)) {
+		onMsg(updateWeight : updateWeight(GLASS, PLASTIC)) {
 			[#
 				var GLASS = payloadArg(0).toDouble()
 				var PLASTIC = payloadArg(1).toDouble()

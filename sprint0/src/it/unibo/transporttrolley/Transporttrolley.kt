@@ -24,9 +24,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	TransportTrolley | init at HOME")
 					}
-					 transition(edgeName="t01",targetState="go_indoor",cond=whenDispatch("requestDeposit"))
+					 transition(edgeName="t01",targetState="goIndoor",cond=whenDispatch("notifyDeposit"))
 				}	 
-				state("go_home") { //this:State
+				state("goHome") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	TransportTrolley | going back to HOME")
@@ -41,11 +41,11 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					}
 					 transition( edgeName="goto",targetState="done", cond=doswitch() )
 				}	 
-				state("go_indoor") { //this:State
+				state("goIndoor") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	TransportTrollye | going to INDOOR port")
-						if( checkMsgContent( Term.createTerm("requestDeposit(MATERIAL,QUANTITY)"), Term.createTerm("requestDeposit(MATERIAL,QUANTITY)"), 
+						if( checkMsgContent( Term.createTerm("notifyDeposit(MATERIAL,QUANTITY)"), Term.createTerm("notifyDeposit(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												CarriedMaterialType = ws.Material.valueOf(payloadArg(0))
@@ -60,9 +60,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	TransportTrolley | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
 					}
-					 transition( edgeName="goto",targetState="go_box", cond=doswitch() )
+					 transition( edgeName="goto",targetState="goBox", cond=doswitch() )
 				}	 
-				state("go_box") { //this:State
+				state("goBox") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	TransportTrolley | going to $CarriedMaterialType box")
@@ -82,7 +82,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						delay(250) 
 						forward("updateWasteService", "updateWasteService($CarriedMaterialType,$CarriedQuantity)" ,"wasteservice" ) 
 					}
-					 transition( edgeName="goto",targetState="go_home", cond=doswitch() )
+					 transition( edgeName="goto",targetState="goHome", cond=doswitch() )
 				}	 
 				state("done") { //this:State
 					action { //it:State
