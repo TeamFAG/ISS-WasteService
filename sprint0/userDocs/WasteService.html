@@ -301,13 +301,13 @@
             <h4>Abstract Entities</h4>
             <dl>
                 <dt><ks>WasteService</ks>:</dt>
-                <dd>Software that allows a Waste truck to deposit it's load in the proper container.</dd>
+                <dd>Software that allows a Waste truck to deposit its load in the proper container.</dd>
 
                 <dt><ks>DDR Robot</ks>:</dt>
                 <dd>
                     Differential Drive Robot, that can be virtual or real. Capable of moving in the environment by executing simple move commands. 
                     It must be capable of moving objects as a transpot trolley with a squared form of fixed side length equal to <kc>RD</kc>. 
-                    <br />The customer provides the software that further defines it's capabilities: <a href="https://github.com/anatali/issLab2022/tree/main/unibo.basicrobot22"><kc>it.unibo.basicRobot22</kc></a>;
+                    <br />The customer provides the software that further defines its capabilities: <a href="https://github.com/anatali/issLab2022/tree/main/unibo.basicrobot22"><kc>it.unibo.basicRobot22</kc></a>;
                 </dd>
                 
                 <dt><ks>Service Area</ks>:</dt>
@@ -315,7 +315,7 @@
                 
 
                 <dt><ks>INDOOR</ks>:</dt>
-                <dd>A port to the Service Area. It's formal position and usage will be later defined;</dd>
+                <dd>A port to the Service Area. Its formal position and usage will be later defined;</dd>
 
                 <dt><ks>PlasticBox</ks>:</dt>
                 <dd>A container devoted to store objects made of plastic up to a limited capacity;</dd>
@@ -345,7 +345,7 @@
                 <dt><ks>WasteServiceStatusGUI</ks>:</dt>
                 <dd>User interactive component used by the ServiceManager to observe the status of the WasteService:</li>
                     <ul>
-                        <li>the current state of the transport trolley and it position in the room;</li>
+                        <li>the current state of the transport trolley and its position in the room;</li>
                         <li>the current weigth of the material stored in the two waste-containers;</li>
                         <li>the current state of the Led.</li>
                     </ul>
@@ -396,13 +396,57 @@
                     Fixed distance compared to the distance measured by the sonar, if the latter is less than this value the Robot must be stopped;
                     <pre><code>val DLIMIT : Float</code></pre>
                 </dd>
+
+                <br/>
+                The next parameters are taken from the requirements and momentarily formalized as <k>enums</k>.
+
+                <dt><ks>Material</ks>:</dt>
+                <dd>
+                    Represents the type of the truck load, that can be Plastic or Glass. (<a href="../resources/ws/Material.kt">Material.kt</a>)
+
+<pre><code>enum class Material {
+    PLASTIC,
+    GLASS
+}</code></pre>
+                </dd>
+
+                <dt><ks>TrolleyPosition</ks>:</dt>
+                <dd>
+                    Represents the positions in which the Trolley can be found in the SeriviceArea. (<a href="../resources/ws/TrolleyPosition.kt">TrolleyPosition.kt</a>)
+
+<pre><code>enum class TrolleyPosition {
+    HOME,
+    INDOOR,
+    PLASTICBOX,
+    GLASSBOX
+}</code></pre>
+                </dd>
+
+                <dt><ks>TrolleyStatus</ks>:</dt>
+                <dd>
+                    Represents the states in which the Trolley can be found. (<a href="../resources/ws/TrolleyStatus.kt">TrolleyStatus.kt</a>)
+
+<pre><code>enum class TrolleyStatus {
+    IDLE,
+    MOVING,
+    STOPPED,
+    PICKUP,
+    DEPOSIT
+}</code></pre>
+                </dd>
+
+                <dt><ks>LedState</ks>:</dt>
+                <dd>
+                    Represents the states in which the Led can be found. (<a href="../resources/ws/TrolleyStatus.kt">LedState.kt</a>)
+
+<pre><code>enum class LedState {
+    ON,
+    OFF,
+    BLINKING
+}</code></pre>
+                </dd>
+
             </dl>
-            These constants can be defined in different ways:
-            <ul>
-                <li><strong>Hardcoded</strong>: witten directly inside the code;</li>
-                <li><strong>Configuration file</strong>: saved in an external file;</li>
-                <li>altre idee</li>
-            </ul>
             
             <kc>VERBS</kc>:
             <ul>
@@ -441,20 +485,26 @@
             <h4>Driver Request Requirement</h4>
             <dd>
                 The first <k>model</k> explains the interaction between the <ks>driver/WasteTruck</ks> and the WasteService. </br>
-                The <ks>driver</ks>, the <ks>WasteTruck</ks> and the <ks>Smart Device</ks> used for the request have been all joined in a single <k>Actor</k>, called []. </br>
+                The <ks>driver</ks>, the <ks>WasteTruck</ks> and the <ks>Smart Device</ks> used for the request at this moment have been joined in a single <k>Actor</k>, called <b>wastetruck</b>. </br>
+                The other Actor present in this first model is <b>wasteservice</b>, who takes care of managing the whole system.
                 This was done to simplify the visualization and understanding of the model.
                 The complete model can be seen here: <a href="../src/model_request.qak"><kc>model_request.qak</kc></a>
-            
-
-            <img src="./imgs/TruckServiceInteraction.drawio.svg" alt="TruckServiceInt" width="40%" height="40%" class="center">
+                
+            <img src="./imgs/RequestModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center">
 
             <dd>
-                <pre><code>request wasteservice -m storeRequest : storeRequest($Material, $Qty)</code></pre>
+                The interaction is based on a <k>request</k> sent by the driver with the Smart Device, as described in the
+                requirements.<br/>
+                Its payload contains both the <ks>Material</ks> type and quantity inside the WasteTruck.
+
+<pre><code>Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Reply loadAccepted : loadAccepted(_)
+Reply loadRejected : loadRejected(_)</code></pre>
             </dd>
 
-
-
             <dd>
+                Once the Request is received by the <ks>WasteService</ks>, based on the type of material and the current free space in the respective container, we choose to accept or reject the storing of the load.
+
 <pre><code>onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
     [#
 	    currentMaterial = ws.Material.valueOf(payloadArg(0))
@@ -471,6 +521,8 @@
             </dd>
 
             <dd>
+                At this point the <b>wastetruck</b> receives the response and behaves accordingly. This behaviour will be later defined in the problem analysis.
+
 <pre><code>Transition t1 whenReply loadAccepted -> handleAccepted
               whenReply loadRejected -> handleRejected</code></pre>
             </dd>
@@ -478,9 +530,73 @@
             </dd>
 
             <h4>Deposit Requirement</h4>
+
+            <dd>
+                The next model describes the interaction between the <ks>WasteService</ks> and the <ks>trolley</ks>.<br/>
+                For semplicity's sake, this model does not take into consideration the situation where the <ks></ks>trolley</ks> is busy while
+                receiving a message.<br/>
+                That situation will be handled in the <k>Problem Analisys</k> section of this document.
+            </dd>
+
+            <img src="./imgs/DepositModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center">
+
+            <dd>
+                The message type used for both of the actors is <k>dispatch</k>.<br/>
+                There is no need for a Request/Reply in this interaction, as the trolley and wasteservice only need
+                to be notified of the situation and react accordingly.
+                The complete model can be seen here: <a href="../src/model_deposit.qak"><kc>model_deposit.qak</kc></a>
+<pre><code>Dispatch notifyDeposit : notifyDeposit(MATERIAL, QUANTITY)
+Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
+</code></pre>
+            </dd>
+
+            <h5>wasteservice Actor</h5>
+
+            <dd>
+                spiegare sendDeposit, soprattutto che è uno stato dell'attore wasteservice cosi non si fa confusione
+                
+<pre><code>State sendDeposit {
+    [#
+        var MaterialType = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+        var Quantity = kotlin.random.Random.nextDouble(10.0, 50.0)
+    #]
+    
+    forward transporttrolley -m notifyDeposit : notifyDeposit($MaterialType, $Quantity)
+}
+Goto idle
+</code></pre>                
+            </dd>
+
+            <dd>
+                spiegazione
+
+<pre><code>State idle {
+    printCurrentMessage
+    println("\tWasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
+}
+Transition t0 whenMsg updateWasteService -> updateValues
+
+State updateValues {
+    onMsg( updateWasteService : updateWasteService(MATERIAL, QUANTITY) ) {
+        if [# ws.Material.valueOf(payloadArg(0)) == ws.Material.PLASTIC #] {
+            [# StoredPlastic += payloadArg(1).toDouble() #]
+        } else {
+            [# StoredGlass += payloadArg(1).toDouble() #]
+        }
+    }	
+}
+Goto init    
+</code></pre>
+            </dd>
+
+            <h5>transporttrolley Actor</h5>
+
+            
             
             
             <h4>ServiceManagerGUI Requirement</h4>
+
+            <img src="./imgs/GUIModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center">
 
         </div>
 
