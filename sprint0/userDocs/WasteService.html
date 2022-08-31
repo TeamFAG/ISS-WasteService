@@ -384,13 +384,17 @@
                 <dt><ks>MAXPB</ks>:</dt>
                 <dd>
                     Fixed max kg of material which can be stored in the PlasticBox;
-                    <pre><code>val MAXPB : Float</code></pre>
+                    <br/>
+                    For the following definitions we assume that MAXPB is 100KG, this will likely change in the future.
+                    <pre><code>val MAXPB : Double = 100.0</code></pre>
                 </dd>
 
                 <dt><ks>MAXGB</ks>:</dt>
                 <dd>
                     Fixed max kg of material which can be stored in the GlassBox;
-                    <pre><code>val MAXGB : Float</code></pre>
+                    <br/>
+                    For the following definitions we assume that MAXGB is 100KG, this will likely change in the future.
+                    <pre><code>val MAXGB : Double = 100.0</code></pre>
                 </dd>
 
                 <dt><ks>DLIMIT</ks>:</dt>
@@ -629,6 +633,14 @@ Goto init
 
                 The complete model can be seen here: <a href="../src/model_gui.qak"><kc>model_gui.qak</kc></a>
             </dd>
+
+            <h4>Test Plan</h4>
+            The following is a brief test plan for the driver request requirement. We simulate two scenarios: 
+            <ul>
+                <li>in the first request the load quantity doesn't exceed the maximum capacity of the container, so we expect a <b>loadAccepted</b> reply;</li>
+                <li>in the second request the load quantity exceeds the maximum capacity of the container, so we expect a <b>loadRejected</b> reply</li>
+            </ul>
+            <a href="../test/it/unibo/tests/TestRequest.java"><kc>TestRequest.java</kc></a>
 
         </div>
 
