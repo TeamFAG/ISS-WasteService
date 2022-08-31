@@ -31,7 +31,7 @@ QActor gui context ctxwasteservicegui {
 				  whenEvent updateTrolleyStatus -> handleTrolleyStatus
 				  whenEvent updateLedStatus -> handleLedStatus
 				  whenEvent updateWeight -> handleWeight
-	
+
 	
 	State handlePosition {
 		printCurrentMessage
