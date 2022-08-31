@@ -26,21 +26,6 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					}
 					 transition(edgeName="t01",targetState="goIndoor",cond=whenDispatch("notifyDeposit"))
 				}	 
-				state("goHome") { //this:State
-					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TransportTrolley | going back to HOME")
-						delay(500) 
-					}
-					 transition( edgeName="goto",targetState="home", cond=doswitch() )
-				}	 
-				state("home") { //this:State
-					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TransportTrolley | at HOME")
-					}
-					 transition( edgeName="goto",targetState="done", cond=doswitch() )
-				}	 
 				state("goIndoor") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
@@ -83,6 +68,21 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						forward("updateWasteService", "updateWasteService($CarriedMaterialType,$CarriedQuantity)" ,"wasteservice" ) 
 					}
 					 transition( edgeName="goto",targetState="goHome", cond=doswitch() )
+				}	 
+				state("goHome") { //this:State
+					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
+						println("	TransportTrolley | going back to HOME")
+						delay(500) 
+					}
+					 transition( edgeName="goto",targetState="home", cond=doswitch() )
+				}	 
+				state("home") { //this:State
+					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
+						println("	TransportTrolley | at HOME")
+					}
+					 transition( edgeName="goto",targetState="done", cond=doswitch() )
 				}	 
 				state("done") { //this:State
 					action { //it:State
