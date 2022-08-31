@@ -5,5 +5,5 @@ enum class TrolleyStatus {
     MOVING,
     STOPPED,
     PICKUP,
-    DEPOSIT,
+    DEPOSIT
 }

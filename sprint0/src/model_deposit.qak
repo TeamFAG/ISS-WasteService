@@ -61,20 +61,7 @@ QActor transporttrolley context ctxdeposit {
 		//updateResource [# "pos(home)" #]
 	}
 	Transition t0 whenMsg notifyDeposit -> goIndoor
-	
-	State goHome {
-		printCurrentMessage
-		println("\tTransportTrolley | going back to HOME")
-		delay 500
-	}
-	Goto home
-	
-	State home {
-		printCurrentMessage
-		println("\tTransportTrolley | at HOME")
-	}
-	Goto done 
-	
+
 	State goIndoor {
 		printCurrentMessage
 		println("\tTransportTrollye | going to INDOOR port")
@@ -89,14 +76,14 @@ QActor transporttrolley context ctxdeposit {
 		delay 500
 	}
 	Goto indoor
-	
+
 	State indoor {
 		printCurrentMessage
 		println("\tTransportTrolley | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
 		// updateResource [# "pos(indoor)" #]
 	}
 	Goto goBox
-	
+
 	State goBox {
 		printCurrentMessage
 		println("\tTransportTrolley | going to $CarriedMaterialType box")
@@ -119,13 +106,26 @@ QActor transporttrolley context ctxdeposit {
 	}
 	Goto goHome
 	
+	State goHome {
+		printCurrentMessage
+		println("\tTransportTrolley | going back to HOME")
+		delay 500
+	}
+	Goto home
+	
+	State home {
+		printCurrentMessage
+		println("\tTransportTrolley | at HOME")
+	}
+	Goto done 
+	
 	State done {
 		printCurrentMessage
 		println("\tTransportTrolley | done")
 	}
 	Goto init
 	
-	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sar� giusto una volta initi i modelli
+	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sar� giusto una volta finiti i modelli
 }
 
 

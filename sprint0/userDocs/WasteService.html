@@ -61,6 +61,7 @@
     }
 
     dd{
+        margin-right: 50px;
         margin-bottom: 7px;
     }
 
@@ -187,15 +188,16 @@
     h4 {
         background-color: #ccffcc;
         font-size: 100%;
-        width: 95%;
+        width: 98%;
         border-radius: 5px;
-        padding: 2px;
+        padding: 5px;
     }
 
     h5 {
-        background-color: #d5ffb0;
+        background-color: #fff1b0;
         font-size: 100%;
-
+        border-radius: 5px;
+        padding: 5px;
     }
 
     div.req {
@@ -490,7 +492,7 @@
                 This was done to simplify the visualization and understanding of the model.
                 The complete model can be seen here: <a href="../src/model_request.qak"><kc>model_request.qak</kc></a>
                 
-            <img src="./imgs/RequestModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center">
+            <img src="./imgs/RequestModel.drawio.svg" alt="RequestModel" height="260px" class="center">
 
             <dd>
                 The interaction is based on a <k>request</k> sent by the driver with the Smart Device, as described in the
@@ -525,6 +527,17 @@ Reply loadRejected : loadRejected(_)</code></pre>
 
 <pre><code>Transition t1 whenReply loadAccepted -> handleAccepted
               whenReply loadRejected -> handleRejected</code></pre>
+              
+            The <ks>driver/WasteTruck</ks> should then leave <k>as soon as possible</k>, but who communicates to the driver that he can leave the indoor?
+            We have 2 options:
+            <ul>
+                <li>The <ks>trasport trolley</ks> directly notifies the driver (through the <ks>smart device</ks>) that the load has been picked up.</li>
+                <li>The <ks>WasteService</ks> notifies the driver (through the <ks>smart device</ks>) that the load has been picked up. 
+                    The consequence of this particular solution is that the <ks>trolley</ks> will have to notify the <ks>WasteService</ks> after completing the pickup action.
+                </li>
+            </ul>
+            The choice between thiese to strategies will be discussed in the Problem Analysis portion of this document.
+              
             </dd>
 
             </dd>
@@ -533,34 +546,34 @@ Reply loadRejected : loadRejected(_)</code></pre>
 
             <dd>
                 The next model describes the interaction between the <ks>WasteService</ks> and the <ks>trolley</ks>.<br/>
-                For semplicity's sake, this model does not take into consideration the situation where the <ks></ks>trolley</ks> is busy while
+                As of now, this model does not take into consideration the situation where the <ks></ks>trolley</ks> is busy while
                 receiving a message.<br/>
-                That situation will be handled in the <k>Problem Analisys</k> section of this document.
+                That situation will be handled in the <k>Problem Analisys</k> section of this document.<br/>
+                Moreover, for semplicity's sake, the whole context only simulates one interaction.
+                The complete model can be seen here: <a href="../src/model_deposit.qak"><kc>model_deposit.qak</kc></a>
             </dd>
 
-            <img src="./imgs/DepositModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center">
+            <img src="./imgs/DepositModel.drawio.svg" alt="DepositModel" height="260px" class="center">
 
             <dd>
                 The message type used for both of the actors is <k>dispatch</k>.<br/>
                 There is no need for a Request/Reply in this interaction, as the trolley and wasteservice only need
                 to be notified of the situation and react accordingly.
-                The complete model can be seen here: <a href="../src/model_deposit.qak"><kc>model_deposit.qak</kc></a>
+                
 <pre><code>Dispatch notifyDeposit : notifyDeposit(MATERIAL, QUANTITY)
 Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
 </code></pre>
             </dd>
 
-            <h5>wasteservice Actor</h5>
+            <dd><h5>wasteservice Actor</h5></dd>
 
             <dd>
-                spiegare sendDeposit, soprattutto che è uno stato dell'attore wasteservice cosi non si fa confusione
+                The state <b>sendDeposit</b> is used by the <ks>wasteservice</ks> actor to notify the <ks>trolley</ks> of an accepted deposit request.<br/>
+                With this notification he also comunicates the type of material to be deposited and it's quantity.
                 
 <pre><code>State sendDeposit {
-    [#
-        var MaterialType = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
-        var Quantity = kotlin.random.Random.nextDouble(10.0, 50.0)
-    #]
-    
+    [# ... #]
+
     forward transporttrolley -m notifyDeposit : notifyDeposit($MaterialType, $Quantity)
 }
 Goto idle
@@ -568,7 +581,8 @@ Goto idle
             </dd>
 
             <dd>
-                spiegazione
+                When the trolley completes a storing task, it sends an <k>updateWasteService</k> dispatch to the <ks>wasteservice</ks> actor
+                with the necessary information to update the state of the two <b>containers</b>.
 
 <pre><code>State idle {
     printCurrentMessage
@@ -585,18 +599,36 @@ State updateValues {
         }
     }	
 }
-Goto init    
+Goto init
 </code></pre>
             </dd>
 
-            <h5>transporttrolley Actor</h5>
+            <dd><h5>transporttrolley Actor</h5></dd>
 
-            
-            
-            
+            <dd>When the <ks>trolley</ks> receives a <k>dispatch</k> from the <ks>wasteservice</ks> actor, it begins its routine to pickup the load
+            and store it in the right container.<br/>
+            As the <ks>wasteservice</ks> actor only sends one dispatch to the <ks>trolley</ks>, this model simulates only one <ks>trolley</ks>.<br/><br/>
+
+            To better understand a single routine of the <ks>trolley</ks>, here is a <ki>state graph of the entire model.</ki>
+
+            <img src="./imgs/TrolleyState.drawio.svg" alt="TrolleyState" height="350px" class="center"><br/>
+
+            </dd>
             <h4>ServiceManagerGUI Requirement</h4>
+            
+            
+            <dd>
+                This quick non-executable model describes how the GUI reacts to the updates in the system.
+                Every message that it receives is an <k>Event</k>.<br/>
+                This model will be integrated with the others in the <ki>Logic Architecture</ki> section of this document, making it a part
+                of an executable system.
+            
 
-            <img src="./imgs/GUIModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center">
+            <img src="./imgs/GUIModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center"><br/>
+
+
+                The complete model can be seen here: <a href="../src/model_gui.qak"><kc>model_gui.qak</kc></a>
+            </dd>
 
         </div>
 
