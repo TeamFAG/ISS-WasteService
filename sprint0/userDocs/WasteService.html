@@ -8,7 +8,7 @@
 
     pre {
         border: 1px solid black;
-        padding:5px;
+        padding: 5px;
         white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
         white-space: -pre-wrap; /* Opera */
         white-space: -o-pre-wrap; /* Opera */
@@ -16,10 +16,10 @@
         word-wrap: break-word; /* IE 5.5+ */
         border-radius: 8px;
     }
-    pre code {
-        counter-reset: line-numbering;
-    }
 
+    pre code {
+        padding: 0px;
+    }
     pre code .line::before {
         content: counter(line-numbering);
         counter-increment: line-numbering;
@@ -304,13 +304,6 @@
             <dl>
                 <dt><ks>WasteService</ks>:</dt>
                 <dd>Software that allows a Waste truck to deposit its load in the proper container.</dd>
-
-                <dt><ks>DDR Robot</ks>:</dt>
-                <dd>
-                    Differential Drive Robot, that can be virtual or real. Capable of moving in the environment by executing simple move commands. 
-                    It must be capable of moving objects as a transpot trolley with a squared form of fixed side length equal to <kc>RD</kc>. 
-                    <br />The customer provides the software that further defines its capabilities: <a href="https://github.com/anatali/issLab2022/tree/main/unibo.basicrobot22"><kc>it.unibo.basicRobot22</kc></a>;
-                </dd>
                 
                 <dt><ks>Service Area</ks>:</dt>
                 <dd>A rectuangular area that includes an INDOOR port, a PlasticBox container and a GlassBox container. It's free from any internal obstacles;</dd> <!--TODO: to be formalized-->
@@ -341,16 +334,38 @@
             <h4>Formalized Entities</h4>
 
             <dl>
-                <dt><ks>Waste truck</ks>:</dt>
-                <dd>A transport vehicle that brings waste material to the INDOOR port;</dd>
 
-                <dt><ks>WasteServiceStatusGUI</ks>:</dt>
-                <dd>User interactive component used by the ServiceManager to observe the status of the WasteService:</li>
-                    <ul>
-                        <li>the current state of the transport trolley and its position in the room;</li>
-                        <li>the current weigth of the material stored in the two waste-containers;</li>
-                        <li>the current state of the Led.</li>
-                    </ul>
+                <dt><ks>DDR Robot</ks>:</dt>
+                <dd>
+                    Differential Drive Robot, that can be virtual or real. Capable of moving in the environment by executing simple move commands. 
+                    It must be capable of moving objects as a transpot trolley with a squared form of fixed side length equal to <kc>RD</kc>. <br />
+                    The customer provides the software that further defines its capabilities: <a href="https://github.com/anatali/issLab2022/tree/main/unibo.basicrobot22"><kc>it.unibo.basicRobot22</kc></a>;
+
+                    <h5>The following is a visualization of the complete model that the customer gives us:</h5>
+                    <img src="./imgs/basicrobot22arch.png" alt="BasicRobotArch" style="width:auto;height:750px;" class="center"><br/>
+
+                    The main component of the architecture is the <ks>basicrobot</ks> actor that encapsulates the robot's (virtual or real) logic.<br/>
+                    In the <k>Requirement Analysis</k>, we will use only this actor to represent the <ks>DDR robot</ks>, as it describes its basic behavior.<br/><br/>
+                    The <ks>pathexec</ks> actor simplifies the interaction with the <ks>DDR robot</ks> by asking for a path and not a single command.<br/>
+                    We will explore the possibilities of its use in the next Sprint documents.<br/><br/>
+                    
+                    The actor receives <k>dispatch</k> messages called <ki>cmd</ki>.
+                    The MOVE argument in these messages identifies a type of movement based on the <u><ki>aril</ki></u> language.<br/>
+
+<pre><code>//MOVE =  w | a | s | d | h 
+    
+Dispatch cmd : cmd(MOVE)</code></pre>
+    
+                    We also have a step <k>Request</k> (with its connected <k>Replies</k>) to dictate the timing of movements.<br/>
+                    
+<pre><code>Request step : step(TIME)
+    Reply stepdone : stepdone(V)
+    Reply stepfail : stepfail(DT, REASON)</code></pre>
+                    Finally, an <k>Event</k> is emitted whenever the robot collides with something.
+<pre><code>Event info : info(ARG)</code></pre>
+
+
+                    <br/><br/>
                 </dd>
 
                 <dt><ks>Sonar</ks>:</dt>
@@ -363,6 +378,18 @@
                 <dd>
                     A light that can be switched on or off. Is connected to the RaspberryPi;
                     <br/>The customer provides us the code <a href="www.google.it"><kc>Led25GpioTurnOn.sh</kc></a> and <a href="www.google.it"><kc>Led25GpioTurnOff.sh</kc></a>: these bash scripts simply turn on and off the led connected to a Raspberry; <!--TODO: insert HREF-->
+                </dd>
+
+                <dt><ks>Waste truck</ks>:</dt>
+                <dd>A transport vehicle that brings waste material to the INDOOR port;</dd>
+
+                <dt><ks>WasteServiceStatusGUI</ks>:</dt>
+                <dd>User interactive component used by the ServiceManager to observe the status of the WasteService:</li>
+                    <ul>
+                        <li>the current state of the transport trolley and its position in the room;</li>
+                        <li>the current weigth of the material stored in the two waste-containers;</li>
+                        <li>the current state of the Led.</li>
+                    </ul>
                 </dd>
 
                 <dt><ks>StoreRequest</ks>:</dt>
@@ -620,16 +647,13 @@ Goto init
             </dd>
             <h4>ServiceManagerGUI Requirement</h4>
             
-            
             <dd>
                 This quick non-executable model describes how the GUI reacts to the updates in the system.
                 Every message that it receives is an <k>Event</k>.<br/>
                 This model will be integrated with the others in the <ki>Logic Architecture</ki> section of this document, making it a part
-                of an executable system.
-            
+                of an executable system
 
             <img src="./imgs/GUIModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center"><br/>
-
 
                 The complete model can be seen here: <a href="../src/model_gui.qak"><kc>model_gui.qak</kc></a>
             </dd>
@@ -645,23 +669,31 @@ Goto init
         </div>
 
 
-        <h2>Problem analysis</h2>
-    
-    
         <h2>Test plans</h2>
+
+        <h2>Work plan</h2>
     
-    
-        <h2>Project</h2>
+        <div class="remark">
+            Each of the next sprints will include for each of the target requirements:
+            <dd><ul>
+                <li>Problem Analysis</li>
+                <li>Body of work</li>
+                <li>Test plan</li>
+                <li>Division of tasks between members</li>
+            </ul></dd>
+
+            <h5>Next Sprint : <a href="../"><kc>Sprint 1</kc></a></h5> <!--TODO: Insert Sprint 1 doc link-->
+            Objectives: 
+            <dd><ol>
+                <li><ks>WasteService</ks>: problem analysis and implementation of basic features.</li>
+                <li><ks>WasteTruck</ks>: problem analysis and implentation of basic features.</li>
+                <li><ks>TransportTrolley</ks>: problem analysis and implentation of basic features.</li>
+            </ol></dd>
+
+        </div>
     
         </div>
     
-        <h2>Testing</h2>
-    
-    
-        <h2>Deployment</h2>
-    
-    
-        <h2>Maintenance</h2>
     </div>
 
 
