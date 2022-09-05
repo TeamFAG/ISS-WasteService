@@ -1,0 +1,358 @@
+System sys_arch
+
+/* driver */
+Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Reply loadAccepted : loadAccepted(_)
+Reply loadRejected : loadRejected(_)
+
+/* service */
+Dispatch notifyDeposit : notifyDeposit(MATERIAL, QUANTITY)
+Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
+
+/* robot */
+Dispatch cmd : cmd(MOVE)
+Request step : step(TIME)
+Reply stepdone : stepdone(V)
+Reply stepfail : stepfail(DT, REASON)
+
+/* gui */
+Event updatePosition : updatePosition(POSITION)
+Event updateTrolleyStatus : updateTrolleyStatus(STATUS)
+Event updateLedStatus : updateLedStatus(STATUS)
+Event updateWeight : updateWeight(GLASS, PLASTIC)
+
+Context ctxdriver ip [host="localhost" port=8010]
+Context ctxwasteservice ip [host="localhost" port=8020]
+Context ctxgui ip [host="localhost" port=8030]
+
+QActor wastetruck context ctxdriver {
+	
+	[#
+		var Material : ws.Material
+		var Qty : Double
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		
+		[#
+			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
+		#]
+		
+		println("WasteTruck with $Qty KG of $Material")
+		
+		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
+	}
+	Transition t1 whenReply loadAccepted -> handleAccepted
+				  whenReply loadRejected -> handleRejected
+				  
+	State handleAccepted {
+		printCurrentMessage
+		println("Store Accepted")		
+	}
+	Goto termination
+	
+	State handleRejected {
+		printCurrentMessage
+		println("Store Rejected")
+	}
+	Goto termination
+	
+	State termination {
+		printCurrentMessage
+		println("Termination")
+	}
+}
+
+QActor transporttrolley context ctxwasteservice {
+		[#
+			var CarriedQuantity : Double = 0.0
+			var CarriedMaterialType = ws.Material.PLASTIC
+		#]
+	
+	State init initial {
+		printCurrentMessage
+		println("\tTransportTrolley | init at HOME")
+		//updateResource [# "pos(home)" #]
+	}
+	Transition t0 whenMsg notifyDeposit -> goIndoor
+
+	State goIndoor {
+		[#
+			var Move = "w"
+		#]
+		printCurrentMessage
+		println("\tTransportTrollye | going to INDOOR port")
+		
+		onMsg( notifyDeposit : notifyDeposit(MATERIAL, QUANTITY) ) {
+			[#
+				CarriedMaterialType = ws.Material.valueOf(payloadArg(0))
+				CarriedQuantity = payloadArg(1).toDouble() 
+			#]
+		}
+		
+		forward basicrobot -m cmd : cmd($Move)
+		request basicrobot -m step : step(500)
+	}
+	Transition t1 whenReply stepDone -> indoor
+	Transition t2 whenReply stepFail -> goIndoor
+
+	State indoor {
+		printCurrentMessage
+		println("\tTransportTrolley | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
+		// updateResource [# "pos(indoor)" #]
+	}
+	Goto goBox
+
+	State goBox {
+		printCurrentMessage
+		println("\tTransportTrolley | going to $CarriedMaterialType box")
+		
+		if [# CarriedMaterialType == ws.Material.PLASTIC #] {
+			forward basicrobot -m cmd : cmd("w")
+			request basicrobot -m step : step(500)
+		} else {
+			forward basicrobot -m cmd : cmd("w")
+			request basicrobot -m step : step(700)
+		}
+
+	}
+	Transition t3 whenReply stepDone -> box
+	Transition t4 whenReply stepFail -> goBox
+	
+	State box {
+		printCurrentMessage
+		println("\tTransportTrolley | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
+		// updateResource [# "pos("$CarriedMaterialType"_box)" #]
+		delay 250
+		
+		forward wasteservice -m updateWasteService : updateWasteService($CarriedMaterialType, $CarriedQuantity)
+	}
+	Goto goHome
+	
+	State goHome {
+		printCurrentMessage
+		println("\tTransportTrolley | going back to HOME")
+
+		forward basicrobot -m cmd : cmd("w")
+		request basicrobot -m step : step(500)
+	}
+	Transition t5 whenReply stepDone -> home
+	Transition t6 whenReply stepFail -> goHome
+	
+	State home {
+		printCurrentMessage
+		println("\tTransportTrolley | at HOME")
+	}
+	Goto done 
+	
+	State done {
+		printCurrentMessage
+		println("\tTransportTrolley | done")
+	}
+	Goto init
+	
+	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sar� giusto una volta finiti i modelli
+}
+
+QActor gui context ctxgui {
+	[#
+		var POSITION = ws.TrolleyPosition.HOME
+		var TROLLEY = ws.TrolleyStatus.IDLE
+		var LED = ws.LedState.OFF
+		var PLASTIC = 0.0
+		var GLASS = 0.0
+	#]
+	   	
+	State init initial {
+	   printCurrentMessage
+	   
+	}
+	Transition t0 whenEvent updatePosition -> handlePosition
+				  whenEvent updateTrolleyStatus -> handleTrolleyStatus
+				  whenEvent updateLedStatus -> handleLedStatus
+				  whenEvent updateWeight -> handleWeight
+	
+	State handlePosition {
+		printCurrentMessage
+		
+		onMsg(updatePosition : updatePosition(POSITION)) {
+			[#
+				POSITION = ws.TrolleyPosition.valueOf(payloadArg(0))	
+			#]
+			
+			// updateResources
+		}
+	}
+	Goto init
+	
+	State handleTrolleyStatus {
+		printCurrentMessage
+		
+		onMsg(updateTrolleyStatus : updateTrolleyStatus(STATUS)) {
+			[#
+				TROLLEY = ws.TrolleyStatus.valueOf(payloadArg(0))	
+			#]
+			
+			// updateResources
+		}
+	}
+	Goto init
+	
+	State handleLedStatus {
+		printCurrentMessage
+		
+		onMsg(updateLedStatus : updateLedStatus(STATUS)) {
+			[#
+				LED = ws.LedState.valueOf(payloadArg(0))	
+			#]
+			
+			// updateResources
+		}
+	}
+	Goto init
+	
+	State handleWeight {
+		printCurrentMessage
+		
+		onMsg(updateWeight : updateWeight(GLASS, PLASTIC)) {
+			[#
+				var GLASS = payloadArg(0).toDouble()
+				var PLASTIC = payloadArg(1).toDouble()
+			#]
+			
+			// updateResources
+		}
+	}
+	Goto init
+}
+
+QActor basicrobot context ctxwasteservice {
+		[#
+  			var StepTime      = 0L
+  			var StartTime     = 0L     
+  			var Duration      = 0L  
+  			var RobotType     = "" 
+  			var CurrentMove   = "unkknown"
+		#]  
+
+ 	State s0 initial { 	      
+ 		discardMsg Off
+		println("basicrobot | START")	
+ 		qrun unibo.robot.robotSupport.create(myself,"basicrobotConfig.json")	
+
+ 		[# RobotType = unibo.robot.robotSupport.robotKind #]
+ 		delay 1000
+        if[# RobotType != "virtual" #]{
+        	[# var robotsonar = context!!.hasActor("realsonar")  
+        	   if(robotsonar != null) unibo.robot.robotSupport.createSonarPipe(robotsonar) 
+        	#] 
+  		}
+
+  		run unibo.robot.robotSupport.move( "a" )
+ 		run unibo.robot.robotSupport.move( "d" )
+ 		updateResource [# "basicrobot(start)" #]
+ 	} 
+	Goto work
+	
+	State work{ 
+		println("basicrobot  | waiting .................. ")  
+	} 
+	Transition t1   whenMsg     cmd       -> execcmd
+					whenRequest step      -> doStep			 
+					whenMsg    obstacle   -> handleObstacle
+				  	whenMsg     end       -> endwork			  
+	
+	State execcmd{
+		printCurrentMessage
+		onMsg( cmd : cmd(MOVE) ){
+  			[# CurrentMove = payloadArg(0) #]
+			run unibo.robot.robotSupport.move( payloadArg(0 ) )
+			updateResource [# "moveactivated(${payloadArg(0)})" #]
+		}
+	 }
+	 Goto work   
+ 
+	State handleSonar{
+		printCurrentMessage
+	}
+	Goto work
+		
+   	State doStep{ 
+ 		printCurrentMessage  
+		onMsg( step : step( T ) ){  
+			[#	StepTime = payloadArg(0).toLong() 	#]  
+			updateResource [# "step(${StepTime})" #]
+  		}  
+        memoCurrentTime StartTime  
+        println("basicrobot | doStep StepTime =$StepTime  ")        
+        run unibo.robot.robotSupport.move( "w" )
+	}  
+	Transition t0 
+		whenTimeVar StepTime  -> stepDone  	 
+ 		whenMsg  obstacle     -> stepFail		
+    	 
+	State stepDone{   
+ 		run unibo.robot.robotSupport.move( "h" )
+		updateResource [# "stepDone($StepTime)" #]
+   		replyTo step with stepdone : stepdone(ok)
+		println("basicrobot | stepDone reply done")
+  	}
+	Goto work  
+ 
+	State stepFail{  	 	
+		setDuration Duration from StartTime
+		run unibo.robot.robotSupport.move( "h" )  //stop the (real) robotKind
+
+		[# var TunedDuration   =  ((StepTime - Duration) * 15 / 100).toLong()   #]
+		println("basicrobot | stepFail duration=$Duration TunedDuration=$TunedDuration")
+			run unibo.robot.robotSupport.move( "s" )
+			delayVar TunedDuration 
+			run unibo.robot.robotSupport.move( "h" ) 
+ 		updateResource [# "stepFail($Duration)" #] 
+
+ 		replyTo step with stepfail : stepfail($Duration, obst)
+    }
+	Goto work
+	
+	State endwork{ 
+		updateResource [# "basicrobot(end)" #]	 		
+ 		terminate 1
+	}
+}
+
+QActor wasteservice context ctxwasteservice {
+	
+		[#
+			var occupiedGlass : Double = 0.0
+			var occupiedPlastic : Double = 0.0
+			var currentMaterial : ws.Material
+			var currentQuantity : Double
+		#]
+	
+	State init initial {
+		printCurrentMessage
+	}
+	Transition t1 whenRequest storeRequest -> handleRequest
+	
+	State handleRequest {
+		printCurrentMessage
+		
+		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+			[#
+				currentMaterial = ws.Material.valueOf(payloadArg(0))
+				currentQuantity = payloadArg(1).toDouble()
+			#]
+			
+			println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
+			
+			if [# currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB #] {
+				replyTo storeRequest with loadAccepted : loadAccepted(_)
+			} else {
+				replyTo storeRequest with loadRejected : loadRejected(_)
+			}
+		}		
+	}	
+	Goto init	
+}
