@@ -7,7 +7,6 @@ Reply loadRejected : loadRejected(_)
 Context ctxrequest ip [host="localhost" port=8010]
 
 QActor wasteservice context ctxrequest {
-	
 		[#
 			var occupiedGlass : Double = 0.0
 			var occupiedPlastic : Double = 0.0
@@ -38,7 +37,7 @@ QActor wasteservice context ctxrequest {
 			}
 		}		
 	}	
-	Goto init	
+	Goto init
 }
 
 QActor wastetruck context ctxrequest {

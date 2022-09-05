@@ -1,4 +1,4 @@
-System sys_arch
+System systemarchitecture
 
 /* driver */
 Request storeRequest : storeRequest(MATERIAL, QUANTITY)
@@ -24,7 +24,6 @@ Event updateWeight : updateWeight(GLASS, PLASTIC)
 Context ctxdriver ip [host="localhost" port=8010]
 Context ctxwasteservice ip [host="localhost" port=8020]
 Context ctxgui ip [host="localhost" port=8030]
-
 
 QActor wastetruck context ctxdriver {
 	
@@ -97,7 +96,7 @@ QActor transporttrolley context ctxwasteservice {
 		request basicrobot -m step : step(500)
 	}
 	Transition t1 whenReply stepDone -> indoor
-	Transition t2 whenReply stepFail -> goIndoor
+				  whenReply stepFail -> goIndoor
 
 	State indoor {
 		printCurrentMessage
@@ -227,133 +226,4 @@ QActor gui context ctxgui {
 		}
 	}
 	Goto init
-}
-
-QActor basicrobot context ctxwasteservice {
-		[#
-  			var StepTime      = 0L
-  			var StartTime     = 0L     
-  			var Duration      = 0L  
-  			var RobotType     = "" 
-  			var CurrentMove   = "unkknown"
-		#]  
-
- 	State s0 initial { 	      
- 		discardMsg Off
-		println("basicrobot | START")	
- 		qrun unibo.robot.robotSupport.create(myself,"basicrobotConfig.json")	
-
- 		[# RobotType = unibo.robot.robotSupport.robotKind #]
- 		delay 1000
-        if[# RobotType != "virtual" #]{
-        	[# var robotsonar = context!!.hasActor("realsonar")  
-        	   if(robotsonar != null) unibo.robot.robotSupport.createSonarPipe(robotsonar) 
-        	#] 
-  		}
-
-  		run unibo.robot.robotSupport.move( "a" )
- 		run unibo.robot.robotSupport.move( "d" )
- 		updateResource [# "basicrobot(start)" #]
- 	} 
-	Goto work
-	
-	State work{ 
-		println("basicrobot  | waiting .................. ")  
-	} 
-	Transition t1   whenMsg     cmd       -> execcmd
-					whenRequest step      -> doStep			 
-					whenMsg    obstacle   -> handleObstacle
-				  	whenMsg     end       -> endwork			  
-	
-	State execcmd{
-		printCurrentMessage
-		onMsg( cmd : cmd(MOVE) ){
-  			[# CurrentMove = payloadArg(0) #]
-			run unibo.robot.robotSupport.move( payloadArg(0 ) )
-			updateResource [# "moveactivated(${payloadArg(0)})" #]
-		}
-	 }
-	 Goto work   
- 
-	State handleSonar{
-		printCurrentMessage
-	}
-	Goto work
-		
-   	State doStep{ 
- 		printCurrentMessage  
-		onMsg( step : step( T ) ){  
-			[#	StepTime = payloadArg(0).toLong() 	#]  
-			updateResource [# "step(${StepTime})" #]
-  		}  
-        memoCurrentTime StartTime  
-        println("basicrobot | doStep StepTime =$StepTime  ")        
-        run unibo.robot.robotSupport.move( "w" )
-	}  
-	Transition t0 
-		whenTimeVar StepTime  -> stepDone  	 
- 		whenMsg  obstacle     -> stepFail		
-    	 
-	State stepDone{   
- 		run unibo.robot.robotSupport.move( "h" )
-		updateResource [# "stepDone($StepTime)" #]
-   		replyTo step with stepdone : stepdone(ok)
-		println("basicrobot | stepDone reply done")
-  	}
-	Goto work  
- 
-	State stepFail{  	 	
-		setDuration Duration from StartTime
-		run unibo.robot.robotSupport.move( "h" )  //stop the (real) robotKind
-
-		[# var TunedDuration   =  ((StepTime - Duration) * 15 / 100).toLong()   #]
-		println("basicrobot | stepFail duration=$Duration TunedDuration=$TunedDuration")
-			run unibo.robot.robotSupport.move( "s" )
-			delayVar TunedDuration 
-			run unibo.robot.robotSupport.move( "h" ) 
- 		updateResource [# "stepFail($Duration)" #] 
-
- 		replyTo step with stepfail : stepfail($Duration, obst)
-    }
-	Goto work
-	
-	State endwork{ 
-		updateResource [# "basicrobot(end)" #]	 		
- 		terminate 1
-	}
-}
-
-QActor wasteservice context ctxwasteservice {
-	
-		[#
-			var occupiedGlass : Double = 0.0
-			var occupiedPlastic : Double = 0.0
-			var currentMaterial : ws.Material
-			var currentQuantity : Double
-		#]
-	
-	State init initial {
-		printCurrentMessage
-	}
-	Transition t1 whenRequest storeRequest -> handleRequest
-	
-	State handleRequest {
-		printCurrentMessage
-		
-		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
-			[#
-				currentMaterial = ws.Material.valueOf(payloadArg(0))
-				currentQuantity = payloadArg(1).toDouble()
-			#]
-			
-			println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
-			
-			if [# currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB #] {
-				replyTo storeRequest with loadAccepted : loadAccepted(_)
-			} else {
-				replyTo storeRequest with loadRejected : loadRejected(_)
-			}
-		}		
-	}	
-	Goto init	
 }
