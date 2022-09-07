@@ -45,7 +45,7 @@ QActor wasteservice context ctxdeposit {
 	}
 	//Goto idle
 	// change this Goto in order to send multiple requests
-	 Goto init
+	Goto init
 }
 
 QActor transporttrolley context ctxdeposit {

@@ -25,7 +25,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						
 									Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
 									Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
-						println("WasteTruck with $Qty KG of $Material")
+						println("	WASTETRUCK | with $Qty KG of $Material")
 						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
 					}
 					 transition(edgeName="t11",targetState="handleAccepted",cond=whenReply("loadAccepted"))
@@ -34,21 +34,21 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				state("handleAccepted") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("Store Accepted")
+						println("	WASTETRUCK: Store Accepted")
 					}
 					 transition( edgeName="goto",targetState="termination", cond=doswitch() )
 				}	 
 				state("handleRejected") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("Store Rejected")
+						println("	WASTETRUCK: Store Rejected")
 					}
 					 transition( edgeName="goto",targetState="termination", cond=doswitch() )
 				}	 
 				state("termination") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("Termination")
+						println("	WASTETRUCK: going away...")
 					}
 				}	 
 			}

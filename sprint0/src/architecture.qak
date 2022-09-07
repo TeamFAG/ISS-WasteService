@@ -19,11 +19,61 @@ Reply stepfail : stepfail(DT, REASON)
 Event updatePosition : updatePosition(POSITION)
 Event updateTrolleyStatus : updateTrolleyStatus(STATUS)
 Event updateLedStatus : updateLedStatus(STATUS)
-Event updateWeight : updateWeight(GLASS, PLASTIC)
+Event updateWeight : updateWeight(_)
 
 Context ctxdriver ip [host="localhost" port=8010]
-Context ctxwasteservice ip [host="localhost" port=8020]
-Context ctxgui ip [host="localhost" port=8030]
+Context ctxwasteservice ip [host="localhost" port=8011]
+Context ctxgui ip [host="localhost" port=8012]
+Context ctxbasicrobot ip [host="127.0.0.1" port=8020]  
+
+ExternalQActor basicrobot context ctxbasicrobot
+
+
+QActor wasteservice context ctxwasteservice {
+	[#
+		var CurrentMaterial : ws.Material
+		var CurrentQuantity : Float
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		println("\tWASTESERVICE | Started... waiting for truck driver")
+	}
+	Transition t1 whenRequest storeRequest -> handleTruckRequest
+	
+	State idle {
+		println("\tWASTESERVICE | idle...")
+	}
+	
+	State handleTruckRequest {
+		
+		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+			[#
+				CurrentMaterial = ws.Material.valueOf(payloadArg(0))
+				CurrentQuantity = payloadArg(1).toFloat()
+			#]
+			
+			println("\tWASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
+			
+			if [# ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity) #] {
+				replyTo storeRequest with loadAccepted : loadAccepted(_)
+				// updating box	
+				[# ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity) #]
+				println("\tWASTESERVICE | accepted request from truck driver")
+				
+				// notifying trolley
+				forward transporttrolley -m notifyDeposit : notifyDeposit($CurrentMaterial, $CurrentQuantity)
+				
+				println("\tWASTESERVICE | notifying transporttrolley") 			
+			} else {
+				replyTo storeRequest with loadRejected : loadRejected(_)
+				
+				println("\tWASTESERVICE | rejected request from truck driver")
+			}
+		}
+	}
+	Goto idle
+}
 
 QActor wastetruck context ctxdriver {
 	
@@ -40,7 +90,7 @@ QActor wastetruck context ctxdriver {
 			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
 		#]
 		
-		println("WasteTruck with $Qty KG of $Material")
+		println("\tWASTETRUCK | with $Qty KG of $Material")
 		
 		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
 	}
@@ -49,19 +99,19 @@ QActor wastetruck context ctxdriver {
 				  
 	State handleAccepted {
 		printCurrentMessage
-		println("Store Accepted")		
+		println("\tWASTETRUCK: Store Accepted")		
 	}
 	Goto termination
 	
 	State handleRejected {
 		printCurrentMessage
-		println("Store Rejected")
+		println("\tWASTETRUCK: Store Rejected")
 	}
 	Goto termination
 	
 	State termination {
 		printCurrentMessage
-		println("Termination")
+		println("\tWASTETRUCK: going away...")
 	}
 }
 
@@ -73,17 +123,25 @@ QActor transporttrolley context ctxwasteservice {
 	
 	State init initial {
 		printCurrentMessage
-		println("\tTransportTrolley | init at HOME")
-		//updateResource [# "pos(home)" #]
+		println("\tTRANPOSRTTROLLEY | init at HOME")
+		
+		[# 
+			var Pos = ws.TrolleyPosition.HOME
+			var Status = ws.TrolleyStatus.IDLE 
+		#]
+		
+		emit updatePosition : updatePosition($Pos)
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
 	}
 	Transition t0 whenMsg notifyDeposit -> goIndoor
 
 	State goIndoor {
 		[#
 			var Move = "w"
+			var Status = ws.TrolleyStatus.MOVING
 		#]
 		printCurrentMessage
-		println("\tTransportTrollye | going to INDOOR port")
+		println("\tTRANSPORTTROLLEY | going to INDOOR port")
 		
 		onMsg( notifyDeposit : notifyDeposit(MATERIAL, QUANTITY) ) {
 			[#
@@ -92,64 +150,96 @@ QActor transporttrolley context ctxwasteservice {
 			#]
 		}
 		
-		forward basicrobot -m cmd : cmd($Move)
+		forward basicrobot -m cmd : cmd(w)
 		request basicrobot -m step : step(500)
+		
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
 	}
-	Transition t1 whenReply stepDone -> indoor
-				  whenReply stepFail -> goIndoor
+	Transition t1 whenReply stepdone -> indoor
+				  whenReply stepfail -> goIndoor
 
 	State indoor {
 		printCurrentMessage
-		println("\tTransportTrolley | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
-		// updateResource [# "pos(indoor)" #]
+		println("\tTRANSPORTTROLLEY | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
+		[# 
+			var Pos = ws.TrolleyPosition.INDOOR 
+			var Status = ws.TrolleyStatus.PICKUP	
+		#]
+		
+		emit updatePosition : updatePosition($Pos)
+		emit updateTrolleyStatus : updateTrolleryStatus($Status)
 	}
 	Goto goBox
 
 	State goBox {
 		printCurrentMessage
-		println("\tTransportTrolley | going to $CarriedMaterialType box")
+		println("\tTRANSPORTTROLLEY | going to $CarriedMaterialType box")
 		
 		if [# CarriedMaterialType == ws.Material.PLASTIC #] {
-			forward basicrobot -m cmd : cmd("w")
+			forward basicrobot -m cmd : cmd(w)
 			request basicrobot -m step : step(500)
 		} else {
-			forward basicrobot -m cmd : cmd("w")
+			forward basicrobot -m cmd : cmd(w)
 			request basicrobot -m step : step(700)
 		}
+		
+		[# 
+			var Status = ws.TrolleyStatus.MOVING	
+		#]
+		
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
 
 	}
-	Transition t3 whenReply stepDone -> box
-	Transition t4 whenReply stepFail -> goBox
+	Transition t3 whenReply stepdone -> box
+			      whenReply stepfail -> goBox
 	
 	State box {
 		printCurrentMessage
-		println("\tTransportTrolley | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
-		// updateResource [# "pos("$CarriedMaterialType"_box)" #]
+		println("\tTRANSPORTTROLLEY | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
+		
+		[# 
+			var Pos = if(CarriedMaterialType.equals(ws.Material.PLASTIC)) ws.TrolleyPosition.PLASTICBOX else ws.TrolleyPosition.GLASSBOX
+			var Status = ws.TrolleyStatus.DEPOSIT 
+		#]
+		
+		emit updatePosition : updatePosition($Pos)
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
+		
 		delay 250
 		
-		forward wasteservice -m updateWasteService : updateWasteService($CarriedMaterialType, $CarriedQuantity)
+		emit updateWeight : updateWeight(_)		
 	}
 	Goto goHome
 	
 	State goHome {
 		printCurrentMessage
-		println("\tTransportTrolley | going back to HOME")
+		println("\tTRANSPORTTROLLEY | going back to HOME")
+		
+		[#
+			var Status = ws.TrolleyStatus.MOVING
+		#]
 
-		forward basicrobot -m cmd : cmd("w")
+		forward basicrobot -m cmd : cmd(w)
 		request basicrobot -m step : step(500)
+		
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
 	}
-	Transition t5 whenReply stepDone -> home
-	Transition t6 whenReply stepFail -> goHome
+	Transition t5 whenReply stepdone -> home
+				  whenReply stepfail -> goHome
 	
 	State home {
 		printCurrentMessage
-		println("\tTransportTrolley | at HOME")
+		println("\tTRANSPORTTROLLEY | at HOME")
+		
+		[# var Pos = ws.TrolleyPosition.HOME #]
+		
+		emit updatePosition : updatePosition($Pos)
 	}
 	Goto done 
 	
 	State done {
 		printCurrentMessage
-		println("\tTransportTrolley | done")
+		println("\tTRANSPORTTROLLEY | done")
 	}
 	Goto init
 	
@@ -161,8 +251,6 @@ QActor gui context ctxgui {
 		var POSITION = ws.TrolleyPosition.HOME
 		var TROLLEY = ws.TrolleyStatus.IDLE
 		var LED = ws.LedState.OFF
-		var PLASTIC = 0.0
-		var GLASS = 0.0
 	#]
 	   	
 	State init initial {
@@ -180,9 +268,7 @@ QActor gui context ctxgui {
 		onMsg(updatePosition : updatePosition(POSITION)) {
 			[#
 				POSITION = ws.TrolleyPosition.valueOf(payloadArg(0))	
-			#]
-			
-			// updateResources
+			#]			
 		}
 	}
 	Goto init
@@ -193,9 +279,7 @@ QActor gui context ctxgui {
 		onMsg(updateTrolleyStatus : updateTrolleyStatus(STATUS)) {
 			[#
 				TROLLEY = ws.TrolleyStatus.valueOf(payloadArg(0))	
-			#]
-			
-			// updateResources
+			#]			
 		}
 	}
 	Goto init
@@ -206,9 +290,7 @@ QActor gui context ctxgui {
 		onMsg(updateLedStatus : updateLedStatus(STATUS)) {
 			[#
 				LED = ws.LedState.valueOf(payloadArg(0))	
-			#]
-			
-			// updateResources
+			#]			
 		}
 	}
 	Goto init
@@ -216,13 +298,8 @@ QActor gui context ctxgui {
 	State handleWeight {
 		printCurrentMessage
 		
-		onMsg(updateWeight : updateWeight(GLASS, PLASTIC)) {
-			[#
-				var GLASS = payloadArg(0).toDouble()
-				var PLASTIC = payloadArg(1).toDouble()
-			#]
+		onMsg(updateWeight : updateWeight(_)) {
 			
-			// updateResources
 		}
 	}
 	Goto init

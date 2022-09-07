@@ -16,35 +16,43 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-					var occupiedGlass : Double = 0.0
-					var occupiedPlastic : Double = 0.0
-					var currentMaterial : ws.Material
-					var currentQuantity : Double
+				var CurrentMaterial : ws.Material
+				var CurrentQuantity : Float
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
+						println("	WASTESERVICE | Started... waiting for truck driver")
 					}
-					 transition(edgeName="t10",targetState="handleRequest",cond=whenRequest("storeRequest"))
+					 transition(edgeName="t10",targetState="handleTruckRequest",cond=whenRequest("storeRequest"))
 				}	 
-				state("handleRequest") { //this:State
+				state("idle") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
+						println("	WASTESERVICE | idle...")
+					}
+				}	 
+				state("handleTruckRequest") { //this:State
+					action { //it:State
 						if( checkMsgContent( Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-												currentMaterial = ws.Material.valueOf(payloadArg(0))
-												currentQuantity = payloadArg(1).toDouble()
-								println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
-								if(  currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB  
+												CurrentMaterial = ws.Material.valueOf(payloadArg(0))
+												CurrentQuantity = payloadArg(1).toFloat()
+								println("	WASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
+								if(  ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity)  
 								 ){answer("storeRequest", "loadAccepted", "loadAccepted(_)"   )  
+								 ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)  
+								println("	WASTESERVICE | accepted request from truck driver")
+								forward("notifyDeposit", "notifyDeposit($CurrentMaterial,$CurrentQuantity)" ,"transporttrolley" ) 
+								println("	WASTESERVICE | notifying transporttrolley")
 								}
 								else
 								 {answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
+								 println("	WASTESERVICE | rejected request from truck driver")
 								 }
 						}
 					}
-					 transition( edgeName="goto",targetState="init", cond=doswitch() )
+					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 			}
 		}
