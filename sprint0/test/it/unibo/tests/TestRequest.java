@@ -42,15 +42,29 @@ public class TestRequest {
     }
 
     @Test
-    public void testLoadAccepted() {
+    public void testLoadAcceptedPlastic() {
         String reply = simulateRequest(Material.PLASTIC, 10.0);
         ColorsOut.outappl("Reply: " + reply, ColorsOut.GREEN);
         assertTrue(reply.contains("loadAccepted"));
     }
 
     @Test
-    public void testLoadRejected() {
+    public void testLoadAcceptedGlass() {
+        String reply = simulateRequest(Material.GLASS, 10.0);
+        ColorsOut.outappl("Reply: " + reply, ColorsOut.GREEN);
+        assertTrue(reply.contains("loadAccepted"));
+    }
+
+    @Test
+    public void testLoadRejectedGlass() {
         String reply = simulateRequest(Material.GLASS, 150.0);
+        ColorsOut.outappl("Reply: " + reply, ColorsOut.GREEN);
+        assertTrue(reply.contains("loadRejected"));
+    }
+
+    @Test
+    public void testLoadRejectedPlastic() {
+        String reply = simulateRequest(Material.PLASTIC, 150.0);
         ColorsOut.outappl("Reply: " + reply, ColorsOut.GREEN);
         assertTrue(reply.contains("loadRejected"));
     }

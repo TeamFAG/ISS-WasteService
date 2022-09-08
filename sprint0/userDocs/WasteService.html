@@ -371,7 +371,17 @@ Dispatch cmd : cmd(MOVE)</code></pre>
                 <dt><ks>Sonar</ks>:</dt>
                 <dd>
                     A device that measures a distance. Is connected to the RaspberryPi.
-                    <br/>The customer provides us the code <a href="www.google.it"><kc>SonarAlone.c</kc></a>: this C program continuously reads the distance from a phisical sonar connected to a Raspberry and print it to the standard output; <!--TODO: insert HREF-->
+                    <br/>The customer provides us the following softwares: <a href="https://github.com/anatali/issLab2022/tree/main/it.unibo.radarSystem22.domain"><kc>it.unibo.radarSystem22.domain</kc></a> and <a href="https://github.com/anatali/issLab2022/tree/main/unibo.sonarqak22"><kc>unibo.sonarqak22</kc></a>.
+                    <br/>
+                    The QActor from <a href="https://github.com/anatali/issLab2022/tree/main/unibo.sonarqak22"><kc>unibo.sonarqak22</kc></a> exposes two dispatches and an event. The commands
+                    <i>sonaractive</i> and <i>sonardeactive</i> are used to enable and disable the sonar, insted the <i>sonar</i> event is used to send the distance to the next actor in the pipe.
+                    
+                    <pre><code>Dispatch sonaractive : info(ARG)
+                        Dispatch sonardeactive : info(ARG)
+                        Event sonar : distance(V)</code></pre>
+                        
+                    <br/><i>dataCleaner</i> actor takes care of cleaning 'wrong' data and the <i>distanceFilter</i> actor handle ther filtering and sending the data only if the detected distance is less than a fixed value.
+                    <img src="./imgs/sonarpipenano.png" alt="sonar" class="center">
                 </dd>
 
                 <dt><ks>Led</ks>:</dt>
@@ -650,7 +660,7 @@ Goto init
             <dd>
                 This quick non-executable model describes how the GUI reacts to the updates in the system.
                 Every message that it receives is an <k>Event</k>.<br/>
-                This model will be integrated with the others in the <ki>Logic Architecture</ki> section of this document, making it a part
+                This model will be integrated with the others in the <ki>Architecture</ki> section of this document, making it a part
                 of an executable system
 
             <img src="./imgs/GUIModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center"><br/>
@@ -658,18 +668,45 @@ Goto init
                 The complete model can be seen here: <a href="../src/model_gui.qak"><kc>model_gui.qak</kc></a>
             </dd>
 
-            <h4>Test Plan</h4>
+            <h4>System Architecture</h4>
+            <dd>
+                We now join all the previous models into a complete system architecture.<br/>
+                The model can be seen here: <a href="../src/architecture.qak"><kc>architecture.qak</kc></a><br/>
+
+                During the creation process of this final model we have made a few changes to the single actors:
+                <ol>
+                    <li>
+                        The <k>basicrobot22</k> project has now been integrated as a used component by the <ks>trasporttrolley</ks> via docker image.
+                    </li>
+                    <li>
+                    All the necessary actors now emit update <k>Events</k> to be used by the GUI.<br/> These are some examples:<br/>
+<pre><code>emit updatePosition : updatePosition($Pos)
+emit updateTrolleyStatus : updateTrolleyStatus($Status)</code></pre>
+                    </li>
+                    <li>
+                    As a preview to the problems to be handled in the next Sprint, the trolley interaction has been changed to a different logic.<br/>
+                    The update of the current weigth inside the system is now handled by the wasteservice as a consequence of the acceptance of a request.<br/>
+                    This grants us the ability to know the current weigth before the completion of a deposit, allowing a faster and more accurate response to any incoming storeRequest. 
+                    </li>
+                </ol>
+
+
+                <img src="./imgs/systemarchitecturearch.png" alt="SystemArch" style="width:auto;height:550px;" class="center"><br/>
+            </dd>
+            
+
+        </div>
+
+
+        <h2>Test plans</h2>
+        <div class="remark">
             The following is a brief test plan for the driver request requirement. We simulate two scenarios: 
             <ul>
                 <li>in the first request the load quantity doesn't exceed the maximum capacity of the container, so we expect a <b>loadAccepted</b> reply;</li>
                 <li>in the second request the load quantity exceeds the maximum capacity of the container, so we expect a <b>loadRejected</b> reply</li>
             </ul>
             <a href="../test/it/unibo/tests/TestRequest.java"><kc>TestRequest.java</kc></a>
-
         </div>
-
-
-        <h2>Test plans</h2>
 
         <h2>Work plan</h2>
     
