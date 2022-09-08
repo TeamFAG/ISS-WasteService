@@ -23,13 +23,21 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	WASTESERVICE | Started... waiting for truck driver")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition(edgeName="t10",targetState="handleTruckRequest",cond=whenRequest("storeRequest"))
 				}	 
 				state("idle") { //this:State
 					action { //it:State
 						println("	WASTESERVICE | idle...")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 				}	 
 				state("handleTruckRequest") { //this:State
 					action { //it:State
@@ -40,18 +48,22 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 												CurrentQuantity = payloadArg(1).toFloat()
 								println("	WASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 								if(  ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity)  
-								 ){answer("storeRequest", "loadAccepted", "loadAccepted(_)"   )  
+								 ){answer("storeRequest", "loadAccepted", "loadAccepted(_)","wastetruck"   )  
 								 ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)  
 								println("	WASTESERVICE | accepted request from truck driver")
 								forward("notifyDeposit", "notifyDeposit($CurrentMaterial,$CurrentQuantity)" ,"transporttrolley" ) 
 								println("	WASTESERVICE | notifying transporttrolley")
 								}
 								else
-								 {answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
+								 {answer("storeRequest", "loadRejected", "loadRejected(_)","wastetruck"   )  
 								 println("	WASTESERVICE | rejected request from truck driver")
 								 }
 						}
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 			}

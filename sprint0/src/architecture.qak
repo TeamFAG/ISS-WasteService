@@ -28,7 +28,6 @@ Context ctxbasicrobot ip [host="localhost" port=8020]
 
 ExternalQActor basicrobot context ctxbasicrobot
 
-
 QActor wasteservice context ctxwasteservice {
 	[#
 		var CurrentMaterial : ws.Material
@@ -56,7 +55,7 @@ QActor wasteservice context ctxwasteservice {
 			println("\tWASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 			
 			if [# ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity) #] {
-				replyTo storeRequest with loadAccepted : loadAccepted(_)
+				replyTo storeRequest with loadAccepted : loadAccepted(_) caller==wastetruck
 				// updating box	
 				[# ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity) #]
 				println("\tWASTESERVICE | accepted request from truck driver")
@@ -66,7 +65,7 @@ QActor wasteservice context ctxwasteservice {
 				
 				println("\tWASTESERVICE | notifying transporttrolley") 			
 			} else {
-				replyTo storeRequest with loadRejected : loadRejected(_)
+				replyTo storeRequest with loadRejected : loadRejected(_) caller==wastetruck
 				
 				println("\tWASTESERVICE | rejected request from truck driver")
 			}

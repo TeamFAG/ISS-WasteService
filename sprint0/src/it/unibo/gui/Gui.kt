@@ -23,7 +23,11 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				state("init") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition(edgeName="t010",targetState="handlePosition",cond=whenEvent("updatePosition"))
 					transition(edgeName="t011",targetState="handleTrolleyStatus",cond=whenEvent("updateTrolleyStatus"))
 					transition(edgeName="t012",targetState="handleLedStatus",cond=whenEvent("updateLedStatus"))
@@ -37,7 +41,11 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 								
 												POSITION = ws.TrolleyPosition.valueOf(payloadArg(0))	
 						}
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
 				state("handleTrolleyStatus") { //this:State
@@ -48,7 +56,11 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 								
 												TROLLEY = ws.TrolleyStatus.valueOf(payloadArg(0))	
 						}
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
 				state("handleLedStatus") { //this:State
@@ -59,7 +71,11 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 								
 												LED = ws.LedState.valueOf(payloadArg(0))	
 						}
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
 				state("handleWeight") { //this:State
@@ -68,7 +84,11 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						if( checkMsgContent( Term.createTerm("updateWeight(_)"), Term.createTerm("updateWeight(_)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 						}
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
 			}

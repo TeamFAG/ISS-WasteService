@@ -16,7 +16,7 @@ eventedgeattr = {
     'color': 'red',
     'style': 'dotted'
 }
-with Diagram('wasteservice_requestArch', show=False, outformat='png', graph_attr=graphattr) as diag:
+with Diagram('wasteserviceArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
      with Cluster('ctxrequest', graph_attr=nodeattr):

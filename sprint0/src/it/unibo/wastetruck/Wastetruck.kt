@@ -27,7 +27,11 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 									Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
 						println("	WASTETRUCK | with $Qty KG of $Material")
 						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition(edgeName="t11",targetState="handleAccepted",cond=whenReply("loadAccepted"))
 					transition(edgeName="t12",targetState="handleRejected",cond=whenReply("loadRejected"))
 				}	 
@@ -35,21 +39,33 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	WASTETRUCK: Store Accepted")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="termination", cond=doswitch() )
 				}	 
 				state("handleRejected") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	WASTETRUCK: Store Rejected")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="termination", cond=doswitch() )
 				}	 
 				state("termination") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
 						println("	WASTETRUCK: going away...")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 				}	 
 			}
 		}

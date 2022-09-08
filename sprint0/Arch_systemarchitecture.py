@@ -1,7 +1,7 @@
 from diagrams import Cluster, Diagram, Edge
 from diagrams.custom import Custom
 import os
-os.environ['PATH'] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
+os.environ['PATH'] += os.pathsep + 'D:/Programmi/Graphviz/bin/'
 
 graphattr = {     #https://www.graphviz.org/doc/info/attrs.html
     'fontsize': '22',
@@ -28,15 +28,17 @@ with Diagram('systemarchitectureArch', show=False, outformat='png', graph_attr=g
           gui=Custom('gui','./qakicons/symActorSmall.png')
      with Cluster('ctxbasicrobot', graph_attr=nodeattr):
           basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
-     wasteservice >> Edge(color='blue', style='solid', xlabel='notifyDeposit') >> transporttrolley
-     wastetruck >> Edge(color='magenta', style='solid', xlabel='storeRequest') >> wasteservice
-     transporttrolley >> Edge( xlabel='updatePosition', **eventedgeattr) >> sys
-     transporttrolley >> Edge( xlabel='updateTrolleyStatus', **eventedgeattr) >> sys
-     transporttrolley >> Edge(color='blue', style='solid', xlabel='cmd') >> basicrobot
-     transporttrolley >> Edge(color='magenta', style='solid', xlabel='step') >> basicrobot
-     transporttrolley >> Edge( xlabel='updateWeight', **eventedgeattr) >> sys
-     sys >> Edge(color='red', style='dashed', xlabel='updatePosition') >> gui
-     sys >> Edge(color='red', style='dashed', xlabel='updateTrolleyStatus') >> gui
-     sys >> Edge(color='red', style='dashed', xlabel='updateLedStatus') >> gui
-     sys >> Edge(color='red', style='dashed', xlabel='updateWeight') >> gui
+     wasteservice >> Edge(color='darkgreen', style='dashed', xlabel='loadAccepted', fontcolor='darkgreen') >> wastetruck
+     wasteservice >> Edge(color='blue', style='solid', xlabel='notifyDeposit', fontcolor='blue') >> transporttrolley
+     wasteservice >> Edge(color='darkgreen', style='dashed', xlabel='loadRejected', fontcolor='darkgreen') >> wastetruck
+     wastetruck >> Edge(color='magenta', style='solid', xlabel='storeRequest', fontcolor='magenta') >> wasteservice
+     transporttrolley >> Edge( xlabel='updatePosition', **eventedgeattr, fontcolor='red') >> sys
+     transporttrolley >> Edge( xlabel='updateTrolleyStatus', **eventedgeattr, fontcolor='red') >> sys
+     transporttrolley >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
+     transporttrolley >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
+     transporttrolley >> Edge( xlabel='updateWeight', **eventedgeattr, fontcolor='red') >> sys
+     sys >> Edge(color='red', style='dashed', xlabel='updatePosition', fontcolor='red') >> gui
+     sys >> Edge(color='red', style='dashed', xlabel='updateTrolleyStatus', fontcolor='red') >> gui
+     sys >> Edge(color='red', style='dashed', xlabel='updateLedStatus', fontcolor='red') >> gui
+     sys >> Edge(color='red', style='dashed', xlabel='updateWeight', fontcolor='red') >> gui
 diag

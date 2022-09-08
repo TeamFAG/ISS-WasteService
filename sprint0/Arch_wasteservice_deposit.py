@@ -22,6 +22,6 @@ with Diagram('wasteservice_depositArch', show=False, outformat='png', graph_attr
      with Cluster('ctxdeposit', graph_attr=nodeattr):
           wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
-     wasteservice >> Edge(color='blue', style='solid', xlabel='notifyDeposit') >> transporttrolley
-     transporttrolley >> Edge(color='blue', style='solid', xlabel='updateWasteService') >> wasteservice
+     wasteservice >> Edge(color='blue', style='solid', xlabel='notifyDeposit', fontcolor='blue') >> transporttrolley
+     transporttrolley >> Edge(color='blue', style='solid', xlabel='updateWasteService', fontcolor='blue') >> wasteservice
 diag
