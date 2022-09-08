@@ -24,7 +24,7 @@ Event updateWeight : updateWeight(_)
 Context ctxdriver ip [host="localhost" port=8010]
 Context ctxwasteservice ip [host="localhost" port=8011]
 Context ctxgui ip [host="localhost" port=8012]
-Context ctxbasicrobot ip [host="127.0.0.1" port=8020]  
+Context ctxbasicrobot ip [host="localhost" port=8020]  
 
 ExternalQActor basicrobot context ctxbasicrobot
 
