@@ -25,7 +25,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						
 									Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
 									Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
-						println("	WASTETRUCK | with $Qty KG of $Material")
+						println("WasteTruck with $Qty KG of $Material")
 						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
 						//genTimer( actor, state )
 					}
@@ -38,7 +38,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				state("handleAccepted") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: Store Accepted")
+						println("Store Accepted")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -49,7 +49,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				state("handleRejected") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: Store Rejected")
+						println("Store Rejected")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -60,7 +60,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				state("termination") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: going away...")
+						println("Termination")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

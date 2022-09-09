@@ -31,9 +31,9 @@ QActor wasteservice context ctxrequest {
 			println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
 			
 			if [# currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB #] {
-				replyTo storeRequest with loadAccepted : loadAccepted(_)
+				replyTo storeRequest with loadAccepted : loadAccepted(_) caller==wastetruck
 			} else {
-				replyTo storeRequest with loadRejected : loadRejected(_)
+				replyTo storeRequest with loadRejected : loadRejected(_) caller==wastetruck
 			}
 		}		
 	}	
