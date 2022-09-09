@@ -143,6 +143,13 @@
         font-size: 90%;
     }
 
+    kl {
+        font-family: "Arial";
+        color: #ff21da;
+        font-weight: bold;
+        font-size: 90%;
+    }
+
     pre {
         font-family: "Consolas";
         font-size: 85%;
@@ -272,7 +279,7 @@
 </style>
 
 <head>
-    <title>Waste Service</title>
+    <title>Waste Service - Sprint0</title>
     <script src="code.js"></script>
 </head>
 
@@ -284,8 +291,9 @@
 
     <div class="body">
         <h2>Introduction</h2>
-
-
+        <div class="remark">
+            In the Sprint0 we want to analyze the requirements and formalize what is possible without making any problem analysis.
+        </div>
 
         <h2>Requirements</h2>
         <div class="remark">
@@ -300,36 +308,37 @@
             <h3>Meaning of nouns and verbs</h3>
             <kc>NOUNS</kc>:
             <br/>
-            <h4>Abstract Entities</h4>
-            <dl>
-                <dt><ks>WasteService</ks>:</dt>
-                <dd>Software that allows a Waste truck to deposit its load in the proper container.</dd>
-                
-                <dt><ks>Service Area</ks>:</dt>
-                <dd>A rectuangular area that includes an INDOOR port, a PlasticBox container and a GlassBox container. It's free from any internal obstacles;</dd> <!--TODO: to be formalized-->
-                
+            <h4>Abstract Entities</h4> <!--TODO: to be formalized-->
+            <dd>
+                <dl>
+                    <dt><ks>WasteService</ks>:</dt>
+                    <dd>Software that allows a Waste truck to deposit its load in the proper container.</dd>
+                    
+                    <dt><ks>Service Area</ks>:</dt>
+                    <dd>A rectuangular area that includes an INDOOR port, a PlasticBox container and a GlassBox container. It's free from any internal obstacles;</dd> 
+                    
+                    <dt><ks>INDOOR</ks>:</dt>
+                    <dd>A port to the Service Area. Its formal position and usage will be later defined;</dd>
 
-                <dt><ks>INDOOR</ks>:</dt>
-                <dd>A port to the Service Area. Its formal position and usage will be later defined;</dd>
+                    <dt><ks>PlasticBox</ks>:</dt>
+                    <dd>A container devoted to store objects made of plastic up to a limited capacity;</dd>
 
-                <dt><ks>PlasticBox</ks>:</dt>
-                <dd>A container devoted to store objects made of plastic up to a limited capacity;</dd>
+                    <dt><ks>GlassBox</ks>:</dt>
+                    <dd>A container devoted to store objects made of glass up to a limited capacity;</dd>
 
-                <dt><ks>GlassBox</ks>:</dt>
-                <dd>A container devoted to store objects made of glass up to a limited capacity;</dd>
+                    <dt><ks>HOME</ks>:</dt>
+                    <dd>The initial and default location of the Robot. It is found inside the Service Area in a formal location later defined;</dd>
 
-                <dt><ks>HOME</ks>:</dt>
-                <dd>The initial and default location of the Robot. It is found inside the Service Area in a formal location later defined;</dd>
+                    <dt><ks>Driver</ks>:</dt>
+                    <dd>The driver of the Waste truck which uses a smart device to interact with the WasteService;</dd>
 
-                <dt><ks>Driver</ks>:</dt>
-                <dd>The driver of the Waste truck which uses a smart device to interact with the WasteService;</dd>
+                    <dt><ks>ServiceManager</ks>:</dt>
+                    <dd>A human being that supervises the state of the WasteService;</dd>
 
-                <dt><ks>ServiceManager</ks>:</dt>
-                <dd>A human being that supervises the state of the WasteService;</dd>
-
-                <dt><ks>RaspberryPi</ks>:</dt>
-                <dd>An hardware device that can interact with components of the WasteService;</dd>
-            </dl>
+                    <dt><ks>RaspberryPi</ks>:</dt>
+                    <dd>An hardware device that can interact with components of the WasteService;</dd>
+                </dl>
+            </dd>
 
             <h4>Formalized Entities</h4>
 
@@ -340,8 +349,8 @@
                     Differential Drive Robot, that can be virtual or real. Capable of moving in the environment by executing simple move commands. 
                     It must be capable of moving objects as a transpot trolley with a squared form of fixed side length equal to <kc>RD</kc>. <br />
                     The customer provides the software that further defines its capabilities: <a href="https://github.com/anatali/issLab2022/tree/main/unibo.basicrobot22"><kc>it.unibo.basicRobot22</kc></a>;
-
-                    <h5>The following is a visualization of the complete model that the customer gives us:</h5>
+                
+                    <h5>The following is a visualization of the complete Qak model that the customer gives us:</h5>
                     <img src="./imgs/basicrobot22arch.png" alt="BasicRobotArch" style="width:auto;height:750px;" class="center"><br/>
 
                     The main component of the architecture is the <ks>basicrobot</ks> actor that encapsulates the robot's (virtual or real) logic.<br/>
@@ -349,8 +358,8 @@
                     The <ks>pathexec</ks> actor simplifies the interaction with the <ks>DDR robot</ks> by asking for a path and not a single command.<br/>
                     We will explore the possibilities of its use in the next Sprint documents.<br/><br/>
                     
-                    The actor receives <k>dispatch</k> messages called <ki>cmd</ki>.
-                    The MOVE argument in these messages identifies a type of movement based on the <u><ki>aril</ki></u> language.<br/>
+                    The actor receives <k>dispatch</k> messages called <i>cmd</i>.
+                    The MOVE argument in these messages identifies a type of movement based on the <kl>aril</kl> language.<br/>
 
 <pre><code>//MOVE =  w | a | s | d | h 
     
@@ -359,34 +368,32 @@ Dispatch cmd : cmd(MOVE)</code></pre>
                     We also have a step <k>Request</k> (with its connected <k>Replies</k>) to dictate the timing of movements.<br/>
                     
 <pre><code>Request step : step(TIME)
-    Reply stepdone : stepdone(V)
-    Reply stepfail : stepfail(DT, REASON)</code></pre>
+Reply stepdone : stepdone(V)
+Reply stepfail : stepfail(DT, REASON)</code></pre>
                     Finally, an <k>Event</k> is emitted whenever the robot collides with something.
 <pre><code>Event info : info(ARG)</code></pre>
 
-
-                    <br/><br/>
                 </dd>
 
                 <dt><ks>Sonar</ks>:</dt>
                 <dd>
-                    A device that measures a distance. Is connected to the RaspberryPi.
+                    A device that measures a distance. It's connected to the RaspberryPi.
                     <br/>The customer provides us the following softwares: <a href="https://github.com/anatali/issLab2022/tree/main/it.unibo.radarSystem22.domain"><kc>it.unibo.radarSystem22.domain</kc></a> and <a href="https://github.com/anatali/issLab2022/tree/main/unibo.sonarqak22"><kc>unibo.sonarqak22</kc></a>.
                     <br/>
                     The QActor from <a href="https://github.com/anatali/issLab2022/tree/main/unibo.sonarqak22"><kc>unibo.sonarqak22</kc></a> exposes two dispatches and an event. The commands
                     <i>sonaractive</i> and <i>sonardeactive</i> are used to enable and disable the sonar, insted the <i>sonar</i> event is used to send the distance to the next actor in the pipe.
                     
                     <pre><code>Dispatch sonaractive : info(ARG)
-                        Dispatch sonardeactive : info(ARG)
-                        Event sonar : distance(V)</code></pre>
+Dispatch sonardeactive : info(ARG)
+Event sonar : distance(V)</code></pre>
                         
-                    <br/><i>dataCleaner</i> actor takes care of cleaning 'wrong' data and the <i>distanceFilter</i> actor handle ther filtering and sending the data only if the detected distance is less than a fixed value.
+                    <br/>The <i>dataCleaner</i> actor takes care of cleaning 'wrong' data and the <i>distanceFilter</i> actor handles the filtering, sending the data only if the detected distance is less than a fixed value.
                     <img src="./imgs/sonarpipenano.png" alt="sonar" class="center">
                 </dd>
 
                 <dt><ks>Led</ks>:</dt>
                 <dd>
-                    A light that can be switched on or off. Is connected to the RaspberryPi;
+                    A light that can be switched on or off. It's connected to the RaspberryPi;
                     <br/>The customer provides us the code <a href="www.google.it"><kc>Led25GpioTurnOn.sh</kc></a> and <a href="www.google.it"><kc>Led25GpioTurnOff.sh</kc></a>: these bash scripts simply turn on and off the led connected to a Raspberry; <!--TODO: insert HREF-->
                 </dd>
 
@@ -408,12 +415,12 @@ Dispatch cmd : cmd(MOVE)</code></pre>
                     <pre><code>Request storeRequest : storeRequest(MATERIAL, QUANTITY)</code></pre>
                 </dd>
 
-                <dt><ks>Loadaccepted</ks>:</dt>
+                <dt><ks>LoadAccepted</ks>:</dt>
                 <dd>The <strong>reply</strong> sent by the WasteService if the load can be accepted;
                     <pre><code>Reply loadAccepted : loadAccepted(_)</code></pre>
                 </dd>
                 
-                <dt><ks>Loadrejected</ks>:</dt>
+                <dt><ks>LoadRejected</ks>:</dt>
                 <dd>The <strong>reply</strong> sent by the WasteService if the load can't be accepted;
                     <pre><code>Reply loadRejected : loadRejected(_)</code></pre>
                 </dd>
@@ -455,7 +462,7 @@ Dispatch cmd : cmd(MOVE)</code></pre>
 
                 <dt><ks>TrolleyPosition</ks>:</dt>
                 <dd>
-                    Represents the positions in which the Trolley can be found in the SeriviceArea. (<a href="../resources/ws/TrolleyPosition.kt">TrolleyPosition.kt</a>)
+                    Represents the positions in which the Trolley can be found in the ServiceArea. (<a href="../resources/ws/TrolleyPosition.kt">TrolleyPosition.kt</a>)
 
 <pre><code>enum class TrolleyPosition {
     HOME,
@@ -497,10 +504,9 @@ Dispatch cmd : cmd(MOVE)</code></pre>
                 <li><ks>Stop the robot</ks>: stops the robot in the position it is currently at. This operation is always managed by the WasteService;</li>
                 <li><ks>Pick up load</ks>: the robot takes the waste load from the Waste Truck;</li>
                 <li><ks>Deposit load</ks>: the robot unloads the waste in the appropriate container;</li>
-                <li><ks>Send store request</ks>: </li>
             </ul>
         </div>
-
+        <!--
         <div class="remark">
             <h3>Use Cases</h3>
 
@@ -518,12 +524,12 @@ Dispatch cmd : cmd(MOVE)</code></pre>
             
             
         </div>
-        
+        -->
         <div class="remark">
             <h3>Definition of a formal model of the requirements</h3>
 
-            <!--TODO: reasons why we use QAK instead of UML-->
-            <i>[WHY DO WE USE QAK]</i>
+            For the following formalizations we used the <a href="https://github.com/anatali/issLab2022/blob/main/it.unibo.issLabStart/userDocs/Dispense/lezioni/html/QakIntro.html"><kl>Qak modeling language</kl></a> because the customer already provides the formalized models of some of the entities.<br/>
+            It's a fast and easy tool to model executable and testable architectures
     
             <h4>Driver Request Requirement</h4>
             <dd>
@@ -546,7 +552,7 @@ Reply loadRejected : loadRejected(_)</code></pre>
             </dd>
 
             <dd>
-                Once the Request is received by the <ks>WasteService</ks>, based on the type of material and the current free space in the respective container, we choose to accept or reject the storing of the load.
+                Once the Request is received by the <b>wasteservice</b>, based on the type of material and the current free space in the respective container, we choose to accept or reject the storing of the load.
 
 <pre><code>onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
     [#
@@ -577,7 +583,7 @@ Reply loadRejected : loadRejected(_)</code></pre>
                     The consequence of this particular solution is that the <ks>trolley</ks> will have to notify the <ks>WasteService</ks> after completing the pickup action.
                 </li>
             </ul>
-            The choice between thiese to strategies will be discussed in the Problem Analysis portion of this document.
+            The choice between thiese to strategies will be discussed in the Problem Analysis of the next Sprint.
               
             </dd>
 
@@ -589,7 +595,7 @@ Reply loadRejected : loadRejected(_)</code></pre>
                 The next model describes the interaction between the <ks>WasteService</ks> and the <ks>trolley</ks>.<br/>
                 As of now, this model does not take into consideration the situation where the <ks></ks>trolley</ks> is busy while
                 receiving a message.<br/>
-                That situation will be handled in the <k>Problem Analisys</k> section of this document.<br/>
+                That situation will be handled in the next Sprint.<br/>
                 Moreover, for semplicity's sake, the whole context only simulates one interaction.
                 The complete model can be seen here: <a href="../src/model_deposit.qak"><kc>model_deposit.qak</kc></a>
             </dd>
