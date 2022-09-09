@@ -43,8 +43,6 @@ QActor wasteservice context ctxdeposit {
 			}
 		}	
 	}
-	//Goto idle
-	// change this Goto in order to send multiple requests
 	Goto init
 }
 
@@ -123,7 +121,11 @@ QActor transporttrolley context ctxdeposit {
 		printCurrentMessage
 		println("\tTransportTrolley | done")
 	}
-	Goto init
+	Goto idle
+	
+	State idle {
+		
+	}
 	
 	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sar� giusto una volta finiti i modelli
 }
