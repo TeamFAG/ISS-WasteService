@@ -539,7 +539,7 @@ Event sonar : distance(V)</code></pre>
                 This was done to simplify the visualization and understanding of the model.
                 The complete model can be seen here: <a href="../src/model_request.qak"><kc>model_request.qak</kc></a>
                 
-            <img src="./imgs/RequestModel.drawio.svg" alt="RequestModel" height="260px" class="center">
+            <img src="./imgs/wasteservice_requestarch.png" alt="RequestModel" style="width:auto;height:550px;" class="center">
 
             <dd>
                 The interaction is based on a <k>request</k> sent by the driver with the Smart Device, as described in the
@@ -600,7 +600,7 @@ Reply loadRejected : loadRejected(_)</code></pre>
                 The complete model can be seen here: <a href="../src/model_deposit.qak"><kc>model_deposit.qak</kc></a>
             </dd>
 
-            <img src="./imgs/DepositModel.drawio.svg" alt="DepositModel" height="260px" class="center">
+            <img src="./imgs/wasteservice_depositarch.png" alt="DepositModel" style="width:auto;height:550px;" class="center">
 
             <dd>
                 The message type used for both of the actors is <k>dispatch</k>.<br/>
@@ -615,7 +615,7 @@ Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
             <dd><h5>wasteservice Actor</h5></dd>
 
             <dd>
-                The state <b>sendDeposit</b> is used by the <ks>wasteservice</ks> actor to notify the <ks>trolley</ks> of an accepted deposit request.<br/>
+                The state <i>sendDeposit</i> is used by the <b>wasteservice</b> actor to notify the <ks>trolley</ks> of an accepted deposit request.<br/>
                 With this notification he also comunicates the type of material to be deposited and it's quantity.
                 
 <pre><code>State sendDeposit {
@@ -628,8 +628,8 @@ Goto idle
             </dd>
 
             <dd>
-                When the trolley completes a storing task, it sends an <k>updateWasteService</k> dispatch to the <ks>wasteservice</ks> actor
-                with the necessary information to update the state of the two <b>containers</b>.
+                When the trolley completes a storing task, it sends an <i>updateWasteService</i> dispatch to the <b>wasteservice</b> actor
+                with the necessary information to update the state of the two containers.
 
 <pre><code>State idle {
     printCurrentMessage
@@ -652,11 +652,11 @@ Goto init
 
             <dd><h5>transporttrolley Actor</h5></dd>
 
-            <dd>When the <ks>trolley</ks> receives a <k>dispatch</k> from the <ks>wasteservice</ks> actor, it begins its routine to pickup the load
+            <dd>When <b>transporttrolley</b> receives a <k>dispatch</k> from the <b>wasteservice</b> actor, it begins its routine to pickup the load
             and store it in the right container.<br/>
-            As the <ks>wasteservice</ks> actor only sends one dispatch to the <ks>trolley</ks>, this model simulates only one <ks>trolley</ks>.<br/><br/>
+            As the <b>wasteservice</b> actor only sends one dispatch to the <b>transporttrolley</b>, this model simulates only one <b>transporttrolley</b>.<br/><br/>
 
-            To better understand a single routine of the <ks>trolley</ks>, here is a <ki>state graph of the entire model.</ki>
+            To better understand a single routine of the <b>transporttrolley</b>, here is a <ks>state graph of the entire model.</ks>
 
             <img src="./imgs/TrolleyState.drawio.svg" alt="TrolleyState" height="350px" class="center"><br/>
 
@@ -664,12 +664,12 @@ Goto init
             <h4>ServiceManagerGUI Requirement</h4>
             
             <dd>
-                This quick non-executable model describes how the GUI reacts to the updates in the system.
+                This quick non-executable model describes how the <ks>GUI</ks> reacts to the updates in the system.
                 Every message that it receives is an <k>Event</k>.<br/>
                 This model will be integrated with the others in the <ki>Architecture</ki> section of this document, making it a part
                 of an executable system
 
-            <img src="./imgs/GUIModel.drawio.svg" alt="TruckServiceInt" height="260px" class="center"><br/>
+            <img src="./imgs/wasteservice_guiarch.png" alt="TruckServiceInt" style="width:auto;height:350px;" class="center"><br/>
 
                 The complete model can be seen here: <a href="../src/model_gui.qak"><kc>model_gui.qak</kc></a>
             </dd>
@@ -682,17 +682,17 @@ Goto init
                 During the creation process of this final model we have made a few changes to the single actors:
                 <ol>
                     <li>
-                        The <k>basicrobot22</k> project has now been integrated as a used component by the <ks>trasporttrolley</ks> via docker image.
+                        The <k>basicrobot22</k> project has now been integrated as a used component by the <b>trasporttrolley</b> via <a href="https://github.com/anatali/issLab2022/blob/main/unibo.basicrobot22/basicrobot22.yaml">docker image</a>.
                     </li>
                     <li>
-                    All the necessary actors now emit update <k>Events</k> to be used by the GUI.<br/> These are some examples:<br/>
+                    All the necessary actors now emit update <k>Events</k> to be used by the <ks>GUI</ks>.<br/> These are some examples:<br/>
 <pre><code>emit updatePosition : updatePosition($Pos)
 emit updateTrolleyStatus : updateTrolleyStatus($Status)</code></pre>
                     </li>
                     <li>
                     As a preview to the problems to be handled in the next Sprint, the trolley interaction has been changed to a different logic.<br/>
                     The update of the current weigth inside the system is now handled by the wasteservice as a consequence of the acceptance of a request.<br/>
-                    This grants us the ability to know the current weigth before the completion of a deposit, allowing a faster and more accurate response to any incoming storeRequest. 
+                    This grants us the ability to know the current weigth before the completion of a deposit, allowing a faster and more accurate response to any incoming <i>storeRequest</i>. 
                     </li>
                 </ol>
 
@@ -717,16 +717,17 @@ emit updateTrolleyStatus : updateTrolleyStatus($Status)</code></pre>
         <h2>Work plan</h2>
     
         <div class="remark">
-            Each of the next sprints will include for each of the target requirements:
+            For each of the target requirements all next sprints will include:
             <dd><ul>
-                <li>Problem Analysis</li>
-                <li>Body of work</li>
-                <li>Test plan</li>
-                <li>Division of tasks between members</li>
+                <br>
+                <li><b>Problem Analysis</b></li>
+                <li><b>Body of work</b></li>
+                <li><b>Test plan</b></li>
+                <li><b>Division of tasks between members</b></li>
             </ul></dd>
 
             <h5>Next Sprint : <a href="../"><kc>Sprint 1</kc></a></h5> <!--TODO: Insert Sprint 1 doc link-->
-            Objectives: 
+            SCRUM Goal: 
             <dd><ol>
                 <li><ks>WasteService</ks>: problem analysis and implementation of basic features.</li>
                 <li><ks>WasteTruck</ks>: problem analysis and implentation of basic features.</li>
@@ -753,12 +754,38 @@ emit updateTrolleyStatus : updateTrolleyStatus($Status)</code></pre>
     <br /><br />
     </div>
 
-    <div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
-        By Team FAG: <br/>
-        federico.andrucci@studio.unibo.it, <br/>
-        alex.gianelli@live.it, <br/>
-        gabriele.marconi@studio.unibo.it <br/>
-        <img src="./img/emiglio.png" alt="mbot" width="15%" height="15%">
+    <div style="background-color:rgba(185, 180, 215, 0.9); width:100%;text-align:center;color:white">
+        By <a href="https://github.com/TeamFAG/ISS-WasteService">TeamFAG</a>: <br/>
+        <a href="https://github.com/Federicoand98">federico.andrucci@studio.unibo.it</a>,<br/>
+        <a href="https://github.com/Noesh">alex.gianelli@live.it</a>,<br/>
+        <a href="https://github.com/Stikinit">gabriele.marconi@studio.unibo.it</a>,<br/>
+
+        <br/>
+
+        <table>
+            <tr>
+                <th>
+                    Federico Andrucci
+                </th>
+                <th>
+                    Alex Gianelli
+                </th>
+                <th>
+                    Gabriele Marconi
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <img src="./imgs/federico-andrucci.jpg" alt="f" width="15%" height="15%" class="center">
+                </td>
+                <td>
+                    <img src="./imgs/gabriele.JPG" alt="f" width="15%" height="15%" class="center">
+                </td>
+                <td>
+                    <img src="./imgs/federico-andrucci.jpg" alt="f" width="15%" height="15%" class="center">
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 
