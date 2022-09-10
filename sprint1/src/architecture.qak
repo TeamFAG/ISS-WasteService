@@ -1,0 +1,307 @@
+System systemarchitecture
+
+/* driver */
+Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Reply loadAccepted : loadAccepted(_)
+Reply loadRejected : loadRejected(_)
+
+/* service */
+Dispatch notifyDeposit : notifyDeposit(MATERIAL, QUANTITY)
+Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
+
+/* robot */
+Dispatch cmd : cmd(MOVE)
+Request step : step(TIME)
+Reply stepdone : stepdone(V)
+Reply stepfail : stepfail(DT, REASON)
+
+/* gui */
+Event updatePosition : updatePosition(POSITION)
+Event updateTrolleyStatus : updateTrolleyStatus(STATUS)
+Event updateLedStatus : updateLedStatus(STATUS)
+Event updateWeight : updateWeight(_)
+
+Context ctxdriver ip [host="localhost" port=8010]
+Context ctxwasteservice ip [host="localhost" port=8011]
+Context ctxgui ip [host="localhost" port=8012]
+Context ctxbasicrobot ip [host="127.0.0.1" port=8020]  
+
+ExternalQActor basicrobot context ctxbasicrobot
+
+
+QActor wasteservice context ctxwasteservice {
+	[#
+		var CurrentMaterial : ws.Material
+		var CurrentQuantity : Float
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		println("\tWASTESERVICE | Started... waiting for truck driver")
+	}
+	Transition t1 whenRequest storeRequest -> handleTruckRequest
+	
+	State idle {
+		println("\tWASTESERVICE | idle...")
+	}
+	
+	State handleTruckRequest {
+		
+		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+			[#
+				CurrentMaterial = ws.Material.valueOf(payloadArg(0))
+				CurrentQuantity = payloadArg(1).toFloat()
+			#]
+			
+			println("\tWASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
+			
+			if [# ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity) #] {
+				replyTo storeRequest with loadAccepted : loadAccepted(_) caller==wastetruck
+				// updating box	
+				[# ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity) #]
+				println("\tWASTESERVICE | accepted request from truck driver")
+				
+				// notifying trolley
+				forward transporttrolley -m notifyDeposit : notifyDeposit($CurrentMaterial, $CurrentQuantity)
+				
+				println("\tWASTESERVICE | notifying transporttrolley") 			
+			} else {
+				replyTo storeRequest with loadRejected : loadRejected(_) caller==wastetruck
+				
+				println("\tWASTESERVICE | rejected request from truck driver")
+			}
+		}
+	}
+	Goto idle
+}
+
+QActor wastetruck context ctxdriver {
+	
+	[#
+		var Material : ws.Material
+		var Qty : Double
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		
+		[#
+			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
+		#]
+		
+		println("\tWASTETRUCK | with $Qty KG of $Material")
+		
+		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
+	}
+	Transition t1 whenReply loadAccepted -> handleAccepted
+				  whenReply loadRejected -> handleRejected
+				  
+	State handleAccepted {
+		printCurrentMessage
+		println("\tWASTETRUCK: Store Accepted")		
+	}
+	Goto termination
+	
+	State handleRejected {
+		printCurrentMessage
+		println("\tWASTETRUCK: Store Rejected")
+	}
+	Goto termination
+	
+	State termination {
+		printCurrentMessage
+		println("\tWASTETRUCK: going away...")
+	}
+}
+
+QActor transporttrolley context ctxwasteservice {
+		[#
+			var CarriedQuantity : Double = 0.0
+			var CarriedMaterialType = ws.Material.PLASTIC
+		#]
+	
+	State init initial {
+		printCurrentMessage
+		println("\tTRANPOSRTTROLLEY | init at HOME")
+		
+		[# 
+			var Pos = ws.TrolleyPosition.HOME
+			var Status = ws.TrolleyStatus.IDLE 
+		#]
+		
+		emit updatePosition : updatePosition($Pos)
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
+	}
+	Transition t0 whenMsg notifyDeposit -> goIndoor
+
+	State goIndoor {
+		[#
+			var Move = "w"
+			var Status = ws.TrolleyStatus.MOVING
+		#]
+		printCurrentMessage
+		println("\tTRANSPORTTROLLEY | going to INDOOR port")
+		
+		onMsg( notifyDeposit : notifyDeposit(MATERIAL, QUANTITY) ) {
+			[#
+				CarriedMaterialType = ws.Material.valueOf(payloadArg(0))
+				CarriedQuantity = payloadArg(1).toDouble() 
+			#]
+		}
+		
+		forward basicrobot -m cmd : cmd(w)
+		request basicrobot -m step : step(500)
+		
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
+	}
+	Transition t1 whenReply stepdone -> indoor
+				  whenReply stepfail -> goIndoor
+
+	State indoor {
+		printCurrentMessage
+		println("\tTRANSPORTTROLLEY | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
+		[# 
+			var Pos = ws.TrolleyPosition.INDOOR 
+			var Status = ws.TrolleyStatus.PICKUP	
+		#]
+		
+		emit updatePosition : updatePosition($Pos)
+		emit updateTrolleyStatus : updateTrolleryStatus($Status)
+	}
+	Goto goBox
+
+	State goBox {
+		printCurrentMessage
+		println("\tTRANSPORTTROLLEY | going to $CarriedMaterialType box")
+		
+		if [# CarriedMaterialType == ws.Material.PLASTIC #] {
+			forward basicrobot -m cmd : cmd(w)
+			request basicrobot -m step : step(500)
+		} else {
+			forward basicrobot -m cmd : cmd(w)
+			request basicrobot -m step : step(700)
+		}
+		
+		[# 
+			var Status = ws.TrolleyStatus.MOVING	
+		#]
+		
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
+
+	}
+	Transition t3 whenReply stepdone -> box
+			      whenReply stepfail -> goBox
+	
+	State box {
+		printCurrentMessage
+		println("\tTRANSPORTTROLLEY | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
+		
+		[# 
+			var Pos = if(CarriedMaterialType.equals(ws.Material.PLASTIC)) ws.TrolleyPosition.PLASTICBOX else ws.TrolleyPosition.GLASSBOX
+			var Status = ws.TrolleyStatus.DEPOSIT 
+		#]
+		
+		emit updatePosition : updatePosition($Pos)
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
+		
+		delay 250
+		
+		emit updateWeight : updateWeight(_)		
+	}
+	Goto goHome
+	
+	State goHome {
+		printCurrentMessage
+		println("\tTRANSPORTTROLLEY | going back to HOME")
+		
+		[#
+			var Status = ws.TrolleyStatus.MOVING
+		#]
+
+		forward basicrobot -m cmd : cmd(w)
+		request basicrobot -m step : step(500)
+		
+		emit updateTrolleyStatus : updateTrolleyStatus($Status)
+	}
+	Transition t5 whenReply stepdone -> home
+				  whenReply stepfail -> goHome
+	
+	State home {
+		printCurrentMessage
+		println("\tTRANSPORTTROLLEY | at HOME")
+		
+		[# var Pos = ws.TrolleyPosition.HOME #]
+		
+		emit updatePosition : updatePosition($Pos)
+	}
+	Goto done 
+	
+	State done {
+		printCurrentMessage
+		println("\tTRANSPORTTROLLEY | done")
+	}
+	Goto init
+	
+	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sar� giusto una volta finiti i modelli
+}
+
+QActor gui context ctxgui {
+	
+	[#
+		var POSITION = ws.TrolleyPosition.HOME
+		var TROLLEY = ws.TrolleyStatus.IDLE
+		var LED = ws.LedState.OFF
+	#]
+	   	
+	State init initial {
+	   printCurrentMessage
+	   
+	}
+	Transition t0 whenEvent updatePosition -> handlePosition
+				  whenEvent updateTrolleyStatus -> handleTrolleyStatus
+				  whenEvent updateLedStatus -> handleLedStatus
+				  whenEvent updateWeight -> handleWeight
+	
+	State handlePosition {
+		printCurrentMessage
+		
+		onMsg(updatePosition : updatePosition(POSITION)) {
+			[#
+				POSITION = ws.TrolleyPosition.valueOf(payloadArg(0))	
+			#]			
+		}
+	}
+	Goto init
+	
+	State handleTrolleyStatus {
+		printCurrentMessage
+		
+		onMsg(updateTrolleyStatus : updateTrolleyStatus(STATUS)) {
+			[#
+				TROLLEY = ws.TrolleyStatus.valueOf(payloadArg(0))	
+			#]			
+		}
+	}
+	Goto init
+	
+	State handleLedStatus {
+		printCurrentMessage
+		
+		onMsg(updateLedStatus : updateLedStatus(STATUS)) {
+			[#
+				LED = ws.LedState.valueOf(payloadArg(0))	
+			#]			
+		}
+	}
+	Goto init
+	
+	State handleWeight {
+		printCurrentMessage
+		
+		onMsg(updateWeight : updateWeight(_)) {
+			
+		}
+	}
+	Goto init
+}
