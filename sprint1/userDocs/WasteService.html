@@ -319,6 +319,65 @@
         <div class="remark">
             <h3>Map and Trolley movement</h3>
 
+            The first problem we are going to tackle is how the transport trolley/DDR robot moves within the space of the service.<br/>
+            The customer has given us an image of the layout but, for obvious reasons, the robot cannot understand them, so it has no idea where
+            to go or what to look for.
+
+            We can theorize some solutions to this problem:
+            <ol>
+                <li><h4>Without Map Coordinates</h4>
+                    This solution requires no planning, as it uses the specified layout given by the customer to move the trolley.<br/>
+                    By abusing the fact that all points of interest are located on a wall adjacent to a corner, all the robot needs to do is 
+                    move along the walls and find the target by colliding with it.<br/>
+                    If, by chance, the trolley received a different command, it would just need to turn in the right direction/orientation and keep moving.
+
+                    <img src="./imgs/MapWoCoord.svg" alt="mapWoCoord" height="400px" class="center">
+                    
+                    <k>PROS</k>
+                    <ul>
+                        <li>Easily scalable to all room sizes.</li>
+                        <li>No need for prior room mapping of coordinates.</li>
+                    </ul>
+                    <k>CONS</k>
+                    <ul>
+                        <li>The movement logic is strictly tied to the layout. Even the smallest change would
+                            require a lot of work, making this solution not flexible.
+                        </li>
+                        <li>Determining the complete logic is a complex problem.</li>
+                    </ul>
+                    
+                </li>
+                <li><h4>With Map Coordinates</h4>
+                    This solution uses pre-determined coordinates to move the trolley.<br/>
+                    To use the coordinates, the room is divided into squares with dimensions based on <b>RD</b> using a mapper.<br/>
+                    Then, each point of interest (HOME, INDOOR, PLASTICBOX, GLASSBOX) is assigned to some of the coordinates.<br/>
+                    <br/>
+
+                    <img src="./imgs/MapWCoord.drawio.svg" alt="mapWoCoord" height="400px" class="center">
+
+                    The customer provides 3 useful tools:
+                    <ol>
+                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.mapperQak22"><b>unibo.mapperQak22</b></a>: Creates a map of the room in the form of a string by moving the robot around and saving movement and collision data.</li>
+                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.planner22"><b>unibo.planner22</b></a>: Finds a path for the robot by using target coordinates.</li>
+                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.pathexecutor"><b>unibo.pathexecutor</b></a>: Moves the robot along a certain pre-determined path.</li>
+                    </ol>
+
+                    <k>PROS</k>
+                    <ul>
+                        <li>Easily scalable to all room layouts.</li>
+                        <li>Easy to implement, as the customer provides a lot of useful software.</li>
+                    </ul>
+                    <k>CONS</k>
+                    <ul>
+                        <li>Mapping the room and assigning coordinates takes time.</li>
+                        <li>The room's dimensions might not be multiples of <b>RD</b>, so additional movements may be required to reach all points of interest.</li>
+                    </ul>
+
+                    
+                    
+                    
+                </li>
+            </ol>
         </div>
 
         <h2>Work plan</h2>
