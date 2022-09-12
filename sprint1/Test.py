@@ -70,7 +70,8 @@ def terminate() :
     print("BYE")
     
 def console() :  
-    request(step)
+    #request(step)
+    forward(cmd)
 
 ###########################################    
 connect(port)
