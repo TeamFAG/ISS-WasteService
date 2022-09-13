@@ -33,7 +33,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t03",targetState="goIndoor",cond=whenDispatch("notifyDeposit"))
+					 transition(edgeName="t01",targetState="goIndoor",cond=whenDispatch("notifyDeposit"))
 				}	 
 				state("goIndoor") { //this:State
 					action { //it:State
@@ -56,8 +56,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t14",targetState="indoor",cond=whenReply("stepdone"))
-					transition(edgeName="t15",targetState="goIndoor",cond=whenReply("stepfail"))
+					 transition(edgeName="t12",targetState="indoor",cond=whenReply("stepdone"))
+					transition(edgeName="t13",targetState="goIndoor",cond=whenReply("stepfail"))
 				}	 
 				state("indoor") { //this:State
 					action { //it:State
@@ -95,8 +95,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t36",targetState="box",cond=whenReply("stepdone"))
-					transition(edgeName="t37",targetState="goBox",cond=whenReply("stepfail"))
+					 transition(edgeName="t34",targetState="box",cond=whenReply("stepdone"))
+					transition(edgeName="t35",targetState="goBox",cond=whenReply("stepfail"))
 				}	 
 				state("box") { //this:State
 					action { //it:State
@@ -130,8 +130,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t58",targetState="home",cond=whenReply("stepdone"))
-					transition(edgeName="t59",targetState="goHome",cond=whenReply("stepfail"))
+					 transition(edgeName="t56",targetState="home",cond=whenReply("stepdone"))
+					transition(edgeName="t57",targetState="goHome",cond=whenReply("stepfail"))
 				}	 
 				state("home") { //this:State
 					action { //it:State

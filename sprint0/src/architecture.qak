@@ -1,33 +1,57 @@
 System systemarchitecture
 
-/* driver */
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------DRIVER REQUIREMENT----------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 Request storeRequest : storeRequest(MATERIAL, QUANTITY)
 Reply loadAccepted : loadAccepted(_)
 Reply loadRejected : loadRejected(_)
 
-/* service */
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------DEPOSIT REQUIREMENT---------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 Dispatch notifyDeposit : notifyDeposit(MATERIAL, QUANTITY)
 Dispatch updateWasteService : updateWasteService(MATERIAL, QUANTITY)
 
-/* robot */
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------BASICROBOT22----------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 Dispatch cmd : cmd(MOVE)
 Request step : step(TIME)
 Reply stepdone : stepdone(V)
 Reply stepfail : stepfail(DT, REASON)
 
-/* gui */
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------GUI REQUIREMENT-------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 Event updatePosition : updatePosition(POSITION)
 Event updateTrolleyStatus : updateTrolleyStatus(STATUS)
 Event updateLedStatus : updateLedStatus(STATUS)
 Event updateWeight : updateWeight(_)
 
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------RASP REQUIREMENT------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
+Event updateLed : updateLed(VALUE)
+Event underThreshold : underThreshold(_)
+
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------CONTEXTS--------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 Context ctxdriver ip [host="localhost" port=8010]
 Context ctxwasteservice ip [host="localhost" port=8011]
 Context ctxgui ip [host="localhost" port=8012]
+Context ctxrasp ip [host="localhost" port=8013]
 Context ctxbasicrobot ip [host="127.0.0.1" port=8020]  
 
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------ACTORS----------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 ExternalQActor basicrobot context ctxbasicrobot
 
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------CTXWASTESERVICE-------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 
 QActor wasteservice context ctxwasteservice {
 	[#
@@ -73,46 +97,6 @@ QActor wasteservice context ctxwasteservice {
 		}
 	}
 	Goto idle
-}
-
-QActor wastetruck context ctxdriver {
-	
-	[#
-		var Material : ws.Material
-		var Qty : Double
-	#]
-	
-	State init initial {
-		printCurrentMessage
-		
-		[#
-			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
-			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
-		#]
-		
-		println("\tWASTETRUCK | with $Qty KG of $Material")
-		
-		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
-	}
-	Transition t1 whenReply loadAccepted -> handleAccepted
-				  whenReply loadRejected -> handleRejected
-				  
-	State handleAccepted {
-		printCurrentMessage
-		println("\tWASTETRUCK: Store Accepted")		
-	}
-	Goto termination
-	
-	State handleRejected {
-		printCurrentMessage
-		println("\tWASTETRUCK: Store Rejected")
-	}
-	Goto termination
-	
-	State termination {
-		printCurrentMessage
-		println("\tWASTETRUCK: going away...")
-	}
 }
 
 QActor transporttrolley context ctxwasteservice {
@@ -246,6 +230,54 @@ QActor transporttrolley context ctxwasteservice {
 	// Goto init obbliga il trolley a tornare sempre alla HOME al termine di una richiesta, non sar� giusto una volta finiti i modelli
 }
 
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------CTXDRIVER-------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
+
+QActor wastetruck context ctxdriver {
+	
+	[#
+		var Material : ws.Material
+		var Qty : Double
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		
+		[#
+			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
+		#]
+		
+		println("\tWASTETRUCK | with $Qty KG of $Material")
+		
+		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
+	}
+	Transition t1 whenReply loadAccepted -> handleAccepted
+				  whenReply loadRejected -> handleRejected
+				  
+	State handleAccepted {
+		printCurrentMessage
+		println("\tWASTETRUCK: Store Accepted")		
+	}
+	Goto termination
+	
+	State handleRejected {
+		printCurrentMessage
+		println("\tWASTETRUCK: Store Rejected")
+	}
+	Goto termination
+	
+	State termination {
+		printCurrentMessage
+		println("\tWASTETRUCK: going away...")
+	}
+}
+
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------CTXGUI----------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
+
 QActor gui context ctxgui {
 	
 	[#
@@ -304,4 +336,39 @@ QActor gui context ctxgui {
 		}
 	}
 	Goto init
+}
+
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------CTXRASP---------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
+
+QActor led context ctxrasp {
+	[#
+		var LedState = ws.LedState.OFF
+	#]
+	
+	State init initial {
+		printCurrentMessage
+	}
+	Transition t0 whenEvent updateLed -> handleLedUpdate
+	
+	State handleLedUpdate {
+		printCurrentMessage
+		
+		onMsg(updateLed : updateLed(VALUE)) {
+			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
+			println("\tLED | updated led status -> $LedState")
+			// updateResources
+		}		
+	}
+	Goto init
+}
+
+QActor sonar context ctxrasp {
+	
+	State init initial {
+		printCurrentMessage
+		
+		emit underThreshold : underThreshold(_)
+	}
 }
