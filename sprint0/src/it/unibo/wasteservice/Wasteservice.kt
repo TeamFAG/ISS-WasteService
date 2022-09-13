@@ -28,7 +28,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t10",targetState="handleTruckRequest",cond=whenRequest("storeRequest"))
+					 transition(edgeName="t11",targetState="handleTruckRequest",cond=whenRequest("storeRequest"))
 				}	 
 				state("idle") { //this:State
 					action { //it:State

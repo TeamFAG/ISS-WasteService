@@ -28,10 +28,10 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t010",targetState="handlePosition",cond=whenEvent("updatePosition"))
-					transition(edgeName="t011",targetState="handleTrolleyStatus",cond=whenEvent("updateTrolleyStatus"))
-					transition(edgeName="t012",targetState="handleLedStatus",cond=whenEvent("updateLedStatus"))
-					transition(edgeName="t013",targetState="handleWeight",cond=whenEvent("updateWeight"))
+					 transition(edgeName="t011",targetState="handlePosition",cond=whenEvent("updatePosition"))
+					transition(edgeName="t012",targetState="handleTrolleyStatus",cond=whenEvent("updateTrolleyStatus"))
+					transition(edgeName="t013",targetState="handleLedStatus",cond=whenEvent("updateLedStatus"))
+					transition(edgeName="t014",targetState="handleWeight",cond=whenEvent("updateWeight"))
 				}	 
 				state("handlePosition") { //this:State
 					action { //it:State

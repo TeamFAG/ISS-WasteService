@@ -50,6 +50,41 @@ Context ctxbasicrobot ip [host="127.0.0.1" port=8020]
 ExternalQActor basicrobot context ctxbasicrobot
 
 //-------------------------------------------------------------------------------------------------//
+//---------------------------------------CTXRASP---------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
+
+QActor led context ctxrasp {
+	[#
+		var LedState = ws.LedState.OFF
+	#]
+	
+	State init initial {
+		printCurrentMessage
+	}
+	Transition t0 whenEvent updateLed -> handleLedUpdate
+	
+	State handleLedUpdate {
+		printCurrentMessage
+		
+		onMsg(updateLed : updateLed(VALUE)) {
+			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
+			println("\tLED | updated led status -> $LedState")
+			// updateResources
+		}		
+	}
+	Goto init
+}
+
+QActor sonar context ctxrasp {
+	
+	State init initial {
+		printCurrentMessage
+		
+		emit underThreshold : underThreshold(_)
+	}
+}
+
+//-------------------------------------------------------------------------------------------------//
 //---------------------------------------CTXWASTESERVICE-------------------------------------------//
 //-------------------------------------------------------------------------------------------------//
 
@@ -338,37 +373,3 @@ QActor gui context ctxgui {
 	Goto init
 }
 
-//-------------------------------------------------------------------------------------------------//
-//---------------------------------------CTXRASP---------------------------------------------------//
-//-------------------------------------------------------------------------------------------------//
-
-QActor led context ctxrasp {
-	[#
-		var LedState = ws.LedState.OFF
-	#]
-	
-	State init initial {
-		printCurrentMessage
-	}
-	Transition t0 whenEvent updateLed -> handleLedUpdate
-	
-	State handleLedUpdate {
-		printCurrentMessage
-		
-		onMsg(updateLed : updateLed(VALUE)) {
-			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
-			println("\tLED | updated led status -> $LedState")
-			// updateResources
-		}		
-	}
-	Goto init
-}
-
-QActor sonar context ctxrasp {
-	
-	State init initial {
-		printCurrentMessage
-		
-		emit underThreshold : underThreshold(_)
-	}
-}
