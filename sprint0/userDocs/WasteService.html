@@ -240,10 +240,8 @@
         padding-bottom: 5px;
     }
 
-    table,
-    th,
-    td {
-        border: 1px solid black;
+    .noborder {
+        border: 1px solid rgba(0, 0, 0, 0);
     }
 
     img {
@@ -587,7 +585,6 @@ Reply loadRejected : loadRejected(_)</code></pre>
               
             </dd>
 
-            </dd>
 
             <h4>Deposit Requirement</h4>
 
@@ -600,8 +597,19 @@ Reply loadRejected : loadRejected(_)</code></pre>
                 The complete model can be seen here: <a href="../src/model_deposit.qak"><kc>model_deposit.qak</kc></a>
             </dd>
 
-            <img src="./imgs/wasteservice_depositarch.png" alt="DepositModel" style="width:auto;height:550px;" class="center">
-
+            <div class="center">
+                <table class="noborder">
+                    <tr class="noborder">
+                        <td class="noborder">
+                            <img src="./imgs/wasteservice_depositarch.png" alt="DepositModel" style="width:auto;height:550px;" class="center">
+                        </td>
+                        <td class="noborder">
+                            <k>Warning</k>: this interaction is not specified in the requirements so it could change in future sprints.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
             <dd>
                 The message type used for both of the actors is <k>dispatch</k>.<br/>
                 There is no need for a Request/Reply in this interaction, as the trolley and wasteservice only need
@@ -669,8 +677,23 @@ Goto init
                 This model will be integrated with the others in the <ki>Architecture</ki> section of this document, making it a part
                 of an executable system
 
-            <img src="./imgs/wasteservice_guiarch.png" alt="TruckServiceInt" style="width:auto;height:350px;" class="center"><br/>
+                <div class="center">
+                    <table class="noborder">
+                        <tr class="noborder">
+                            <td class="noborder">
+                                <img src="./imgs/wasteservice_guiarch.png" alt="TruckServiceInt" style="width:auto;height:350px;" class="center">
 
+                            </td>
+                            <td class="noborder">
+                                <k>Warning</k>: this interaction is not specified in the requirements so it could change in future sprints.
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                </br>
+
+            
                 The complete model can be seen here: <a href="../src/model_gui.qak"><kc>model_gui.qak</kc></a>
             </dd>
 
@@ -762,26 +785,26 @@ emit updateTrolleyStatus : updateTrolleyStatus($Status)</code></pre>
 
         <br/>
 
-        <table>
-            <tr>
-                <th>
+        <table class="noborder">
+            <tr class="noborder">
+                <th class="noborder">
                     Federico Andrucci
                 </th>
-                <th>
+                <th class="noborder">
                     Alex Gianelli
                 </th>
-                <th>
+                <th class="noborder">
                     Gabriele Marconi
                 </th>
             </tr>
-            <tr>
-                <td>
+            <tr class="noborder">
+                <td class="noborder">
                     <img src="./imgs/federico-andrucci.jpg" alt="f" style="width:300;height:auto;" class="center">
                 </td>
-                <td>
+                <td class="noborder">
                     <img src="./imgs/alex-gianelli.jpg" alt="a" style="width:300;height:auto;" class="center">
                 </td>
-                <td>
+                <td class="noborder">
                     <img src="./imgs/gabriele-marconi.jpg" alt="g" style="width:300;height:auto;" class="center">
                 </td>
             </tr>
