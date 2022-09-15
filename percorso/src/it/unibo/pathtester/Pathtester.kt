@@ -32,7 +32,7 @@ class Pathtester ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						
 									planner.initAI()
 									planner.loadRoomMap("mapWithObst2019")
-									planner.setGoal(4, 4)
+									planner.setGoal(6, 4)
 									planner.doPlan()
 									Actions = planner.getActionsString()			
 						println("$Actions")

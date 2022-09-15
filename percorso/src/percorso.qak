@@ -20,32 +20,6 @@ Context ctxpercorso ip [host="localhost" port=8030]
 
 ExternalQActor basicrobot context ctxbasicrobot
 
-/*
-QActor tester context ctxpercorso {
-	State s initial {
-		println("init")
-	}
-	Goto doStep
-	
-	State doStep {
-		request basicrobot -m step : step(350)
-	}
-	Transition t whenReply stepdone -> handleDone
-				 whenReply stepfail -> handleFail
-	
-	State handleDone {
-		println("Reply arrivata")
-	}
-	Goto doStep
-	
-	State handleFail {
-		println("muro")
-	}
-}
-* 
-*/
-
-
 QActor pathexecutor context ctxpercorso {
 	[# var CurMoveTodo = "" #]
 	
@@ -119,7 +93,7 @@ QActor pathtester context ctxpercorso {
 		[#
 			planner.initAI()
 			planner.loadRoomMap("mapWithObst2019")
-			planner.setGoal(4, 4)
+			planner.setGoal(6, 4)
 			planner.doPlan()
 			Actions = planner.getActionsString()			
 		#]
@@ -138,32 +112,3 @@ QActor pathtester context ctxpercorso {
     	println("BYE")
     }
 }
-  
- /*
-QActor pathcaller context ctxpercorso {
- 	State s0 initial{  
- 		println("Pathcaller started")
-	}
-	Goto  doPath
-  				  
-	State doPath{
-		[# val PathTodo =  "wwlwlwwlwl"  #]
-		println("doexplore starts $PathTodo")   
-		request pathexecutor -m dopath : dopath( $PathTodo, pathcaller )
-	}
-	Transition t0 whenReply dopathdone -> end
-				  whenReply dopathfail -> handelPathFailure
-
-	
-     
-    State handelPathFailure{
-    	printCurrentMessage
- 		emit alarm : alarm(obstacle) 		
-	}
-    State end{
-    	println("BYE")
-    }
-   
-}
-* 
-*/
