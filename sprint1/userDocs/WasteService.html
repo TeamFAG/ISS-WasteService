@@ -172,7 +172,6 @@
     }
 
     div.body {
-
         font-size: 18px;
     }
 
@@ -212,6 +211,10 @@
         font-size: 100%;
         border-radius: 5px;
         padding: 5px;
+    }
+
+    ol, ol li {
+        margin-left: 30px;
     }
 
     div.req {
@@ -299,9 +302,16 @@
         <h2>Introduction</h2>
         <div class="remark">
             <h3>SCRUM goal</h3>
-            In the Sprint1 we aim to analyze the problems linked to the modeling of the core service and, ultimately, create a functioning prototype.
-
-            <!--TODO: write things lul-->
+            In the Sprint1 we aim to analyze the problems linked to the modeling of the core service and, ultimately, create a functioning prototype.<br/>
+            <br/>
+            <h4>Core Service</h4>
+            <img src="./imgs/systemarchitecturearch_core.png" alt="SystemArch" style="width:auto;height:750px;" class="center"><br/>
+            The core service is identified by the following elements:
+            <ul><br/>
+                <li>Wasteservice</li>
+                <li>Transport Trolley</li>
+                <li>Waste Truck/Driver</li>
+            </ul>
             
         </div>
 
@@ -317,6 +327,7 @@
 
         <h2>Problem analysis</h2>
         <div class="remark">
+
             <h3>Map and Trolley movement</h3>
 
             The first problem we are going to tackle is how the transport trolley/DDR robot moves within the space of the service.<br/>
@@ -371,13 +382,48 @@
                     <ul>
                         <li>Mapping the room and assigning coordinates takes time.</li>
                         <li>The room's dimensions might not be multiples of <b>RD</b>, so additional movements may be required to reach all points of interest.</li>
-                    </ul>
-
-                    
-                    
-                    
+                    </ul>   
                 </li>
             </ol>
+
+            We decided to opt for the second solution because it's easier to implement while also having a higher maintainability, reusability and extencibility. <br/>
+            In the first place, it's necessary to further introduce the tools provided by the customer that will be used to solve the problem:<br/>
+            <h5>mapperQak22</h5>
+
+            <dd>
+                <!--TODO: qak picture of architecture-->
+
+                The mapper is qak actor and provides us a map of the room in which the system will operate. It works by communicating with the real/virtual robot (starting from the HOME position)
+                and making it move inside the room while keeping track of its layout and dimensions.<br/>
+                Once the robot has explored the whole room, mapperQak22 stops sending commands and saves the resulting map in two files with different types:
+                <ol>
+                    <li>().txt which is useful to show the map layout.</li>
+                    <li>().bin will be used later by the planner.</li>
+                </ol>
+
+                <!--TODO: how does it handle rooms that do not have RD dimensions?-->
+            </dd>
+            
+            <h5>planner22</h5>
+
+            <dd>
+                The planner is an object that uses the binary map file previously mentioned to search for the best possible path (series of moves) to reach a certain point of the map 
+                from the current position.<br/>
+                The methods provided are summarized in the following interface:
+                
+                <!--TODO: interface-->
+
+                <!--TODO: description of the methods-->
+            </dd>
+
+            <h5>pathexecutor</h5>
+
+            <dd>
+                The path executor uses the string computed by the planner and comunicates with the robot accordingly to accomplish the movement task.
+
+                <!--TODO: ALTRO?-->
+            </dd>
+
         </div>
 
         <h2>Work plan</h2>
