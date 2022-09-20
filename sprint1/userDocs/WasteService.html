@@ -364,7 +364,7 @@
                     Then, each point of interest (HOME, INDOOR, PLASTICBOX, GLASSBOX) is assigned to some of the coordinates.<br/>
                     <br/>
 
-                    <img src="./imgs/MapWCoord.drawio.svg" alt="mapWoCoord" height="400px" class="center">
+                    <img src="./imgs/MapWCoord.drawio.svg" alt="mapWCoord" height="400px" class="center">
 
                     The customer provides 3 useful tools:
                     <ol>
@@ -391,7 +391,7 @@
             <h5>mapperQak22</h5>
 
             <dd>
-                <!--TODO: qak picture of architecture-->
+                <img src="./imgs/mapperqak22arch.png" alt="mapperQak" style="width:auto;height:400px;" class="center">
 
                 The mapper is qak actor and provides us a map of the room in which the system will operate. It works by communicating with the real/virtual robot (starting from the HOME position)
                 and making it move inside the room while keeping track of its layout and dimensions.<br/>
@@ -400,30 +400,60 @@
                     <li>().txt which is useful to show the map layout.</li>
                     <li>().bin will be used later by the planner.</li>
                 </ol>
-
-                <!--TODO: how does it handle rooms that do not have RD dimensions?-->
+                The robot maps the room giving it dimensions based on it's size (RD). When the dimensions of the rectangular map are not multiple of RD, the 
+                excesses are still counted are still counted as a full step.<br/>
+                As of now, this seems to be a good way to map the service area.
             </dd>
             
             <h5>planner22</h5>
 
             <dd>
-                The planner is an object that uses the binary map file previously mentioned to search for the best possible path (series of moves) to reach a certain point of the map 
+                The planner is a Kotlin object that uses the binary map file previously mentioned to search for the best possible path (series of moves) to reach a certain point of the map 
                 from the current position.<br/>
                 The methods provided are summarized in the following interface:
                 
-                <!--TODO: interface-->
+                <img src="./imgs/planner-interface.drawio.svg" alt="mapperQak" style="width:auto;height:250px;" class="center">
 
-                <!--TODO: description of the methods-->
+                <ul>
+                    <li><b>initAI</b>: initialize a breadth-first algorithm used to plan the best path.</li>
+                    <li><b>loadRoomMap</b>: loads the binary map file, assuming the robot position in [0,0].</li>
+                    <li><b>showMap</b>: shows a visual array representation of the current state of the map.</li>
+                    <li><b>setGoal</b>: sets the goal position in coordinates.</li>
+                    <li><b>doPlan</b>: uses the AI to plan the best path from the current position to the goal.</li>
+                    <li><b>startTimer</b>: starts a timer.</li>
+                    <li><b>getDuration</b>: returns the time passed from the last start of the timer.</li>
+                </ul>
             </dd>
 
             <h5>pathexecutor</h5>
 
             <dd>
-                The path executor uses the string computed by the planner and comunicates with the robot accordingly to accomplish the movement task.
-
-                <!--TODO: ALTRO?-->
+                <!--TODO: immagine-->
+                
+                The path executor uses a string that symbolizes the movements (in the aril language) and comunicates with the robot accordingly to accomplish the task.<br/>
+                Currently this string is hard-coded, we intend to use the planner to get this string and send it to this actor. We will later define this methods.
             </dd>
 
+            <h4>Assigning points of interest to coordinates on the map</h4>
+            <!--TODO: how to map the points of interest-->
+            <dd>
+                After generating the map, we have to assign all points of interest (HOME, INDOOR, PLASTIC BOX, GLASS BOX) to the coordinates.<br/>
+                Considering the image provided by the customer, we can see that HOME is a space on the floor; however, the other points are mapped
+                on the walls.<br/><br/>
+
+                <b>How can we decide when the trolley is interacting with these points ?</b><br/>
+                As of now, we have decided that <b><i>if the robot enters the spaces adjacent to the walls and faces towards those walls, then it is
+                able to interact with them.</i></b>
+
+                
+
+            </dd>
+
+            <!--TODO: description of the method that connects to the executor-->
+            getActionsString
+
+            <!--TODO: updated model for this ineteraction-->
+            
         </div>
 
         <h2>Work plan</h2>
