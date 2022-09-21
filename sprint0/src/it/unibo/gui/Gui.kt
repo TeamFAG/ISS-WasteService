@@ -19,6 +19,8 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				var POSITION = ws.TrolleyPosition.HOME
 				var TROLLEY = ws.TrolleyStatus.IDLE
 				var LED = ws.LedState.OFF
+				var PLASTIC = 0.0
+				var GLASS = 0.0
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -28,10 +30,10 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t010",targetState="handlePosition",cond=whenEvent("updatePosition"))
-					transition(edgeName="t011",targetState="handleTrolleyStatus",cond=whenEvent("updateTrolleyStatus"))
-					transition(edgeName="t012",targetState="handleLedStatus",cond=whenEvent("updateLedStatus"))
-					transition(edgeName="t013",targetState="handleWeight",cond=whenEvent("updateWeight"))
+					 transition(edgeName="t00",targetState="handlePosition",cond=whenEvent("updatePosition"))
+					transition(edgeName="t01",targetState="handleTrolleyStatus",cond=whenEvent("updateTrolleyStatus"))
+					transition(edgeName="t02",targetState="handleLedStatus",cond=whenEvent("updateLedStatus"))
+					transition(edgeName="t03",targetState="handleWeight",cond=whenEvent("updateWeight"))
 				}	 
 				state("handlePosition") { //this:State
 					action { //it:State
@@ -81,8 +83,11 @@ class Gui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				state("handleWeight") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						if( checkMsgContent( Term.createTerm("updateWeight(_)"), Term.createTerm("updateWeight(_)"), 
+						if( checkMsgContent( Term.createTerm("updateWeight(GLASS,PLASTIC)"), Term.createTerm("updateWeight(GLASS,PLASTIC)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
+								
+												var GLASS = payloadArg(0).toDouble()
+												var PLASTIC = payloadArg(1).toDouble()
 						}
 						//genTimer( actor, state )
 					}

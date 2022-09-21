@@ -1,0 +1,210 @@
+System trolley_problem
+
+// mock wasteservice
+Dispatch simulate : simulate(LOCATION)
+
+// transporttrolley
+Request move : move(LOCATION)
+Reply moveDone : moveDone(_)
+
+// trolleymover
+Request doPath : doPath(PATH, OWNER)
+Reply doPathDone : doPathDone(ARG)
+Reply doPathFail : doPathFail(ARG)
+Request stopPath : stopPath(_)
+Reply progessReply : progressReply(PROGRESS)
+
+// basicrobot
+Dispatch cmd : cmd(MOVE)
+Request step : step(TIME)
+Reply stepdone : stepdone(V)
+Reply stepfail : stapfail(V)
+Event alarm : alarm(X)
+
+Context ctxbasicrobot ip[host="127.0.0.1" port=8020]
+Context ctxwasteservice ip[host="localhost" port=8030]
+
+ExternalQActor basicrobot context ctxbasicrobot
+
+QActor mockwasteservice context ctxwasteservice {
+	
+	State init initial {
+		forward transporttrolley -m simulate : simulate(INDOOR)
+		//delay 800
+		//forward transporttrolley -m simulate : simulate(INDOOR)
+	}
+}
+
+QActor transporttrolley context ctxwasteservice {
+	[# var LOC: String = "" #]	
+	
+	State init initial {
+		println("\tTRANSPORTTROLLEY | started.")
+	}
+	Goto idle
+	
+	State idle {
+		println("\tTRANSPORTTROLLEY | waiting...")
+	}
+	Transition t0 whenMsg simulate -> handleMovment
+	
+	State handleMovment {
+		onMsg(simulate : smulate(LOCATION)) {
+			[#
+				LOC = payloadArg(0)
+			#]
+		}
+		
+		request trolleymover -m move : move(LOC)
+	}
+	Transition t1 whenMsg simulate -> handleMovment
+				  whenReply moveDone -> handleMoveDone
+				  
+
+	State handleMoveDone {
+		println("\tTRANSPORTTROLLEY | moveDone.")
+	}	
+	Goto idle
+}
+
+QActor trolleymover context ctxwasteservice {
+	[# 
+		var Actions: String = "" 
+		var LOC: String = ""
+		var IsMoving = false
+		planner.initAI()
+		planner.loadRoomMap("mapWithObst2019")
+	#]
+	
+	State init initial {
+		println("\tTROLLEYMOVER | started.")
+	}
+	Goto idle
+	
+	State idle {
+		println("\tTROLLEYMOVER | waiting...")
+		[# IsMoving = false #]
+	}
+	Transition t0 whenRequest move -> handleMovement
+	
+	State handleMovement {
+		onMsg(move : move(LOCATION)) {
+			[# LOC = payloadArg(0) #]
+		}
+
+		println("\tTROLLEYMOVER | received movement to $LOC")		
+		
+		if [# IsMoving #] {
+			println("\tTROLLEYMOVER | arrived move command when moving.")
+			request pathexecutor -m stopPath : stopPath(_)
+		} else {
+			[#
+				var coord = utils.getMapCoord(LOC)
+				planner.setGoal(coord[0], coord[1])
+				planner.doPlan()
+				Actions = planner.getActionsString()
+				IsMoving = true
+			#]
+
+			println("\tTROLLEYMOVER | actions: $Actions")
+			request pathexecutor -m doPath : doPath($Actions, trolleymover)
+		}
+	}
+	Transition t1 whenReply doPathDone -> handlePathDone
+				  whenReply doPathFail -> handlePathFail
+				  whenReply progessReply -> handleInterruptedMovement
+				  
+	State handleInterruptedMovement {
+		onMsg(progessReply : progressReply(PROGRESS)) {
+			[#
+				IsMoving = false
+				planner.updateRobotPosition($PROGRESS)
+			#]
+		}
+	}	
+	Goto handleMovement			  
+				  
+	State handlePathDone {
+		[# IsMoving = false #]
+	}	
+	Goto idle
+	
+	State handlePathFail {
+		[# IsMoving = false #]
+	}
+	Goto idle
+}
+
+
+
+QActor pathexecutor context ctxwasteservice {
+	[# 
+		var CurMoveTodo = ""
+		var MovesDone = "" 
+	#]
+	
+	State init initial {
+		[# CurMoveTodo = "" #]
+		println("\tPATHEXECUTOR | started")
+	}
+	Transition t0 whenRequest doPath -> doThePath
+	
+	State doThePath {
+		onMsg(doPath : doPath(P, C)) {
+			[# val path = payloadArg(0); println(path) #]
+			[# pathut.setPath(path) #]
+		}
+		
+		println("\tPATHEXECUTOR | pathTodo: ${pathut.getPathTodo()}")
+	}
+	Goto nextMove
+	
+	State nextMove {
+		[# CurMoveTodo = pathut.nextMove() #]
+		[# MovesDone += CurMoveTodo #]
+		println("\tPATHEXECUTOR | curMoveTodo: $CurMoveTodo")
+	}
+	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
+	
+	State handleStopPath {
+		replyTo stopPath with progessReply : progressReply($MovesDone)
+		[# MovesDone = "" #]
+	}
+	Goto init
+	
+	State doMove {
+		//delay 300
+	}
+	Goto doMoveW if [# CurMoveTodo == "w" #] else doMoveTurn
+	
+	State doMoveTurn {
+		forward basicrobot -m cmd : cmd($CurMoveTodo)
+	}
+	Transition t1 whenTime 300 -> nextMove
+			
+	State doMoveW {
+		request basicrobot -m step : step(350)
+	}
+	Transition t2 whenEvent alarm -> handleAlarm
+				  whenReply stepdone -> nextMove
+				  whenReply stepfail -> endWorkKo
+				  whenRequest stopPath -> handleStopPath
+				  
+	State handleAlarm {
+		[# var PathTodo = pathut.getPathTodo() #]
+		println("\tPATHEXECUTOR | handleAlarm ... pathTodo: $PathTodo")
+	}
+	
+	State endWorkOk {
+		println("\tPATHEXECUTOR | Path done - bye")
+		replyTo doPath with doPathDone : doPathDone(ok)
+	}
+	Goto init
+	
+	State endWorkKo {
+		[# var PathStillTodo = pathut.getPathTodo() #]
+		println("\tPATHEXECUTOR | path failure - sorry. PathStillTodo: $PathStillTodo")
+		replyTo doPath with doPathFail : doPathFail($PathStillTodo)
+	}
+	Transition t0 whenEvent alarm -> handleAlarm
+}
