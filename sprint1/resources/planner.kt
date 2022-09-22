@@ -295,6 +295,10 @@ object planner {
 		doMove( direction )
 		setPositionOnMap( )
 	}
+
+	@JvmStatic fun updateRobotPosition(pos: String) {
+
+	}
 	
 	@JvmStatic fun setPositionOnMap( ){
 		direction     =  getDirection()

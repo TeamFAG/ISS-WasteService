@@ -21,8 +21,8 @@ Reply stepdone : stepdone(V)
 Reply stepfail : stapfail(V)
 Event alarm : alarm(X)
 
-Context ctxbasicrobot ip[host="127.0.0.1" port=8020]
-Context ctxwasteservice ip[host="localhost" port=8030]
+Context ctxbasicrobot ip[host="localhost" port=8020]
+Context ctxwasteservice ip[host="127.0.0.1" port=8038]
 
 ExternalQActor basicrobot context ctxbasicrobot
 
@@ -49,7 +49,7 @@ QActor transporttrolley context ctxwasteservice {
 	Transition t0 whenMsg simulate -> handleMovment
 	
 	State handleMovment {
-		onMsg(simulate : smulate(LOCATION)) {
+		onMsg(simulate : simulate(LOCATION)) {
 			[#
 				LOC = payloadArg(0)
 			#]
@@ -72,6 +72,7 @@ QActor trolleymover context ctxwasteservice {
 		var Actions: String = "" 
 		var LOC: String = ""
 		var IsMoving = false
+		var Progress = ""
 		planner.initAI()
 		planner.loadRoomMap("mapWithObst2019")
 	#]
@@ -99,8 +100,8 @@ QActor trolleymover context ctxwasteservice {
 			request pathexecutor -m stopPath : stopPath(_)
 		} else {
 			[#
-				var coord = utils.getMapCoord(LOC)
-				planner.setGoal(coord[0], coord[1])
+				var coord: Coordinate = utils.getCoordinate(LOC)
+				planner.setGoal(coord.x, coord.y)
 				planner.doPlan()
 				Actions = planner.getActionsString()
 				IsMoving = true
@@ -118,7 +119,8 @@ QActor trolleymover context ctxwasteservice {
 		onMsg(progessReply : progressReply(PROGRESS)) {
 			[#
 				IsMoving = false
-				planner.updateRobotPosition($PROGRESS)
+				Progress = payloadArg(0)
+				planner.updateRobotPosition(Progress)
 			#]
 		}
 	}	

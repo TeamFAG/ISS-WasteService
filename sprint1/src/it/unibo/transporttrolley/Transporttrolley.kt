@@ -39,7 +39,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("handleMovment") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("simulate(LOCATION)"), Term.createTerm("smulate(LOCATION)"), 
+						if( checkMsgContent( Term.createTerm("simulate(LOCATION)"), Term.createTerm("simulate(LOCATION)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												LOC = payloadArg(0)
