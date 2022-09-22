@@ -18,12 +18,8 @@ class Mockwasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						forward("simulate", "simulate(INDOOR)" ,"transporttrolley" ) 
-						//genTimer( actor, state )
+						forward("simulate", "simulate(PLASTICBOX)" ,"transporttrolley" ) 
 					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
 				}	 
 			}
 		}

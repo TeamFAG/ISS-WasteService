@@ -21,28 +21,21 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				var LOC: String = ""
 				var IsMoving = false
 				var Progress = ""
+				utils.setConfigurationFile("systemConfig")
 				planner.initAI()
 				planner.loadRoomMap("mapWithObst2019")
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("	TROLLEYMOVER | started.")
-						//genTimer( actor, state )
 					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
 					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 				state("idle") { //this:State
 					action { //it:State
 						println("	TROLLEYMOVER | waiting...")
 						 IsMoving = false  
-						//genTimer( actor, state )
 					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
 					 transition(edgeName="t03",targetState="handleMovement",cond=whenRequest("move"))
 				}	 
 				state("handleMovement") { //this:State
@@ -66,11 +59,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						 println("	TROLLEYMOVER | actions: $Actions")
 						 request("doPath", "doPath($Actions,trolleymover)" ,"pathexecutor" )  
 						 }
-						//genTimer( actor, state )
 					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
 					 transition(edgeName="t14",targetState="handlePathDone",cond=whenReply("doPathDone"))
 					transition(edgeName="t15",targetState="handlePathFail",cond=whenReply("doPathFail"))
 					transition(edgeName="t16",targetState="handleInterruptedMovement",cond=whenReply("progessReply"))
@@ -84,31 +73,19 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 												Progress = payloadArg(0)
 												planner.updateRobotPosition(Progress)
 						}
-						//genTimer( actor, state )
 					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
 					 transition( edgeName="goto",targetState="handleMovement", cond=doswitch() )
 				}	 
 				state("handlePathDone") { //this:State
 					action { //it:State
 						 IsMoving = false  
-						//genTimer( actor, state )
 					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
 					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 				state("handlePathFail") { //this:State
 					action { //it:State
 						 IsMoving = false  
-						//genTimer( actor, state )
 					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
 					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 			}

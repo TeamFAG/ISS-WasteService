@@ -29,7 +29,7 @@ ExternalQActor basicrobot context ctxbasicrobot
 QActor mockwasteservice context ctxwasteservice {
 	
 	State init initial {
-		forward transporttrolley -m simulate : simulate(INDOOR)
+		forward transporttrolley -m simulate : simulate(PLASTICBOX)
 		//delay 800
 		//forward transporttrolley -m simulate : simulate(INDOOR)
 	}
@@ -55,7 +55,7 @@ QActor transporttrolley context ctxwasteservice {
 			#]
 		}
 		
-		request trolleymover -m move : move(LOC)
+		request trolleymover -m move : move($LOC)
 	}
 	Transition t1 whenMsg simulate -> handleMovment
 				  whenReply moveDone -> handleMoveDone
@@ -73,6 +73,7 @@ QActor trolleymover context ctxwasteservice {
 		var LOC: String = ""
 		var IsMoving = false
 		var Progress = ""
+		utils.setConfigurationFile("systemConfig")
 		planner.initAI()
 		planner.loadRoomMap("mapWithObst2019")
 	#]

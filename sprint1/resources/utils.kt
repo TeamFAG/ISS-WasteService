@@ -22,7 +22,7 @@ object utils {
         try {
             var input: InputStream = FileInputStream(configurationFile)
             prop.load(input)
-
+            println(location)
             var str = prop.getProperty(location.uppercase())
 
             if(str.length > 3) {
