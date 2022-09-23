@@ -30,8 +30,8 @@ QActor mockwasteservice context ctxwasteservice {
 	
 	State init initial {
 		forward transporttrolley -m simulate : simulate(PLASTICBOX)
-		//delay 800
-		//forward transporttrolley -m simulate : simulate(INDOOR)
+		delay 8000
+		forward transporttrolley -m simulate : simulate(INDOOR)
 	}
 }
 
@@ -100,7 +100,7 @@ QActor trolleymover context ctxwasteservice {
 			request pathexecutor -m stopPath : stopPath(_)
 		} else {
 			[#
-				var coord: Coordinate = utils.getClosestCoordinate(LOC)
+				var coord: Coordinate = utils.getClosestCoordinate(planner.get_curCoord(), LOC)
 				planner.setGoal(coord.x, coord.y)
 				planner.doPlan()
 				Actions = planner.getActionsString()

@@ -1,4 +1,4 @@
-
+import Coordinate
 import java.util.ArrayList
 import aima.core.agent.Action
 import aima.core.search.framework.SearchAgent
@@ -189,6 +189,10 @@ object planner {
 */		
 	@JvmStatic fun get_curPos() : Pair<Int,Int>{
 		return curPos
+	}
+
+	@JvmStatic fun get_curCoord() : Coordinate {
+		return Coordinate(curPos.first, curPos.second)
 	}
 
 	@JvmStatic fun getPosX() : Int{ return robotState!!.getX() }
