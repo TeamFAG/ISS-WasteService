@@ -40,7 +40,23 @@ object utils {
     }
 
     @JvmStatic
-    fun getCoordinate(location: String): Coordinate {
-        return getMapCoord(location).get(0)
+    fun getClosestCoordinate(currPos: Coordinate, location: String): Coordinate {
+        var list = getMapCoord(location)
+        var best: Coordinate = list[0]
+
+        if (list.size == 1)
+            best = list[0]
+        else {
+            var bestDist = 1000
+            for (coord in list){
+                var dist = (kotlin.math.abs(currPos.x - coord.x) + kotlin.math.abs(currPos.y - coord.y))
+                if (dist < bestDist) {
+                    bestDist = dist
+                    best = coord
+                }
+            }
+        }
+        return best
     }
+
 }
