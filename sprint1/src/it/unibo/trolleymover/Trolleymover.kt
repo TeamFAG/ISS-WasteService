@@ -21,7 +21,6 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				var LOC: String = ""
 				var IsMoving = false
 				var Progress = ""
-				utils.setConfigurationFile("systemConfig")
 				planner.initAI()
 				planner.loadRoomMap("mapWithObst2019")
 		return { //this:ActionBasciFsm
@@ -51,7 +50,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						}
 						else
 						 {
-						 				var coord: Coordinate = utils.getCoordinate(LOC)
+						 				var coord: Coordinate = utils.getClosestCoordinate(LOC)
 						 				planner.setGoal(coord.x, coord.y)
 						 				planner.doPlan()
 						 				Actions = planner.getActionsString()

@@ -57,6 +57,10 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				}	 
 				state("doMove") { //this:State
 					action { //it:State
+						
+									planner.updateMap(CurMoveTodo, "")
+									planner.showMap()
+									planner.showCurrentRobotState()	
 					}
 					 transition( edgeName="goto",targetState="doMoveW", cond=doswitchGuarded({ CurMoveTodo == "w"  
 					}) )

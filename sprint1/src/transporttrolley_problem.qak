@@ -73,7 +73,6 @@ QActor trolleymover context ctxwasteservice {
 		var LOC: String = ""
 		var IsMoving = false
 		var Progress = ""
-		utils.setConfigurationFile("systemConfig")
 		planner.initAI()
 		planner.loadRoomMap("mapWithObst2019")
 	#]
@@ -101,7 +100,7 @@ QActor trolleymover context ctxwasteservice {
 			request pathexecutor -m stopPath : stopPath(_)
 		} else {
 			[#
-				var coord: Coordinate = utils.getCoordinate(LOC)
+				var coord: Coordinate = utils.getClosestCoordinate(LOC)
 				planner.setGoal(coord.x, coord.y)
 				planner.doPlan()
 				Actions = planner.getActionsString()
@@ -176,7 +175,11 @@ QActor pathexecutor context ctxwasteservice {
 	Goto init
 	
 	State doMove {
-		//delay 300
+		[#
+			planner.updateMap(CurMoveTodo, "")
+			planner.showMap()
+			planner.showCurrentRobotState()	
+		#]
 	}
 	Goto doMoveW if [# CurMoveTodo == "w" #] else doMoveTurn
 	
