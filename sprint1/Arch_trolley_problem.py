@@ -26,11 +26,11 @@ with Diagram('trolley_problemArch', show=False, outformat='png', graph_attr=grap
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           pathexecutor=Custom('pathexecutor','./qakicons/symActorSmall.png')
-     mockwasteservice >> Edge(color='blue', style='solid', xlabel='simulate') >> transporttrolley
-     transporttrolley >> Edge(color='magenta', style='solid', xlabel='move') >> trolleymover
-     trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath') >> pathexecutor
-     trolleymover >> Edge(color='magenta', style='solid', xlabel='doPath') >> pathexecutor
-     pathexecutor >> Edge(color='blue', style='solid', xlabel='cmd') >> basicrobot
-     pathexecutor >> Edge(color='magenta', style='solid', xlabel='step') >> basicrobot
-     sys >> Edge(color='red', style='dashed', xlabel='alarm') >> pathexecutor
+     mockwasteservice >> Edge(color='blue', style='solid', xlabel='simulate', fontcolor='blue') >> transporttrolley
+     transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
+     trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pathexecutor
+     trolleymover >> Edge(color='magenta', style='solid', xlabel='doPath', fontcolor='magenta') >> pathexecutor
+     pathexecutor >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
+     pathexecutor >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
+     sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> pathexecutor
 diag
