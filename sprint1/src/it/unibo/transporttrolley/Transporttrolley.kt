@@ -20,13 +20,21 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				state("init") { //this:State
 					action { //it:State
 						println("	TRANSPORTTROLLEY | started.")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 				state("idle") { //this:State
 					action { //it:State
 						println("	TRANSPORTTROLLEY | waiting...")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition(edgeName="t00",targetState="handleMovment",cond=whenDispatch("simulate"))
 				}	 
 				state("handleMovment") { //this:State
@@ -37,14 +45,22 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 												LOC = payloadArg(0)
 						}
 						request("move", "move($LOC)" ,"trolleymover" )  
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition(edgeName="t11",targetState="handleMovment",cond=whenDispatch("simulate"))
 					transition(edgeName="t12",targetState="handleMoveDone",cond=whenReply("moveDone"))
 				}	 
 				state("handleMoveDone") { //this:State
 					action { //it:State
 						println("	TRANSPORTTROLLEY | moveDone.")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 			}

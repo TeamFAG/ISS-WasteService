@@ -30,7 +30,7 @@ QActor mockwasteservice context ctxwasteservice {
 	
 	State init initial {
 		forward transporttrolley -m simulate : simulate(PLASTICBOX)
-		delay 8000
+		delay 3000
 		forward transporttrolley -m simulate : simulate(INDOOR)
 	}
 }
@@ -114,6 +114,7 @@ QActor trolleymover context ctxwasteservice {
 	Transition t1 whenReply doPathDone -> handlePathDone
 				  whenReply doPathFail -> handlePathFail
 				  whenReply progessReply -> handleInterruptedMovement
+				  whenRequest move -> handleMovement
 				  
 	State handleInterruptedMovement {
 		onMsg(progessReply : progressReply(PROGRESS)) {
@@ -136,6 +137,7 @@ QActor trolleymover context ctxwasteservice {
 	}
 	Goto idle
 }
+
 
 
 
@@ -177,8 +179,8 @@ QActor pathexecutor context ctxwasteservice {
 	State doMove {
 		[#
 			planner.updateMap(CurMoveTodo, "")
-			planner.showMap()
-			planner.showCurrentRobotState()	
+			//planner.showMap()
+			//planner.showCurrentRobotState()	
 		#]
 	}
 	Goto doMoveW if [# CurMoveTodo == "w" #] else doMoveTurn
