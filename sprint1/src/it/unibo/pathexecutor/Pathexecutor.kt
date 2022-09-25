@@ -62,7 +62,7 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				}	 
 				state("handleStopPath") { //this:State
 					action { //it:State
-						answer("stopPath", "progessReply", "progressReply($MovesDone)"   )  
+						answer("stopPath", "progessReply", "progressReply($MovesDone)","trolleymover"   )  
 						 MovesDone = ""  
 						//genTimer( actor, state )
 					}
@@ -127,7 +127,7 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				state("endWorkOk") { //this:State
 					action { //it:State
 						println("	PATHEXECUTOR | Path done - bye")
-						answer("doPath", "doPathDone", "doPathDone(ok)"   )  
+						answer("doPath", "doPathDone", "doPathDone(ok)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -139,7 +139,7 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					action { //it:State
 						 var PathStillTodo = pathut.getPathTodo()  
 						println("	PATHEXECUTOR | path failure - sorry. PathStillTodo: $PathStillTodo")
-						answer("doPath", "doPathFail", "doPathFail($PathStillTodo)"   )  
+						answer("doPath", "doPathFail", "doPathFail($PathStillTodo)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

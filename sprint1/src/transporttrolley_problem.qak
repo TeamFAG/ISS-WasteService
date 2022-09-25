@@ -25,7 +25,7 @@ Context ctxbasicrobot ip[host="localhost" port=8020]
 Context ctxwasteservice ip[host="127.0.0.1" port=8038]
 
 ExternalQActor basicrobot context ctxbasicrobot
-
+/*
 QActor mockwasteservice context ctxwasteservice {
 	
 	State init initial {
@@ -34,6 +34,7 @@ QActor mockwasteservice context ctxwasteservice {
 		forward transporttrolley -m simulate : simulate(INDOOR)
 	}
 }
+*/
 
 QActor transporttrolley context ctxwasteservice {
 	[# var LOC: String = "" #]	
@@ -171,7 +172,7 @@ QActor pathexecutor context ctxwasteservice {
 	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
 	
 	State handleStopPath {
-		replyTo stopPath with progessReply : progressReply($MovesDone)
+		replyTo stopPath with progessReply : progressReply($MovesDone) caller==trolleymover
 		[# MovesDone = "" #]
 	}
 	Goto init
@@ -205,14 +206,14 @@ QActor pathexecutor context ctxwasteservice {
 	
 	State endWorkOk {
 		println("\tPATHEXECUTOR | Path done - bye")
-		replyTo doPath with doPathDone : doPathDone(ok)
+		replyTo doPath with doPathDone : doPathDone(ok) caller==trolleymover
 	}
 	Goto init
 	
 	State endWorkKo {
 		[# var PathStillTodo = pathut.getPathTodo() #]
 		println("\tPATHEXECUTOR | path failure - sorry. PathStillTodo: $PathStillTodo")
-		replyTo doPath with doPathFail : doPathFail($PathStillTodo)
+		replyTo doPath with doPathFail : doPathFail($PathStillTodo) caller==trolleymover
 	}
 	Transition t0 whenEvent alarm -> handleAlarm
 }
