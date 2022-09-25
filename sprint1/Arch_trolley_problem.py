@@ -28,7 +28,7 @@ with Diagram('trolley_problemArch', show=False, outformat='png', graph_attr=grap
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pathexecutor
      trolleymover >> Edge(color='magenta', style='solid', xlabel='doPath', fontcolor='magenta') >> pathexecutor
-     pathexecutor >> Edge(color='darkgreen', style='dashed', xlabel='progessReply', fontcolor='darkgreen') >> trolleymover
+     pathexecutor >> Edge(color='darkgreen', style='dashed', xlabel='stopACK', fontcolor='darkgreen') >> trolleymover
      pathexecutor >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
      pathexecutor >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
      sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> pathexecutor

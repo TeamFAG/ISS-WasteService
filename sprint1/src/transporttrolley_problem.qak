@@ -12,7 +12,7 @@ Request doPath : doPath(PATH, OWNER)
 Reply doPathDone : doPathDone(ARG)
 Reply doPathFail : doPathFail(ARG)
 Request stopPath : stopPath(_)
-Reply progessReply : progressReply(PROGRESS)
+Reply stopACK : stopACK(_)
 
 // basicrobot
 Dispatch cmd : cmd(MOVE)
@@ -25,15 +25,17 @@ Context ctxbasicrobot ip[host="localhost" port=8020]
 Context ctxwasteservice ip[host="127.0.0.1" port=8038]
 
 ExternalQActor basicrobot context ctxbasicrobot
+
 /*
 QActor mockwasteservice context ctxwasteservice {
 	
 	State init initial {
 		forward transporttrolley -m simulate : simulate(PLASTICBOX)
-		delay 3000
+		delay 6432
 		forward transporttrolley -m simulate : simulate(INDOOR)
 	}
 }
+* 
 */
 
 QActor transporttrolley context ctxwasteservice {
@@ -114,11 +116,11 @@ QActor trolleymover context ctxwasteservice {
 	}
 	Transition t1 whenReply doPathDone -> handlePathDone
 				  whenReply doPathFail -> handlePathFail
-				  whenReply progessReply -> handleInterruptedMovement
+				  whenReply stopACK -> handleInterruptedMovement
 				  whenRequest move -> handleMovement
 				  
 	State handleInterruptedMovement {
-		onMsg(progessReply : progressReply(PROGRESS)) {
+		onMsg(stopACK : stopACK(_)) {
 			[#
 				IsMoving = false
 				Progress = payloadArg(0)
@@ -172,7 +174,7 @@ QActor pathexecutor context ctxwasteservice {
 	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
 	
 	State handleStopPath {
-		replyTo stopPath with progessReply : progressReply($MovesDone) caller==trolleymover
+		replyTo stopPath with stopACK : stopACK(_) caller==trolleymover
 		[# MovesDone = "" #]
 	}
 	Goto init
@@ -180,16 +182,17 @@ QActor pathexecutor context ctxwasteservice {
 	State doMove {
 		[#
 			planner.updateMap(CurMoveTodo, "")
-			//planner.showMap()
-			//planner.showCurrentRobotState()	
+			planner.showMap()
+			planner.showCurrentRobotState()	
 		#]
+		delay 350
 	}
 	Goto doMoveW if [# CurMoveTodo == "w" #] else doMoveTurn
 	
 	State doMoveTurn {
 		forward basicrobot -m cmd : cmd($CurMoveTodo)
 	}
-	Transition t1 whenTime 300 -> nextMove
+	Transition t1 whenTime 350 -> nextMove
 			
 	State doMoveW {
 		request basicrobot -m step : step(350)

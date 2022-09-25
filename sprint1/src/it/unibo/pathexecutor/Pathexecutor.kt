@@ -62,7 +62,7 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				}	 
 				state("handleStopPath") { //this:State
 					action { //it:State
-						answer("stopPath", "progessReply", "progressReply($MovesDone)","trolleymover"   )  
+						answer("stopPath", "stopACK", "stopACK(_)","trolleymover"   )  
 						 MovesDone = ""  
 						//genTimer( actor, state )
 					}
@@ -75,8 +75,9 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					action { //it:State
 						
 									planner.updateMap(CurMoveTodo, "")
-									//planner.showMap()
-									//planner.showCurrentRobotState()	
+									planner.showMap()
+									planner.showCurrentRobotState()	
+						delay(350) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -96,7 +97,7 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					sysaction { //it:State
 				 	 		//sysaction { //it:State
 				 	 		  stateTimer = TimerActor("timer_doMoveTurn", 
-				 	 			scope, context!!, "local_tout_pathexecutor_doMoveTurn", 300.toLong() )
+				 	 			scope, context!!, "local_tout_pathexecutor_doMoveTurn", 350.toLong() )
 				 	 		//}
 					}	 	 
 					 transition(edgeName="t19",targetState="nextMove",cond=whenTimeout("local_tout_pathexecutor_doMoveTurn"))   

@@ -72,12 +72,12 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					}	 	 
 					 transition(edgeName="t14",targetState="handlePathDone",cond=whenReply("doPathDone"))
 					transition(edgeName="t15",targetState="handlePathFail",cond=whenReply("doPathFail"))
-					transition(edgeName="t16",targetState="handleInterruptedMovement",cond=whenReply("progessReply"))
+					transition(edgeName="t16",targetState="handleInterruptedMovement",cond=whenReply("stopACK"))
 					transition(edgeName="t17",targetState="handleMovement",cond=whenRequest("move"))
 				}	 
 				state("handleInterruptedMovement") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("progressReply(PROGRESS)"), Term.createTerm("progressReply(PROGRESS)"), 
+						if( checkMsgContent( Term.createTerm("stopACK(_)"), Term.createTerm("stopACK(_)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												IsMoving = false
