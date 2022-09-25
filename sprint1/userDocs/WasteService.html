@@ -260,6 +260,10 @@
         border: 1.5px solid #d5f2ed
     }
 
+    .noborder {
+        border: 1px solid rgba(0, 0, 0, 0);
+    }
+
     a,
     a:visited,
     a:active,
@@ -550,13 +554,63 @@
             <!--TODO: description of the method that connects to the executor-->
             getActionsString
 
-            <!--TODO: updated model for this ineteraction-->
+            <!--TODO: updated model for this interaction-->
             Move(location) needs to be a request because the trolley has to know when the robot is moving to manage queued requests.
-            This is done via the moveDone reply. Also, testing biatch.#0000CD
+            This is done via the moveDone reply. Also, testing biatch.
 
             We decided to also include a halt.
 
             The robot finishes the current move before handling the stop request.
+
+            <h3>Map and Trolley movement: resulting model</h3>
+
+            The following section describes the model created from the problem analysis for the movement of the robot
+            inside the room of the system.<br/>
+            It uses the coordinate strategy and all previously mentioned tools provided by the customer (some of them have been modified
+            and will be discussed shortly).<br/>
+            As for the previous models, it was created using the QAK modeling language and its code can be found here: <a href="../src/transporttrolley_problem.qak">transporttrolley_problem.qak</a> 
+
+            <a href="../src/transporttrolley_problem.qak"><img src="./imgs/trolley_problemarch.png" alt="trolleyArch" style="width:auto;height:450px;" class="center"> </a>
+
+            <h4>Halt problem</h4>
+            During the development of this model, we encountered the issue of stopping the robot during the ongoing path.<br/>
+            This can happen when the trolley is moving towards HOME, as part of its normal routine, and a new deposit needs to be handled.<br/>
+            So the robot should stop moving and calculate a new path from the current position towards INDOOR.<br/><br/>
+
+            As a sub-part of this problem we encountered the issue of knowing constantly the current position of the robot.<br/>
+            Thankfully, the planner provides the method <i>updateMap</i> to keep track of the robot's position and rotation after each move.<br/>
+            Consequently we are able to use the planner itself to substitute the current path with a newly calculated one whenever it's required.<br/><br/>
+
+            <h4>Actors</h4>
+            <ol>
+                <li><k>transporttrolley</k><br/>
+                    <dd>
+                        The behavior of this actor doesn't correspond to its intended one. Transporttrolley should manage the whole
+                        trolley's routine (HOME -> INDOOR -> BOX -> HOME), but in this model it just relays the command
+                        for the robot to move somewhere.<br/><br/>
+                        Infact, the handling of deposit requests wasn't the target problem of the section.
+                    </dd>
+                </li>
+                <li><k>trolleymover</k><br/>
+                    <dd>
+                        trolleymover is a new actor that handles the current path of the robot by using the planner to generate the
+                        path as a sequence of moves. He is also the one who starts the transition in case the path changes during a movement execution.
+                    </dd>
+                </li>
+                <li><k>guido</k><br/>
+                    <dd>
+                        guido is our version of the pathexecutor actor provided by the customer.<br/>
+                        The differences being that our version handles the map updates after each move, using the planner method, and with
+                        an updated behavior in case we need to switch the current path in between two moves.
+                    </dd>
+                </li>
+            </ol>
+
+            <!--TODO: SOSTITUIRE nomi di exec + planner-->
+
+            <!--TODO: descrizione cambiamenti planner-->
+
+            <!--TODO: descrizione metodi utils di json, calcolo nearest pos-->
         </div>
 
         <h2>Work plan</h2>
@@ -585,26 +639,26 @@
 
         <br />
 
-        <table>
-            <tr>
-                <th>
+        <table class="noborder">
+            <tr class="noborder">
+                <th class="noborder">
                     Federico Andrucci
                 </th>
-                <th>
+                <th class="noborder">
                     Alex Gianelli
                 </th>
-                <th>
+                <th class="noborder">
                     Gabriele Marconi
                 </th>
             </tr>
-            <tr>
-                <td>
+            <tr class="noborder">
+                <td class="noborder">
                     <img src="./imgs/federico-andrucci.jpg" alt="f" style="width:300;height:auto;" class="center">
                 </td>
-                <td>
+                <td class="noborder">
                     <img src="./imgs/alex-gianelli.jpg" alt="a" style="width:300;height:auto;" class="center">
                 </td>
-                <td>
+                <td class="noborder">
                     <img src="./imgs/gabriele-marconi.jpg" alt="g" style="width:300;height:auto;" class="center">
                 </td>
             </tr>
