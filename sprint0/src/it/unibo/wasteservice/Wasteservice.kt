@@ -16,47 +16,54 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-				var CurrentMaterial : ws.Material
-				var CurrentQuantity : Float
+					var StoredPlastic = 0.0
+					var StoredGlass = 0.0
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTESERVICE | Started... waiting for truck driver")
+						println("	WasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
+						delay(1000) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t10",targetState="handleTruckRequest",cond=whenRequest("storeRequest"))
+					 transition( edgeName="goto",targetState="sendDeposit", cond=doswitch() )
+				}	 
+				state("sendDeposit") { //this:State
+					action { //it:State
+						
+									var MaterialType = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+									var Quantity = kotlin.random.Random.nextDouble(10.0, 50.0)
+						forward("notifyDeposit", "notifyDeposit($MaterialType,$Quantity)" ,"transporttrolley" ) 
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 				state("idle") { //this:State
 					action { //it:State
-						println("	WASTESERVICE | idle...")
+						println("$name in ${currentState.stateName} | $currentMsg")
+						println("	WasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+					 transition(edgeName="t00",targetState="updateValues",cond=whenDispatch("updateWasteService"))
 				}	 
-				state("handleTruckRequest") { //this:State
+				state("updateValues") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), 
+						if( checkMsgContent( Term.createTerm("updateWasteService(MATERIAL,QUANTITY)"), Term.createTerm("updateWasteService(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								
-												CurrentMaterial = ws.Material.valueOf(payloadArg(0))
-												CurrentQuantity = payloadArg(1).toFloat()
-								println("	WASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
-								if(  ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity)  
-								 ){answer("storeRequest", "loadAccepted", "loadAccepted(_)","wastetruck"   )  
-								 ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)  
-								println("	WASTESERVICE | accepted request from truck driver")
-								forward("notifyDeposit", "notifyDeposit($CurrentMaterial,$CurrentQuantity)" ,"transporttrolley" ) 
-								println("	WASTESERVICE | notifying transporttrolley")
+								if(  ws.Material.valueOf(payloadArg(0)) == ws.Material.PLASTIC  
+								 ){ StoredPlastic += payloadArg(1).toDouble()  
 								}
 								else
-								 {answer("storeRequest", "loadRejected", "loadRejected(_)","wastetruck"   )  
-								 println("	WASTESERVICE | rejected request from truck driver")
+								 { StoredGlass += payloadArg(1).toDouble()  
 								 }
 						}
 						//genTimer( actor, state )
@@ -64,7 +71,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
+					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
 			}
 		}

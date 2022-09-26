@@ -5,6 +5,8 @@ import org.eclipse.californium.core.CoapResponse
 import unibo.comm22.coap.CoapConnection
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommUtils
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 class ObserverForTest : CoapHandler {
 
@@ -13,6 +15,17 @@ class ObserverForTest : CoapHandler {
     private val contextsMap = HashMap<String, Pair<String, Int>>()
     private val actorsMap = HashMap<String, String>()
     private val activeConnections = HashMap<String, CoapConnection>()
+    private val coapHistory: MutableList<String> = ArrayList()
+
+    private val lock = ReentrantLock()
+    private val condition = lock.newCondition()
+
+    private fun createCoapTuple(actor: String): CoapTuple {
+        val context = actorsMap[actor] ?: throw Exception("A")
+        val pair = contextsMap[context] ?: throw Exception("A")
+
+        return CoapTuple("${pair.first}:${pair.second}", "actors/$actor")
+    }
 
     fun addContext(name: String, socketAddress: Pair<String, Int>) {
         contextsMap[name] = socketAddress
@@ -20,13 +33,6 @@ class ObserverForTest : CoapHandler {
 
     fun addActor(actor: String, context: String) {
         actorsMap[actor] = context
-    }
-
-    private fun createCoapTuple(actor: String): CoapTuple {
-        val context = actorsMap[actor] ?: throw Exception("A")
-        val pair = contextsMap[context] ?: throw Exception("A")
-
-        return CoapTuple("${pair.first}:${pair.second}", "actors/$actor")
     }
 
     fun createCoapConnection(actor: String) {
@@ -59,8 +65,25 @@ class ObserverForTest : CoapHandler {
         ColorsOut.out("Closed all connections.")
     }
 
+    fun getCoapHistory(): List<String> {
+        lock.withLock {
+            return coapHistory
+        }
+    }
+
+    fun clearCoapHistory() {
+        lock.withLock {
+            coapHistory.clear()
+        }
+    }
+
     override fun onLoad(response: CoapResponse?) {
-        TODO("Not yet implemented")
+        if (response != null) {
+            lock.withLock {
+                coapHistory.add(response.responseText)
+                condition.signalAll()
+            }
+        }
     }
 
     override fun onError() {

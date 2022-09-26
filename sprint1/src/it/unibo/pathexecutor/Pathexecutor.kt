@@ -28,7 +28,7 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t08",targetState="doThePath",cond=whenRequest("doPath"))
+					 transition(edgeName="t05",targetState="doThePath",cond=whenRequest("doPath"))
 				}	 
 				state("doThePath") { //this:State
 					action { //it:State
@@ -100,7 +100,7 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				 	 			scope, context!!, "local_tout_pathexecutor_doMoveTurn", 350.toLong() )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t19",targetState="nextMove",cond=whenTimeout("local_tout_pathexecutor_doMoveTurn"))   
+					 transition(edgeName="t16",targetState="nextMove",cond=whenTimeout("local_tout_pathexecutor_doMoveTurn"))   
 				}	 
 				state("doMoveW") { //this:State
 					action { //it:State
@@ -110,10 +110,10 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t210",targetState="handleAlarm",cond=whenEvent("alarm"))
-					transition(edgeName="t211",targetState="nextMove",cond=whenReply("stepdone"))
-					transition(edgeName="t212",targetState="endWorkKo",cond=whenReply("stepfail"))
-					transition(edgeName="t213",targetState="handleStopPath",cond=whenRequest("stopPath"))
+					 transition(edgeName="t27",targetState="handleAlarm",cond=whenEvent("alarm"))
+					transition(edgeName="t28",targetState="nextMove",cond=whenReply("stepdone"))
+					transition(edgeName="t29",targetState="endWorkKo",cond=whenReply("stepfail"))
+					transition(edgeName="t210",targetState="handleStopPath",cond=whenRequest("stopPath"))
 				}	 
 				state("handleAlarm") { //this:State
 					action { //it:State
@@ -146,7 +146,7 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t014",targetState="handleAlarm",cond=whenEvent("alarm"))
+					 transition(edgeName="t011",targetState="handleAlarm",cond=whenEvent("alarm"))
 				}	 
 			}
 		}

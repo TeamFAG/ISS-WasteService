@@ -21,10 +21,20 @@ Reply stepdone : stepdone(V)
 Reply stepfail : stapfail(V)
 Event alarm : alarm(X)
 
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------CONTEXTS--------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 Context ctxbasicrobot ip[host="localhost" port=8020]
 Context ctxwasteservice ip[host="127.0.0.1" port=8038]
 
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------ACTORS----------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 ExternalQActor basicrobot context ctxbasicrobot
+
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------CTXWASTESERVICE-------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 
 /*
 QActor mockwasteservice context ctxwasteservice {
@@ -35,8 +45,8 @@ QActor mockwasteservice context ctxwasteservice {
 		forward transporttrolley -m simulate : simulate(INDOOR)
 	}
 }
-* 
-*/
+
+
 
 QActor transporttrolley context ctxwasteservice {
 	[# var LOC: String = "" #]	
@@ -51,7 +61,7 @@ QActor transporttrolley context ctxwasteservice {
 	}
 	Transition t0 whenMsg simulate -> handleMovment
 	
-	State handleMovment {
+	State handleMovment {		
 		onMsg(simulate : simulate(LOCATION)) {
 			[#
 				LOC = payloadArg(0)
@@ -69,6 +79,7 @@ QActor transporttrolley context ctxwasteservice {
 	}	
 	Goto idle
 }
+*/
 
 QActor trolleymover context ctxwasteservice {
 	[# 
@@ -96,15 +107,20 @@ QActor trolleymover context ctxwasteservice {
 		onMsg(move : move(LOCATION)) {
 			[# LOC = payloadArg(0) #]
 		}
-
-		println("\tTROLLEYMOVER | received movement to $LOC")		
+		
+		println("\tTROLLEYMOVER | received movement to $LOC")
+				
+		updateResource [# "trolleymover(handleMovement_$LOC)" #]
 		
 		if [# IsMoving #] {
 			println("\tTROLLEYMOVER | arrived move command when moving.")
+			
+			updateResource [# "trolleymover(handleMovement_stopPath)" #]
+			
 			request pathexecutor -m stopPath : stopPath(_)
 		} else {
 			[#
-				var coord: Coordinate = utils.getClosestCoordinate(planner.get_curCoord(), LOC)
+				var coord = utils.getClosestCoordinate(planner.get_curCoord(), LOC)
 				planner.setGoal(coord.x, coord.y)
 				planner.doPlan()
 				Actions = planner.getActionsString()
@@ -122,28 +138,25 @@ QActor trolleymover context ctxwasteservice {
 				  
 	State handleInterruptedMovement {
 		onMsg(stopACK : stopACK(_)) {
-			[#
-				IsMoving = false
-				Progress = payloadArg(0)
-				planner.updateRobotPosition(Progress)
-			#]
+			[# IsMoving = false #]
 		}
 	}	
 	Goto handleMovement			  
 				  
 	State handlePathDone {
 		[# IsMoving = false #]
+		println("\tTROLLEYMOVER | arrived to $LOC")
+		updateResource [# "trolleymover(handlePathDone_$LOC)" #]
 	}	
 	Goto idle
 	
 	State handlePathFail {
 		[# IsMoving = false #]
+		println("\tTROLLEYMOVER | path failed to $LOC")
+		updateResource [# "trolleymover(handlePathFail_$LOC)" #]
 	}
 	Goto idle
 }
-
-
-
 
 QActor pathexecutor context ctxwasteservice {
 	[# 

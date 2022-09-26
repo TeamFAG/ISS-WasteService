@@ -22,12 +22,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				state("init") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANPOSRTTROLLEY | init at HOME")
-						 
-									var Pos = ws.TrolleyPosition.HOME
-									var Status = ws.TrolleyStatus.IDLE 
-						emit("updatePosition", "updatePosition($Pos)" ) 
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
+						println("	TransportTrolley | init at HOME")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -37,37 +32,26 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("goIndoor") { //this:State
 					action { //it:State
-						
-									var Move = "w"
-									var Status = ws.TrolleyStatus.MOVING
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | going to INDOOR port")
+						println("	TransportTrollye | going to INDOOR port")
 						if( checkMsgContent( Term.createTerm("notifyDeposit(MATERIAL,QUANTITY)"), Term.createTerm("notifyDeposit(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												CarriedMaterialType = ws.Material.valueOf(payloadArg(0))
 												CarriedQuantity = payloadArg(1).toDouble() 
 						}
-						forward("cmd", "cmd(w)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
+						delay(500) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t12",targetState="indoor",cond=whenReply("stepdone"))
-					transition(edgeName="t13",targetState="goIndoor",cond=whenReply("stepfail"))
+					 transition( edgeName="goto",targetState="indoor", cond=doswitch() )
 				}	 
 				state("indoor") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
-						 
-									var Pos = ws.TrolleyPosition.INDOOR 
-									var Status = ws.TrolleyStatus.PICKUP	
-						emit("updatePosition", "updatePosition($Pos)" ) 
-						emit("updateTrolleyStatus", "updateTrolleryStatus($Status)" ) 
+						println("	TransportTrolley | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -78,37 +62,26 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				state("goBox") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | going to $CarriedMaterialType box")
+						println("	TransportTrolley | going to $CarriedMaterialType box")
 						if(  CarriedMaterialType == ws.Material.PLASTIC  
-						 ){forward("cmd", "cmd(w)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
+						 ){delay(500) 
 						}
 						else
-						 {forward("cmd", "cmd(w)" ,"basicrobot" ) 
-						 request("step", "step(700)" ,"basicrobot" )  
+						 {delay(700) 
 						 }
-						 
-									var Status = ws.TrolleyStatus.MOVING	
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t34",targetState="box",cond=whenReply("stepdone"))
-					transition(edgeName="t35",targetState="goBox",cond=whenReply("stepfail"))
+					 transition( edgeName="goto",targetState="box", cond=doswitch() )
 				}	 
 				state("box") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
-						 
-									var Pos = if(CarriedMaterialType.equals(ws.Material.PLASTIC)) ws.TrolleyPosition.PLASTICBOX else ws.TrolleyPosition.GLASSBOX
-									var Status = ws.TrolleyStatus.DEPOSIT 
-						emit("updatePosition", "updatePosition($Pos)" ) 
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
+						println("	TransportTrolley | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
 						delay(250) 
-						emit("updateWeight", "updateWeight(_)" ) 
+						forward("updateWasteService", "updateWasteService($CarriedMaterialType,$CarriedQuantity)" ,"wasteservice" ) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -119,26 +92,19 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				state("goHome") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | going back to HOME")
-						
-									var Status = ws.TrolleyStatus.MOVING
-						forward("cmd", "cmd(w)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
+						println("	TransportTrolley | going back to HOME")
+						delay(500) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t56",targetState="home",cond=whenReply("stepdone"))
-					transition(edgeName="t57",targetState="goHome",cond=whenReply("stepfail"))
+					 transition( edgeName="goto",targetState="home", cond=doswitch() )
 				}	 
 				state("home") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | at HOME")
-						 var Pos = ws.TrolleyPosition.HOME  
-						emit("updatePosition", "updatePosition($Pos)" ) 
+						println("	TransportTrolley | at HOME")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -149,13 +115,21 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				state("done") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | done")
+						println("	TransportTrolley | done")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="init", cond=doswitch() )
+					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
+				}	 
+				state("idle") { //this:State
+					action { //it:State
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 				}	 
 			}
 		}

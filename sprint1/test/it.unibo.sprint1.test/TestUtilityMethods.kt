@@ -7,9 +7,8 @@ import utils
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertSame
 
-class TestUtilsKT {
+class TestUtilityMethods {
 
     @BeforeTest
     fun up() {
