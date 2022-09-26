@@ -636,7 +636,12 @@
                             This object contains the coordinate information for each location in the map, obtained by reading the
                             json config file during the system's initialization.
                             
-<pre><code>setTheConfiguration</code></pre>
+<pre><code>[# 
+    (...)
+    SystemConfig.setTheConfiguration("SystemConfiguration")
+    planner.initAI()
+    planner.loadRoomMap("mapRoomEmpty")
+#]</code></pre>
 
                         </dd>
                     </li>
@@ -652,12 +657,22 @@
     planner.setGoal(coord.x, coord.y)
     planner.doPlan()
     Actions = planner.getActionsString()
-    IsMoving = true
+    (...)
 #]</code></pre>                                     
                             </ol>
                         </dd>
                     </li>
                 </ul>
+            </dd>
+
+            <h4>Test plans</h4>
+            <dd>
+                We have prepared the following tests for this particular model:
+                <ol>
+                    <li><a href="../test/it.unibo.sprint1.test/TestUtilsKT.kt">TestUtilsKT.kt</a>: it checks the validity 
+                    of the utils.kt object by testing its two methods.</li>
+                    <li>boh</li>
+                </ol>
             </dd>
         </div>
 
