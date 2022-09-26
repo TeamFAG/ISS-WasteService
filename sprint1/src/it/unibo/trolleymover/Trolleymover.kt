@@ -21,8 +21,9 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				var LOC: String = ""
 				var IsMoving = false
 				var Progress = ""
+				SystemConfig.setTheConfiguration("SystemConfiguration")
 				planner.initAI()
-				planner.loadRoomMap("mapWithObst2019")
+				planner.loadRoomMap("mapRoomEmpty")
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State

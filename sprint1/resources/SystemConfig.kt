@@ -12,7 +12,7 @@ object SystemConfig {
         "home" to listOf(listOf(0, 0)),
         "indoor" to listOf(listOf(0, 4), listOf(1, 4), listOf(2, 4)),
         "glassbox" to listOf(listOf(4, 0), listOf(5, 0), listOf(6, 0)),
-        "plasticbox" to listOf(listOf(6, 3), listOf(6, 4), listOf(6, 5))
+        "plasticbox" to listOf(listOf(6, 2), listOf(6, 3), listOf(6, 4))
     )
 
     fun setTheConfiguration(fileName: String) {
