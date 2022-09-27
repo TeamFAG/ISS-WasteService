@@ -22,6 +22,8 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				state("init") { //this:State
 					action { //it:State
 						 CurMoveTodo = ""  
+						discardMessages = true
+						 sysUtil.logMsgs=true  
 						println("	PATHEXECUTOR | started")
 						//genTimer( actor, state )
 					}

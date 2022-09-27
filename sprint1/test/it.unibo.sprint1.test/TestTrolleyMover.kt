@@ -1,5 +1,6 @@
 package it.unibo.sprint1.test
 
+import it.unibo.kactor.MsgUtil
 import it.unibo.kactor.QakContext.Companion.getActor
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommSystemConfig
@@ -8,6 +9,7 @@ import kotlin.concurrent.thread
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 class TestTrolleyMover {
 
@@ -28,7 +30,7 @@ class TestTrolleyMover {
         waitingForActor("pathexecutor")
 
         obs!!.addContext("ctxbasicrobot", Pair("localhost", 8020))
-        obs!!.addContext("ctxwasteservice", Pair("127.0.0.1", 8030))
+        obs!!.addContext("ctxwasteservice", Pair("127.0.0.1", 8038))
         obs!!.addActor("trolleymover", "ctxwasteservice")
         obs!!.addActor("pathexecutor", "ctxwasteservice")
         obs!!.addActor("basicrobot", "ctxbasicrobot")
@@ -46,8 +48,32 @@ class TestTrolleyMover {
     }
 
     @Test
-    fun test() {
+    fun test_home_to_indoor() {
+        val conn = ConnTcp("127.0.0.1", 8038)
+        val answer = simulateRequest(conn, "indoor")
 
+        ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
+
+        if (answer != null) {
+            assertTrue(answer.contains("moveDone(OK)"))
+        }
+
+        conn.close()
+
+        println(obs?.getCoapHistory())
+    }
+
+    private fun simulateRequest(conn: ConnTcp, location: String): String? {
+        val request = MsgUtil.buildRequest("transporttrolley", "move",
+            "move($location)", "trolleymover").toString()
+
+        try {
+            return conn.request(request)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return null
     }
 
     private fun waitingForActor(actorName: String) {
@@ -55,8 +81,9 @@ class TestTrolleyMover {
         var actor = getActor(actorName)
 
         while(actor == null) {
-            CommUtils.delay(100)
+            CommUtils.delay(500)
             actor = getActor(actorName)
+            println(actor)
         }
 
         ColorsOut.out("$actorName loaded.", ColorsOut.BLUE)

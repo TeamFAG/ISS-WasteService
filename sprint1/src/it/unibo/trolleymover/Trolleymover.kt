@@ -26,6 +26,8 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
+						discardMessages = true
+						 sysUtil.logMsgs=true  
 						println("	TROLLEYMOVER | started.")
 						//genTimer( actor, state )
 					}
@@ -99,6 +101,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						println("	TROLLEYMOVER | arrived to $LOC")
 						updateResourceRep( "trolleymover(handlePathDone_$LOC)"  
 						)
+						answer("move", "moveDone", "moveDone(OK)"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -112,6 +115,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						println("	TROLLEYMOVER | path failed to $LOC")
 						updateResourceRep( "trolleymover(handlePathFail_$LOC)"  
 						)
+						answer("move", "moveDone", "moveDone(NO)"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

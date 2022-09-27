@@ -5,7 +5,7 @@ Dispatch simulate : simulate(LOCATION)
 
 // transporttrolley
 Request move : move(LOCATION)
-Reply moveDone : moveDone(_)
+Reply moveDone : moveDone(ANSWER)
 
 // trolleymover
 Request doPath : doPath(PATH, OWNER)
@@ -45,8 +45,6 @@ QActor mockwasteservice context ctxwasteservice {
 		forward transporttrolley -m simulate : simulate(INDOOR)
 	}
 }
-
-
 
 QActor transporttrolley context ctxwasteservice {
 	[# var LOC: String = "" #]	
@@ -93,6 +91,8 @@ QActor trolleymover context ctxwasteservice {
 	#]
 	
 	State init initial {
+		discardMsg On
+		[# sysUtil.logMsgs=true #]
 		println("\tTROLLEYMOVER | started.")
 	}
 	Goto idle
@@ -147,6 +147,7 @@ QActor trolleymover context ctxwasteservice {
 		[# IsMoving = false #]
 		println("\tTROLLEYMOVER | arrived to $LOC")
 		updateResource [# "trolleymover(handlePathDone_$LOC)" #]
+		replyTo move with moveDone : moveDone(OK)
 	}	
 	Goto idle
 	
@@ -154,6 +155,7 @@ QActor trolleymover context ctxwasteservice {
 		[# IsMoving = false #]
 		println("\tTROLLEYMOVER | path failed to $LOC")
 		updateResource [# "trolleymover(handlePathFail_$LOC)" #]
+		replyTo move with moveDone : moveDone(NO)
 	}
 	Goto idle
 }
@@ -166,6 +168,8 @@ QActor pathexecutor context ctxwasteservice {
 	
 	State init initial {
 		[# CurMoveTodo = "" #]
+		discardMsg On
+		[# sysUtil.logMsgs=true #]
 		println("\tPATHEXECUTOR | started")
 	}
 	Transition t0 whenRequest doPath -> doThePath

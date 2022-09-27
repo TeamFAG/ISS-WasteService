@@ -77,12 +77,10 @@ class ObserverForTest : CoapHandler {
         }
     }
 
-    override fun onLoad(response: CoapResponse?) {
-        if (response != null) {
-            lock.withLock {
-                coapHistory.add(response.responseText)
-                condition.signalAll()
-            }
+    override fun onLoad(response: CoapResponse) {
+        lock.withLock {
+            coapHistory.add(response.responseText)
+            condition.signalAll()
         }
     }
 

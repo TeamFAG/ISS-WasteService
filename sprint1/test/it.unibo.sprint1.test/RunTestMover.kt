@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 class RunTestMover {
     fun main() = runBlocking {
         QakContext.createContexts(
-            "localhost", this, "trolley_problem.pl", "sysRules.pl"
+            "127.0.0.1", this, "trolley_problem.pl", "sysRules.pl", "ctxwasteservice"
         )
     }
 }
