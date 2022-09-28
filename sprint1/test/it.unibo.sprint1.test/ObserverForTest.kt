@@ -21,10 +21,12 @@ class ObserverForTest : CoapHandler {
     private val condition = lock.newCondition()
 
     private fun createCoapTuple(actor: String): CoapTuple {
-        val context = actorsMap[actor] ?: throw Exception("A")
-        val pair = contextsMap[context] ?: throw Exception("A")
+        val context = actorsMap[actor] ?: throw Exception("Error")
+        val pair = contextsMap[context] ?: throw Exception("Error")
 
-        return CoapTuple("${pair.first}:${pair.second}", "actors/$actor")
+        println(actorsMap[actor] + "/" + actor)
+
+        return CoapTuple("${pair.first}:${pair.second}", actorsMap[actor] + "/" + actor)
     }
 
     fun addContext(name: String, socketAddress: Pair<String, Int>) {
@@ -71,6 +73,27 @@ class ObserverForTest : CoapHandler {
         }
     }
 
+    fun checkIfHystoryContains(entry: String): Boolean {
+        lock.withLock {
+            return coapHistory.contains(entry)
+        }
+    }
+
+    fun checkIfHystoryContainsOrdered(list: List<String>): Boolean {
+        var s1 = ""
+        var s2 = ""
+
+        for (e in list)
+            s1 += e
+
+        lock.withLock {
+            for(e in coapHistory)
+                s2 += e
+        }
+
+        return s2.contains(s1)
+    }
+
     fun clearCoapHistory() {
         lock.withLock {
             coapHistory.clear()
@@ -79,6 +102,7 @@ class ObserverForTest : CoapHandler {
 
     override fun onLoad(response: CoapResponse) {
         lock.withLock {
+            ColorsOut.out(response.responseText, ColorsOut.ANSI_YELLOW)
             coapHistory.add(response.responseText)
             condition.signalAll()
         }

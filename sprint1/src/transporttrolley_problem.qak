@@ -92,7 +92,6 @@ QActor trolleymover context ctxwasteservice {
 	
 	State init initial {
 		discardMsg On
-		[# sysUtil.logMsgs=true #]
 		println("\tTROLLEYMOVER | started.")
 	}
 	Goto idle
@@ -110,7 +109,6 @@ QActor trolleymover context ctxwasteservice {
 		
 		println("\tTROLLEYMOVER | received movement to $LOC")
 				
-		updateResource [# "trolleymover(handleMovement_$LOC)" #]
 		
 		if [# IsMoving #] {
 			println("\tTROLLEYMOVER | arrived move command when moving.")
@@ -128,6 +126,7 @@ QActor trolleymover context ctxwasteservice {
 			#]
 
 			println("\tTROLLEYMOVER | actions: $Actions")
+			updateResource [# "trolleymover(handleMovement_$LOC)" #]
 			request pathexecutor -m doPath : doPath($Actions, trolleymover)
 		}
 	}
@@ -139,6 +138,7 @@ QActor trolleymover context ctxwasteservice {
 	State handleInterruptedMovement {
 		onMsg(stopACK : stopACK(_)) {
 			[# IsMoving = false #]
+			updateResource [# "trolleymover(handleInterruptedMovement)" #]
 		}
 	}	
 	Goto handleMovement			  
@@ -200,8 +200,8 @@ QActor pathexecutor context ctxwasteservice {
 	State doMove {
 		[#
 			planner.updateMap(CurMoveTodo, "")
-			planner.showMap()
-			planner.showCurrentRobotState()	
+			// planner.showMap()
+			// planner.showCurrentRobotState()	
 		#]
 		delay 350
 	}

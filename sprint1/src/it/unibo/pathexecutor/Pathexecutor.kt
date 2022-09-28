@@ -77,8 +77,8 @@ class Pathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					action { //it:State
 						
 									planner.updateMap(CurMoveTodo, "")
-									planner.showMap()
-									planner.showCurrentRobotState()	
+									// planner.showMap()
+									// planner.showCurrentRobotState()	
 						delay(350) 
 						//genTimer( actor, state )
 					}

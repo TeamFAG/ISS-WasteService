@@ -9,8 +9,6 @@ import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.CoAP.ResponseCode;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.elements.exception.ConnectorException;
-
-import java.io.IOError;
 import java.io.IOException;
 
 public class CoapSupport {

@@ -27,7 +27,6 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				state("init") { //this:State
 					action { //it:State
 						discardMessages = true
-						 sysUtil.logMsgs=true  
 						println("	TROLLEYMOVER | started.")
 						//genTimer( actor, state )
 					}
@@ -54,8 +53,6 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 								 LOC = payloadArg(0)  
 						}
 						println("	TROLLEYMOVER | received movement to $LOC")
-						updateResourceRep( "trolleymover(handleMovement_$LOC)"  
-						)
 						if(  IsMoving  
 						 ){println("	TROLLEYMOVER | arrived move command when moving.")
 						updateResourceRep( "trolleymover(handleMovement_stopPath)"  
@@ -70,6 +67,8 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						 				Actions = planner.getActionsString()
 						 				IsMoving = true
 						 println("	TROLLEYMOVER | actions: $Actions")
+						 updateResourceRep( "trolleymover(handleMovement_$LOC)"  
+						 )
 						 request("doPath", "doPath($Actions,trolleymover)" ,"pathexecutor" )  
 						 }
 						//genTimer( actor, state )
@@ -87,6 +86,8 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						if( checkMsgContent( Term.createTerm("stopACK(_)"), Term.createTerm("stopACK(_)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 IsMoving = false  
+								updateResourceRep( "trolleymover(handleInterruptedMovement)"  
+								)
 						}
 						//genTimer( actor, state )
 					}

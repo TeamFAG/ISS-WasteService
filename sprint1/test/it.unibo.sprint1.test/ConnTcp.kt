@@ -26,6 +26,10 @@ class ConnTcp(address: String, port: Int) : Interaction2021{
         return receiveMsg()
     }
 
+    fun requestWithoutResponse(msg: String?) {
+        forward(msg)
+    }
+
     override fun reply(msg: String?) {
         forward(msg)
     }
