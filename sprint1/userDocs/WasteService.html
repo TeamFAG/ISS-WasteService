@@ -562,6 +562,20 @@
 
             The robot finishes the current move before handling the stop request.
 
+            <h3>wasteservice</h3>
+            The second problem in the core service is how wasteservice manages information from and to the other entities
+            (the truck and the trolley).
+            Based on the requirements for the project, we can pose the following questions:
+            <ol>
+                <li>When do we notify the driver of a successfull pickup action ?</li>
+                <li>Who notifies the driver of a successfull pickup action ?</li>
+                <li>When can we update the amount of material inside the containers ?</li>
+            </ol>
+
+            
+
+        <h2>Project</h2>
+
             <h3>Map and Trolley movement: resulting model</h3>
 
             The following section describes the model created from the problem analysis for the movement of the robot
@@ -671,7 +685,9 @@
                 <ol>
                     <li><a href="../test/it.unibo.sprint1.test/TestUtilsKT.kt">TestUtilsKT.kt</a>: it checks the validity 
                     of the utils.kt object by testing its two methods.</li>
-                    <li>boh</li>
+                    <li><a href="../test/it.unibo.sprint1.test/TestTrolleyMover.kt">TestTrolleyMover.kt</a>: it checks if the movements 
+                    needed to accomplish the tasks are done correctly and tests an instance of interrupted movement due to a change of the 
+                    target destination, that also must be handled in the correct order.</li>
                 </ol>
             </dd>
         </div>

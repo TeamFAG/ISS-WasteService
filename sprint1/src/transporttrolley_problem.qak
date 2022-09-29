@@ -40,9 +40,9 @@ ExternalQActor basicrobot context ctxbasicrobot
 QActor mockwasteservice context ctxwasteservice {
 	
 	State init initial {
-		forward transporttrolley -m simulate : simulate(PLASTICBOX)
-		delay 6432
 		forward transporttrolley -m simulate : simulate(INDOOR)
+		delay 6432
+		forward transporttrolley -m simulate : simulate(PLASTICBOX)
 	}
 }
 

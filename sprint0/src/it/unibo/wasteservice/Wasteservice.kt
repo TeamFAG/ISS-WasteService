@@ -16,54 +16,35 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-					var StoredPlastic = 0.0
-					var StoredGlass = 0.0
+					var occupiedGlass : Double = 0.0
+					var occupiedPlastic : Double = 0.0
+					var currentMaterial : ws.Material
+					var currentQuantity : Double
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
-						delay(1000) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="sendDeposit", cond=doswitch() )
+					 transition(edgeName="t10",targetState="handleRequest",cond=whenRequest("storeRequest"))
 				}	 
-				state("sendDeposit") { //this:State
-					action { //it:State
-						
-									var MaterialType = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
-									var Quantity = kotlin.random.Random.nextDouble(10.0, 50.0)
-						forward("notifyDeposit", "notifyDeposit($MaterialType,$Quantity)" ,"transporttrolley" ) 
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
-				}	 
-				state("idle") { //this:State
+				state("handleRequest") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WasteService | current plastic: $StoredPlastic, current glass: $StoredGlass")
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-					 transition(edgeName="t00",targetState="updateValues",cond=whenDispatch("updateWasteService"))
-				}	 
-				state("updateValues") { //this:State
-					action { //it:State
-						if( checkMsgContent( Term.createTerm("updateWasteService(MATERIAL,QUANTITY)"), Term.createTerm("updateWasteService(MATERIAL,QUANTITY)"), 
+						if( checkMsgContent( Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								if(  ws.Material.valueOf(payloadArg(0)) == ws.Material.PLASTIC  
-								 ){ StoredPlastic += payloadArg(1).toDouble()  
+								
+												currentMaterial = ws.Material.valueOf(payloadArg(0))
+												currentQuantity = payloadArg(1).toDouble()
+								println("Received request - $currentMaterial - $currentQuantity KG - OccupiedGlassKG: $occupiedGlass - OccupiedPlasticKG: $occupiedPlastic")
+								if(  currentMaterial == ws.Material.GLASS && occupiedGlass + currentQuantity < ws.WasteServiceConstants.MAXGB || currentMaterial == ws.Material.PLASTIC && occupiedPlastic + currentQuantity < ws.WasteServiceConstants.MAXPB  
+								 ){answer("storeRequest", "loadAccepted", "loadAccepted(_)"   )  
 								}
 								else
-								 { StoredGlass += payloadArg(1).toDouble()  
+								 {answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
 								 }
 						}
 						//genTimer( actor, state )
