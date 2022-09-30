@@ -551,18 +551,8 @@
                 </code></pre>
             </dd>
 
-            <!--TODO: description of the method that connects to the executor-->
-            getActionsString
-
-            <!--TODO: updated model for this interaction-->
-            Move(location) needs to be a request because the trolley has to know when the robot is moving to manage queued requests.
-            This is done via the moveDone reply. Also, testing biatch.
-
-            We decided to also include a halt.
-
-            The robot finishes the current move before handling the stop request.
-
             <h3>wasteservice</h3>
+            <dd>
             The second problem in the core service is how wasteservice manages information from and to the other entities
             (the truck and the trolley).
             Based on the requirements for the project, we can pose the following questions:
@@ -571,6 +561,40 @@
                 <li>Who notifies the driver of a successfull pickup action ?</li>
                 <li>When can we update the amount of material inside the containers ?</li>
             </ol>
+            
+            <h4>Driver interaction timing</h4>
+            In the previous Sprint we modeled the interaction so that loadAccepted and loadRejected both arrive immidiately
+            to the driver after the storeRequest.
+
+            <img src="./imgs/wasteservice-old.excalidraw.svg" alt="mapWoCoord" height="200px" class="center" style="padding: 20px;">
+            
+            However, with this solution it is impossible to know when the trolley picks-up the load without adding another message.<br/>
+            <br/>
+            So, for the sake of efficiency, we can delay the loadAccepted reply to when the trolley does the pickup action.<br/>
+            <br/>
+            As a consequence of this decision, the entity who will notify the driver of a successfull pick-up action is 
+            wasteservice.<br/>
+            This strategy implies that the trolley will have to notify the wasteservice of its arrival at INDOOR.<br/>
+            This can be easily achieved by changing the notifyDeposit dispatch (defined in Sprint0) into a Request so 
+            that its Reply can be sent to the wasteservice once the trolley picks-up the load.
+
+            <img src="./imgs/wasteservice-new.excalidraw.svg" alt="mapWoCoord" height="200px" class="center" style="padding: 20px;">
+
+            <h4>Container status update</h4>
+
+            The next issue to discuss is choosing the appropriate moment to update the status of the containers in the system.<br/>
+            The amount of material stored in each container is managed and monitored by the wasteservice actor, who has to make sure
+            that the current weight doesn't exceed MAXPB and MAXGB.<br/><br/>
+            
+            The first and most obvious answer is to update the weight after the trolley has completed the deposit action.<br/>
+            However, there is a major flaw with this solution:<br/>
+
+
+
+
+
+            </dd>
+   
 
             
 
