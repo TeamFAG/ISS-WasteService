@@ -1,3 +1,7 @@
 
 .DS_Store
 sprint0/.settings/org.eclipse.buildship.core.prefs
+
+package.json
+package-lock.json
+node_modules/
