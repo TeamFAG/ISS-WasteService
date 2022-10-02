@@ -48,7 +48,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 Mat = ws.Material.valueOf(payloadArg(0))  
 								 Qty = payloadArg(0)  
-								answer("depositRequest", "pickupDone", "pickupDone(ok)"   )  
+								answer("depositRequest", "pickupDone", "pickupDone(ok)","wasteservice"   )  
 						}
 						//genTimer( actor, state )
 					}

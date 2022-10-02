@@ -103,7 +103,7 @@ QActor transporttrolley context ctxwasteservice {
 			[# Mat = ws.Material.valueOf(payloadArg(0)) #]
 			[# Qty = payloadArg(0) #]
 			
-			replyTo depositRequest with pickupDone : pickupDone(ok)
+			replyTo depositRequest with pickupDone : pickupDone(ok) caller==wasteservice
 		}
 	}
 	Goto moveToGlassBox if [# Mat == ws.Material.GLASS #] else moveToPlasticBox
