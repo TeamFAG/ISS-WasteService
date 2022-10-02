@@ -1,0 +1,186 @@
+System wasteservice_problem_analysis
+
+Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Reply loadAccepted : loadAccepted(_)
+Reply loadRejected : loadRejected(_)
+
+Request depositRequest : depositRequest(MATERIAL, QUANTITY)
+Reply pickupDone : pickupDone(RESULT)
+
+Dispatch cmd : cmd(MOVE)
+Request step : step(TIME)
+Reply stepdone : stepdone(V)
+Reply stepfail : stepfail(DT, REASON)
+
+Context ctxwasteservice ip [host="localhost" port=8010]
+Context ctxsmartdevice ip [host="localhost" port=8011]
+Context ctxbasicrobot ip [host="127.0.0.1" port=8020]
+
+ExternalQActor basicrobot context ctxbasicrobot
+
+QActor wasteservice context ctxwasteservice {
+	[#
+		var occupiedGlass : Double = 0.0
+		var occupiedPlastic : Double = 0.0
+		var currentMaterial : ws.Material
+		var currentQuantity : Double
+	#]
+	
+	State init initial {
+		printCurrentMessage
+	}
+	Transition t1 whenRequest storeRequest -> handleStoreRequest
+	
+	State idle {
+		println("\tWASTESERVICE | idle - waiting for store requests")
+	}
+	Transition t2 whenRequest storeRequest -> handleStoreRequest
+	
+	State handleStoreRequest {
+		printCurrentMessage
+		
+		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
+			[#
+				CurrentMaterial = ws.Material.valueOf(payloadArg(0))
+				CurrentQuantity = payloadArg(1).toFloat()
+			#]
+			
+			println("\tWASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
+			
+			if [# ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity) #] {
+				[# ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity) #]
+				println("\tWASTESERVICE | accepted request from truck driver")
+				
+				request transporttrolley -m depositRequest : depositRequest($CurrentMaterial, $CurrentQuantity)
+				
+				println("\tWASTESERVICE | notifying transporttrolley") 			
+			} else {
+				replyTo storeRequest with loadRejected : loadRejected(_) caller==smartdevicemock
+				println("\tWASTESERVICE | rejected request from truck driver")
+			}
+		}	
+	}
+	Transition t2 whenReply pickupDone -> handlePickupReply	
+	
+	State handlePickupReply {
+		onMsg(pickupDone : pickupDone(RESULT)) {
+			[# var Res = payloadArg(0) #]
+			
+			if [# Res == "ok" #] {
+				println("\tWASTESERVICE | arrived pickupDone reply ok")
+				replyTo storeRequest with loadAccepted : loadAccepted(_) caller==smartdevicemock
+			} else {
+				println("\tWASTESERVICE | arrived pickupDone reply ko - FATAL ERROR")
+				replyTo storeRequest with loadRejected : loadRejected(_) caller==smartdevicemock
+			}
+		}
+	}
+	Goto idle
+}
+
+QActor transporttrolley context ctxwasteservice {
+	[# 
+		var lateinit Mat
+		var lateinit Qty 
+	#]
+	
+	State init initial {
+		println("\tTRANSPORTTROLLEY | started...")	
+	}
+	Goto idle
+	
+	State idle {
+		println("\tTRANSPORTROLLEY | waiting for requests...")
+	}
+	Transition t0 whenRequest depositRequest -> handleDepositRequest
+	
+	State handleDepositRequest {
+		println("\tTRANSPORTTROLLEY | moving to indoor")
+		delay 1000
+		println("\tTRANSPORTTROLLEY | arrived to indoor")
+		
+		onMsg(depositRequest : depositRequest(MATERIAL, QUANTITY)) {
+			[# Mat = ws.Material.valueOf(payloadArg(0)) #]
+			[# Qty = payloadArg(0) #]
+			
+			replyTo depositRequest with pickupDone : pickupDone(ok)
+		}
+	}
+	Goto moveToGlassBox if [# Mat == ws.Material.GLASS #] else moveToPlasticBox
+	
+	State moveToPlasticBox {
+		forward basicrobot -m cmd : cmd(_)
+		request basicrobot -m step : step(500)
+		println("\tTRANSPORT TROLLEY | moving to PlasticBox")
+		delay 1000
+		println("\tTRANSPORT TROLLEY | arrived to PlasticBox")
+	}
+	Goto doDeposit
+	
+	State moveToGlassBox {
+		forward basicrobot -m cmd : cmd(_)
+		request basicrobot -m step : step(500)
+		println("\tTRANSPORT TROLLEY | moving to GlassBox")
+		delay 1000
+		println("\tTRANSPORT TROLLEY | arrived to GlassBox")
+	}
+	Goto doDeposit
+	
+	State doDeposit {
+		forward basicrobot -m cmd : cmd(_)
+		request basicrobot -m step : step(500)
+		println("\tTRANSPORT TROLLEY | doing the deposit")
+		delay 500
+		println("\tTRANSPORT TROLLEY | deposit done")
+	}
+	Goto endRequest
+	
+	State endRequest {
+		forward basicrobot -m cmd : cmd(_)
+		request basicrobot -m step : step(500)
+		println("\tTRANSPORTTROLLEY | moving back to home")
+		delay 1000
+		println("\tTRANSPORTTROLLEY | arrived to home")
+	}
+	Transition t1 whenRequest depositRequest -> handleDepositRequest
+}
+
+QActor smartdevicemock context ctxsmartdevice {
+	
+	[#
+		var Material : ws.Material
+		var Qty : Double
+	#]
+	
+	State init initial {
+		printCurrentMessage
+		
+		[#
+			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
+		#]
+		
+		println("\tWASTETRUCK | with $Qty KG of $Material")
+		
+		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
+	}
+	Transition t1 whenReply loadAccepted -> handleAccepted
+				  whenReply loadRejected -> handleRejected
+				  
+	State handleAccepted {
+		printCurrentMessage
+		println("\tWASTETRUCK: Store Accepted")		
+	}
+	Goto termination
+	
+	State handleRejected {
+		printCurrentMessage
+		println("\tWASTETRUCK: Store Rejected")
+	}
+	Goto termination
+	
+	State termination {
+		printCurrentMessage
+		println("\tWASTETRUCK: going away...")
+	}
+}

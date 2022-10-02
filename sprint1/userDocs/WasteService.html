@@ -553,51 +553,61 @@
 
             <h3>wasteservice</h3>
             <dd>
-            The second problem in the core service is how wasteservice manages information from and to the other entities
-            (the truck and the trolley).
-            Based on the requirements for the project, we can pose the following questions:
-            <ol>
-                <li>When do we notify the driver of a successfull pickup action ?</li>
-                <li>Who notifies the driver of a successfull pickup action ?</li>
-                <li>When can we update the amount of material inside the containers ?</li>
-            </ol>
-            
-            <h4>Driver interaction timing</h4>
-            In the previous Sprint we modeled the interaction so that loadAccepted and loadRejected both arrive immidiately
-            to the driver after the storeRequest.
+                The second problem in the core service is how wasteservice manages information from and to the other entities
+                (the truck and the trolley).
+                Based on the requirements for the project, we can pose the following questions:
+                <ol>
+                    <li>When do we notify the driver of a successfull pickup action ?</li>
+                    <li>Who notifies the driver of a successfull pickup action ?</li>
+                    <li>When can we update the amount of material inside the containers ?</li>
+                </ol>
+                
+                <h4>Driver interaction timing</h4>
+                In the previous Sprint we modeled the interaction so that loadAccepted and loadRejected both arrive immidiately
+                to the driver after the storeRequest.
 
-            <img src="./imgs/wasteservice-old.excalidraw.svg" alt="mapWoCoord" height="200px" class="center" style="padding: 20px;">
-            
-            However, with this solution it is impossible to know when the trolley picks-up the load without adding another message.<br/>
-            <br/>
-            So, for the sake of efficiency, we can delay the loadAccepted reply to when the trolley does the pickup action.<br/>
-            <br/>
-            As a consequence of this decision, the entity who will notify the driver of a successfull pick-up action is 
-            wasteservice.<br/>
-            This strategy implies that the trolley will have to notify the wasteservice of its arrival at INDOOR.<br/>
-            This can be easily achieved by changing the notifyDeposit dispatch (defined in Sprint0) into a Request so 
-            that its Reply can be sent to the wasteservice once the trolley picks-up the load.
+                <img src="./imgs/wasteservice-old.excalidraw.svg" alt="mapWoCoord" height="200px" class="center" style="padding: 20px;">
+                
+                However, with this solution it is impossible to know when the trolley picks-up the load without adding another message.<br/>
+                <br/>
+                So, for the sake of efficiency, we can delay the loadAccepted reply to when the trolley does the pickup action.<br/>
+                <br/>
+                As a consequence of this decision, the entity who will notify the driver of a successfull pick-up action is 
+                wasteservice.<br/>
+                This can be easily achieved by changing the notifyDeposit dispatch (defined in Sprint0) into a Request so 
+                that its Reply can be sent to the wasteservice once the trolley picks-up the load.
+                <pre><code>
+    Request depositRequest : depositRequest(MATERIAL, QUANTITY)
+    Reply pickupDone : pickupDone(RESULT)
+                </code></pre>
 
-            <img src="./imgs/wasteservice-new.excalidraw.svg" alt="mapWoCoord" height="200px" class="center" style="padding: 20px;">
+                <img src="./imgs/wasteservice-new.excalidraw.svg" alt="mapWoCoord" height="200px" class="center" style="padding: 20px;">
 
-            <h4>Container status update</h4>
+                <h4>Container status update</h4>
 
-            The next issue to discuss is choosing the appropriate moment to update the status of the containers in the system.<br/>
-            The amount of material stored in each container is managed and monitored by the wasteservice actor, who has to make sure
-            that the current weight doesn't exceed MAXPB and MAXGB.<br/><br/>
-            
-            The first and most obvious answer is to update the weight after the trolley has completed the deposit action.<br/>
-            However, there is a major flaw with this solution:<br/>
-
-
-
-
+                The next issue to discuss is choosing the appropriate moment to update the status of the containers in the system.<br/>
+                The amount of material stored in each container is managed and monitored by the wasteservice actor, who has to make sure
+                that the current weight doesn't exceed MAXPB and MAXGB.<br/><br/>
+                
+                The first and most obvious answer is to update the weight after the trolley has completed the deposit action.<br/>
+                However, there is a major flaw with this solution: the transit of the trolley and the deposit of the load both take time, 
+                in the meanwhile another storeRequest can be requested and we don't know if we can accept it.<br/>
+                As a solution, instead of using the amount of material inside the containers, to check the storage feasibility we can consider
+                the current load inside the system instead.
 
             </dd>
-   
 
-            
+            <h3>wastetruck</h3>
+            <dd>
+                Previously our wastetruck was an actor, but our intentions in this Sprint are to implement a smartDevice application and use that 
+                to interact with the wasteservice system.</br>
+                As a consequence, the wastetruck is going to be any external user that can access the smartDevice.
+            </dd>
+                
+            <div class="remark" style="background-color: #91a0ff;">
+                <h3>Current system architecture</h3>
 
+            </div>
         <h2>Project</h2>
 
             <h3>Map and Trolley movement: resulting model</h3>
