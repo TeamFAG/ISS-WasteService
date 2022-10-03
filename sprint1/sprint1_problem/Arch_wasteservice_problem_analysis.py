@@ -20,17 +20,5 @@ with Diagram('wasteservice_problem_analysisArch', show=False, outformat='png', g
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
      with Cluster('ctxwasteservice', graph_attr=nodeattr):
-          wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
-     with Cluster('ctxsmartdevice', graph_attr=nodeattr):
-          smartdevicemock=Custom('smartdevicemock','./qakicons/symActorSmall.png')
-     with Cluster('ctxbasicrobot', graph_attr=nodeattr):
-          basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
-     wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
-     wasteservice >> Edge(color='darkgreen', style='dashed', xlabel='loadRejected', fontcolor='darkgreen') >> smartdevicemock
-     wasteservice >> Edge(color='darkgreen', style='dashed', xlabel='loadAccepted', fontcolor='darkgreen') >> smartdevicemock
-     transporttrolley >> Edge(color='darkgreen', style='dashed', xlabel='pickupDone', fontcolor='darkgreen') >> wasteservice
-     transporttrolley >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
-     transporttrolley >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
-     smartdevicemock >> Edge(color='magenta', style='solid', xlabel='storeRequest', fontcolor='magenta') >> wasteservice
 diag

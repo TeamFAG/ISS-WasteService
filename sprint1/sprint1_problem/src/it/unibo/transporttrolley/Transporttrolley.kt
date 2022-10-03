@@ -16,8 +16,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		 
-				var lateinit Mat
-				var lateinit Qty 
+				lateinit var Mat: ws.Material
+				var Qty: Float
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -37,18 +37,24 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t03",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
+					 transition(edgeName="t00",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
 				}	 
 				state("handleDepositRequest") { //this:State
 					action { //it:State
+						updateResourceRep( "transporttrolley(handleDepositRequest)"  
+						)
 						println("	TRANSPORTTROLLEY | moving to indoor")
+						updateResourceRep( "transporttrolley(moving_Indoor)"  
+						)
 						delay(1000) 
 						println("	TRANSPORTTROLLEY | arrived to indoor")
+						updateResourceRep( "transporttrolley(arrived_Indoor)"  
+						)
 						if( checkMsgContent( Term.createTerm("depositRequest(MATERIAL,QUANTITY)"), Term.createTerm("depositRequest(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 Mat = ws.Material.valueOf(payloadArg(0))  
-								 Qty = payloadArg(0)  
-								answer("depositRequest", "pickupDone", "pickupDone(ok)","wasteservice"   )  
+								 Qty = payloadArg(1).toFloat()  
+								answer("depositRequest", "pickupDone", "pickupDone(ok)"   )  
 						}
 						//genTimer( actor, state )
 					}
@@ -62,11 +68,13 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("moveToPlasticBox") { //this:State
 					action { //it:State
-						forward("cmd", "cmd(_)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
 						println("	TRANSPORT TROLLEY | moving to PlasticBox")
+						updateResourceRep( "transporttrolley(moving_PlasticBox)"  
+						)
 						delay(1000) 
 						println("	TRANSPORT TROLLEY | arrived to PlasticBox")
+						updateResourceRep( "transporttrolley(arrived_PlasticBox)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -76,11 +84,13 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("moveToGlassBox") { //this:State
 					action { //it:State
-						forward("cmd", "cmd(_)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
 						println("	TRANSPORT TROLLEY | moving to GlassBox")
+						updateResourceRep( "transporttrolley(moving_GlassBox)"  
+						)
 						delay(1000) 
 						println("	TRANSPORT TROLLEY | arrived to GlassBox")
+						updateResourceRep( "transporttrolley(arrived_GlassBox)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -90,11 +100,11 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("doDeposit") { //this:State
 					action { //it:State
-						forward("cmd", "cmd(_)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
 						println("	TRANSPORT TROLLEY | doing the deposit")
 						delay(500) 
 						println("	TRANSPORT TROLLEY | deposit done")
+						updateResourceRep( "transporttrolley(depositDone)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -104,17 +114,19 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("endRequest") { //this:State
 					action { //it:State
-						forward("cmd", "cmd(_)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
 						println("	TRANSPORTTROLLEY | moving back to home")
+						updateResourceRep( "transporttrolley(moving_Home)"  
+						)
 						delay(1000) 
 						println("	TRANSPORTTROLLEY | arrived to home")
+						updateResourceRep( "transporttrolley(arrived_Home)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t14",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
+					 transition(edgeName="t11",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
 				}	 
 			}
 		}
