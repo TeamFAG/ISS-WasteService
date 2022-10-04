@@ -20,7 +20,7 @@ sourceCompatibility = 11
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
-    flatDir {   dirs '../../unibolibs'	 }
+    flatDir {   dirs '../unibolibs'	 }
 }
 
 dependencies {
@@ -105,7 +105,7 @@ eclipse {
 
 application {
     // Define the main class for the application.
-    mainClass = 'it.unibo.ctxwasteservice.MainCtxwasteserviceKt'
+    mainClass = 'it.unibo.ctxsmartdevice.MainCtxsmartdeviceKt'
 }
 
  jar {
