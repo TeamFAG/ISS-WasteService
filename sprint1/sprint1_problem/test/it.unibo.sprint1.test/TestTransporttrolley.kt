@@ -24,17 +24,17 @@ class TestTransporttrolley {
         obs = CoapObserver()
 
         var thread = thread {
-            RunWasteservice().main()
+            RunTransporttrolley().main()
         }
 
-        waitingForActor("transporttrolley")
+        waitingForActor("transporttrolley_t")
 
-        obs.addContext("ctxwasteservice", Pair("localhost", 8010))
-        obs.addActor("transporttrolley", "ctxwasteservice")
+        obs.addContext("ctxwasteservice_trolley", Pair("localhost", 8050))
+        obs.addActor("transporttrolley_t", "ctxwasteservice_trolley")
 
-        obs.createCoapConnection("transporttrolley")
+        obs.createCoapConnection("transporttrolley_t")
 
-        conn = ConnTcp("localhost", 8010)
+        conn = ConnTcp("localhost", 8050)
 
         ColorsOut.outappl("Setup done.", ColorsOut.BLUE)
     }
@@ -45,7 +45,6 @@ class TestTransporttrolley {
         obs.clearCoapHistory()
         obs.closeAllCoapConnections()
         conn.close()
-        CommUtils.delay(3000)
     }
 
     @Test
@@ -96,7 +95,7 @@ class TestTransporttrolley {
 
     private fun simulateRequest(conn: ConnTcp, material: Material, quantity: Float): String? {
         val request = MsgUtil.buildRequest("test", "depositRequest",
-            "depositRequest($material, $quantity)", "transporttrolley").toString()
+            "depositRequest($material, $quantity)", "transporttrolley_t").toString()
 
         try {
             return conn.request(request)

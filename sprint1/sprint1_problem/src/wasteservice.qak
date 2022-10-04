@@ -1,4 +1,4 @@
-System wasteservice_problem_analysis
+System wasteservice_system
 
 Request storeRequest : storeRequest(MATERIAL, QUANTITY)
 Reply loadAccepted : loadAccepted(_)
@@ -7,20 +7,9 @@ Reply loadRejected : loadRejected(_)
 Request depositRequest : depositRequest(MATERIAL, QUANTITY)
 Reply pickupDone : pickupDone(RESULT)
 
-Dispatch cmd : cmd(MOVE)
-Request step : step(TIME)
-Reply stepdone : stepdone(V)
-Reply stepfail : stepfail(DT, REASON)
+Context ctxwasteservice_prob ip [host="localhost" port=8040]
 
-Context ctxwasteservice ip [host="localhost" port=8010]
-//Context ctxsmartdevice ip [host="localhost" port=8011]
-//Context ctxbasicrobot ip [host="127.0.0.1" port=8020]
-
-//ExternalQActor basicrobot context ctxbasicrobot
-
-
-/*
-QActor wasteservice context ctxwasteservice {
+QActor wasteservice_t context ctxwasteservice_prob {
 	[#
 		var occupiedGlass : Double = 0.0
 		var occupiedPlastic : Double = 0.0
@@ -53,11 +42,11 @@ QActor wasteservice context ctxwasteservice {
 				[# ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity) #]
 				println("\tWASTESERVICE | accepted request from truck driver")
 				
-				request transporttrolley -m depositRequest : depositRequest($CurrentMaterial, $CurrentQuantity)
+				request transporttrolley_t1 -m depositRequest : depositRequest($CurrentMaterial, $CurrentQuantity)
 				
 				println("\tWASTESERVICE | notifying transporttrolley") 			
 			} else {
-				replyTo storeRequest with loadRejected : loadRejected(_) caller==smartdevicemock
+				replyTo storeRequest with loadRejected : loadRejected(_)
 				println("\tWASTESERVICE | rejected request from truck driver")
 			}
 		}	
@@ -70,18 +59,17 @@ QActor wasteservice context ctxwasteservice {
 			
 			if [# Res == "ok" #] {
 				println("\tWASTESERVICE | arrived pickupDone reply ok")
-				replyTo storeRequest with loadAccepted : loadAccepted(_) caller==smartdevicemock
+				replyTo storeRequest with loadAccepted : loadAccepted(_)
 			} else {
 				println("\tWASTESERVICE | arrived pickupDone reply ko - FATAL ERROR")
-				replyTo storeRequest with loadRejected : loadRejected(_) caller==smartdevicemock
+				replyTo storeRequest with loadRejected : loadRejected(_)
 			}
 		}
 	}
 	Goto idle
 }
- */
 
-QActor transporttrolley context ctxwasteservice {
+QActor transporttrolley_t1 context ctxwasteservice_prob {
 	[# 
 		lateinit var Mat: ws.Material
 		var Qty: Float
@@ -111,7 +99,7 @@ QActor transporttrolley context ctxwasteservice {
 			[# Mat = ws.Material.valueOf(payloadArg(0)) #]
 			[# Qty = payloadArg(1).toFloat() #]
 			
-			replyTo depositRequest with pickupDone : pickupDone(ok) /*caller==wasteservice*/
+			replyTo depositRequest with pickupDone : pickupDone(ok) caller==wasteservice_t
 		}
 	}
 	Goto moveToGlassBox if [# Mat == ws.Material.GLASS #] else moveToPlasticBox
@@ -160,46 +148,3 @@ QActor transporttrolley context ctxwasteservice {
 	}
 	Transition t1 whenRequest depositRequest -> handleDepositRequest
 }
-
-/*
-QActor smartdevicemock context ctxsmartdevice {
-	
-	[#
-		var Material : ws.Material
-		var Qty : Double
-	#]
-	
-	State init initial {
-		printCurrentMessage
-		
-		[#
-			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
-			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
-		#]
-		
-		println("\tWASTETRUCK | with $Qty KG of $Material")
-		
-		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
-	}
-	Transition t1 whenReply loadAccepted -> handleAccepted
-				  whenReply loadRejected -> handleRejected
-				  
-	State handleAccepted {
-		printCurrentMessage
-		println("\tWASTETRUCK: Store Accepted")		
-	}
-	Goto termination
-	
-	State handleRejected {
-		printCurrentMessage
-		println("\tWASTETRUCK: Store Rejected")
-	}
-	Goto termination
-	
-	State termination {
-		printCurrentMessage
-		println("\tWASTETRUCK: going away...")
-	}
-}
-* 
-*/

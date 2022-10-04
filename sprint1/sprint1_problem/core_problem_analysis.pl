@@ -1,5 +1,5 @@
 %====================================================================================
-% wasteservice_problem_analysis description   
+% core_problem_analysis description   
 %====================================================================================
 context(ctxwasteservice, "localhost",  "TCP", "8010").
 context(ctxsmartdevice, "localhost",  "TCP", "8011").

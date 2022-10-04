@@ -22,10 +22,10 @@ class TestWasteservice {
             RunWasteservice().main()
         }
 
-        var actor = QakContext.getActor("wasteservice")
+        var actor = QakContext.getActor("wasteservice_t")
         while(actor == null) {
             CommUtils.delay(500)
-            actor = QakContext.getActor("wasteservice")
+            actor = QakContext.getActor("wasteservice_t")
             println(actor)
         }
     }
@@ -73,10 +73,10 @@ class TestWasteservice {
     }
 
     private fun simulateRequest(material: Material, quantity: Double): String? {
-        val req = MsgUtil.buildRequest("test", "storeRequest", "storeRequest($material, $quantity)", "wasteservice").toString()
+        val req = MsgUtil.buildRequest("test", "storeRequest", "storeRequest($material, $quantity)", "wasteservice_t").toString()
 
         try {
-            val conn = ConnTcp("localhost", 8010)
+            val conn = ConnTcp("localhost", 8040)
             return conn.request(req)
         } catch (e: Exception) {
             e.printStackTrace()
