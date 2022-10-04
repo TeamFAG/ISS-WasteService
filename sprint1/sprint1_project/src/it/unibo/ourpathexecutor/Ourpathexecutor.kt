@@ -15,13 +15,15 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
-		 var CurMoveTodo = ""  
+		 
+				var CurMoveTodo = ""
+				var MovesDone = "" 
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						discardMessages = true
 						 CurMoveTodo = ""  
-						 sysUtil.logMsgs = true  
+						discardMessages = true
+						 sysUtil.logMsgs=true  
 						println("	PATHEXECUTOR | started")
 						//genTimer( actor, state )
 					}
@@ -34,10 +36,8 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("doPath(PATH,OWNER)"), Term.createTerm("doPath(P,C)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								
-												val path = payloadArg(0)
-												println(path)
-												pathut.setPath(path)
+								 val path = payloadArg(0); println(path)  
+								 pathut.setPath(path)  
 						}
 						println("	PATHEXECUTOR | pathTodo: ${pathut.getPathTodo()}")
 						//genTimer( actor, state )
@@ -50,6 +50,7 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				state("nextMove") { //this:State
 					action { //it:State
 						 CurMoveTodo = pathut.nextMove()  
+						 MovesDone += CurMoveTodo  
 						println("	PATHEXECUTOR | curMoveTodo: $CurMoveTodo")
 						//genTimer( actor, state )
 					}
@@ -63,7 +64,8 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("handleStopPath") { //this:State
 					action { //it:State
-						answer("stopPath", "stopAck", "stopAck(_)","trolleymover"   )  
+						answer("stopPath", "stopACK", "stopACK(_)","trolleymover"   )  
+						 MovesDone = ""  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -73,7 +75,10 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("doMove") { //this:State
 					action { //it:State
-						 planner.updateMap(CurMoveTodo, "")  
+						
+									planner.updateMap(CurMoveTodo, "")
+									// planner.showMap()
+									// planner.showCurrentRobotState()	
 						delay(350) 
 						//genTimer( actor, state )
 					}
@@ -115,7 +120,7 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				state("handleAlarm") { //this:State
 					action { //it:State
 						 var PathTodo = pathut.getPathTodo()  
-						println("	PATHEXECUTOR | handleAlarm - pathTodo: $PathTodo")
+						println("	PATHEXECUTOR | handleAlarm ... pathTodo: $PathTodo")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -124,8 +129,8 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("endWorkOk") { //this:State
 					action { //it:State
-						println("	PATHEXECUTOR | path done")
-						answer("doPath", "doPathDone", "doPathDone(OK)","trolleymover"   )  
+						println("	PATHEXECUTOR | Path done - bye")
+						answer("doPath", "doPathDone", "doPathDone(ok)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -136,26 +141,14 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				state("endWorkKo") { //this:State
 					action { //it:State
 						 var PathStillTodo = pathut.getPathTodo()  
-						println("	PATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
+						println("	PATHEXECUTOR | path failure - sorry. PathStillTodo: $PathStillTodo")
 						answer("doPath", "doPathFail", "doPathFail($PathStillTodo)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 					 transition(edgeName="t011",targetState="handleAlarm",cond=whenEvent("alarm"))
-=======
-					 transition(edgeName="t323",targetState="handleAlarm",cond=whenEvent("alarm"))
->>>>>>> Stashed changes
-=======
-					 transition(edgeName="t323",targetState="handleAlarm",cond=whenEvent("alarm"))
->>>>>>> Stashed changes
-=======
-					 transition(edgeName="t323",targetState="handleAlarm",cond=whenEvent("alarm"))
->>>>>>> Stashed changes
 				}	 
 			}
 		}
