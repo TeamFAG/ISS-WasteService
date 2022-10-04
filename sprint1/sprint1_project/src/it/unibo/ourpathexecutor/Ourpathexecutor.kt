@@ -15,15 +15,13 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
-		 
-				var CurMoveTodo = ""
-				var MovesDone = "" 
+		 var CurMoveTodo = ""  
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						 CurMoveTodo = ""  
 						discardMessages = true
-						 sysUtil.logMsgs=true  
+						 CurMoveTodo = ""  
+						 sysUtil.logMsgs = true  
 						println("	PATHEXECUTOR | started")
 						//genTimer( actor, state )
 					}
@@ -36,8 +34,10 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("doPath(PATH,OWNER)"), Term.createTerm("doPath(P,C)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 val path = payloadArg(0); println(path)  
-								 pathut.setPath(path)  
+								
+												val path = payloadArg(0)
+												println(path)
+												pathut.setPath(path)
 						}
 						println("	PATHEXECUTOR | pathTodo: ${pathut.getPathTodo()}")
 						//genTimer( actor, state )
@@ -50,7 +50,6 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				state("nextMove") { //this:State
 					action { //it:State
 						 CurMoveTodo = pathut.nextMove()  
-						 MovesDone += CurMoveTodo  
 						println("	PATHEXECUTOR | curMoveTodo: $CurMoveTodo")
 						//genTimer( actor, state )
 					}
@@ -64,8 +63,7 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("handleStopPath") { //this:State
 					action { //it:State
-						answer("stopPath", "stopACK", "stopACK(_)","trolleymover"   )  
-						 MovesDone = ""  
+						answer("stopPath", "stopAck", "stopAck(_)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -75,10 +73,7 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("doMove") { //this:State
 					action { //it:State
-						
-									planner.updateMap(CurMoveTodo, "")
-									// planner.showMap()
-									// planner.showCurrentRobotState()	
+						 planner.updateMap(CurMoveTodo, "")  
 						delay(350) 
 						//genTimer( actor, state )
 					}
@@ -120,7 +115,7 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				state("handleAlarm") { //this:State
 					action { //it:State
 						 var PathTodo = pathut.getPathTodo()  
-						println("	PATHEXECUTOR | handleAlarm ... pathTodo: $PathTodo")
+						println("	PATHEXECUTOR | handleAlarm - pathTodo: $PathTodo")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -129,8 +124,8 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("endWorkOk") { //this:State
 					action { //it:State
-						println("	PATHEXECUTOR | Path done - bye")
-						answer("doPath", "doPathDone", "doPathDone(ok)","trolleymover"   )  
+						println("	PATHEXECUTOR | path done")
+						answer("doPath", "doPathDone", "doPathDone(OK)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -141,14 +136,18 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				state("endWorkKo") { //this:State
 					action { //it:State
 						 var PathStillTodo = pathut.getPathTodo()  
-						println("	PATHEXECUTOR | path failure - sorry. PathStillTodo: $PathStillTodo")
+						println("	PATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
 						answer("doPath", "doPathFail", "doPathFail($PathStillTodo)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+<<<<<<< Updated upstream
 					 transition(edgeName="t011",targetState="handleAlarm",cond=whenEvent("alarm"))
+=======
+					 transition(edgeName="t323",targetState="handleAlarm",cond=whenEvent("alarm"))
+>>>>>>> Stashed changes
 				}	 
 			}
 		}
