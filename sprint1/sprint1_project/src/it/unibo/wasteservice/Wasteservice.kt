@@ -16,34 +16,32 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-				var occupiedGlass : Double = 0.0
-				var occupiedPlastic : Double = 0.0
-				var CurrentMaterial : ws.Material
-				var CurrentQuantity : Float
+				var CurrentMaterial: ws.Material
+				var CurrentQuantity: Float
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
+						discardMessages = true
+						println("	WASTESERVICE | started.")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t12",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
+					 transition(edgeName="t02",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
 				}	 
 				state("idle") { //this:State
 					action { //it:State
-						println("	WASTESERVICE | idle - waiting for store requests")
+						println("	WASTESERVICE | idle - waiting for storeRequests")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t23",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
+					 transition(edgeName="t03",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
 				}	 
 				state("handleStoreRequest") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
 						if( checkMsgContent( Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
@@ -51,14 +49,14 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 												CurrentQuantity = payloadArg(1).toFloat()
 								println("	WASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 								if(  ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity)  
-								 ){ ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)  
-								println("	WASTESERVICE | accepted request from truck driver")
+								 ){
+													ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)
 								request("depositRequest", "depositRequest($CurrentMaterial,$CurrentQuantity)" ,"transporttrolley" )  
-								println("	WASTESERVICE | notifying transporttrolley")
+								println("	WASTESERVICE | sended depositRequest to trolley")
 								}
 								else
 								 {answer("storeRequest", "loadRejected", "loadRejected(_)","smartdevicemock"   )  
-								 println("	WASTESERVICE | rejected request from truck driver")
+								 println("	WASTESERVICE | rejected request from smartdevice")
 								 }
 						}
 						//genTimer( actor, state )
@@ -66,19 +64,19 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t24",targetState="handlePickupReply",cond=whenReply("pickupDone"))
+					 transition(edgeName="t14",targetState="handlePickupReply",cond=whenReply("pickupDone"))
 				}	 
 				state("handlePickupReply") { //this:State
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("pickupDone(RESULT)"), Term.createTerm("pickupDone(RESULT)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 var Res = payloadArg(0)  
+								 var Res = payloadArg(0).toString()  
 								if(  Res == "OK"  
-								 ){println("	WASTESERVICE | arrived pickupDone reply ok")
+								 ){println("	WASTESERVICE | arrived pickupDone reply OK")
 								answer("storeRequest", "loadAccepted", "loadAccepted(_)","smartdevicemock"   )  
 								}
 								else
-								 {println("	WASTESERVICE | arrived pickupDone reply ko - FATAL ERROR")
+								 {println("	WASTESERVICE | arrived pickupDone reply NO - FATAL ERROR")
 								 answer("storeRequest", "loadRejected", "loadRejected(_)","smartdevicemock"   )  
 								 }
 						}

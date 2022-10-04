@@ -16,29 +16,27 @@ class Smartdevicemock ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-				var Material : ws.Material
-				var Qty : Double
+				var Material: ws.Material
+				var Qty: Double
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
 						
 									Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
 									Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
-						println("	WASTETRUCK | with $Qty KG of $Material")
+						println("	SMARTDEVICE | with $Qty KG of $Material")
 						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t10",targetState="handleAccepted",cond=whenReply("loadAccepted"))
-					transition(edgeName="t11",targetState="handleRejected",cond=whenReply("loadRejected"))
+					 transition(edgeName="t00",targetState="handleAccepted",cond=whenReply("loadAccepted"))
+					transition(edgeName="t01",targetState="handleRejected",cond=whenReply("loadRejected"))
 				}	 
 				state("handleAccepted") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: Store Accepted")
+						println("	SMARTDEVICE | store accepted")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -48,8 +46,7 @@ class Smartdevicemock ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("handleRejected") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: Store Rejected")
+						println("	SMARTDEVICE | store rejected")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -59,8 +56,7 @@ class Smartdevicemock ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("termination") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: going away...")
+						println("	SMARTDEVICE | going away...")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

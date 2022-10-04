@@ -1,90 +1,105 @@
-System demo_wasteservice
+System old
 
-// Smartdevice
+// smartdevice
 Request storeRequest : storeRequest(MATERIAL, QUANTITY)
 Reply loadAccepted : loadAccepted(_)
 Reply loadRejected : loadRejected(_)
 
-// Wasteservice
+// wasteservice
 Request depositRequest : depositRequest(MATERIAL, QUANTITY)
 Reply pickupDone : pickupDone(RESULT)
 
-// Transporttrolley
+// transporttrolley
 Request move : move(LOCATION)
 Reply moveDone : moveDone(ANSWER)
 
-// Trolleymover
+// trolleymover
 Request doPath : doPath(PATH, OWNER)
 Reply doPathDone : doPathDone(ARG)
 Reply doPathFail : doPathFail(ARG)
 Request stopPath : stopPath(_)
-Reply stopAck : stopAck(_)
+Reply stopACK : stopACK(_)
 
-// Basicrobot
+// basicrobot
 Dispatch cmd : cmd(MOVE)
 Request step : step(TIME)
 Reply stepdone : stepdone(V)
-Reply stepfail : stepfail(V)
+Reply stepfail : stapfail(V)
 Event alarm : alarm(X)
 
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------CONTEXTS--------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 Context ctxbasicrobot ip[host="localhost" port=8020]
-Context ctxwasteservice ip[host="127.0.0.1" port=8030]
-Context ctxsmartdevice ip[host="127.0.0.1" port=8040]
+Context ctxwasteservice ip [host="127.0.0.1" port=8030]
+Context ctxsmartdevice ip [host="localhost" port=8040]
 
+//-------------------------------------------------------------------------------------------------//
+//---------------------------------------ACTORS----------------------------------------------------//
+//-------------------------------------------------------------------------------------------------//
 ExternalQActor basicrobot context ctxbasicrobot
 
 QActor smartdevicemock context ctxsmartdevice {
+	
 	[#
-		var Material: ws.Material
-		var Qty: Double
+		var Material : ws.Material
+		var Qty : Double
 	#]
 	
 	State init initial {
+		printCurrentMessage
+		
 		[#
 			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
 			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
 		#]
 		
-		println("\tSMARTDEVICE | with $Qty KG of $Material")
-	
-		request wasteservice -m storeRequest : storeRequest($Material, $Qty)	
+		println("\tWASTETRUCK | with $Qty KG of $Material")
+		
+		request wasteservice -m storeRequest : storeRequest($Material, $Qty)
 	}
-	Transition t0 whenReply loadAccepted -> handleAccepted
+	Transition t1 whenReply loadAccepted -> handleAccepted
 				  whenReply loadRejected -> handleRejected
-
+				  
 	State handleAccepted {
-		println("\tSMARTDEVICE | store accepted")
+		printCurrentMessage
+		println("\tWASTETRUCK: Store Accepted")		
 	}
 	Goto termination
 	
 	State handleRejected {
-		println("\tSMARTDEVICE | store rejected")
-	}	
+		printCurrentMessage
+		println("\tWASTETRUCK: Store Rejected")
+	}
 	Goto termination
 	
 	State termination {
-		println("\tSMARTDEVICE | going away...")
-	}		  
+		printCurrentMessage
+		println("\tWASTETRUCK: going away...")
+	}
 }
 
 QActor wasteservice context ctxwasteservice {
 	[#
-		var CurrentMaterial: ws.Material
-		var CurrentQuantity: Float
+		var occupiedGlass : Double = 0.0
+		var occupiedPlastic : Double = 0.0
+		var CurrentMaterial : ws.Material
+		var CurrentQuantity : Float
 	#]
 	
 	State init initial {
-		discardMsg On
-		println("\tWASTESERVICE | started.")
+		printCurrentMessage
 	}
-	Transition t0 whenRequest storeRequest -> handleStoreRequest
-		
+	Transition t1 whenRequest storeRequest -> handleStoreRequest
+	
 	State idle {
-		println("\tWASTESERVICE | idle - waiting for storeRequests")
+		println("\tWASTESERVICE | idle - waiting for store requests")
 	}
-	Transition t0 whenRequest storeRequest -> handleStoreRequest
+	Transition t2 whenRequest storeRequest -> handleStoreRequest
 	
 	State handleStoreRequest {
+		printCurrentMessage
+		
 		onMsg(storeRequest : storeRequest(MATERIAL, QUANTITY)) {
 			[#
 				CurrentMaterial = ws.Material.valueOf(payloadArg(0))
@@ -94,30 +109,29 @@ QActor wasteservice context ctxwasteservice {
 			println("\tWASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 			
 			if [# ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity) #] {
-				[#
-					ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)
-				#]
+				[# ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity) #]
+				println("\tWASTESERVICE | accepted request from truck driver")
 				
 				request transporttrolley -m depositRequest : depositRequest($CurrentMaterial, $CurrentQuantity)
 				
-				println("\tWASTESERVICE | sended depositRequest to trolley")
+				println("\tWASTESERVICE | notifying transporttrolley") 			
 			} else {
 				replyTo storeRequest with loadRejected : loadRejected(_) caller==smartdevicemock
-				println("\tWASTESERVICE | rejected request from smartdevice")
+				println("\tWASTESERVICE | rejected request from truck driver")
 			}
-		}
+		}	
 	}
-	Transition t1 whenReply pickupDone -> handlePickupReply
+	Transition t2 whenReply pickupDone -> handlePickupReply	
 	
 	State handlePickupReply {
 		onMsg(pickupDone : pickupDone(RESULT)) {
-			[# var Res = payloadArg(0).toString() #]
+			[# var Res = payloadArg(0) #]
 			
 			if [# Res == "OK" #] {
-				println("\tWASTESERVICE | arrived pickupDone reply OK")
+				println("\tWASTESERVICE | arrived pickupDone reply ok")
 				replyTo storeRequest with loadAccepted : loadAccepted(_) caller==smartdevicemock
 			} else {
-				println("\tWASTESERVICE | arrived pickupDone reply NO - FATAL ERROR")
+				println("\tWASTESERVICE | arrived pickupDone reply ko - FATAL ERROR")
 				replyTo storeRequest with loadRejected : loadRejected(_) caller==smartdevicemock
 			}
 		}
@@ -126,124 +140,121 @@ QActor wasteservice context ctxwasteservice {
 }
 
 QActor transporttrolley context ctxbasicrobot {
-	[#
+	[# 
 		lateinit var Mat: ws.Material
-		var Qty: Float = 0F
+		var Qty: Float
 		var Error: Boolean = false
 		var Loc: String = ""
 	#]
 	
+	
 	State init initial {
-		discardMsg On
-		println("\tTRANSPORTTROLLEY | started.")
+		println("\tTRANSPORTTROLLEY | started...")	
 	}
 	Goto idle
 	
 	State idle {
-		println("\tTRANSPORTTROLLEY | waiting for requests...")
+		println("\tTRANSPORTROLLEY | waiting for requests...")
 	}
 	Transition t0 whenRequest depositRequest -> handleDepositRequest
 	
 	State handleDepositRequest {
 		updateResource [# "transporttrolley(handleDepositRequest)" #]
-			
-			onMsg(depositRequest : depositRequest(MATERIAL, QUANTITY)) {
-				[#
-					Mat = ws.Material.valueOf(payloadArg(0))
-					Qty = payloadArg(1).toFloat()
-				#]
-			}
-			
-			updateResource [# "transporttrolley(moving_INDOOR)" #]
-			println("\tTRANSPORTTROLLEY | moving to INDOOR")
-			
-			request trolleymover -m move : move(INDOOR)
-	}
-	Transition t1 whenReply moveDone -> arrivedIndoor
-	
-	State arrivedIndoor {
-		[# var Answer: String = "" #]
 		
-		onMsg(moveDone : moveDone(ANSWER)) {
-			[# Answer = payloadArg(0).toString() #]
+		onMsg(depositRequest : depositRequest(MATERIAL, QUANTITY)) {
+			[# Mat = ws.Material.valueOf(payloadArg(0)) #]
+			[# Qty = payloadArg(1).toFloat() #]
+			
 		}
 		
-		if [# Answer == "OK" #] {
-			updateResource [# "transporttrolley(arrived_INDOOR)" #]
-			println("\tTRANSPORTTROLLEY | arrived to INDOOR")
+		updateResource [# "transporttrolley(moving_Indoor)" #]
+		println("\tTRANSPORTTROLLEY | moving to indoor")
+		
+		request trolleymover -m move : move(INDOOR)
+	}
+	Transition t0 whenReply moveDone -> arrivedIndoor
+	
+	State arrivedIndoor {
+		[# var answer: String = "" #]
+		
+		onMsg(moveDone : moveDone(ANSWER)) {
+			[# answer = payloadArg(0).toString() #]
+		}
+		
+		if [# answer == "OK" #] {			
+			println("\tTRANSPORTTROLLEY | arrived to indoor")
+			updateResource [# "transporttrolley(arrived_Indoor)" #]
 			
 			delay 2000
 			
 			updateResource [# "transporttrolley(pickupDone)" #]
-			println("\tTRANSPORTTROLLEY | pickup done")
-			
 			replyTo depositRequest with pickupDone : pickupDone(OK) caller==wasteservice
 		} else {
-			println("\tTRANSPORTTROLLEY | failed pickup")
-			[# Error = true #]
-			
+			println("\tTRANSPORTTROLLEY | fail(indoor)")
 			replyTo depositRequest with pickupDone : pickupDone(NO) caller==wasteservice
+			[# Error = true #]
 		}
 	}
-	Goto moveToBox if [# Error == false #] else errorHandler
+	Goto moveToBox if [# Error == false #] else errorState
 	
 	State moveToBox {
 		[# Loc = utils.getLocationFromMaterialType(Mat) #]
 		
+		println("\tTRANSPORT TROLLEY | moving to $Loc")
 		updateResource [# "transporttrolley(moving_$Loc)" #]
-		println("\tTRANSPORTTROLLEY | moving to $Loc")
 		
 		request trolleymover -m move : move($Loc)
 	}
-	Transition t2 whenReply moveDone -> arrivedToBox
+	Transition t1 whenReply moveDone -> arrivedToBox
 	
 	State arrivedToBox {
-		[# var Answer = "" #]
-		
+		[# var answer: String = "" #]
+				
 		onMsg(moveDone : moveDone(ANSWER)) {
-			[# Answer = payloadArg(0).toString() #]
+			[# answer = payloadArg(0).toString() #]
 		}
 		
-		if [# Answer == "OK" #] {
-			updateResource [# "transporttrolley(arrived_$Loc)" #]
+		if [# answer == "OK" #] {			
 			println("\tTRANSPORTTROLLEY | arrived to $Loc")
+			updateResource [# "transporttrolley(arrived_$Loc)" #]
 		} else {
-			println("\tTRANSPORTTROLLEY | failed $Loc")
-			[# Error = true #]			
+			println("\tTRANSPORTTROLLEY | fail(indoor)")
+			replyTo depositRequest with pickupDone : pickupDone(NO) caller==wasteservice
+			[# Error = true #]
 		}
 	}
 	Goto doDeposit
 	
 	State doDeposit {
-		println("\tTRANSPORTTROLLEY | doing the deposit of $Qty KG of $Mat")
+		println("\tTRANSPORT TROLLEY | doing the deposit of $Mat")
 		delay 1000
+		println("\tTRANSPORT TROLLEY | deposit done $Mat")
 		updateResource [# "transporttrolley(depositDone_$Mat)" #]
-		println("\tTRANSPORTTROLLEY | deposit done of $Qty KG of $Mat")
 	}
 	Goto moveToHome
 	
 	State moveToHome {
 		[# Loc = "HOME" #]
 		
+		println("\tTRANSPORT TROLLEY | moving to $Loc")
 		updateResource [# "transporttrolley(moving_$Loc)" #]
-		println("\tTRANSPORTTROLLEY | moving to $Loc")
 		
 		request trolleymover -m move : move($Loc)
 	}
-	Transition t3 whenRequest depositRequest -> handleDepositRequest
+	Transition t2 whenRequest depositRequest -> handleDepositRequest
 				  whenReply moveDone -> endWork
 	
 	State endWork {
-		updateResource [# "transporttrolley(arrived_HOME)" #]
-		println("\tTRANSPORTTROLLEY | arrived to HOME")
+		println("\tTRANSPORTTROLLEY | arrived to home")
+		updateResource [# "transporttrolley(arrived_Home)" #]
 	}
-	Transition t4 whenRequest depositRequest -> handleDepositRequest
+	Transition t3 whenRequest depositRequest -> handleDepositRequest
 	
-	State errorHandler {
+	State errorState {
+		println("\tTRANSPORTTROLLEY | error state - resetting...")
 		updateResource [# "transporttrolley(ERROR)" #]
-		println("\tTRANSPORTTROLLEY | error - resetting...")
 		
-		[#
+		[# 
 			Qty = 0F
 			Error = false
 			Loc = ""
@@ -251,15 +262,15 @@ QActor transporttrolley context ctxbasicrobot {
 		
 		request trolleymover -m move : move(HOME)
 	}
-	Transition t5 whenReply moveDone -> idle
-	
+	Transition t4 whenReply moveDone -> idle
 }
 
 QActor trolleymover context ctxbasicrobot {
-	[#
-		var Actions = ""
-		var Loc = ""
+	[# 
+		var Actions: String = "" 
+		var LOC: String = ""
 		var IsMoving = false
+		var Progress = ""
 		SystemConfig.setTheConfiguration("SystemConfiguration")
 		planner.initAI()
 		planner.loadRoomMap("mapRoomEmpty")
@@ -279,81 +290,80 @@ QActor trolleymover context ctxbasicrobot {
 	
 	State handleMovement {
 		onMsg(move : move(LOCATION)) {
-			[# Loc = payloadArg(0) #]
+			[# LOC = payloadArg(0) #]
 		}
 		
-		println("\tTROLLEYMOVER | received movement to $Loc")
+		println("\tTROLLEYMOVER | received movement to $LOC")
+				
 		
 		if [# IsMoving #] {
+			println("\tTROLLEYMOVER | arrived move command when moving.")
+			
 			updateResource [# "trolleymover(handleMovement_stopPath)" #]
-			println("\tTROLLEYMOVER | arrived move command when moving")
 			
 			request ourpathexecutor -m stopPath : stopPath(_)
 		} else {
 			[#
-				var coord = utils.getClosestCoordinate(planner.get_curCoord(), Loc)
+				var coord = utils.getClosestCoordinate(planner.get_curCoord(), LOC)
 				planner.setGoal(coord.x, coord.y)
 				planner.doPlan()
 				Actions = planner.getActionsString()
 				IsMoving = true
 			#]
-			
-			updateResource [# "trolleymover(handleMovement_$Loc)" #]
+
 			println("\tTROLLEYMOVER | actions: $Actions")
-			
+			updateResource [# "trolleymover(handleMovement_$LOC)" #]
 			request ourpathexecutor -m doPath : doPath($Actions, trolleymover)
 		}
 	}
 	Transition t1 whenReply doPathDone -> handlePathDone
 				  whenReply doPathFail -> handlePathFail
-				  whenReply stopAck -> handleInterruptedMovement
+				  whenReply stopACK -> handleInterruptedMovement
 				  whenRequest move -> handleMovement
-	
+				  
 	State handleInterruptedMovement {
-		onMsg(stopAck : stopAck(_)) {
+		onMsg(stopACK : stopACK(_)) {
 			[# IsMoving = false #]
 			updateResource [# "trolleymover(handleInterruptedMovement)" #]
 		}
-	}
-	Goto handleMovement
-	
+	}	
+	Goto handleMovement			  
+				  
 	State handlePathDone {
 		[# IsMoving = false #]
-		updateResource [# "trolleymover(handlePathDone_$Loc)" #]
-		println("\tTROLLEYMOVER | arrived to $Loc")
-		
+		println("\tTROLLEYMOVER | arrived to $LOC")
+		updateResource [# "trolleymover(handlePathDone_$LOC)" #]
 		replyTo move with moveDone : moveDone(OK)
-	}
+	}	
 	Goto idle
 	
 	State handlePathFail {
 		[# IsMoving = false #]
-		updateResource [# "trolleymover(handlePathFail_$Loc)" #]
-		println("\tTROLLEYMOVER | path failed to $Loc")
-		
+		println("\tTROLLEYMOVER | path failed to $LOC")
+		updateResource [# "trolleymover(handlePathFail_$LOC)" #]
 		replyTo move with moveDone : moveDone(NO)
 	}
 	Goto idle
 }
 
 QActor ourpathexecutor context ctxbasicrobot {
-	[# var CurMoveTodo = "" #]
+	[# 
+		var CurMoveTodo = ""
+		var MovesDone = "" 
+	#]
 	
 	State init initial {
-		discardMsg On
 		[# CurMoveTodo = "" #]
-		[# sysUtil.logMsgs = true #]
+		discardMsg On
+		[# sysUtil.logMsgs=true #]
 		println("\tPATHEXECUTOR | started")
 	}
 	Transition t0 whenRequest doPath -> doThePath
 	
 	State doThePath {
 		onMsg(doPath : doPath(P, C)) {
-			[#
-				val path = payloadArg(0)
-				println(path)
-				pathut.setPath(path)
-			#]
+			[# val path = payloadArg(0); println(path) #]
+			[# pathut.setPath(path) #]
 		}
 		
 		println("\tPATHEXECUTOR | pathTodo: ${pathut.getPathTodo()}")
@@ -362,17 +372,23 @@ QActor ourpathexecutor context ctxbasicrobot {
 	
 	State nextMove {
 		[# CurMoveTodo = pathut.nextMove() #]
+		[# MovesDone += CurMoveTodo #]
 		println("\tPATHEXECUTOR | curMoveTodo: $CurMoveTodo")
 	}
 	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
 	
 	State handleStopPath {
-		replyTo stopPath with stopAck : stopAck(_) caller==trolleymover
+		replyTo stopPath with stopACK : stopACK(_) caller==trolleymover
+		[# MovesDone = "" #]
 	}
 	Goto init
 	
 	State doMove {
-		[# planner.updateMap(CurMoveTodo, "") #]
+		[#
+			planner.updateMap(CurMoveTodo, "")
+			// planner.showMap()
+			// planner.showCurrentRobotState()	
+		#]
 		delay 350
 	}
 	Goto doMoveW if [# CurMoveTodo == "w" #] else doMoveTurn
@@ -381,7 +397,7 @@ QActor ourpathexecutor context ctxbasicrobot {
 		forward basicrobot -m cmd : cmd($CurMoveTodo)
 	}
 	Transition t1 whenTime 350 -> nextMove
-	
+			
 	State doMoveW {
 		request basicrobot -m step : step(350)
 	}
@@ -389,22 +405,22 @@ QActor ourpathexecutor context ctxbasicrobot {
 				  whenReply stepdone -> nextMove
 				  whenReply stepfail -> endWorkKo
 				  whenRequest stopPath -> handleStopPath
-	
+				  
 	State handleAlarm {
 		[# var PathTodo = pathut.getPathTodo() #]
-		println("\tPATHEXECUTOR | handleAlarm - pathTodo: $PathTodo")
+		println("\tPATHEXECUTOR | handleAlarm ... pathTodo: $PathTodo")
 	}
 	
 	State endWorkOk {
-		println("\tPATHEXECUTOR | path done")
-		replyTo doPath with doPathDone : doPathDone(OK) caller==trolleymover
+		println("\tPATHEXECUTOR | Path done - bye")
+		replyTo doPath with doPathDone : doPathDone(ok) caller==trolleymover
 	}
 	Goto init
 	
 	State endWorkKo {
 		[# var PathStillTodo = pathut.getPathTodo() #]
-		println("\tPATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
+		println("\tPATHEXECUTOR | path failure - sorry. PathStillTodo: $PathStillTodo")
 		replyTo doPath with doPathFail : doPathFail($PathStillTodo) caller==trolleymover
 	}
-	Transition t3 whenEvent alarm -> handleAlarm
+	Transition t0 whenEvent alarm -> handleAlarm
 }

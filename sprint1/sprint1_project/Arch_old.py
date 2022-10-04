@@ -16,7 +16,7 @@ eventedgeattr = {
     'color': 'red',
     'style': 'dotted'
 }
-with Diagram('demo_wasteserviceArch', show=False, outformat='png', graph_attr=graphattr) as diag:
+with Diagram('oldArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
      with Cluster('ctxbasicrobot', graph_attr=nodeattr):
@@ -36,7 +36,7 @@ with Diagram('demo_wasteserviceArch', show=False, outformat='png', graph_attr=gr
      transporttrolley >> Edge(color='darkgreen', style='dashed', xlabel='pickupDone', fontcolor='darkgreen') >> wasteservice
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> ourpathexecutor
      trolleymover >> Edge(color='magenta', style='solid', xlabel='doPath', fontcolor='magenta') >> ourpathexecutor
-     ourpathexecutor >> Edge(color='darkgreen', style='dashed', xlabel='stopAck', fontcolor='darkgreen') >> trolleymover
+     ourpathexecutor >> Edge(color='darkgreen', style='dashed', xlabel='stopACK', fontcolor='darkgreen') >> trolleymover
      ourpathexecutor >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
      ourpathexecutor >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
      sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> ourpathexecutor
