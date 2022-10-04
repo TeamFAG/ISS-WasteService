@@ -145,7 +145,11 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 					}	 	 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 					 transition(edgeName="t011",targetState="handleAlarm",cond=whenEvent("alarm"))
+=======
+					 transition(edgeName="t323",targetState="handleAlarm",cond=whenEvent("alarm"))
+>>>>>>> Stashed changes
 =======
 					 transition(edgeName="t323",targetState="handleAlarm",cond=whenEvent("alarm"))
 >>>>>>> Stashed changes
