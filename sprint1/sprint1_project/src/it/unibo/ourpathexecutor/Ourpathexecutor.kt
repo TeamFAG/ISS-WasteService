@@ -15,29 +15,28 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
-		 
-				var CurMoveTodo = ""
-				var MovesDone = "" 
+		 var CurMoveTodo = ""  
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						 CurMoveTodo = ""  
-						discardMessages = true
-						 sysUtil.logMsgs=true  
+						 sysUtil.logMsgs = true  
 						println("	PATHEXECUTOR | started")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t05",targetState="doThePath",cond=whenRequest("doPath"))
+					 transition(edgeName="t017",targetState="doThePath",cond=whenRequest("doPath"))
 				}	 
 				state("doThePath") { //this:State
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("doPath(PATH,OWNER)"), Term.createTerm("doPath(P,C)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 val path = payloadArg(0); println(path)  
-								 pathut.setPath(path)  
+								
+												val path = payloadArg(0)
+												println(path)
+												pathut.setPath(path)
 						}
 						println("	PATHEXECUTOR | pathTodo: ${pathut.getPathTodo()}")
 						//genTimer( actor, state )
@@ -50,7 +49,6 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				state("nextMove") { //this:State
 					action { //it:State
 						 CurMoveTodo = pathut.nextMove()  
-						 MovesDone += CurMoveTodo  
 						println("	PATHEXECUTOR | curMoveTodo: $CurMoveTodo")
 						//genTimer( actor, state )
 					}
@@ -64,8 +62,7 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("handleStopPath") { //this:State
 					action { //it:State
-						answer("stopPath", "stopACK", "stopACK(_)","trolleymover"   )  
-						 MovesDone = ""  
+						answer("stopPath", "stopAck", "stopAck(_)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -75,10 +72,7 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("doMove") { //this:State
 					action { //it:State
-						
-									planner.updateMap(CurMoveTodo, "")
-									// planner.showMap()
-									// planner.showCurrentRobotState()	
+						 planner.updateMap(CurMoveTodo, "")  
 						delay(350) 
 						//genTimer( actor, state )
 					}
@@ -102,7 +96,7 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				 	 			scope, context!!, "local_tout_ourpathexecutor_doMoveTurn", 350.toLong() )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t16",targetState="nextMove",cond=whenTimeout("local_tout_ourpathexecutor_doMoveTurn"))   
+					 transition(edgeName="t118",targetState="nextMove",cond=whenTimeout("local_tout_ourpathexecutor_doMoveTurn"))   
 				}	 
 				state("doMoveW") { //this:State
 					action { //it:State
@@ -112,15 +106,15 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t27",targetState="handleAlarm",cond=whenEvent("alarm"))
-					transition(edgeName="t28",targetState="nextMove",cond=whenReply("stepdone"))
-					transition(edgeName="t29",targetState="endWorkKo",cond=whenReply("stepfail"))
-					transition(edgeName="t210",targetState="handleStopPath",cond=whenRequest("stopPath"))
+					 transition(edgeName="t219",targetState="handleAlarm",cond=whenEvent("alarm"))
+					transition(edgeName="t220",targetState="nextMove",cond=whenReply("stepdone"))
+					transition(edgeName="t221",targetState="endWorkKo",cond=whenReply("stepfail"))
+					transition(edgeName="t222",targetState="handleStopPath",cond=whenRequest("stopPath"))
 				}	 
 				state("handleAlarm") { //this:State
 					action { //it:State
 						 var PathTodo = pathut.getPathTodo()  
-						println("	PATHEXECUTOR | handleAlarm ... pathTodo: $PathTodo")
+						println("	PATHEXECUTOR | handleAlarm - pathTodo: $PathTodo")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -129,8 +123,8 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				}	 
 				state("endWorkOk") { //this:State
 					action { //it:State
-						println("	PATHEXECUTOR | Path done - bye")
-						answer("doPath", "doPathDone", "doPathDone(ok)","trolleymover"   )  
+						println("	PATHEXECUTOR | path done")
+						answer("doPath", "doPathDone", "doPathDone(OK)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -141,14 +135,14 @@ class Ourpathexecutor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 				state("endWorkKo") { //this:State
 					action { //it:State
 						 var PathStillTodo = pathut.getPathTodo()  
-						println("	PATHEXECUTOR | path failure - sorry. PathStillTodo: $PathStillTodo")
+						println("	PATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
 						answer("doPath", "doPathFail", "doPathFail($PathStillTodo)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t011",targetState="handleAlarm",cond=whenEvent("alarm"))
+					 transition(edgeName="t323",targetState="handleAlarm",cond=whenEvent("alarm"))
 				}	 
 			}
 		}

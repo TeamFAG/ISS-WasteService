@@ -23,7 +23,6 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						discardMessages = true
 						println("	TRANSPORTTROLLEY | started.")
 						//genTimer( actor, state )
 					}

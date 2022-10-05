@@ -55,7 +55,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 								println("	WASTESERVICE | sended depositRequest to trolley")
 								}
 								else
-								 {answer("storeRequest", "loadRejected", "loadRejected(_)","smartdevicemock"   )  
+								 {answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
 								 println("	WASTESERVICE | rejected request from smartdevice")
 								 }
 						}
@@ -73,11 +73,11 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 								 var Res = payloadArg(0).toString()  
 								if(  Res == "OK"  
 								 ){println("	WASTESERVICE | arrived pickupDone reply OK")
-								answer("storeRequest", "loadAccepted", "loadAccepted(_)","smartdevicemock"   )  
+								answer("storeRequest", "loadAccepted", "loadAccepted(_)"   )  
 								}
 								else
 								 {println("	WASTESERVICE | arrived pickupDone reply NO - FATAL ERROR")
-								 answer("storeRequest", "loadRejected", "loadRejected(_)","smartdevicemock"   )  
+								 answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
 								 }
 						}
 						//genTimer( actor, state )

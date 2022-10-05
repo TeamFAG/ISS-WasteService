@@ -26,6 +26,11 @@ class Smartdevicemock ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 									Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
 						println("	SMARTDEVICE | with $Qty KG of $Material")
 						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
+						delay(22000) 
+						
+									Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+									Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
+						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

@@ -28,8 +28,9 @@ Reply stepfail : stepfail(V)
 Event alarm : alarm(X)
 
 Context ctxbasicrobot ip[host="localhost" port=8020]
-Context ctxwasteservice ip[host="127.0.0.1" port=8030]
 Context ctxsmartdevice ip[host="127.0.0.1" port=8040]
+Context ctxwasteservice ip[host="localhost" port=8050]
+Context ctxtrolley ip[host="localhost" port=8060]
 
 ExternalQActor basicrobot context ctxbasicrobot
 
@@ -47,6 +48,15 @@ QActor smartdevicemock context ctxsmartdevice {
 		
 		println("\tSMARTDEVICE | with $Qty KG of $Material")
 	
+		request wasteservice -m storeRequest : storeRequest($Material, $Qty)	
+		
+		delay 22000
+		
+		[#
+			Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
+			Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
+		#]
+		
 		request wasteservice -m storeRequest : storeRequest($Material, $Qty)	
 	}
 	Transition t0 whenReply loadAccepted -> handleAccepted
@@ -102,7 +112,7 @@ QActor wasteservice context ctxwasteservice {
 				
 				println("\tWASTESERVICE | sended depositRequest to trolley")
 			} else {
-				replyTo storeRequest with loadRejected : loadRejected(_) caller==smartdevicemock
+				replyTo storeRequest with loadRejected : loadRejected(_) /*caller==smartdevicemock*/
 				println("\tWASTESERVICE | rejected request from smartdevice")
 			}
 		}
@@ -115,17 +125,17 @@ QActor wasteservice context ctxwasteservice {
 			
 			if [# Res == "OK" #] {
 				println("\tWASTESERVICE | arrived pickupDone reply OK")
-				replyTo storeRequest with loadAccepted : loadAccepted(_) caller==smartdevicemock
+				replyTo storeRequest with loadAccepted : loadAccepted(_) /*caller==smartdevicemock*/
 			} else {
 				println("\tWASTESERVICE | arrived pickupDone reply NO - FATAL ERROR")
-				replyTo storeRequest with loadRejected : loadRejected(_) caller==smartdevicemock
+				replyTo storeRequest with loadRejected : loadRejected(_) /*caller==smartdevicemock*/
 			}
 		}
 	}
 	Goto idle
 }
 
-QActor transporttrolley context ctxbasicrobot {
+QActor transporttrolley context ctxtrolley {
 	[#
 		lateinit var Mat: ws.Material
 		var Qty: Float = 0F
@@ -134,7 +144,6 @@ QActor transporttrolley context ctxbasicrobot {
 	#]
 	
 	State init initial {
-		discardMsg On
 		println("\tTRANSPORTTROLLEY | started.")
 	}
 	Goto idle
@@ -255,7 +264,7 @@ QActor transporttrolley context ctxbasicrobot {
 	
 }
 
-QActor trolleymover context ctxbasicrobot {
+QActor trolleymover context ctxtrolley {
 	[#
 		var Actions = ""
 		var Loc = ""
@@ -266,7 +275,6 @@ QActor trolleymover context ctxbasicrobot {
 	#]
 	
 	State init initial {
-		discardMsg On
 		println("\tTROLLEYMOVER | started.")
 	}
 	Goto idle
@@ -336,11 +344,10 @@ QActor trolleymover context ctxbasicrobot {
 	Goto idle
 }
 
-QActor ourpathexecutor context ctxbasicrobot {
+QActor ourpathexecutor context ctxtrolley {
 	[# var CurMoveTodo = "" #]
 	
 	State init initial {
-		discardMsg On
 		[# CurMoveTodo = "" #]
 		[# sysUtil.logMsgs = true #]
 		println("\tPATHEXECUTOR | started")

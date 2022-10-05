@@ -20,18 +20,17 @@ with Diagram('demo_wasteserviceArch', show=False, outformat='png', graph_attr=gr
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
      with Cluster('ctxbasicrobot', graph_attr=nodeattr):
+          basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
+     with Cluster('ctxsmartdevice', graph_attr=nodeattr):
+          smartdevicemock=Custom('smartdevicemock','./qakicons/symActorSmall.png')
+     with Cluster('ctxwasteservice', graph_attr=nodeattr):
+          wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
+     with Cluster('ctxtrolley', graph_attr=nodeattr):
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           ourpathexecutor=Custom('ourpathexecutor','./qakicons/symActorSmall.png')
-          basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
-     with Cluster('ctxwasteservice', graph_attr=nodeattr):
-          wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
-     with Cluster('ctxsmartdevice', graph_attr=nodeattr):
-          smartdevicemock=Custom('smartdevicemock','./qakicons/symActorSmall.png')
      smartdevicemock >> Edge(color='magenta', style='solid', xlabel='storeRequest', fontcolor='magenta') >> wasteservice
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
-     wasteservice >> Edge(color='darkgreen', style='dashed', xlabel='loadRejected', fontcolor='darkgreen') >> smartdevicemock
-     wasteservice >> Edge(color='darkgreen', style='dashed', xlabel='loadAccepted', fontcolor='darkgreen') >> smartdevicemock
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
      transporttrolley >> Edge(color='darkgreen', style='dashed', xlabel='pickupDone', fontcolor='darkgreen') >> wasteservice
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> ourpathexecutor
