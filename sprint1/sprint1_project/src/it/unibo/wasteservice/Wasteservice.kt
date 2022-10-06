@@ -21,14 +21,13 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						discardMessages = true
 						println("	WASTESERVICE | started.")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t02",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
+					 transition(edgeName="t00",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
 				}	 
 				state("idle") { //this:State
 					action { //it:State
@@ -38,7 +37,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t03",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
+					 transition(edgeName="t01",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
 				}	 
 				state("handleStoreRequest") { //this:State
 					action { //it:State
@@ -64,7 +63,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t14",targetState="handlePickupReply",cond=whenReply("pickupDone"))
+					 transition(edgeName="t12",targetState="handlePickupReply",cond=whenReply("pickupDone"))
 				}	 
 				state("handlePickupReply") { //this:State
 					action { //it:State
