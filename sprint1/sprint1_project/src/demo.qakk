@@ -28,13 +28,13 @@ Reply stepfail : stepfail(V)
 Event alarm : alarm(X)
 
 Context ctxbasicrobot ip[host="localhost" port=8020]
-//Context ctxsmartdevice ip[host="127.0.0.1" port=8040]
+Context ctxsmartdevice ip[host="127.0.0.1" port=8040]
 Context ctxwasteservice ip[host="localhost" port=8050]
 Context ctxtrolley ip[host="localhost" port=8060]
 
 ExternalQActor basicrobot context ctxbasicrobot
 
-/*
+
 QActor smartdevicemock context ctxsmartdevice {
 	[#
 		var Material: ws.Material
@@ -77,8 +77,7 @@ QActor smartdevicemock context ctxsmartdevice {
 		println("\tSMARTDEVICE | going away...")
 	}		  
 }
-* 
-*/
+
 
 QActor wasteservice context ctxwasteservice {
 	[#
