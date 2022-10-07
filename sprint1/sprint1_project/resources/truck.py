@@ -33,7 +33,8 @@ def request( message ) :
     msg = message + "\n"
     byt=msg.encode()    #required in Python3
     sock.send(byt)
-    handleAnswer()
+    reply=handleAnswer()
+    return reply
 
 def receiveALine() :    
     print("receiveALine " )
@@ -62,8 +63,7 @@ def handleAnswer() :
             ## print("reply=", reply)
             if reply.endswith("\n") :
                 break
-        print("final reply=", reply)
-        break
+        return reply
 
         
         
@@ -79,6 +79,6 @@ def console() :
         v = str(input() )      
 
 ###########################################    
-connect(port)
-console()
+#connect(port)
+#console()
 ##terminate()  
