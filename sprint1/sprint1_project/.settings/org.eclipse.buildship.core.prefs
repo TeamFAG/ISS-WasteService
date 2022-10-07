@@ -1,5 +1,9 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 arguments=--init-script C\:\\Users\\Gabriele\\AppData\\Roaming\\Code\\User\\globalStorage\\redhat.java\\1.11.0\\config_win\\org.eclipse.osgi\\53\\0\\.cp\\gradle\\init\\init.gradle --init-script C\:\\Users\\Gabriele\\AppData\\Roaming\\Code\\User\\globalStorage\\redhat.java\\1.11.0\\config_win\\org.eclipse.osgi\\53\\0\\.cp\\gradle\\protobuf\\init.gradle
+=======
+arguments=
+>>>>>>> Stashed changes
 =======
 arguments=
 >>>>>>> Stashed changes
@@ -10,7 +14,11 @@ connection.project.dir=
 eclipse.preferences.version=1
 gradle.user.home=
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 java.home=C\:/Program Files/Java/jdk-11.0.16+8
+=======
+java.home=
+>>>>>>> Stashed changes
 =======
 java.home=
 >>>>>>> Stashed changes
