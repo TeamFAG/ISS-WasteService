@@ -3,7 +3,7 @@ from truck import *
 
 
 selected_material = "GLASS"
-#connect(8050)
+connect(8050)
 
 def update_material(mat) :
     global selected_material
@@ -20,7 +20,7 @@ def handleSend() :
 
 def update_text(new_text) :
     text.configure(state='normal')
-    text.insert(new_text)
+    text.insert("1.0", new_text)
     text.configure(state='disabled')
 
 
