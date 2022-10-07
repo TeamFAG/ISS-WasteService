@@ -3,11 +3,11 @@
 import socket
 import time
 
-port = 8040 
+port = 8050 
 host = 'localhost' ##'192.168.1.62'
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-depositrequest   = "msg(depositrequest, request,python,wasteservice,storeRequest(glass,K),1)"
+depositrequest   = "msg(storeRequest, request,python,wasteservice,storeRequest(GLASS,K),1)"
  
 
 def connect(port) :
@@ -72,6 +72,7 @@ def terminate() :
     print("BYE")
     
 def console() :  
+    print("Insert: ")
     v =  str( input() )
     print("INPUT" , v  )    
     while( v != "q"  ) :
@@ -79,6 +80,6 @@ def console() :
         v = str(input() )      
 
 ###########################################    
-#connect(port)
-#console()
+connect(port)
+console()
 ##terminate()  
