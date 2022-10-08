@@ -18,6 +18,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 		
 				var CurrentMaterial: ws.Material
 				var CurrentQuantity: Float
+				var Rejected: Boolean = false
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -31,6 +32,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				}	 
 				state("idle") { //this:State
 					action { //it:State
+						 Rejected = false  
 						println("	WASTESERVICE | idle - waiting for storeRequests")
 						//genTimer( actor, state )
 					}
@@ -46,18 +48,40 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 								
 												CurrentMaterial = ws.Material.valueOf(payloadArg(0))
 												CurrentQuantity = payloadArg(1).toFloat()
+								updateResourceRep( "wasteservice(handleStoreRequest_${CurrentMaterial.toString()}_$CurrentQuantity)"  
+								)
 								println("	WASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 								if(  ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity)  
 								 ){
 													ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)
+								updateResourceRep( "wasteservice(Plastic: ${ws.WasteServiceStatusManager.storedPlastic})"  
+								)
+								updateResourceRep( "wasteservice(Glass: ${ws.WasteServiceStatusManager.storedGlass})"  
+								)
 								request("depositRequest", "depositRequest($CurrentMaterial,$CurrentQuantity)" ,"transporttrolley" )  
 								println("	WASTESERVICE | sended depositRequest to trolley")
 								}
 								else
-								 {answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
+								 { Rejected = true  
+								 updateResourceRep( "wasteservice(handleStoreRequest_loadRejected)"  
+								 )
+								 answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
 								 println("	WASTESERVICE | rejected request from smartdevice")
 								 }
 						}
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="idle", cond=doswitchGuarded({ Rejected  
+					}) )
+					transition( edgeName="goto",targetState="pickupWait", cond=doswitchGuarded({! ( Rejected  
+					) }) )
+				}	 
+				state("pickupWait") { //this:State
+					action { //it:State
+						println("	WASTSERVICE | pickupWait")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -71,11 +95,15 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 var Res = payloadArg(0).toString()  
 								if(  Res == "OK"  
-								 ){println("	WASTESERVICE | arrived pickupDone reply OK")
+								 ){updateResourceRep( "wasteservice(handlePickupReply_loadAccepted)"  
+								)
+								println("	WASTESERVICE | arrived pickupDone reply OK")
 								answer("storeRequest", "loadAccepted", "loadAccepted(_)"   )  
 								}
 								else
-								 {println("	WASTESERVICE | arrived pickupDone reply NO - FATAL ERROR")
+								 {updateResourceRep( "wasteservice(handlePickupReply_loadRejected)"  
+								 )
+								 println("	WASTESERVICE | arrived pickupDone reply NO - FATAL ERROR")
 								 answer("storeRequest", "loadRejected", "loadRejected(_)"   )  
 								 }
 						}

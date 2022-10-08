@@ -84,6 +84,7 @@ QActor wasteservice context ctxwasteservice {
 	[#
 		var CurrentMaterial: ws.Material
 		var CurrentQuantity: Float
+		var Rejected: Boolean = false
 	#]
 	
 	State init initial {
@@ -92,6 +93,7 @@ QActor wasteservice context ctxwasteservice {
 	Transition t0 whenRequest storeRequest -> handleStoreRequest
 		
 	State idle {
+		[# Rejected = false #]
 		println("\tWASTESERVICE | idle - waiting for storeRequests")
 	}
 	Transition t0 whenRequest storeRequest -> handleStoreRequest
@@ -103,6 +105,7 @@ QActor wasteservice context ctxwasteservice {
 				CurrentQuantity = payloadArg(1).toFloat()
 			#]
 			
+			updateResource [# "wasteservice(handleStoreRequest_${CurrentMaterial.toString()}_$CurrentQuantity)" #]
 			println("\tWASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 			
 			if [# ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity) #] {
@@ -110,14 +113,24 @@ QActor wasteservice context ctxwasteservice {
 					ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)
 				#]
 								
+				updateResource [# "wasteservice(Plastic: ${ws.WasteServiceStatusManager.storedPlastic})" #]
+				updateResource [# "wasteservice(Glass: ${ws.WasteServiceStatusManager.storedGlass})" #]
 				request transporttrolley -m depositRequest : depositRequest($CurrentMaterial, $CurrentQuantity)
 				
 				println("\tWASTESERVICE | sended depositRequest to trolley")
 			} else {
+				[# Rejected = true #]
+				updateResource [# "wasteservice(handleStoreRequest_loadRejected)" #]
+				
 				replyTo storeRequest with loadRejected : loadRejected(_) /*caller==smartdevicemock*/
 				println("\tWASTESERVICE | rejected request from smartdevice")
 			}
 		}
+	}
+	Goto idle if [# Rejected #] else pickupWait
+		
+	State pickupWait {
+		println("\tWASTSERVICE | pickupWait")
 	}
 	Transition t1 whenReply pickupDone -> handlePickupReply
 	
@@ -126,9 +139,13 @@ QActor wasteservice context ctxwasteservice {
 			[# var Res = payloadArg(0).toString() #]
 			
 			if [# Res == "OK" #] {
+				updateResource [# "wasteservice(handlePickupReply_loadAccepted)" #]
+				
 				println("\tWASTESERVICE | arrived pickupDone reply OK")
 				replyTo storeRequest with loadAccepted : loadAccepted(_) /*caller==smartdevicemock*/
 			} else {
+				updateResource [# "wasteservice(handlePickupReply_loadRejected)" #]
+				
 				println("\tWASTESERVICE | arrived pickupDone reply NO - FATAL ERROR")
 				replyTo storeRequest with loadRejected : loadRejected(_) /*caller==smartdevicemock*/
 			}

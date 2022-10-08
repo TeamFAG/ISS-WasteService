@@ -1,5 +1,7 @@
 package ws
 
+import unibo.comm22.utils.ColorsOut
+
 object WasteServiceStatusManager {
 
     var storedPlastic: Float = 0F
@@ -18,5 +20,8 @@ object WasteServiceStatusManager {
         if(material.equals(Material.PLASTIC))
             storedPlastic += quantity
         else storedGlass += quantity
+
+        ColorsOut.outappl("Plastic: ${storedPlastic}", ColorsOut.YELLOW)
+        ColorsOut.outappl("Glass: ${storedGlass}", ColorsOut.YELLOW)
     }
 }
