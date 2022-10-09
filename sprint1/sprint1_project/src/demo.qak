@@ -154,6 +154,7 @@ QActor wasteservice context ctxwasteservice {
 	Goto idle
 }
 
+
 QActor transporttrolley context ctxtrolley {
 	[#
 		lateinit var Mat: ws.Material
@@ -245,17 +246,15 @@ QActor transporttrolley context ctxtrolley {
 	State doDeposit {
 		println("\tTRANSPORTTROLLEY | doing the deposit of $Qty KG of $Mat")
 		delay 1000
-		updateResource [# "transporttrolley(depositDone_$Mat)" #]
-		println("\tTRANSPORTTROLLEY | deposit done of $Qty KG of $Mat")
 	}
-	Goto moveToHome
+	Goto depositDone
 	
-	State moveToHome {
+	State depositDone {
 		[# Loc = "HOME" #]
 		
-		updateResource [# "transporttrolley(moving_$Loc)" #]
-		println("\tTRANSPORTTROLLEY | moving to $Loc")
-		
+		updateResource [# "transporttrolley(depositDone_$Mat)" #]
+		println("\tTRANSPORTTROLLEY | deposit done of $Qty KG of $Mat")
+				
 		request trolleymover -m move : move($Loc)
 	}
 	Transition t3 whenRequest depositRequest -> handleDepositRequest
@@ -282,6 +281,7 @@ QActor transporttrolley context ctxtrolley {
 	Transition t5 whenReply moveDone -> idle
 	
 }
+
 
 QActor trolleymover context ctxtrolley {
 	[#

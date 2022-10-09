@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	msg := "msg(storeRequest, request,python,wasteservice,storeRequest(GLASS,5),1)"
+	msg := "msg(storeRequest, request,python,wasteservice,storeRequest(GLASS,5),1)\n"
 
 	address := "localhost:8050"
 	tcpAddr, err := net.ResolveTCPAddr("tcp", address)

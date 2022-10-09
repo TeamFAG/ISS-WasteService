@@ -21,36 +21,29 @@ class TestTrolleyMover {
 
         obs = CoapObserver()
 
-        thread {
-            RunTrolley().main()
-        }
+        obs.addContext("ctxtrolley", Pair("localhost", 8060))
+        obs.addActor("trolleymover", "ctxtrolley")
+        obs.addActor("pathexecutor", "ctxtrolley")
 
-        waitingForActor("trolleymover")
-        waitingForActor("pathexecutor")
-
-        obs.addContext("ctxbasicrobot", Pair("localhost", 8020))
-        obs.addContext("ctxwasteservice", Pair("127.0.0.1", 8038))
-        obs.addActor("trolleymover", "ctxwasteservice")
-        obs.addActor("pathexecutor", "ctxwasteservice")
-        obs.addActor("basicrobot", "ctxbasicrobot")
+        obs.clearCoapHistory()
 
         obs.createCoapConnection("trolleymover")
 
-        conn = ConnTcp("127.0.0.1", 8038)
+        conn = ConnTcp("localhost", 8060)
 
         ColorsOut.out("Setup for test done...", ColorsOut.BLUE)
     }
 
     @AfterTest
     fun down() {
+        obs.clearCoapHistory()
         obs.closeAllCoapConnections()
         conn.close()
         ColorsOut.out("Closed all connections...", ColorsOut.BLUE)
     }
 
     @Test
-    fun test() {
-        //---------------------------------------HOME TO INDOOR--------------------------------------------//
+    fun testHomeToIndoor() {
         var answer = simulateRequest(conn, "indoor")
 
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
@@ -59,7 +52,8 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
-        CommUtils.delay(1000)
+        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_indoor)")
+        println(obs.getCoapHistory())
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_indoor)",
@@ -67,9 +61,11 @@ class TestTrolleyMover {
         )))
 
         obs.clearCoapHistory()
+    }
 
-        //---------------------------------------INDOOR TO PLASTICBOX-----------------------------------------//
-        answer = simulateRequest(conn, "plasticbox")
+    @Test
+    fun testIndoorToPlasticbox() {
+        var answer = simulateRequest(conn, "plasticbox")
 
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
 
@@ -77,9 +73,7 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
-        println(obs.getCoapHistory())
-
-        CommUtils.delay(1000)
+        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_plasticbox)")
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_plasticbox)",
@@ -87,11 +81,11 @@ class TestTrolleyMover {
         )))
 
         obs.clearCoapHistory()
+    }
 
-        //---------------------------------------PLASTICBOX TO HOME INTERRUPTED TO INDOOR--------------------//
-        simulateRequestWithoutResponse(conn, "home")
-        CommUtils.delay(6000)
-        answer = simulateRequest(conn, "indoor")
+    @Test
+    fun testPlasticboxToHome() {
+        var answer = simulateRequest(conn, "home")
 
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
 
@@ -99,7 +93,73 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
+        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_home)")
+
+        assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
+            "trolleymover(handleMovement_home)",
+            "trolleymover(handlePathDone_home)"
+        )))
+
+        obs.clearCoapHistory()
+    }
+
+    @Test
+    fun testIndoorToGlassbox() {
+        goToLocation("indoor")
+
+        var answer = simulateRequest(conn, "glassbox")
+
+        ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
+
+        if (answer != null) {
+            assertTrue(answer.contains("moveDone(OK)"))
+        }
+
+        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_glassbox)")
+
+        assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
+            "trolleymover(handleMovement_glassbox)",
+            "trolleymover(handlePathDone_glassbox)"
+        )))
+
+        obs.clearCoapHistory()
+    }
+
+    @Test
+    fun testGlassboxToHome() {
+        var answer = simulateRequest(conn, "home")
+
+        ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
+
+        if (answer != null) {
+            assertTrue(answer.contains("moveDone(OK)"))
+        }
+
+        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_home)")
+
+        assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
+            "trolleymover(handleMovement_home)",
+            "trolleymover(handlePathDone_home)"
+        )))
+
+        obs.clearCoapHistory()
+    }
+
+    @Test
+    fun testGlassToHomeInterruptedToIndoor() {
+        goToLocation("glassbox")
+
+        simulateRequestWithoutResponse(conn, "home")
         CommUtils.delay(1000)
+        val answer = simulateRequest(conn, "indoor")
+
+        ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
+
+        if (answer != null) {
+            assertTrue(answer.contains("moveDone(OK)"))
+        }
+
+        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_indoor)")
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_home)",
@@ -110,42 +170,12 @@ class TestTrolleyMover {
         )))
 
         obs.clearCoapHistory()
+    }
 
-
-        //---------------------------------------INDOOR TO GLASSBOX-----------------------------------------//
-        answer = simulateRequest(conn, "glassbox")
-
+    private fun goToLocation(location: String) {
+        var answer = simulateRequest(conn, location)
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
-
-        if (answer != null) {
-            assertTrue(answer.contains("moveDone(OK)"))
-        }
-
-        CommUtils.delay(1000)
-
-        assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
-            "trolleymover(handleMovement_glassbox)",
-            "trolleymover(handlePathDone_glassbox)"
-        )))
-
-        obs.clearCoapHistory()
-
-        //---------------------------------------GLASSBOX TO HOME-----------------------------------------//
-        answer = simulateRequest(conn, "home")
-
-        ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
-
-        if (answer != null) {
-            assertTrue(answer.contains("moveDone(OK)"))
-        }
-
-        CommUtils.delay(1000)
-
-        assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
-            "trolleymover(handleMovement_home)",
-            "trolleymover(handlePathDone_home)"
-        )))
-
+        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_$location)")
         obs.clearCoapHistory()
     }
 
@@ -172,6 +202,7 @@ class TestTrolleyMover {
             e.printStackTrace()
         }
     }
+
     private fun waitingForActor(actorName: String) {
         ColorsOut.out("Waiting for $actorName", ColorsOut.BLUE)
         var actor = getActor(actorName)

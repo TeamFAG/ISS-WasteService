@@ -21,18 +21,13 @@ class TestTransporttrolley {
 
         obs = CoapObserver()
 
-        var thread = thread {
-            RunTrolley().main()
-        }
+        obs.addContext("ctxtrolley", Pair("localhost", 8060))
+        obs.addActor("transporttrolley", "ctxtrolley")
 
-        waitingForActor("transporttrolley_t")
+        obs.createCoapConnection("transporttrolley")
+        obs.clearCoapHistory()
 
-        obs.addContext("ctxwasteservice_trolley", Pair("localhost", 8050))
-        obs.addActor("transporttrolley_t", "ctxwasteservice_trolley")
-
-        obs.createCoapConnection("transporttrolley_t")
-
-        conn = ConnTcp("localhost", 8050)
+        conn = ConnTcp("localhost", 8060)
 
         ColorsOut.outappl("Setup done.", ColorsOut.BLUE)
     }
@@ -47,53 +42,139 @@ class TestTransporttrolley {
 
     @Test
     fun testPlasticDepostit() {
-        var answer = simulateRequest(conn, Material.PLASTIC, 10F)
+        var answer = simulateRequest(conn, Material.PLASTIC, 5F)
 
         ColorsOut.outappl("Answer: $answer", ColorsOut.GREEN)
 
         if(answer != null)
-            assertTrue(answer.contains("pickupDone(ok)"))
+            assertTrue(answer.contains("pickupDone(OK)"))
 
-        CommUtils.delay(5000)
+        obs.waitForSpecificHistoryEntry("transporttrolley(arrived_HOME)")
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "transporttrolley(handleDepositRequest)",
-            "transporttrolley(moving_Indoor)",
-            "transporttrolley(arrived_Indoor)",
-            "transporttrolley(moving_PlasticBox)",
-            "transporttrolley(arrived_PlasticBox)",
-            "transporttrolley(depositDone)",
-            "transporttrolley(moving_Home)",
-            "transporttrolley(arrived_Home)"
+            "transporttrolley(moving_INDOOR)",
+            "transporttrolley(arrived_INDOOR)",
+            "transporttrolley(pickupDone)",
+            "transporttrolley(moving_PLASTICBOX)",
+            "transporttrolley(arrived_PLASTICBOX)",
+            "transporttrolley(depositDone_PLASTIC)",
+            "transporttrolley(arrived_HOME)"
         )))
+
+        obs.clearCoapHistory()
     }
 
     @Test
     fun testGlassDeposit() {
-        var answer = simulateRequest(conn, Material.GLASS, 10F)
+        var answer = simulateRequest(conn, Material.GLASS, 5F)
 
         ColorsOut.outappl("Answer: $answer", ColorsOut.GREEN)
 
         if(answer != null)
-            assertTrue(answer.contains("pickupDone(ok)"))
+            assertTrue(answer.contains("pickupDone(OK)"))
 
-        CommUtils.delay(5000)
+        obs.waitForSpecificHistoryEntry("transporttrolley(arrived_HOME)")
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "transporttrolley(handleDepositRequest)",
-            "transporttrolley(moving_Indoor)",
-            "transporttrolley(arrived_Indoor)",
-            "transporttrolley(moving_GlassBox)",
-            "transporttrolley(arrived_GlassBox)",
-            "transporttrolley(depositDone)",
-            "transporttrolley(moving_Home)",
-            "transporttrolley(arrived_Home)"
+            "transporttrolley(moving_INDOOR)",
+            "transporttrolley(arrived_INDOOR)",
+            "transporttrolley(pickupDone)",
+            "transporttrolley(moving_GLASSBOX)",
+            "transporttrolley(arrived_GLASSBOX)",
+            "transporttrolley(depositDone_GLASS)",
+            "transporttrolley(arrived_HOME)"
         )))
+
+        obs.clearCoapHistory()
+    }
+
+    @Test
+    fun testPlasticGlassDeposit() {
+        var answer = simulateRequest(conn, Material.PLASTIC, 5F)
+
+        ColorsOut.outappl("Answer: $answer", ColorsOut.GREEN)
+
+        if(answer != null)
+            assertTrue(answer.contains("pickupDone(OK)"))
+
+        obs.waitForSpecificHistoryEntry("transporttrolley(depositDone_PLASTIC)")
+
+        answer = simulateRequest(conn, Material.GLASS, 5F)
+
+        ColorsOut.outappl("Answer: $answer", ColorsOut.GREEN)
+
+        if(answer != null)
+            assertTrue(answer.contains("pickupDone(OK)"))
+
+        obs.waitForSpecificHistoryEntry("transporttrolley(arrived_HOME)")
+
+        assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
+            "transporttrolley(handleDepositRequest)",
+            "transporttrolley(moving_INDOOR)",
+            "transporttrolley(arrived_INDOOR)",
+            "transporttrolley(pickupDone)",
+            "transporttrolley(moving_PLASTICBOX)",
+            "transporttrolley(arrived_PLASTICBOX)",
+            "transporttrolley(depositDone_PLASTIC)",
+            "transporttrolley(handleDepositRequest)",
+            "transporttrolley(moving_INDOOR)",
+            "transporttrolley(arrived_INDOOR)",
+            "transporttrolley(pickupDone)",
+            "transporttrolley(moving_GLASSBOX)",
+            "transporttrolley(arrived_GLASSBOX)",
+            "transporttrolley(depositDone_GLASS)",
+            "transporttrolley(arrived_HOME)",
+        )))
+
+        obs.clearCoapHistory()
+    }
+
+    @Test
+    fun testGlassPlasticDeposit() {
+        var answer = simulateRequest(conn, Material.GLASS, 5F)
+
+        ColorsOut.outappl("Answer: $answer", ColorsOut.GREEN)
+
+        if(answer != null)
+            assertTrue(answer.contains("pickupDone(OK)"))
+
+        obs.waitForSpecificHistoryEntry("transporttrolley(depositDone_GLASS)")
+
+        answer = simulateRequest(conn, Material.PLASTIC, 5F)
+
+        ColorsOut.outappl("Answer: $answer", ColorsOut.GREEN)
+
+        if(answer != null)
+            assertTrue(answer.contains("pickupDone(OK)"))
+
+        obs.waitForSpecificHistoryEntry("transporttrolley(arrived_HOME)")
+
+        assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
+            "transporttrolley(handleDepositRequest)",
+            "transporttrolley(moving_INDOOR)",
+            "transporttrolley(arrived_INDOOR)",
+            "transporttrolley(pickupDone)",
+            "transporttrolley(moving_GLASSBOX)",
+            "transporttrolley(arrived_GLASSBOX)",
+            "transporttrolley(depositDone_GLASS)",
+            "transporttrolley(handleDepositRequest)",
+            "transporttrolley(moving_INDOOR)",
+            "transporttrolley(arrived_INDOOR)",
+            "transporttrolley(pickupDone)",
+            "transporttrolley(moving_PLASTICBOX)",
+            "transporttrolley(arrived_PLASTICBOX)",
+            "transporttrolley(depositDone_PLASTIC)",
+            "transporttrolley(arrived_HOME)",
+        )))
+
+        obs.clearCoapHistory()
     }
 
     private fun simulateRequest(conn: ConnTcp, material: Material, quantity: Float): String? {
         val request = MsgUtil.buildRequest("test", "depositRequest",
-            "depositRequest($material, $quantity)", "transporttrolley_t").toString()
+            "depositRequest($material, $quantity)", "transporttrolley").toString()
 
         try {
             return conn.request(request)

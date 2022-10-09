@@ -12,7 +12,7 @@ def update_material(mat) :
 def handleSend() :
     material = selected_material
     quantity = entry.get()
-    req = "msg(depositrequest, request,python,wasteservice,storeRequest("+selected_material+","+quantity+"),1)"
+    req = "msg(storeRequest, request, python, wasteservice, storeRequest("+selected_material+", "+quantity+"), 1)"
     update_text(req)
     reply = request(req)
     update_text(reply)

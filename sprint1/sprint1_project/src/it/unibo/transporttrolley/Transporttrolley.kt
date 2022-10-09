@@ -135,22 +135,19 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					action { //it:State
 						println("	TRANSPORTTROLLEY | doing the deposit of $Qty KG of $Mat")
 						delay(1000) 
-						updateResourceRep( "transporttrolley(depositDone_$Mat)"  
-						)
-						println("	TRANSPORTTROLLEY | deposit done of $Qty KG of $Mat")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="moveToHome", cond=doswitch() )
+					 transition( edgeName="goto",targetState="depositDone", cond=doswitch() )
 				}	 
-				state("moveToHome") { //this:State
+				state("depositDone") { //this:State
 					action { //it:State
 						 Loc = "HOME"  
-						updateResourceRep( "transporttrolley(moving_$Loc)"  
+						updateResourceRep( "transporttrolley(depositDone_$Mat)"  
 						)
-						println("	TRANSPORTTROLLEY | moving to $Loc")
+						println("	TRANSPORTTROLLEY | deposit done of $Qty KG of $Mat")
 						request("move", "move($Loc)" ,"trolleymover" )  
 						//genTimer( actor, state )
 					}
