@@ -439,7 +439,6 @@
             </dd>
 
             <h4>Assigning points of interest to coordinates on the map</h4>
-            <!--TODO: how to map the points of interest-->
             
                 After generating the map, we have to assign all points of interest (HOME, INDOOR, PLASTIC BOX, GLASS BOX) to the coordinates.<br/>
                 Considering the image provided by the customer, we can see that HOME is a space on the floor; however, the other points are mapped
@@ -622,7 +621,7 @@
                     <ol>
                         <li><a href="../sprint1_problem/test/it.unibo.sprint1.test/TestWasteservice.kt">TestWasteservice.kt</a>: it checks the functioning of the storeRequest and the 
                             following replies.</li>
-                        <li><a href="../sprint1_problem/test/it.unibo.sprint1.test/TestTransporttrolley.kt">TestTransporttrolley.kt</a>: it checks the correct execution of the transporttrolley's basic behaviour.</li>
+                        <li><a href="../sprint1_problem/test/it.unibo.sprint1.test/TestTransporttrolley.kt">TestTransporttrolley.kt</a>: it checks the correct execution of the transporttrolley's basic behavior.</li>
                     </ol>
                 </dd>
             </div>
@@ -650,43 +649,41 @@
             <h4>Actors</h4>
             <ol>
                 <li><k>transporttrolley</k><br/>
-                    <dd>
-                        The behavior of this actor doesn't correspond to its intended one. Transporttrolley should manage the whole
-                        trolley's routine (HOME -> INDOOR -> BOX -> HOME), but in this model it just relays the command
-                        for the robot to move somewhere.<br/><br/>
-                        Infact, the handling of deposit requests wasn't the target problem of the section.
+                    <br>
+                        The behavior of this actor didn't correspond to its intended one. Transporttrolley should manage the whole
+                        trolley's routine (HOME -> INDOOR -> BOX -> HOME), but in the previous model it just relayed the command
+                        for the robot to move somewhere.<br/>
+                        Infact, the handling of deposit requests wasn't the target problem of the prior section.</br></br>
+
+                        Now this behavior has been implemented and the actor also handles successive requests.
                     </dd>
                 </li>
                 <li><k>trolleymover</k><br/>
                     <dd>
-                        trolleymover is a new actor that handles the current path of the robot by using the planner to generate the
+                        trolleymover is a new actor that handles the current path of the robot by using the pathplanner to generate the
                         path as a sequence of moves. He is also the one who starts the transition in case the path changes during a movement execution.
                     </dd>
                 </li>
-                <li><k>guido</k><br/>
+                <li><k>pather</k><br/>
                     <dd>
-                        guido is our version of the pathexecutor actor provided by the customer.<br/>
+                        pather is our version of the pathexecutor actor provided by the customer.<br/>
                         The differences being that our version handles the map updates after each move, using the planner method, and with
                         an updated behavior in case we need to switch the current path in between two moves.
                     </dd>
                 </li>
             </ol>
 
-            <!--TODO: SOSTITUIRE nomi di exec + planner-->
-
-            <!--TODO: descrizione cambiamenti planner-->
             <h4>Other changes</h4>
-            <k>planner22</k><br/>
+            <k>pathplanner</k><br/>
             <dd>
                 The planner was also modified from the original version provided by the customer.<br/>
                 The only change was the addition of the method <i>getActionsString</i>, that takes a generated
-                path (a list of moves) and converts it into a single string, as required by the pathexecutor.<br/>
+                path (a list of moves) and converts it into a single string, as required by the pather.<br/>
                 <pre><code>
 [w,l,w,w,r,r,w,w]   =>   "wlwwrrww" 
                 </code></pre> 
             </dd>
 
-            <!--TODO: descrizione metodi utils di json, calcolo nearest pos-->
             <h4>Assigning coordinates during the mapping phase</h4>
             <k>Config file</k><br/>
             <dd>
@@ -725,27 +722,48 @@
     Actions = planner.getActionsString()
     (...)
 #]</code></pre>                                     
+                                <li><b><i>getLocationFromMaterialType</i></b> returns the name of the target location given the material.</li><br/>
                             </ol>
                         </dd>
                     </li>
                 </ul>
             </dd>
 
+            <h3>smartDevice</h3>
+            <br>
+                We also have developed a simple GUI application in python to simulate the interaction between the wastetruck and the wasteservice.</br>
+
+                <!--TODO: Inserire IMMAGINI BELLE-->
+
+                From the top menu it's possible to choose the different material options (currently only PLASTIC and GLASS) and to specify the weight
+                of the load. Pushing the button it sends a TCP request to the wasteservice end-point and the consequent reply can be seen on the textbox
+                as shown.
+
+            </dd>
+
             <h4>Test plans</h4>
             <dd>
                 We have prepared the following tests for this particular model:
                 <ol>
-                    <li><a href="../test/it.unibo.sprint1.test/TestUtilsKT.kt">TestUtilsKT.kt</a>: it checks the validity 
-                    of the utils.kt object by testing its two methods.</li>
-                    <li><a href="../test/it.unibo.sprint1.test/TestTrolleyMover.kt">TestTrolleyMover.kt</a>: it checks if the movements 
+                    <li><a href="../sprint1_project/test/kotlin/TestUtilityMethods.kt">TestUtilityMethods.kt</a>: it checks the validity 
+                    of the utils.kt object by testing its methods.</li>
+                    <li><a href="../sprint1_project/test/kotlin/TestTrolleyMover.kt">TestTrolleyMover.kt</a>: it checks if the movements 
                     needed to accomplish the tasks are done correctly and tests an instance of interrupted movement due to a change of the 
                     target destination, that also must be handled in the correct order.</li>
+                    <li><a href="../sprint1_project/test/kotlin/TestTransporttrolley.kt">TestTransporttrolley.kt</a>: it checks if both single
+                    and consecutive requests are managed in the correct way by the transporttrolley using CoaP to keep track of it's movements.
+                    <li><a href="../sprint1_project/test/kotlin/TestWasteservice.kt">TestWasteservice.kt</a>: it simply checks if the requests
+                    made to the wasteservice are accepted or denied accordingly to the state of the system.
                 </ol>
             </dd>
         </div>
 
+         <!--TODO: SOSTITUIRE NOMI di exec + planner NEI FILE-->
+
         <h2>Work plan</h2>
       
+
+       
 
     </div>
 
