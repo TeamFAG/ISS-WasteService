@@ -16,17 +16,18 @@ eventedgeattr = {
     'color': 'red',
     'style': 'dotted'
 }
-with Diagram('demo_wasteserviceArch', show=False, outformat='png', graph_attr=graphattr) as diag:
+with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
-     with Cluster('ctxbasicrobot', graph_attr=nodeattr):
-          basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
-     with Cluster('ctxwasteservice', graph_attr=nodeattr):
+     with Cluster('ctxwasteservice_test', graph_attr=nodeattr):
           wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
-     with Cluster('ctxtrolley', graph_attr=nodeattr):
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           pather=Custom('pather','./qakicons/symActorSmall.png')
+          basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
+          envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
+          datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
+          distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
      transporttrolley >> Edge(color='darkgreen', style='dashed', xlabel='pickupDone', fontcolor='darkgreen') >> wasteservice
@@ -38,4 +39,5 @@ with Diagram('demo_wasteserviceArch', show=False, outformat='png', graph_attr=gr
      sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> pather
      pather >> Edge(color='darkgreen', style='dashed', xlabel='doPathDone', fontcolor='darkgreen') >> trolleymover
      pather >> Edge(color='darkgreen', style='dashed', xlabel='doPathFail', fontcolor='darkgreen') >> trolleymover
+     sys >> Edge(color='red', style='dashed', xlabel='sonar', fontcolor='red') >> envsonarhandler
 diag

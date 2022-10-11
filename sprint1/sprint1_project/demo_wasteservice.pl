@@ -8,4 +8,4 @@ context(ctxtrolley, "localhost",  "TCP", "8060").
   qactor( wasteservice, ctxwasteservice, "it.unibo.wasteservice.Wasteservice").
   qactor( transporttrolley, ctxtrolley, "it.unibo.transporttrolley.Transporttrolley").
   qactor( trolleymover, ctxtrolley, "it.unibo.trolleymover.Trolleymover").
-  qactor( ourpathexecutor, ctxtrolley, "it.unibo.ourpathexecutor.Ourpathexecutor").
+  qactor( pather, ctxtrolley, "it.unibo.pather.Pather").
