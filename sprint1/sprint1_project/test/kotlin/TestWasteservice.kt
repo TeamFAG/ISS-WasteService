@@ -16,13 +16,14 @@ class TestWasteservice {
     private lateinit var obs: CoapObserver
 
     companion object {
+        lateinit var t: Thread
         var currentP = 0F
         var currentG = 0F
 
         @BeforeClass
         @JvmStatic
         fun prepareTest() {
-            thread {
+            t = thread {
                 it.unibo.ctxwasteservice_test.main()
             }
         }
@@ -30,7 +31,7 @@ class TestWasteservice {
         @AfterClass
         @JvmStatic
         fun stopAll() {
-
+            t.stop()
         }
     }
 
@@ -39,11 +40,10 @@ class TestWasteservice {
         CommSystemConfig.tracing = false
 
         obs = CoapObserver()
-
         obs.addContext("ctxwasteservice_test", Pair("localhost", 8050))
         obs.addActor("wasteservice", "ctxwasteservice_test")
-
         obs.createCoapConnection("wasteservice")
+        obs.clearCoapHistory()
 
         CommUtils.delay(2000)
 

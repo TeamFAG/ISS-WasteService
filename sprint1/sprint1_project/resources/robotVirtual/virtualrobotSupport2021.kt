@@ -41,15 +41,13 @@ object virtualrobotSupport2021 {
 		println("virtualrobotSupport2021 | init ... ")
 		//WsHttpConnection.trace = false
 	}
-/*
-val doafterConn : (CoroutineScope, WsHttpConnection) -> Unit =
-     fun(scope, support ) {
-		val obs  = WsSupportObserver( owner.getName() )
-        println("virtualrobotSupport2021 | doafterConn REGISTER an observer for the WsHttpConnection")
-		support.addObserver( obs )
-}
-*/
 
+	val doafterConn : (CoroutineScope, WsHttpConnection) -> Unit =
+		 fun(scope, support ) {
+			val obs  = WsSupportObserver( owner.getName() )
+			println("virtualrobotSupport2021 | doafterConn REGISTER an observer for the WsHttpConnection")
+			support.addObserver( obs )
+	}
 
 	fun create( owner: ActorBasic, hostNameStr: String, portStr: String, trace : Boolean = false  ){
  		this.owner   = owner	 

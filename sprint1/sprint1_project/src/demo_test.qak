@@ -159,12 +159,12 @@ QActor transporttrolley context ctxwasteservice_test {
 			updateResource [# "transporttrolley(pickupDone)" #]
 			println("\tTRANSPORTTROLLEY | pickup done")
 			
-			replyTo depositRequest with pickupDone : pickupDone(OK) caller==wasteservice
+			replyTo depositRequest with pickupDone : pickupDone(OK)
 		} else {
 			println("\tTRANSPORTTROLLEY | failed pickup")
 			[# Error = true #]
 			
-			replyTo depositRequest with pickupDone : pickupDone(NO) caller==wasteservice
+			replyTo depositRequest with pickupDone : pickupDone(NO)
 		}
 	}
 	Goto moveToBox if [# Error == false #] else errorHandler
@@ -346,7 +346,7 @@ QActor pather context ctxwasteservice_test {
 	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
 	
 	State handleStopPath {
-		replyTo stopPath with stopAck : stopAck(_) caller==trolleymover
+		replyTo stopPath with stopAck : stopAck(_)
 	}
 	Goto init
 	
@@ -376,14 +376,14 @@ QActor pather context ctxwasteservice_test {
 	
 	State endWorkOk {
 		println("\tPATHEXECUTOR | path done")
-		replyTo doPath with doPathDone : doPathDone(OK) caller==trolleymover
+		replyTo doPath with doPathDone : doPathDone(OK)
 	}
 	Goto init
 	
 	State endWorkKo {
 		[# var PathStillTodo = pathut.getPathTodo() #]
 		println("\tPATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
-		replyTo doPath with doPathFail : doPathFail($PathStillTodo) caller==trolleymover
+		replyTo doPath with doPathFail : doPathFail($PathStillTodo)
 	}
 	Transition t3 whenEvent alarm -> handleAlarm
 }
@@ -412,8 +412,8 @@ QActor basicrobot context ctxwasteservice_test {
         	#] 
   		}//The Virtual robot sonar is created in virtualrobotSupport2021
  
-  		run unibo.robot.robotSupport.move( "a" )    //synch
- 		run unibo.robot.robotSupport.move( "d" )	//synch
+  		//run unibo.robot.robotSupport.move( "a" )    //synch
+ 		//run unibo.robot.robotSupport.move( "d" )	//synch
     		//run unibo.robot.robotSupport.move( "w" )    //asynch
  		updateResource [# "basicrobot(start)" #]
  	} 

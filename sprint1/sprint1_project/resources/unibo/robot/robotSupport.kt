@@ -97,7 +97,7 @@ object robotSupport{
 	
 	fun createSonarPipe(robotsonar: ActorBasic?){
  		if( robotsonar != null ){ 
-			//runBlocking{
+			runBlocking{
 				//ACTIVATE THE DATA SOURCE  
 				//MsgUtil.sendMsg("robotSupport", "sonarstart", "sonarstart(do)", robotsonar)
 		 		//SET THE PIPE  
@@ -105,7 +105,7 @@ object robotSupport{
 		 			subscribeLocalActor("datacleaner").
 		 			subscribeLocalActor("distancefilter").
 		 			subscribeLocalActor("basicrobot")		//in order to perceive obstacle
-			//}
+			}
 			println("robotSupport | SONAR PIPE DONE NO runBlocking")
 		}else{
 	 		println("robotSupport | WARNING: sonar NOT FOUND")

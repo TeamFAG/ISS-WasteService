@@ -30,14 +30,10 @@ with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_at
           distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
-     transporttrolley >> Edge(color='darkgreen', style='dashed', xlabel='pickupDone', fontcolor='darkgreen') >> wasteservice
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pather
      trolleymover >> Edge(color='magenta', style='solid', xlabel='doPath', fontcolor='magenta') >> pather
-     pather >> Edge(color='darkgreen', style='dashed', xlabel='stopAck', fontcolor='darkgreen') >> trolleymover
      pather >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
      pather >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
      sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> pather
-     pather >> Edge(color='darkgreen', style='dashed', xlabel='doPathDone', fontcolor='darkgreen') >> trolleymover
-     pather >> Edge(color='darkgreen', style='dashed', xlabel='doPathFail', fontcolor='darkgreen') >> trolleymover
      sys >> Edge(color='red', style='dashed', xlabel='sonar', fontcolor='red') >> envsonarhandler
 diag
