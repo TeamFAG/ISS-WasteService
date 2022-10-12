@@ -24,21 +24,21 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						println("$name in ${currentState.stateName} | $currentMsg")
 						
 									Material = if(kotlin.random.Random.nextBoolean()) ws.Material.GLASS else ws.Material.PLASTIC
-									Qty = kotlin.random.Random.nextDouble(10.0, 50.0)
-						println("	WASTETRUCK | with $Qty KG of $Material")
+									Qty = kotlin.random.Random.nextDouble(100.0, 120.0)
+						println("WasteTruck with $Qty KG of $Material")
 						request("storeRequest", "storeRequest($Material,$Qty)" ,"wasteservice" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t18",targetState="handleAccepted",cond=whenReply("loadAccepted"))
-					transition(edgeName="t19",targetState="handleRejected",cond=whenReply("loadRejected"))
+					 transition(edgeName="t11",targetState="handleAccepted",cond=whenReply("loadAccepted"))
+					transition(edgeName="t12",targetState="handleRejected",cond=whenReply("loadRejected"))
 				}	 
 				state("handleAccepted") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: Store Accepted")
+						println("Store Accepted")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -49,7 +49,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				state("handleRejected") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: Store Rejected")
+						println("Store Rejected")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -60,7 +60,7 @@ class Wastetruck ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				state("termination") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTETRUCK: going away...")
+						println("Termination")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
