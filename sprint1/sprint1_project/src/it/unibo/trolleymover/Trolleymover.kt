@@ -96,8 +96,10 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				}	 
 				state("handlePathDone") { //this:State
 					action { //it:State
-						 IsMoving = false  
-						updateResourceRep( "trolleymover(handlePathDone_$Loc)"  
+						 
+									IsMoving = false
+									val pos = planner.get_curCoord() 
+						updateResourceRep( "trolleymover(handlePathDone_$Loc, POS: ${pos.x}_${pos.y})"  
 						)
 						println("	TROLLEYMOVER | arrived to $Loc")
 						answer("move", "moveDone", "moveDone(OK)"   )  

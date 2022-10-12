@@ -93,17 +93,24 @@ class CoapObserver : CoapHandler {
         return s2.contains(s1)
     }
 
-    fun waitForSpecificHistoryEntry(entry: String) {
+    fun waitForSpecificHistoryEntry(entry: String): String {
         ColorsOut.outappl("Waiting for $entry", ColorsOut.BLUE)
         var found = false
-        lateinit var history: List<String>
+        var res = ""
 
         while (!found) {
             CommUtils.delay(300)
 
-            if(getCoapHistory().contains(entry))
-                found = true
+            for(e in getCoapHistory()) {
+                if(e.contains(entry)) {
+                    found = true
+                    res = e
+                    break
+                }
+            }
         }
+
+        return res
     }
 
     fun clearCoapHistory() {

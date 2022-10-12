@@ -5,6 +5,8 @@ import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommSystemConfig
 import unibo.comm22.utils.CommUtils
 import kotlin.concurrent.thread
+import kotlin.test.assertContains
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class TestTrolleyMover {
@@ -67,11 +69,16 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
-        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_indoor)")
+        val s = obs.waitForSpecificHistoryEntry("handlePathDone_indoor")
+        val coord = getCoordFromHistory(s)
+        ColorsOut.outappl("Coord: (${coord.x}, ${coord.y})", ColorsOut.YELLOW)
+
+        assertEquals(coord.x, 0)
+        assertEquals(coord.y, 4)
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_indoor)",
-            "trolleymover(handlePathDone_indoor)"
+            "trolleymover(handlePathDone_indoor, POS: ${coord.x}_${coord.y})"
         )))
 
         obs.clearCoapHistory()
@@ -87,11 +94,16 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
-        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_plasticbox)")
+        val s = obs.waitForSpecificHistoryEntry("handlePathDone_plasticbox")
+        val coord = getCoordFromHistory(s)
+        ColorsOut.outappl("Coord: (${coord.x}, ${coord.y})", ColorsOut.YELLOW)
+
+        assertEquals(coord.x, 6)
+        assertEquals(coord.y, 4)
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_plasticbox)",
-            "trolleymover(handlePathDone_plasticbox)"
+            "trolleymover(handlePathDone_plasticbox, POS: ${coord.x}_${coord.y})"
         )))
 
         obs.clearCoapHistory()
@@ -107,11 +119,16 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
-        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_home)")
+        val s = obs.waitForSpecificHistoryEntry("handlePathDone_home")
+        val coord = getCoordFromHistory(s)
+        ColorsOut.outappl("Coord: (${coord.x}, ${coord.y})", ColorsOut.YELLOW)
+
+        assertEquals(coord.x, 0)
+        assertEquals(coord.y, 0)
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_home)",
-            "trolleymover(handlePathDone_home)"
+            "trolleymover(handlePathDone_home, POS: ${coord.x}_${coord.y})"
         )))
 
         obs.clearCoapHistory()
@@ -129,11 +146,16 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
-        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_glassbox)")
+        val s = obs.waitForSpecificHistoryEntry("handlePathDone_glassbox")
+        val coord = getCoordFromHistory(s)
+        ColorsOut.outappl("Coord: (${coord.x}, ${coord.y})", ColorsOut.YELLOW)
+
+        assertEquals(coord.x, 4)
+        assertEquals(coord.y, 0)
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_glassbox)",
-            "trolleymover(handlePathDone_glassbox)"
+            "trolleymover(handlePathDone_glassbox, POS: ${coord.x}_${coord.y})"
         )))
 
         obs.clearCoapHistory()
@@ -149,11 +171,16 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
-        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_home)")
+        val s = obs.waitForSpecificHistoryEntry("handlePathDone_home")
+        val coord = getCoordFromHistory(s)
+        ColorsOut.outappl("Coord: (${coord.x}, ${coord.y})", ColorsOut.YELLOW)
+
+        assertEquals(coord.x, 0)
+        assertEquals(coord.y, 0)
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_home)",
-            "trolleymover(handlePathDone_home)"
+            "trolleymover(handlePathDone_home, POS: ${coord.x}_${coord.y})"
         )))
 
         obs.clearCoapHistory()
@@ -173,23 +200,35 @@ class TestTrolleyMover {
             assertTrue(answer.contains("moveDone(OK)"))
         }
 
-        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_indoor)")
+        val s = obs.waitForSpecificHistoryEntry("handlePathDone_indoor")
+        val coord = getCoordFromHistory(s)
+        ColorsOut.outappl("Coord: (${coord.x}, ${coord.y})", ColorsOut.YELLOW)
+
+        assertEquals(coord.x, 2)
+        assertEquals(coord.y, 4)
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_home)",
             "trolleymover(handleMovement_stopPath)",
             "trolleymover(handleInterruptedMovement)",
             "trolleymover(handleMovement_indoor)",
-            "trolleymover(handlePathDone_indoor)",
+            "trolleymover(handlePathDone_indoor, POS: ${coord.x}_${coord.y})",
         )))
 
         obs.clearCoapHistory()
     }
 
+    private fun getCoordFromHistory(str: String): Coordinate {
+        // "trolleymover(handlePathDone_$Loc, POS: ${pos.x}_${pos.y})"
+        val s = str.split("POS:")[1].replace(" ", "").replace(")", "")
+        val c = s.split("_")
+        return Coordinate(c[0].toInt(), c[1].toInt())
+    }
+
     private fun goToLocation(location: String) {
         var answer = simulateRequest(conn, location)
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
-        obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_$location)")
+        obs.waitForSpecificHistoryEntry("handlePathDone_$location")
         obs.clearCoapHistory()
     }
 
