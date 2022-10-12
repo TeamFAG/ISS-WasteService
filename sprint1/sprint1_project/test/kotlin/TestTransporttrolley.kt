@@ -1,5 +1,7 @@
 import it.unibo.kactor.MsgUtil
 import it.unibo.kactor.QakContext
+import org.junit.AfterClass
+import org.junit.BeforeClass
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommSystemConfig
 import unibo.comm22.utils.CommUtils
@@ -15,29 +17,48 @@ class TestTransporttrolley {
     private lateinit var obs: CoapObserver
     private lateinit var conn: ConnTcp
 
+    companion object {
+        lateinit var t: Thread
+
+        @BeforeClass
+        @JvmStatic
+        fun prepareTest() {
+            t = thread {
+                it.unibo.ctxwasteservice_test.main()
+            }
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun stopAll() {
+            t.stop()
+        }
+    }
+
     @BeforeTest
     fun up() {
         CommSystemConfig.tracing = false
 
         obs = CoapObserver()
-
-        obs.addContext("ctxtrolley", Pair("localhost", 8060))
-        obs.addActor("transporttrolley", "ctxtrolley")
-
+        obs.addContext("ctxwasteservice_test", Pair("localhost", 8050))
+        obs.addActor("transporttrolley", "ctxwasteservice_test")
         obs.createCoapConnection("transporttrolley")
         obs.clearCoapHistory()
 
-        conn = ConnTcp("localhost", 8060)
+        CommUtils.delay(2000)
+
+        conn = ConnTcp("localhost", 8050)
 
         ColorsOut.outappl("Setup done.", ColorsOut.BLUE)
     }
 
     @AfterTest
     fun down() {
-        ColorsOut.outappl("Test done", ColorsOut.BLUE)
         obs.clearCoapHistory()
         obs.closeAllCoapConnections()
         conn.close()
+        ColorsOut.outappl("Test done", ColorsOut.BLUE)
+        ColorsOut.out("Closed all connections...", ColorsOut.BLUE)
     }
 
     @Test

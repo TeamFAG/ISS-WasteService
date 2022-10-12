@@ -55,7 +55,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						 ){updateResourceRep( "trolleymover(handleMovement_stopPath)"  
 						)
 						println("	TROLLEYMOVER | arrived move command when moving")
-						request("stopPath", "stopPath(_)" ,"ourpathexecutor" )  
+						request("stopPath", "stopPath(_)" ,"pather" )  
 						}
 						else
 						 {
@@ -67,7 +67,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						 updateResourceRep( "trolleymover(handleMovement_$Loc)"  
 						 )
 						 println("	TROLLEYMOVER | actions: $Actions")
-						 request("doPath", "doPath($Actions,trolleymover)" ,"ourpathexecutor" )  
+						 request("doPath", "doPath($Actions,trolleymover)" ,"pather" )  
 						 }
 						//genTimer( actor, state )
 					}

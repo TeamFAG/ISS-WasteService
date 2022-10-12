@@ -16,48 +16,22 @@ class TestWasteservice {
     private lateinit var obs: CoapObserver
 
     companion object {
-        init {
-
-        }
-
+        lateinit var t: Thread
         var currentP = 0F
         var currentG = 0F
-        lateinit var basicrobotThread: Thread
-        lateinit var wasteserviceThread: Thread
-        lateinit var transporttrolleyThread: Thread
-
-        fun runBasicRobot() = runBlocking {
-            QakContext.createContexts("localhost", this, "demo_wasteservice.pl", "sysRules.pl","ctxbasicrobot")
-        }
-
-        fun runTrolley() = runBlocking {
-            QakContext.createContexts("localhost", this, "demo_wasteservice.pl", "sysRules.pl","ctxtrolley")
-        }
-
-        fun runWasteservice() = runBlocking {
-            QakContext.createContexts("localhost", this, "demo_wasteservice.pl", "sysRules.pl","ctxwasteservice")
-        }
 
         @BeforeClass
         @JvmStatic
         fun prepareTest() {
-            /*
-            thread {
-                runBasicRobot()
+            t = thread {
+                it.unibo.ctxwasteservice_test.main()
             }
-            thread {
-                runTrolley()
-            }
-            thread {
-                runWasteservice()
-            }
-            */
         }
 
         @AfterClass
         @JvmStatic
         fun stopAll() {
-
+            t.stop()
         }
     }
 
@@ -66,15 +40,14 @@ class TestWasteservice {
         CommSystemConfig.tracing = false
 
         obs = CoapObserver()
-
-        obs.addContext("ctxwasteservice", Pair("localhost", 8050))
-        obs.addActor("wasteservice", "ctxwasteservice")
-
+        obs.addContext("ctxwasteservice_test", Pair("localhost", 8050))
+        obs.addActor("wasteservice", "ctxwasteservice_test")
         obs.createCoapConnection("wasteservice")
+        obs.clearCoapHistory()
+
+        CommUtils.delay(2000)
 
         ColorsOut.outappl("Setup for test done...", ColorsOut.BLUE)
-
-        obs.clearCoapHistory()
     }
 
     @AfterTest
@@ -97,9 +70,9 @@ class TestWasteservice {
             assertTrue(reply.contains("loadAccepted"))
         }
 
-        CommUtils.delay(1000)
+        obs.waitForSpecificHistoryEntry("wasteservice(handlePickupReply_loadAccepted)")
 
-        obs.getCoapHistory().iterator().forEach{e -> println(e)}
+        obs.getCoapHistory().iterator().forEach{e -> ColorsOut.outappl(e, ColorsOut.YELLOW)}
         println("Plastic: ${currentP}")
         println("Glass: ${currentG}")
 
@@ -125,10 +98,9 @@ class TestWasteservice {
             assertTrue(reply.contains("loadAccepted"))
         }
 
-        CommUtils.delay(1000)
+        obs.waitForSpecificHistoryEntry("wasteservice(handlePickupReply_loadAccepted)")
 
-        obs.getCoapHistory().iterator().forEach{e -> println(e)}
-
+        obs.getCoapHistory().iterator().forEach{e -> ColorsOut.outappl(e, ColorsOut.YELLOW)}
         println("Plastic: ${currentP}")
         println("Glass: ${currentG}")
 

@@ -1,12 +1,10 @@
 import it.unibo.kactor.MsgUtil
 import it.unibo.kactor.QakContext.Companion.getActor
+import org.junit.*
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommSystemConfig
 import unibo.comm22.utils.CommUtils
 import kotlin.concurrent.thread
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class TestTrolleyMover {
@@ -14,32 +12,49 @@ class TestTrolleyMover {
     private lateinit var obs: CoapObserver
     private lateinit var conn: ConnTcp
 
-    @BeforeTest
+    companion object {
+        lateinit var t: Thread
+
+        @BeforeClass
+        @JvmStatic
+        fun prepareTest() {
+            t = thread {
+                it.unibo.ctxwasteservice_test.main()
+            }
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun stopAll() {
+            t.stop()
+        }
+    }
+
+    @Before
     fun up() {
         CommSystemConfig.tracing = false
         SystemConfig.setTheConfiguration("SystemConfiguration")
 
         obs = CoapObserver()
-
-        obs.addContext("ctxtrolley", Pair("localhost", 8060))
-        obs.addActor("trolleymover", "ctxtrolley")
-        obs.addActor("pathexecutor", "ctxtrolley")
-
+        obs.addContext("ctxwasteservice_test", Pair("localhost", 8050))
+        obs.addActor("trolleymover", "ctxwasteservice_test")
+        obs.createCoapConnection("trolleymover")
         obs.clearCoapHistory()
 
-        obs.createCoapConnection("trolleymover")
+        CommUtils.delay(2000)
 
-        conn = ConnTcp("localhost", 8060)
+        conn = ConnTcp("localhost", 8050)
 
         ColorsOut.out("Setup for test done...", ColorsOut.BLUE)
     }
 
-    @AfterTest
+    @After
     fun down() {
         obs.clearCoapHistory()
         obs.closeAllCoapConnections()
         conn.close()
         ColorsOut.out("Closed all connections...", ColorsOut.BLUE)
+        ColorsOut.outappl("Test done", ColorsOut.BLUE)
     }
 
     @Test
@@ -53,7 +68,6 @@ class TestTrolleyMover {
         }
 
         obs.waitForSpecificHistoryEntry("trolleymover(handlePathDone_indoor)")
-        println(obs.getCoapHistory())
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_indoor)",
@@ -180,7 +194,7 @@ class TestTrolleyMover {
     }
 
     private fun simulateRequest(conn: ConnTcp, location: String): String? {
-        val request = MsgUtil.buildRequest("transporttrolley", "move",
+        val request = MsgUtil.buildRequest("test", "move",
             "move($location)", "trolleymover").toString()
 
         try {
@@ -193,7 +207,7 @@ class TestTrolleyMover {
     }
 
     private fun simulateRequestWithoutResponse(conn: ConnTcp, location: String) {
-        val request = MsgUtil.buildRequest("transporttrolley", "move",
+        val request = MsgUtil.buildRequest("test", "move",
             "move($location)", "trolleymover").toString()
 
         try {
