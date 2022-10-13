@@ -392,51 +392,7 @@
 
             We decided to opt for the second solution because it's easier to implement while also having a higher maintainability, reusability and extencibility. <br/>
             In the first place, it's necessary to further introduce the tools provided by the customer that will be used to solve the problem:<br/>
-            <h5>mapperQak22</h5>
-
-            <dd>
-                <img src="./imgs/mapperqak22arch.png" alt="mapperQak" style="width:auto;height:400px;" class="center">
-
-                The mapper is qak actor and provides us a map of the room in which the system will operate. It works by communicating with the real/virtual robot (starting from the HOME position)
-                and making it move inside the room while keeping track of its layout and dimensions.<br/>
-                Once the robot has explored the whole room, mapperQak22 stops sending commands and saves the resulting map in two files with different types:
-                <ol>
-                    <li>().txt which is useful to show the map layout.</li>
-                    <li>().bin will be used later by the planner.</li>
-                </ol>
-                The robot maps the room giving it dimensions based on it's size (RD). When the dimensions of the rectangular map are not multiple of RD, the 
-                excesses are still counted are still counted as a full step.<br/>
-                As of now, this seems to be a good way to map the service area.
-            </dd>
             
-            <h5>planner22</h5>
-
-            <dd>
-                The planner is a Kotlin object that uses the binary map file previously mentioned to search for the best possible path (series of moves) to reach a certain point of the map 
-                from the current position.<br/>
-                The methods provided are summarized in the following interface:
-                
-                <img src="./imgs/planner-interface.drawio.svg" alt="mapperQak" style="width:auto;height:250px;" class="center">
-
-                <ul>
-                    <li><b>initAI</b>: initialize a breadth-first algorithm used to plan the best path.</li>
-                    <li><b>loadRoomMap</b>: loads the binary map file, assuming the robot position in [0,0].</li>
-                    <li><b>showMap</b>: shows a visual array representation of the current state of the map.</li>
-                    <li><b>setGoal</b>: sets the goal position in coordinates.</li>
-                    <li><b>doPlan</b>: uses the AI to plan the best path from the current position to the goal.</li>
-                    <li><b>startTimer</b>: starts a timer.</li>
-                    <li><b>getDuration</b>: returns the time passed from the last start of the timer.</li>
-                </ul>
-            </dd>
-
-            <h5>pathexecutor</h5>
-
-            <dd>
-                <!--TODO: immagine-->
-                
-                The path executor uses a string that symbolizes the movements (in the aril language) and comunicates with the robot accordingly to accomplish the task.<br/>
-                Currently this string is hard-coded, we intend to use the planner to get this string and send it to this actor. We will later define this methods.
-            </dd>
 
             <h4>Assigning points of interest to coordinates on the map</h4>
             
@@ -602,6 +558,52 @@
                 to interact with the wasteservice system.</br>
                 As a consequence, the wastetruck is going to be any external user that can access the smartDevice.
             </dd>
+
+            <h4>Customer's software</h4>
+            <h5>mapperQak22</h5>
+            <dd>
+                <img src="./imgs/mapperqak22arch.png" alt="mapperQak" style="width:auto;height:400px;" class="center">
+
+                The mapper is qak actor and provides us a map of the room in which the system will operate. It works by communicating with the real/virtual robot (starting from the HOME position)
+                and making it move inside the room while keeping track of its layout and dimensions.<br/>
+                Once the robot has explored the whole room, mapperQak22 stops sending commands and saves the resulting map in two files with different types:
+                <ol>
+                    <li>().txt which is useful to show the map layout.</li>
+                    <li>().bin will be used later by the planner.</li>
+                </ol>
+                The robot maps the room giving it dimensions based on it's size (RD). When the dimensions of the rectangular map are not multiple of RD, the 
+                excesses are still counted are still counted as a full step.<br/>
+                As of now, this seems to be a good way to map the service area.
+            </dd>
+            
+            <h5>planner22</h5>
+
+            <dd>
+                The planner is a Kotlin object that uses the binary map file previously mentioned to search for the best possible path (series of moves) to reach a certain point of the map 
+                from the current position.<br/>
+                The methods provided are summarized in the following interface:
+                
+                <img src="./imgs/planner-interface.drawio.svg" alt="mapperQak" style="width:auto;height:250px;" class="center">
+
+                <ul>
+                    <li><b>initAI</b>: initialize a breadth-first algorithm used to plan the best path.</li>
+                    <li><b>loadRoomMap</b>: loads the binary map file, assuming the robot position in [0,0].</li>
+                    <li><b>showMap</b>: shows a visual array representation of the current state of the map.</li>
+                    <li><b>setGoal</b>: sets the goal position in coordinates.</li>
+                    <li><b>doPlan</b>: uses the AI to plan the best path from the current position to the goal.</li>
+                    <li><b>startTimer</b>: starts a timer.</li>
+                    <li><b>getDuration</b>: returns the time passed from the last start of the timer.</li>
+                </ul>
+            </dd>
+
+            <h5>pathexecutor</h5>
+
+            <dd>
+                <!--TODO: immagine-->
+                
+                The path executor uses a string that symbolizes the movements (in the aril language) and comunicates with the robot accordingly to accomplish the task.<br/>
+                Currently this string is hard-coded, we intend to use the planner to get this string and send it to this actor. We will later define this methods.
+            </dd>
                 
             <br/>
             <h3>Current system architecture</h3>
@@ -625,17 +627,57 @@
                     </ol>
                 </dd>
             </div>
+        </div>
         <h2>Project</h2>
-
+        <div class="remark">
             <h3>Map and Trolley movement: resulting model</h3>
 
-            The following section describes the model created from the problem analysis for the movement of the robot
+            The following section describes the model created following the problem analysis for the movement of the robot
             inside the room of the system.<br/>
             It uses the coordinate strategy and all previously mentioned tools provided by the customer (some of them have been modified
             and will be discussed shortly).<br/>
-            As for the previous models, it was created using the QAK modeling language and its code can be found here: <a href="../src/transporttrolley_problem.qak">transporttrolley_problem.qak</a> 
+            As for the previous models, it was created using the QAK modeling language and its code can be found here: <a href="../sprint1_project/src/demo.qak">demo.qak</a> 
 
-            <a href="../src/transporttrolley_problem.qak"><img src="./imgs/trolley_problemarch.png" alt="trolleyArch" style="width:auto;height:450px;" class="center"> </a>
+            <a href="../sprint1_project/src/demo.qak"><img src="./imgs/project-architecture.png" alt="demo" style="width:auto;height:450px;" class="center"> </a>
+
+            <h3>Transporttrolley</h3>
+            <!--
+                1) perche viene progettato prima il tt rispetto a ws?
+                2) visto che nel progetto abbiamo scelto le coordinate, come si vuole organizzare il ciò?
+                3) perchè trolleymover? -> progetto mover (in toto, parlando anche del planner, in quanto utilizzato sia da mover che da pather)
+                4) come è stato adattato il pather per l'interrupted movement
+                5) integrazione mover-trolley-robot
+                
+                1- complesso, elemento più grande dello sprint1, core problem più problematico
+                2- dato che sono state scelte le coordinate abbiamo bisogno di qualcosa che possa muovere il trolley in quelle coordinate.
+                    Quindi, fondamentale è l'utilizzo di mapper per ottenere le coordinate della mappa, il pathexecutor che effettivamente sposta il trolley
+                    in una determinata posizione, il planner per ottenere una serie di mosse a partire dalla posizione iniziale per arrivare ad una data destinazione.
+                    Quindi per introdurre del disaccoppiamento tra i componenti abbiamo deciso di sviluppare il mover che rende invisibile al transporttrolley
+                    ciò che è necessario per muoversi.
+
+            -->
+
+            We started with the transporttrolley project due to the fact that is (in our opinion) the largest, most complex and sensible to change
+            part of the architecture.
+            In view of our previous choice to use coordinates, we needed to use something to move the robot accordingly. So, after using the mapper to obtain and 
+            set the coordinates of our points of interest, we implemented our transporttrolley actor as simple and <i>placeholder</i> <!--TODO: indifferente, astratto (detached)--> 
+            as possible. His previous behavior (seen in the problem analysis) didn't correspond to its intended one, as it was done only for testing purposes.
+            He does now manage the whole routine (HOME -> INDOOR -> BOX -> HOME) to prolperly handle the deposit requests he recieves, even when consecutive.
+            He does so by making requests to our new trolleymover actor by only specifying the location to reach, unencumbered by the modality.
+            Trolleymover handles this path in the following sequence:
+                - gets the nearest coordinate of the target location thanks to the _util method_
+                - uses the planner to calculate the path to the coordinate
+                - relays the path string to the pather and, if needed, in this state can handle a "path switch"
+            
+
+            
+            our version of the actor pathexecutor (called <!--TODO: file singoli--> pather)
+            
+            <h3>Wasteservice</h3>
+
+
+            <h3>Smartdevice</h3>
+
 
             <h4>Halt problem</h4>
             During the development of this model, we encountered the issue of stopping the robot during the ongoing path.<br/>
@@ -648,16 +690,18 @@
 
             <h4>Actors</h4>
             <ol>
+                <!--
                 <li><k>transporttrolley</k><br/>
-                    <br>
+                    <dd>
                         The behavior of this actor didn't correspond to its intended one. Transporttrolley should manage the whole
                         trolley's routine (HOME -> INDOOR -> BOX -> HOME), but in the previous model it just relayed the command
                         for the robot to move somewhere.<br/>
-                        Infact, the handling of deposit requests wasn't the target problem of the prior section.</br></br>
+                        Infact, the handling of deposit requests wasn't the target problem of the prior section.</br>
 
                         Now this behavior has been implemented and the actor also handles successive requests.
                     </dd>
                 </li>
+                -->
                 <li><k>trolleymover</k><br/>
                     <dd>
                         trolleymover is a new actor that handles the current path of the robot by using the pathplanner to generate the
