@@ -15,18 +15,16 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
-		 
-				var Actions: String = "" 
-				var LOC: String = ""
+		
+				var Actions = ""
+				var Loc = ""
 				var IsMoving = false
-				var Progress = ""
 				SystemConfig.setTheConfiguration("SystemConfiguration")
 				planner.initAI()
 				planner.loadRoomMap("mapRoomEmpty")
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						discardMessages = true
 						println("	TROLLEYMOVER | started.")
 						//genTimer( actor, state )
 					}
@@ -44,46 +42,46 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t00",targetState="handleMovement",cond=whenRequest("move"))
+					 transition(edgeName="t010",targetState="handleMovement",cond=whenRequest("move"))
 				}	 
 				state("handleMovement") { //this:State
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("move(LOCATION)"), Term.createTerm("move(LOCATION)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 LOC = payloadArg(0)  
+								 Loc = payloadArg(0)  
 						}
-						println("	TROLLEYMOVER | received movement to $LOC")
+						println("	TROLLEYMOVER | received movement to $Loc")
 						if(  IsMoving  
-						 ){println("	TROLLEYMOVER | arrived move command when moving.")
-						updateResourceRep( "trolleymover(handleMovement_stopPath)"  
+						 ){updateResourceRep( "trolleymover(handleMovement_stopPath)"  
 						)
-						request("stopPath", "stopPath(_)" ,"ourpathexecutor" )  
+						println("	TROLLEYMOVER | arrived move command when moving")
+						request("stopPath", "stopPath(_)" ,"pather" )  
 						}
 						else
 						 {
-						 				var coord = utils.getClosestCoordinate(planner.get_curCoord(), LOC)
+						 				var coord = utils.getClosestCoordinate(planner.get_curCoord(), Loc)
 						 				planner.setGoal(coord.x, coord.y)
 						 				planner.doPlan()
 						 				Actions = planner.getActionsString()
 						 				IsMoving = true
-						 println("	TROLLEYMOVER | actions: $Actions")
-						 updateResourceRep( "trolleymover(handleMovement_$LOC)"  
+						 updateResourceRep( "trolleymover(handleMovement_$Loc)"  
 						 )
-						 request("doPath", "doPath($Actions,trolleymover)" ,"ourpathexecutor" )  
+						 println("	TROLLEYMOVER | actions: $Actions")
+						 request("doPath", "doPath($Actions,trolleymover)" ,"pather" )  
 						 }
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t11",targetState="handlePathDone",cond=whenReply("doPathDone"))
-					transition(edgeName="t12",targetState="handlePathFail",cond=whenReply("doPathFail"))
-					transition(edgeName="t13",targetState="handleInterruptedMovement",cond=whenReply("stopACK"))
-					transition(edgeName="t14",targetState="handleMovement",cond=whenRequest("move"))
+					 transition(edgeName="t111",targetState="handlePathDone",cond=whenReply("doPathDone"))
+					transition(edgeName="t112",targetState="handlePathFail",cond=whenReply("doPathFail"))
+					transition(edgeName="t113",targetState="handleInterruptedMovement",cond=whenReply("stopAck"))
+					transition(edgeName="t114",targetState="handleMovement",cond=whenRequest("move"))
 				}	 
 				state("handleInterruptedMovement") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("stopACK(_)"), Term.createTerm("stopACK(_)"), 
+						if( checkMsgContent( Term.createTerm("stopAck(_)"), Term.createTerm("stopAck(_)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 IsMoving = false  
 								updateResourceRep( "trolleymover(handleInterruptedMovement)"  
@@ -99,9 +97,9 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				state("handlePathDone") { //this:State
 					action { //it:State
 						 IsMoving = false  
-						println("	TROLLEYMOVER | arrived to $LOC")
-						updateResourceRep( "trolleymover(handlePathDone_$LOC)"  
+						updateResourceRep( "trolleymover(handlePathDone_$Loc)"  
 						)
+						println("	TROLLEYMOVER | arrived to $Loc")
 						answer("move", "moveDone", "moveDone(OK)"   )  
 						//genTimer( actor, state )
 					}
@@ -113,9 +111,9 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				state("handlePathFail") { //this:State
 					action { //it:State
 						 IsMoving = false  
-						println("	TROLLEYMOVER | path failed to $LOC")
-						updateResourceRep( "trolleymover(handlePathFail_$LOC)"  
+						updateResourceRep( "trolleymover(handlePathFail_$Loc)"  
 						)
+						println("	TROLLEYMOVER | path failed to $Loc")
 						answer("move", "moveDone", "moveDone(NO)"   )  
 						//genTimer( actor, state )
 					}

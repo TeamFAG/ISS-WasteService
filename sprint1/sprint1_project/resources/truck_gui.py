@@ -46,7 +46,7 @@ button = tk.Button(
     width=10,
     height=2,
     bg="blue",
-    fg="yellow",
+    fg="black",
     command=handleSend,
 )
 button.pack()

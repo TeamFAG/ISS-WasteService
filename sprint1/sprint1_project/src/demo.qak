@@ -352,17 +352,19 @@ QActor pather context ctxtrolley {
 	
 	State doMove {
 		[# planner.updateMap(CurMoveTodo, "") #]
-		delay 350
+		delay 400
 	}
 	Goto doMoveW if [# CurMoveTodo == "w" #] else doMoveTurn
 	
 	State doMoveTurn {
 		forward basicrobot -m cmd : cmd($CurMoveTodo)
 	}
-	Transition t1 whenTime 350 -> nextMove
+	Transition t1 whenTime 400 -> nextMove
 	
 	State doMoveW {
 		request basicrobot -m step : step(350)
+		// test
+		delay 400
 	}
 	Transition t2 whenEvent alarm -> handleAlarm
 				  whenReply stepdone -> nextMove
@@ -377,6 +379,8 @@ QActor pather context ctxtrolley {
 	State endWorkOk {
 		println("\tPATHEXECUTOR | path done")
 		replyTo doPath with doPathDone : doPathDone(OK) caller==trolleymover
+		// test
+		delay 400
 	}
 	Goto init
 	

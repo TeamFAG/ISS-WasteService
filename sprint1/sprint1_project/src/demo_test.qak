@@ -300,7 +300,8 @@ QActor trolleymover context ctxwasteservice_test {
 	State handlePathDone {
 		[# 
 			IsMoving = false
-			val pos = planner.get_curCoord() 
+			val pos = planner.get_curCoord()
+			planner.showMap()
 		#]
 		updateResource [# "trolleymover(handlePathDone_$Loc, POS: ${pos.x}_${pos.y})" #]
 		println("\tTROLLEYMOVER | arrived to $Loc")
