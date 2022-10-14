@@ -656,73 +656,79 @@
                     ciò che è necessario per muoversi.
 
             -->
+            <ol>
+                <li><k>transporttrolley</k>
+                    <dd>
+                        We started with the transporttrolley project due to the fact that is (in our opinion) the largest, most complex and sensible to change
+                        part of the architecture. <br/>
+                        In view of our previous choice to use coordinates, we needed to use something to move the robot accordingly. So, after using the mapper to obtain and 
+                        set the coordinates of our points of interest, we implemented our transporttrolley actor as simple and <i>placeholder</i> <!--TODO: indifferente, astratto (detached)--> 
+                        as possible. <br/>
+                        His previous behavior (seen in the problem analysis) didn't correspond to its intended one, as it was done only for testing purposes.
+                        He does now manage the whole routine (HOME -> INDOOR -> BOX -> HOME) to properly handle the deposit requests he recieves, even when consecutive.
+                        He does so by making requests to our new trolleymover actor by only specifying the location to reach, unencumbered by the modality. <br/>
+                    </dd>
+                </li>
+                <li><k>trolleymover</k>
+                    <dd>
+                        Trolleymover handles this path in the following sequence:
+                        <ul>
+                            <dd>
+                                <li>
+                                    Gets the nearest coordinate of the target location thanks to our <a href="#utils">utils</a> method <i>getClosestCoordinate</i>.
+                                </li>
+                                <li>
+                                    Uses the planner to calculate the path to the coordinate.
+                                </li>
+                                <li>
+                                    Relays the path string to the <i>pather</i> and, if needed, in this state can handle a "path switch" (later discussed).
+                                </li>
+                            </dd>
+                        </ul>
+                    </dd>
+                </li>
+                <li><k>pather</k>
+                    <dd>
+                        Our version of the actor pathexecutor (called <!-- TODO: generare e linkare il file Qak singolo --> pather) has two main new features:
+                        <ul>
+                            <dd>
+                                <li>
+                                    Continuously updates the status of the virtual map, based on the robot's current position and the next move to execute.
+                                </li>
+                                <li>
+                                    It now can easily react to the previously mentioned "path switch".
+                                </li>
+                            </dd>
+                        </ul>
+                        Also, to avoid a bug inside basicrobot that skips some steps, we introduced more delays.
+                    </dd>
+                </li>
+            </ol>
+            <dd>
+                <h4>Path Switching</h4>
+                During the development of this model, we encountered the issue of stopping the robot during the ongoing path.<br/>
+                This can happen when the trolley is moving towards HOME, as part of its normal routine, and a new deposit needs to be handled.<br/>
+                So the robot should stop moving and calculate a new path from the current position towards INDOOR.<br/><br/>
 
-            We started with the transporttrolley project due to the fact that is (in our opinion) the largest, most complex and sensible to change
-            part of the architecture.
-            In view of our previous choice to use coordinates, we needed to use something to move the robot accordingly. So, after using the mapper to obtain and 
-            set the coordinates of our points of interest, we implemented our transporttrolley actor as simple and <i>placeholder</i> <!--TODO: indifferente, astratto (detached)--> 
-            as possible. His previous behavior (seen in the problem analysis) didn't correspond to its intended one, as it was done only for testing purposes.
-            He does now manage the whole routine (HOME -> INDOOR -> BOX -> HOME) to prolperly handle the deposit requests he recieves, even when consecutive.
-            He does so by making requests to our new trolleymover actor by only specifying the location to reach, unencumbered by the modality.
-            Trolleymover handles this path in the following sequence:
-                - gets the nearest coordinate of the target location thanks to the _util method_
-                - uses the planner to calculate the path to the coordinate
-                - relays the path string to the pather and, if needed, in this state can handle a "path switch"
-            
+                As a sub-part of this problem we encountered the issue of constantly knowing the current position of the robot.<br/>
+                Thankfully, the planner provides the method <i>updateMap</i> to keep track of the robot's position and rotation after each move.<br/>
+                Consequently we are able to use the planner itself to substitute the current path with a newly calculated one whenever it's required.<br/><br/>
 
-            
-            our version of the actor pathexecutor (called <!--TODO: file singoli--> pather)
+                Our new models now include some new states to make this possible.
+            </dd>
             
             <h3>Wasteservice</h3>
 
 
             <h3>Smartdevice</h3>
 
-
-            <h4>Halt problem</h4>
-            During the development of this model, we encountered the issue of stopping the robot during the ongoing path.<br/>
-            This can happen when the trolley is moving towards HOME, as part of its normal routine, and a new deposit needs to be handled.<br/>
-            So the robot should stop moving and calculate a new path from the current position towards INDOOR.<br/><br/>
-
-            As a sub-part of this problem we encountered the issue of knowing constantly the current position of the robot.<br/>
-            Thankfully, the planner provides the method <i>updateMap</i> to keep track of the robot's position and rotation after each move.<br/>
-            Consequently we are able to use the planner itself to substitute the current path with a newly calculated one whenever it's required.<br/><br/>
-
-            <h4>Actors</h4>
-            <ol>
-                <!--
-                <li><k>transporttrolley</k><br/>
-                    <dd>
-                        The behavior of this actor didn't correspond to its intended one. Transporttrolley should manage the whole
-                        trolley's routine (HOME -> INDOOR -> BOX -> HOME), but in the previous model it just relayed the command
-                        for the robot to move somewhere.<br/>
-                        Infact, the handling of deposit requests wasn't the target problem of the prior section.</br>
-
-                        Now this behavior has been implemented and the actor also handles successive requests.
-                    </dd>
-                </li>
-                -->
-                <li><k>trolleymover</k><br/>
-                    <dd>
-                        trolleymover is a new actor that handles the current path of the robot by using the pathplanner to generate the
-                        path as a sequence of moves. He is also the one who starts the transition in case the path changes during a movement execution.
-                    </dd>
-                </li>
-                <li><k>pather</k><br/>
-                    <dd>
-                        pather is our version of the pathexecutor actor provided by the customer.<br/>
-                        The differences being that our version handles the map updates after each move, using the planner method, and with
-                        an updated behavior in case we need to switch the current path in between two moves.
-                    </dd>
-                </li>
-            </ol>
-
+          
             <h4>Other changes</h4>
             <k>pathplanner</k><br/>
             <dd>
                 The planner was also modified from the original version provided by the customer.<br/>
-                The only change was the addition of the method <i>getActionsString</i>, that takes a generated
-                path (a list of moves) and converts it into a single string, as required by the pather.<br/>
+                The only changes were the addition of using our new class <b>Coordinate</b> and the method <i>getActionsString</i>,
+                that takes a generated path (a list of moves) and converts it into a single string, as required by the pather.<br/>
                 <pre><code>
 [w,l,w,w,r,r,w,w]   =>   "wlwwrrww" 
                 </code></pre> 
@@ -752,7 +758,7 @@
 
                         </dd>
                     </li>
-                    <li><k><a href="../resources/utils.kt">utils.kt</a></k>
+                    <li id="utils"><k><a href="../resources/utils.kt">utils.kt</a></k>
                         <dd>
                             This object handles the coordinate information with these two methods:
                             <ol>
@@ -777,7 +783,7 @@
             <br>
                 We also have developed a simple GUI application in python to simulate the interaction between the wastetruck and the wasteservice.</br>
 
-                <!--TODO: Inserire IMMAGINI BELLE-->
+                <img src="./imgs/truck-gui.jpg">
 
                 From the top menu it's possible to choose the different material options (currently only PLASTIC and GLASS) and to specify the weight
                 of the load. Pushing the button it sends a TCP request to the wasteservice end-point and the consequent reply can be seen on the textbox
@@ -831,12 +837,17 @@
                 <th>Developers</th>
             </tr>
             <tr>
-                <td><center></center></td>
+                <td><center>Implementation of Coordinate features</center></td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
-                <td><center></center></td>
+                <td><center>Implementation of new and updated actors</center></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><center>Implementation of Path Switching feature</center></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -846,8 +857,18 @@
                 <td></td>
             </tr>
             <tr>
-                <td><center>Testing</center></td>
-                <td>Creating all test routines, implementing CoaP communication as a monitoring tool</td>
+                <td><center> Wasteservice Testing</center></td>
+                <td>Creating test routines for the wasteservice actor, implementing CoaP communication as a monitoring tool</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><center> Transporttrolley Testing</center></td>
+                <td>Creating test routines for the transporttrolley actor, implementing CoaP communication as a monitoring tool</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><center> Trolleymover Testing</center></td>
+                <td>Creating test routines for the trolleymover actor, implementing CoaP communication as a monitoring tool</td>
                 <td></td>
             </tr>
         </table>
