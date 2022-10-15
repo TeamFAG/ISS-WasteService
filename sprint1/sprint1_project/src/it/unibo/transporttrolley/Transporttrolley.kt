@@ -15,15 +15,15 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
-		
+		 
 				lateinit var Mat: ws.Material
-				var Qty: Float = 0F
+				var Qty: Float
 				var Error: Boolean = false
 				var Loc: String = ""
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						println("	TRANSPORTTROLLEY | started.")
+						println("	TRANSPORTTROLLEY | started...")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -33,13 +33,13 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("idle") { //this:State
 					action { //it:State
-						println("	TRANSPORTTROLLEY | waiting for requests...")
+						println("	TRANSPORTROLLEY | waiting for requests...")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t03",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
+					 transition(edgeName="t05",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
 				}	 
 				state("handleDepositRequest") { //this:State
 					action { //it:State
@@ -47,42 +47,40 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						)
 						if( checkMsgContent( Term.createTerm("depositRequest(MATERIAL,QUANTITY)"), Term.createTerm("depositRequest(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								
-													Mat = ws.Material.valueOf(payloadArg(0))
-													Qty = payloadArg(1).toFloat()
+								 Mat = ws.Material.valueOf(payloadArg(0))  
+								 Qty = payloadArg(1).toFloat()  
 						}
-						updateResourceRep( "transporttrolley(moving_INDOOR)"  
+						updateResourceRep( "transporttrolley(moving_Indoor)"  
 						)
-						println("	TRANSPORTTROLLEY | moving to INDOOR")
+						println("	TRANSPORTTROLLEY | moving to indoor")
 						request("move", "move(INDOOR)" ,"trolleymover" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t14",targetState="arrivedIndoor",cond=whenReply("moveDone"))
+					 transition(edgeName="t06",targetState="arrivedIndoor",cond=whenReply("moveDone"))
 				}	 
 				state("arrivedIndoor") { //this:State
 					action { //it:State
-						 var Answer: String = ""  
+						 var answer: String = ""  
 						if( checkMsgContent( Term.createTerm("moveDone(ANSWER)"), Term.createTerm("moveDone(ANSWER)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 Answer = payloadArg(0).toString()  
+								 answer = payloadArg(0).toString()  
 						}
-						if(  Answer == "OK"  
-						 ){updateResourceRep( "transporttrolley(arrived_INDOOR)"  
+						if(  answer == "OK"  
+						 ){println("	TRANSPORTTROLLEY | arrived to indoor")
+						updateResourceRep( "transporttrolley(arrived_Indoor)"  
 						)
-						println("	TRANSPORTTROLLEY | arrived to INDOOR")
 						delay(2000) 
 						updateResourceRep( "transporttrolley(pickupDone)"  
 						)
-						println("	TRANSPORTTROLLEY | pickup done")
 						answer("depositRequest", "pickupDone", "pickupDone(OK)","wasteservice"   )  
 						}
 						else
-						 {println("	TRANSPORTTROLLEY | failed pickup")
-						  Error = true  
+						 {println("	TRANSPORTTROLLEY | fail(indoor)")
 						 answer("depositRequest", "pickupDone", "pickupDone(NO)","wasteservice"   )  
+						  Error = true  
 						 }
 						//genTimer( actor, state )
 					}
@@ -91,37 +89,38 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					}	 	 
 					 transition( edgeName="goto",targetState="moveToBox", cond=doswitchGuarded({ Error == false  
 					}) )
-					transition( edgeName="goto",targetState="errorHandler", cond=doswitchGuarded({! ( Error == false  
+					transition( edgeName="goto",targetState="errorState", cond=doswitchGuarded({! ( Error == false  
 					) }) )
 				}	 
 				state("moveToBox") { //this:State
 					action { //it:State
 						 Loc = utils.getLocationFromMaterialType(Mat)  
+						println("	TRANSPORT TROLLEY | moving to $Loc")
 						updateResourceRep( "transporttrolley(moving_$Loc)"  
 						)
-						println("	TRANSPORTTROLLEY | moving to $Loc")
 						request("move", "move($Loc)" ,"trolleymover" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t25",targetState="arrivedToBox",cond=whenReply("moveDone"))
+					 transition(edgeName="t17",targetState="arrivedToBox",cond=whenReply("moveDone"))
 				}	 
 				state("arrivedToBox") { //this:State
 					action { //it:State
-						 var Answer = ""  
+						 var answer: String = ""  
 						if( checkMsgContent( Term.createTerm("moveDone(ANSWER)"), Term.createTerm("moveDone(ANSWER)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 Answer = payloadArg(0).toString()  
+								 answer = payloadArg(0).toString()  
 						}
-						if(  Answer == "OK"  
-						 ){updateResourceRep( "transporttrolley(arrived_$Loc)"  
+						if(  answer == "OK"  
+						 ){println("	TRANSPORTTROLLEY | arrived to $Loc")
+						updateResourceRep( "transporttrolley(arrived_$Loc)"  
 						)
-						println("	TRANSPORTTROLLEY | arrived to $Loc")
 						}
 						else
-						 {println("	TRANSPORTTROLLEY | failed $Loc")
+						 {println("	TRANSPORTTROLLEY | fail(indoor)")
+						 answer("depositRequest", "pickupDone", "pickupDone(NO)","wasteservice"   )  
 						  Error = true  
 						 }
 						//genTimer( actor, state )
@@ -133,48 +132,51 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("doDeposit") { //this:State
 					action { //it:State
-						println("	TRANSPORTTROLLEY | doing the deposit of $Qty KG of $Mat")
+						println("	TRANSPORT TROLLEY | doing the deposit of $Mat")
 						delay(1000) 
+						println("	TRANSPORT TROLLEY | deposit done $Mat")
+						updateResourceRep( "transporttrolley(depositDone_$Mat)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="depositDone", cond=doswitch() )
+					 transition( edgeName="goto",targetState="moveToHome", cond=doswitch() )
 				}	 
-				state("depositDone") { //this:State
+				state("moveToHome") { //this:State
 					action { //it:State
 						 Loc = "HOME"  
-						updateResourceRep( "transporttrolley(depositDone_$Mat)"  
+						println("	TRANSPORT TROLLEY | moving to $Loc")
+						updateResourceRep( "transporttrolley(moving_$Loc)"  
 						)
-						println("	TRANSPORTTROLLEY | deposit done of $Qty KG of $Mat")
 						request("move", "move($Loc)" ,"trolleymover" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t36",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
-					transition(edgeName="t37",targetState="endWork",cond=whenReply("moveDone"))
+					 transition(edgeName="t28",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
+					transition(edgeName="t29",targetState="endWork",cond=whenReply("moveDone"))
 				}	 
 				state("endWork") { //this:State
 					action { //it:State
-						updateResourceRep( "transporttrolley(arrived_HOME)"  
+						println("	TRANSPORTTROLLEY | arrived to home")
+						updateResourceRep( "transporttrolley(arrived_Home)"  
 						)
-						println("	TRANSPORTTROLLEY | arrived to HOME")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t48",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
+					 transition(edgeName="t310",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
 				}	 
-				state("errorHandler") { //this:State
+				state("errorState") { //this:State
 					action { //it:State
+						println("	TRANSPORTTROLLEY | error state - resetting...")
 						updateResourceRep( "transporttrolley(ERROR)"  
 						)
-						println("	TRANSPORTTROLLEY | error - resetting...")
-						
+						 
 									Qty = 0F
 									Error = false
 									Loc = ""
@@ -184,7 +186,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t59",targetState="idle",cond=whenReply("moveDone"))
+					 transition(edgeName="t411",targetState="idle",cond=whenReply("moveDone"))
 				}	 
 			}
 		}
