@@ -15,6 +15,10 @@ object SystemConfig {
         "plasticbox" to listOf(listOf(6, 2), listOf(6, 3), listOf(6, 4))
     )
 
+    var MAXPB = 100
+    var MAXGB = 100
+    var DLIMIT = 100
+
     fun setTheConfiguration(fileName: String) {
         var file = "${fileName}.json"
 
@@ -27,6 +31,9 @@ object SystemConfig {
             val values = objects.toMap()
 
             positions = values.get("positions") as MutableMap<String, List<List<Int>>>
+            MAXPB = values.get("MAXPB") as Int
+            MAXGB = values.get("MAXGB") as Int
+            DLIMIT = values.get("DLIMIT") as Int
         } catch (e: FileNotFoundException) {
             ColorsOut.outerr("setTheConfiguration ERROR " + e.message)
         }

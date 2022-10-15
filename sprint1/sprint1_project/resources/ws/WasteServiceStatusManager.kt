@@ -8,9 +8,9 @@ object WasteServiceStatusManager {
     var storedGlass: Float = 0F
 
     fun checkIfDepositPossible(material: Material, quantity: Float): Boolean {
-        if(material.equals(Material.GLASS) && storedGlass + quantity <= WasteServiceConstants.MAXGB)
+        if(material.equals(Material.GLASS) && storedGlass + quantity <= SystemConfig.MAXGB)
             return true
-        else if(material.equals(Material.PLASTIC) && storedPlastic + quantity <= WasteServiceConstants.MAXPB)
+        else if(material.equals(Material.PLASTIC) && storedPlastic + quantity <= SystemConfig.MAXPB)
             return true
 
         return false

@@ -1,7 +1,11 @@
 =\=\=\=\=\=\=
 <<<<<<<=Updated upstream
 >>>>>>>=Stashed changes
+<<<<<<< Updated upstream
 arguments=--init-script /var/folders/p3/2mz0sgmn267gmq6g_vc9_h4w0000gn/T/init9599546878819721883.gradle --init-script /var/folders/p3/2mz0sgmn267gmq6g_vc9_h4w0000gn/T/init17168568069623668961.gradle
+=======
+arguments=--init-script /var/folders/tx/bhyfr4yj0f17m19dz06v0qx40000gn/T/init14062646322925663860.gradle --init-script /var/folders/tx/bhyfr4yj0f17m19dz06v0qx40000gn/T/init16930304820884171843.gradle
+>>>>>>> Stashed changes
 auto.sync=false
 build.scans.enabled=false
 connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)
