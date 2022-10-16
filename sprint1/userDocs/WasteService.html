@@ -306,15 +306,15 @@
         <h2>Introduction</h2>
         <div class="remark">
             <h3>SCRUM goal</h3>
-            In the Sprint1 we aim to analyze the problems linked to the modeling of the core service and, ultimately, create a functioning prototype.<br/>
+            In the <b>Sprint1</b> we aim to analyze the <k>problems linked to the modeling of the core service</k> and, ultimately, create a <b>functioning prototype</b>.<br/>
             <br/>
             <h4>Core Service</h4>
             <img src="./imgs/systemarchitecturearch_core.png" alt="SystemArch" style="width:auto;height:750px;" class="center"><br/>
             The core service is identified by the following elements:
             <ul><br/>
-                <li>Wasteservice</li>
-                <li>Transport Trolley</li>
-                <li>Waste Truck/Driver</li>
+                <li><b>Wasteservice</b></li>
+                <li><b>Transport Trolley</b></li>
+                <li><b>Waste Truck/Driver</b></li>
             </ul>
             
         </div>
@@ -334,18 +334,18 @@
 
             <h3>Map and Trolley movement</h3>
 
-            The first problem we are going to tackle is how the transport trolley/DDR robot moves within the space of the service.<br/>
-            The customer has given us an image of the layout but, for obvious reasons, the robot cannot understand them, so it has no idea where
+            The first problem we are going to tackle is how the <ks>transport trolley/DDR robot</ks> moves within the space of the service.<br/>
+            The customer has given us an image of the layout but, for obvious reasons, the <ks>robot</ks> cannot understand them, so it has no idea where
             to go or what to look for.
-
+            
             We can theorize some solutions to this problem:
             <ol>
                 <li><h4>Without Map Coordinates</h4>
-                    This solution requires no planning, as it uses the specified layout given by the customer to move the trolley.<br/>
-                    By abusing the fact that all points of interest are located on a wall adjacent to a corner, all the robot needs to do is 
+                    This solution requires no planning, as it uses the specified layout given by the customer to move the <ks>trolley</ks>.<br/>
+                    By abusing the fact that all points of interest are located on a wall adjacent to a corner, all the it needs to do is 
                     move along the walls and find the target by colliding with it.<br/>
-                    If, by chance, the trolley received a different command, it would just need to turn in the right direction/orientation and keep moving.
-
+                    If, by chance, the <ks>trolley</ks> received a different command, it would just need to turn in the right direction/orientation and keep moving.
+                    
                     <img src="./imgs/MapWoCoord.svg" alt="mapWoCoord" height="400px" class="center">
                     
                     <k>PROS</k>
@@ -362,19 +362,20 @@
                     </ul>
                     
                 </li>
+
                 <li><h4>With Map Coordinates</h4>
-                    This solution uses pre-determined coordinates to move the trolley.<br/>
+                    This solution uses pre-determined coordinates to move the <ks>trolley</ks>.<br/>
                     To use the coordinates, the room is divided into squares with dimensions based on <b>RD</b> using a mapper.<br/>
-                    Then, each point of interest (HOME, INDOOR, PLASTICBOX, GLASSBOX) is assigned to some of the coordinates.<br/>
+                    Then, each <i>point of interest</i> (<b>HOME</b>, <b>INDOOR</b>, <b>PLASTICBOX</b>, <b>GLASSBOX</b>) is assigned to some of the coordinates.<br/>
                     <br/>
 
                     <img src="./imgs/MapWCoord.drawio.svg" alt="mapWCoord" height="400px" class="center">
 
                     The customer provides 3 useful tools:
                     <ol>
-                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.mapperQak22"><b>unibo.mapperQak22</b></a>: Creates a map of the room in the form of a string by moving the robot around and saving movement and collision data.</li>
-                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.planner22"><b>unibo.planner22</b></a>: Finds a path for the robot by using target coordinates.</li>
-                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.pathexecutor"><b>unibo.pathexecutor</b></a>: Moves the robot along a certain pre-determined path.</li>
+                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.mapperQak22"><k>unibo.mapperQak22</k></a>: Creates a map of the room in the form of a string by moving the robot around and saving movement and collision data.</li>
+                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.planner22"><k>unibo.planner22</k></a>: Finds a path for the robot by using target coordinates.</li>
+                        <li><a href="https://github.com/anatali/issLab2022/tree/main/unibo.pathexecutor"><k>unibo.pathexecutor</k></a>: Moves the robot along a certain pre-determined path.</li>
                     </ol>
 
                     <k>PROS</k>
@@ -389,16 +390,16 @@
                     </ul>   
                 </li>
             </ol>
-
+                
             We decided to opt for the second solution because it's easier to implement while also having a higher maintainability, reusability and extensibility. <br/>
 
             <h4>Assigning points of interest to coordinates on the map</h4>
             
-                After generating the map, we have to assign all points of interest (HOME, INDOOR, PLASTIC BOX, GLASS BOX) to the coordinates.<br/>
-                Considering the image provided by the customer, we can see that HOME is a space on the floor; however, the other points are mapped
+                After generating the map, we have to assign all points of interest (<b>HOME</b>, <b>INDOOR</b>, <b>PLASTICBOX</b>, <b>GLASSBOX</b>) to the coordinates.<br/>
+                Considering the image provided by the customer, we can see that <b>HOME</b> is a space on the floor; however, the other points are mapped
                 on the walls.<br/><br/>
 
-                <b>How can we decide when the trolley is interacting with these points ?</b><br/>
+                <b>How can we decide when the <ks>trolley</ks> is interacting with these points?</b><br/>
                 We have decided that <b><i>if the robot enters the spaces adjacent to the walls then it is
                 able to interact with them</i></b>.<br/><br/>
 
@@ -410,12 +411,12 @@
 |1, 0, 0, 0, 0, 0, 1, 
 |1, 1, 1, 1, 1, 1, 1, 
                 </code></pre>
-                Where the 1s represent spaces adjacent to walls and 0s represent the inside of the room.<br/>
-                r is the robot in its HOME position.
+                Where the <b>1</b>s represent spaces adjacent to walls and <b>0</b>s represent the inside of the room.<br/>
+                <b>r</b> is the robot in its HOME position.
                 <br/>
-                Seeing that in the map given by the customer, the containers and the indoor seem to be wider than home, we have decided to make them 3 squares wide.
+                Seeing that in the map given by the customer, the containers and the indoor seem to be wider than HOME, we have decided to make them 3 squares wide.
                 <br/>
-                For now, these are the sizes and general positions of all points of interest based on the general coordinates of a map:
+                For now, these are the <ks>sizes and general positions of all points of interest</ks> based on the general coordinates of a map:
                 <br/>
 
                 <div class="center" style="padding: 15px;">
@@ -452,7 +453,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><center>PLASTIC BOX</center></td>
+                            <td><center>PLASTICBOX</center></td>
                             <td><img src="./imgs/1x3.drawio.svg" alt="1x3" class="center"></td>
                             <td>
                                 <pre><code>
@@ -465,7 +466,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><center>GLASS BOX</center></td>
+                            <td><center>GLASSBOX</center></td>
                             <td><img src="./imgs/3x1.drawio.svg" alt="3x1" class="center"></td>
                             <td>
                                 <pre><code>
@@ -479,13 +480,18 @@
                         </tr>
                     </table>
                 </div>
+
+
+            <i></i>
+            <b></b>
+            <ks></ks>
                 
-                <h5><k>WARNING:</k> these definitions are based on a rough image and could be subject to change.</h5><br/>
+                <h5><k>WARNING</k>: these definitions are based on a rough image and could be subject to change.</h5><br/>
                 Moreover, this information could be hardcoded in the system, however we thought it would be better to create
-                a configuration file in case these definitions have to be changed (we have also considered the option to 
+                a <i>configuration file</i> in case these definitions have to be changed (we have also considered the option to 
                 generate the file as part of the mapping process).<br/><br/>
 
-                The following is an example of that configuration file created for the initial map in the virtual robot environment:
+                The following is an example of that <ks>configuration file</ks> created for the initial map in the virtual robot environment:
                 
                 <pre><code>
 { 
@@ -509,29 +515,29 @@
 
             <h3>wasteservice</h3>
             <dd>
-                The second problem in the core service is how wasteservice manages information from and to the other entities
+                The second problem in the <b>core service</b> is how <ks>wasteservice</ks> manages information from and to the other entities
                 (the truck and the trolley).
                 Based on the requirements for the project, we can pose the following questions:
                 <ol>
-                    <li>When do we notify the driver of a successfull pickup action ?</li>
-                    <li>Who notifies the driver of a successfull pickup action ?</li>
+                    <li>When do we notify the <ks>driver</ks> of a successfull pickup action ?</li>
+                    <li>Who notifies the <ks>driver</ks> of a successfull pickup action ?</li>
                     <li>When can we update the amount of material inside the containers ?</li>
                 </ol>
                 
                 <h4>Driver interaction timing</h4>
-                In the previous Sprint we modeled the interaction so that loadAccepted and loadRejected both arrive immediately
-                to the driver after the storeRequest.
+                In the previous Sprint we modeled the interaction so that <i>loadAccepted</i> and <i>loadRejected</i> both arrive immediately
+                to the driver after the <i>storeRequest</i>.
 
                 <img src="./imgs/wasteservice-old.excalidraw.svg" alt="mapWoCoord" height="200px" class="center" style="padding: 20px;">
                 
                 However, with this solution it is impossible to know when the trolley picks-up the load without adding another message.<br/>
                 <br/>
-                So, for the sake of efficiency, we can delay the loadAccepted reply to when the trolley does the pickup action.<br/>
+                So, for the sake of efficiency, we can delay the <i>loadAccepted</i> reply to when the <ks>trolley</ks> does the pickup action.<br/>
                 <br/>
                 As a consequence of this decision, the entity who will notify the driver of a successfull pick-up action is 
-                wasteservice.<br/>
-                This can be easily achieved by changing the notifyDeposit dispatch (defined in Sprint0) into a Request so 
-                that its Reply can be sent to the wasteservice once the trolley picks-up the load.
+                <ks>wasteservice</ks>.<br/>
+                This can be easily achieved by changing the <i>notifyDeposit</i> dispatch (defined in Sprint0) into a <k>Request</k> so 
+                that its <k>Reply</k> can be sent to the wasteservice once the trolley picks-up the load.
                 <pre><code>
     Request depositRequest : depositRequest(MATERIAL, QUANTITY)
     Reply pickupDone : pickupDone(RESULT)
@@ -541,24 +547,24 @@
 
                 <h4>Container status update</h4>
 
-                The next issue to discuss is choosing the appropriate moment to update the status of the containers in the system.<br/>
-                The amount of material stored in each container is managed and monitored by the wasteservice actor, who has to make sure
-                that the current weight doesn't exceed MAXPB and MAXGB.<br/><br/>
+                The next issue to discuss is choosing the appropriate moment to update the status of the <ks>containers</ks> in the system.<br/>
+                The amount of material stored in each container is managed and monitored by the <ks>wasteservice</ks> actor, who has to make sure
+                that the current weight doesn't exceed <b>MAXPB</b> and <b>MAXGB</b>.<br/><br/>
                 
-                The first and most obvious answer is to update the weight after the trolley has completed the deposit action.<br/>
-                However, there is a major flaw with this solution: the transit of the trolley and the deposit of the load both take time, 
-                in the meanwhile another storeRequest may be requested and we don't know if we can accept it.<br/>
+                The first and most obvious answer is to update the weight after the trolley has completed the <k>deposit</k> action.<br/>
+                However, there is a major flaw with this solution: <b>the transit of the trolley and the deposit of the load both take time, 
+                in the meanwhile another storeRequest may be requested and we don't know if we can accept it</b>.<br/>
                 As a solution, instead of using the amount of material inside the containers, to check the storage feasibility we can consider
                 the current load inside the system instead.
                 <br/>
-                The system load is updated at each loadAccepted reply.
+                The system load is updated at each <i>loadAccepted</i> reply.
 
             </dd>
 
             <h3>wastetruck</h3>
             <dd>
-                Previously our wastetruck was an actor, but our intentions in this Sprint are to implement a smartDevice application and use that 
-                to interact with the wasteservice system.</br>
+                Previously our <ks>wastetruck</ks> was an actor, but our intentions in this Sprint are to implement a <k>smartDevice</k> application and use that 
+                to interact with the <ks>wasteservice</ks> system.</br>
                 As a consequence, the wastetruck is going to be any external user that can access the smartDevice.
             </dd>
 
@@ -567,14 +573,14 @@
             <dd>
                 <img src="./imgs/mapperqak22arch.png" alt="mapperQak" style="width:auto;height:400px;" class="center">
 
-                The mapper is qak actor and provides us a map of the room in which the system will operate. It works by communicating with the real/virtual robot (starting from the HOME position)
+                The <ks>mapper</ks> is a qak actor and provides us a map of the room in which the system will operate. It works by communicating with the <i>real/virtual robot</i> (starting from the HOME position)
                 and making it move inside the room while keeping track of its layout and dimensions.<br/>
-                Once the robot has explored the whole room, mapperQak22 stops sending commands and saves the resulting map in two files with different types:
+                Once the robot has explored the whole room, <k>mapperQak22</k> stops sending commands and saves the resulting map in two files with different types:
                 <ol>
-                    <li>map.txt which is useful to show the map layout.</li>
-                    <li>map.bin will be used later by the planner.</li>
+                    <li><b>map.txt</b> which is useful to show the map layout.</li>
+                    <li><b>map.bin</b> will be used later by the planner.</li>
                 </ol>
-                The robot maps the room giving it dimensions based on it's size (RD). When the dimensions of the rectangular map are not multiple of RD, the 
+                The robot maps the room giving it dimensions based on it's size (<b>RD</b>). When the dimensions of the rectangular map are not multiple of <b>RD</b>, the 
                 excesses are still counted as a full step.<br/>
                 As of now, this seems to be a good way to map the service area.
             </dd>
@@ -582,7 +588,7 @@
             <h5>planner22</h5>
 
             <dd>
-                The planner is a Kotlin object that uses the binary map file previously mentioned to search for the best possible path (series of moves) to reach a certain point of the map 
+                The planner is a <k>Kotlin object</k> that uses the binary map file previously mentioned to search for the best possible path (series of moves) to reach a certain point of the map 
                 from the current position.<br/>
                 The methods provided are summarized in the following interface:
                 
@@ -613,20 +619,20 @@
             <div class="remark" style="background-color: #bec7fe;">
                 <img src="./imgs/wasteservice_problem_analysisarch.png" alt="waasteserviceProblemArch" style="width:auto;height:450px;" class="center">
                 </br>
-                <a href="../sprint1_problem/src/architecture_problem_analysis.qak">Complete QAK Model Wasteservice</a>
+                <a href="../sprint1_problem/src/architecture_problem_analysis.qak"><k>Complete QAK Model Wasteservice</k></a>
                 <br>
-                <a href="../sprint1_problem/src/transporttrolley.qak">Transporttrolley QAK</a>
+                <a href="../sprint1_problem/src/transporttrolley.qak"><k>Transporttrolley QAK</k></a>
                 <br>
-                <a href="../sprint1_problem/src/wasteservice.qak">Wasteservice QAK</a>
+                <a href="../sprint1_problem/src/wasteservice.qak"><k>Wasteservice QAK</k></a>
 
                 <br/>
                 <h5>Test Plans</h5>
                 <dd>
                     We have prepared the following tests for this particular model:
                     <ol>
-                        <li><a href="../sprint1_problem/test/it.unibo.sprint1.test/TestWasteservice.kt">TestWasteservice.kt</a>: it checks the functioning of the storeRequest and the 
+                        <li><a href="../sprint1_problem/test/it.unibo.sprint1.test/TestWasteservice.kt"><k>TestWasteservice.kt</k></a>: it checks the functioning of the storeRequest and the 
                             following replies.</li>
-                        <li><a href="../sprint1_problem/test/it.unibo.sprint1.test/TestTransporttrolley.kt">TestTransporttrolley.kt</a>: it checks the correct execution of the transporttrolley's basic behavior.</li>
+                        <li><a href="../sprint1_problem/test/it.unibo.sprint1.test/TestTransporttrolley.kt"><k>TestTransporttrolley.kt</k></a>: it checks the correct execution of the transporttrolley's basic behavior.</li>
                     </ol>
                 </dd>
             </div>
@@ -635,11 +641,11 @@
         <div class="remark">
             <h3>Final Model preview</h3>
 
-            This is the final model created following the problem analysis for the movement of the robot
+            This is the final <b>model</b> created following the problem analysis for the movement of the robot
             inside the room of the system.<br/>
             It uses the coordinate strategy and all previously mentioned tools provided by the customer (some of them have been modified
             and will be discussed shortly).<br/>
-            As for the previous models, it was created using the QAK modeling language and its code can be found here: <a href="../sprint1_project/src/demo.qak">demo.qak</a> 
+            As for the previous models, it was created using the <b>QAK modeling language</b> and its code can be found here: <a href="../sprint1_project/src/demo.qak"><k>demo.qak</k></a> 
 
             <a href="../sprint1_project/src/demo.qak"><img src="./imgs/project-architecture.png" alt="demo" style="width:auto;height:450px;" class="center"> </a>
 
@@ -647,10 +653,10 @@
             <ol>
                 <li><k>transporttrolley</k>
                     <dd>
-                        We started with the transporttrolley project due to the fact that is (in our opinion) the largest, most complex and sensible to change
+                        We started with the <ks>transporttrolley</ks> project due to the fact that is (in our opinion) the largest, most complex and sensible to change
                         part of the architecture. <br/>
                         In view of our previous choice to use coordinates, we needed to use something to move the robot accordingly. So, after using the mapper to obtain and 
-                        set the coordinates of our points of interest, we implemented our transporttrolley actor to be as simple and independent (to lower modules)
+                        set the coordinates of our points of interest, we implemented our <ks>transporttrolley </ks>actor to be as simple and independent (to lower modules)
                         as possible. <br/>
                         Its previous behavior (seen in the problem analysis) didn't correspond to its intended one, as it was done only for testing purposes.
                         It does now manage the whole routine (HOME -> INDOOR -> BOX -> HOME) to properly handle the deposit requests he recieves, even when consecutive.
@@ -659,9 +665,9 @@
                 </li>
                 <li><k>trolleymover</k>
                     <dd>
-                        Trolleymover is the entity between transporttrolley and the pather.<br/>
-                        It is the actor that allows us to implement the indipendency of the transporttrolley from the entities that manage all the robot's movements.
-                        It also hides the path switching operations from the entites above.<br/><br/>
+                        <ks>Trolleymover</ks> is the entity between <ks>transporttrolley</ks> and the <ks>pather</ks>.<br/>
+                        It is the actor that allows us to implement the <k>indipendency of the transporttrolley from the entities that manage all the robot's movements</k>.
+                        It also hides the <k>path switching</k> operations from the entites above.<br/><br/>
                         For example, if the robot has to suddently change paths, the transporttrolley will only need to send a consecutive request to the first one,
                         without worrying about the logic underneath.<br/><br/>
                         
@@ -669,26 +675,26 @@
                         <ul>
                             <dd>
                                 <li>
-                                    Gets the nearest coordinate of the target location thanks to our <a href="#utils">utils</a> method <i>getClosestCoordinate</i>.
+                                    Gets the nearest coordinate of the target location thanks to our <a href="#utils"><k>utils</k></a> method <i>getClosestCoordinate</i>.
                                 </li>
                                 <li>
-                                    Uses the planner to calculate the path to the coordinate.
+                                    Uses the <ks>planner</ks> to calculate the path to the coordinate.
                                 </li>
                                 <li>
-                                    Relays the path string to the <i>pather</i> and, if needed, in this state can handle a "path switch" (later discussed).
+                                    Relays the path string to the <ks>pather</ks> and, if needed, in this state can handle a "path switch" (later discussed).
                                 </li>
                             </dd>
                         </ul>
                         
                         <br/>
-                        trolleymover actor states:
+                        <ks>trolleymover</ks> actor states:
                         <br/>
-                        <img src="./imgs/mover-states.svg" alt="mover-states" style="width:auto;height:400px;" class="center">
+                        <a href="../sprint1_project/src/demo.qak"><img src="./imgs/mover-states.svg" alt="mover-states" style="width:auto;height:400px;" class="center"></a>
                     </dd>
                 </li>
                 <li><k>pather</k>
                     <dd>
-                        Our version of the actor pathexecutor (called <!-- TODO: generare e linkare il file Qak singolo --> pather) has two main new features:
+                        Our version of the actor pathexecutor (called <!-- TODO: generare e linkare il file Qak singolo --> <ks>pather</ks>) has two main new features:
                         <ul>
                             <dd>
                                 <li>
@@ -706,8 +712,8 @@
             <dd>
                 <h4>Path Switching</h4>
                 During the development of this model, we encountered the issue of stopping the robot during the ongoing path.<br/>
-                This can happen when the trolley is moving towards HOME, as part of its normal routine, and a new deposit needs to be handled.<br/>
-                So the robot should stop moving and calculate a new path from the current position towards INDOOR.<br/><br/>
+                This can happen when the trolley is moving towards <b>HOME</b>, as part of its normal routine, and a new deposit needs to be handled.<br/>
+                So the robot should stop moving and calculate a new path from the current position towards <b>INDOOR</b>.<br/><br/>
 
                 As a sub-part of this problem we encountered the issue of constantly knowing the current position of the robot.<br/>
                 Thankfully, the planner provides the method <i>updateMap</i> to keep track of the robot's position and rotation after each move.<br/>
@@ -716,23 +722,23 @@
                 Our <b>pather</b> now includes some new states to make this possible:
                 <br/>
 
-                <img src="./imgs/pather-states.svg" alt="pather-states" style="width:auto;height:400px;padding: 15px;" class="center"><br/>
+                <a href="../sprint1_project/src/demo.qak"><img src="./imgs/pather-states.svg" alt="pather-states" style="width:auto;height:400px;padding: 15px;" class="center"></a> <br/>
 
-                The implementation for the path switching feature was made possible by the addition of the stopPath request, that is intercepted after the doMoveW state.
+                The implementation for the path switching feature was made possible by the addition of the <i>stopPath</i> request, that is intercepted after the <i>doMoveW</i> state.
                 Once stopPath is received, the current path is overwritten by the newly calculated one and the robot changes its next moves accordingly.
             </dd>
             
             <h3>Wasteservice</h3>
             <dd>
-                The Wasteservice actor hasn't gone through major changes from the problem analysis.
+                The <ks>Wasteservice</ks> actor hasn't gone through major changes from the problem analysis.
                 <br/>
-                One of the changes we implemented was better state management of the actor's routine after a loadAccepted or loadRejected.
+                One of the changes we implemented was better state management of the actor's routine after a <i>loadAccepted</i> or <i>loadRejected</i>.
             </dd>
             
             <h3>Smartdevice</h3>
             <br>
             <dd>
-                We also have developed a simple <a href="../sprint1_project/resources/truck_gui.py">GUI application</a> in python to simulate the interaction between the wastetruck and the wasteservice.</br>
+                We also have developed a simple <a href="../sprint1_project/resources/truck_gui.py"><k>GUI application</k></a> in python to simulate the interaction between the <ks>wastetruck</ks> and the <ks>wasteservice</ks>.</br>
 
                 <img src="./imgs/truck-gui.png" class="center" style="width:auto;height:250px;">
 
@@ -740,13 +746,12 @@
                 of the load. Pushing the button it sends a TCP request to the wasteservice end-point and the consequent reply can be seen on the textbox
                 as shown.
             </dd>
-
           
             <h4>Other changes</h4>
             <k>pathplanner</k><br/>
             <dd>
-                The planner was also modified from the original version provided by the customer.<br/>
-                The only changes were the addition of using our new class <a href="../sprint1_project/resources/Coordinate.kt"><b>Coordinate</b></a> and the method <i>getActionsString</i>,
+                The <ks>planner</ks> was also modified from the original version provided by the customer.<br/>
+                The only changes were the addition of using our new class <a href="../sprint1_project/resources/Coordinate.kt"><k>Coordinate</k></a> and the method <i>getActionsString</i>,
                 that takes a generated path (a list of moves) and converts it into a single string, as required by the pather.<br/>
                 <pre><code>
 [w,l,w,w,r,r,w,w]   =>   "wlwwrrww" 
@@ -756,14 +761,14 @@
             <h4>Assigning coordinates during the mapping phase</h4>
             <a href="../sprint1_project/SystemConfiguration.json"><k>Config file</k></a><br/>
             <dd>
-                We use a json file to store the wasteservice constants (MAXPB, MAXGB, DLIMI) and the positions of each important location in the map with the same format seen
+                We use a <b>json file</b> to store the wasteservice constants (MAXPB, MAXGB, DLIMI) and the positions of each important location in the map with the same format seen
                 previously.<br/><br/>
                 Initially, the target location is in string format (HOME, INDOOR, ecc...), and it's necessary to convert that information
                 into coordinates.
 
                 To do this, we introduced two kotlin files:
                 <ul>
-                    <li><k><a href="../sprint1_project/resources/SystemConfig.kt">SystemConfig.kt</a></k>
+                    <li><a href="../sprint1_project/resources/SystemConfig.kt"><k>SystemConfig.kt</k></a>
                         <dd>
                             This object contains the coordinate information for each location in the map and the system's constants, obtained by reading the
                             json config file during the system's initialization.
@@ -777,7 +782,7 @@
 
                         </dd>
                     </li>
-                    <li id="utils"><k><a href="../sprint1_project/resources/utils.kt">utils.kt</a></k>
+                    <li id="utils"><a href="../sprint1_project/resources/utils.kt"><k>utils.kt</k></a>
                         <dd>
                             This object handles the coordinate information with these two methods:
                             <ol>
@@ -802,27 +807,25 @@
             <div class="remark" style="background-color: #bec7fe;">
                 <img src="./imgs/project-architecture.png" alt="demoarch" style="width:auto;height:450px;" class="center">
                 </br>
-                <a href="../sprint1_project/src/demo.qak">Demo QAK</a>
+                <a href="../sprint1_project/src/demo.qak"><k>Demo QAK</k></a>
                 <br>
                 <h5>Test Plans</h5>
                 <dd>
                     We have prepared the following tests for this particular model:
                     <ol>
-                        <li><a href="../sprint1_project/test/kotlin/TestUtilityMethods.kt">TestUtilityMethods.kt</a>: it checks the validity 
+                        <li><a href="../sprint1_project/test/kotlin/TestUtilityMethods.kt"><k>TestUtilityMethods.kt</k></a>: it checks the validity 
                         of the utils.kt object by testing its methods.</li>
-                        <li><a href="../sprint1_project/test/kotlin/TestTrolleyMover.kt">TestTrolleyMover.kt</a>: it checks if the movements 
+                        <li><a href="../sprint1_project/test/kotlin/TestTrolleyMover.kt"><k>TestTrolleyMover.kt</k></a>: it checks if the movements 
                         needed to accomplish the tasks are done correctly and tests an instance of interrupted movement due to a change of the 
                         target destination, that also must be handled in the correct order.</li>
-                        <li><a href="../sprint1_project/test/kotlin/TestTransporttrolley.kt">TestTransporttrolley.kt</a>: it checks if both single
+                        <li><a href="../sprint1_project/test/kotlin/TestTransporttrolley.kt"><k>TestTransporttrolley.kt</k></a>: it checks if both single
                         and consecutive requests are managed in the correct way by the transporttrolley using CoaP to keep track of it's movements.
-                        <li><a href="../sprint1_project/test/kotlin/TestWasteservice.kt">TestWasteservice.kt</a>: it simply checks if the requests
+                        <li><a href="../sprint1_project/test/kotlin/TestWasteservice.kt"><k>TestWasteservice.kt</k></a>: it simply checks if the requests
                         made to the wasteservice are accepted or denied accordingly to the state of the system.
                     </ol>
                 </dd>
             </div>
         </div>
-
-         <!--TODO: SOSTITUIRE NOMI di exec + planner NEI FILE-->
 
         <h2>Work plan</h2>
         <div class="remark">
