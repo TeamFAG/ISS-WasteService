@@ -368,8 +368,8 @@ QActor pather context ctxwasteservice_test {
 	State doMoveW {
 		request basicrobot -m step : step(350)
 	}
-	Transition t2 whenEvent alarm -> handleAlarm
-				  whenReply stepdone -> nextMove
+	Transition t2 whenReply stepdone -> nextMove
+				  whenEvent alarm -> handleAlarm
 				  whenReply stepfail -> endWorkKo
 				  whenRequest stopPath -> handleStopPath
 	

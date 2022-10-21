@@ -106,8 +106,8 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t217",targetState="handleAlarm",cond=whenEvent("alarm"))
-					transition(edgeName="t218",targetState="nextMove",cond=whenReply("stepdone"))
+					 transition(edgeName="t217",targetState="nextMove",cond=whenReply("stepdone"))
+					transition(edgeName="t218",targetState="handleAlarm",cond=whenEvent("alarm"))
 					transition(edgeName="t219",targetState="endWorkKo",cond=whenReply("stepfail"))
 					transition(edgeName="t220",targetState="handleStopPath",cond=whenRequest("stopPath"))
 				}	 

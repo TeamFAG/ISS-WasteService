@@ -105,7 +105,7 @@ eclipse {
 
 application {
     // Define the main class for the application.
-    mainClass = 'it.unibo.ctxbasicrobot.MainCtxbasicrobotKt'
+    mainClass = 'it.unibo.ctxwasteservice_test.MainCtxwasteservice_testKt'
 }
 
  jar {

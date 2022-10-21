@@ -1,6 +1,7 @@
 import it.unibo.kactor.MsgUtil
 import it.unibo.kactor.QakContext.Companion.getActor
 import org.junit.*
+import org.junit.runners.MethodSorters
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommSystemConfig
 import unibo.comm22.utils.CommUtils
@@ -9,8 +10,8 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class TestTrolleyMover {
-
     private lateinit var obs: CoapObserver
     private lateinit var conn: ConnTcp
 
@@ -60,7 +61,7 @@ class TestTrolleyMover {
     }
 
     @Test
-    fun testHomeToIndoor() {
+    fun A_testHomeToIndoor() {
         var answer = simulateRequest(conn, "indoor")
 
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
@@ -85,7 +86,7 @@ class TestTrolleyMover {
     }
 
     @Test
-    fun testIndoorToPlasticbox() {
+    fun B_testIndoorToPlasticbox() {
         var answer = simulateRequest(conn, "plasticbox")
 
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
@@ -110,7 +111,7 @@ class TestTrolleyMover {
     }
 
     @Test
-    fun testPlasticboxToHome() {
+    fun C_testPlasticboxToHome() {
         var answer = simulateRequest(conn, "home")
 
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
@@ -135,7 +136,7 @@ class TestTrolleyMover {
     }
 
     @Test
-    fun testIndoorToGlassbox() {
+    fun D_testIndoorToGlassbox() {
         goToLocation("indoor")
 
         var answer = simulateRequest(conn, "glassbox")
@@ -162,7 +163,7 @@ class TestTrolleyMover {
     }
 
     @Test
-    fun testGlassboxToHome() {
+    fun E_testGlassboxToHome() {
         var answer = simulateRequest(conn, "home")
 
         ColorsOut.out("Answer: $answer", ColorsOut.GREEN)
@@ -187,7 +188,7 @@ class TestTrolleyMover {
     }
 
     @Test
-    fun testGlassToHomeInterruptedToIndoor() {
+    fun F_testGlassToHomeInterruptedToIndoor() {
         goToLocation("glassbox")
 
         simulateRequestWithoutResponse(conn, "home")
