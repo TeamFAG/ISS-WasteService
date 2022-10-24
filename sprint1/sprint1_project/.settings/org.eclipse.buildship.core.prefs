@@ -1,18 +1,14 @@
 =\=\=\=\=\=\=
 <<<<<<<=Updated upstream
 >>>>>>>=Stashed changes
-<<<<<<< Updated upstream
-arguments=--init-script /var/folders/p3/2mz0sgmn267gmq6g_vc9_h4w0000gn/T/init9599546878819721883.gradle --init-script /var/folders/p3/2mz0sgmn267gmq6g_vc9_h4w0000gn/T/init17168568069623668961.gradle
-=======
-arguments=--init-script /var/folders/tx/bhyfr4yj0f17m19dz06v0qx40000gn/T/init14062646322925663860.gradle --init-script /var/folders/tx/bhyfr4yj0f17m19dz06v0qx40000gn/T/init16930304820884171843.gradle
->>>>>>> Stashed changes
+arguments=--init-script /var/folders/tx/bhyfr4yj0f17m19dz06v0qx40000gn/T/init11761442512679646198.gradle --init-script /var/folders/tx/bhyfr4yj0f17m19dz06v0qx40000gn/T/init2321425164487950250.gradle
 auto.sync=false
 build.scans.enabled=false
 connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)
 connection.project.dir=
 eclipse.preferences.version=1
 gradle.user.home=
-java.home=/Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home
+java.home=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
 jvm.arguments=
 offline.mode=false
 override.workspace.settings=true

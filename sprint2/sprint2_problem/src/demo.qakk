@@ -33,6 +33,8 @@ Context ctxtrolley ip[host="localhost" port=8060]
 
 ExternalQActor basicrobot context ctxbasicrobot
 
+
+
 QActor wasteservice context ctxwasteservice {
 	[#
 		var CurrentMaterial: ws.Material

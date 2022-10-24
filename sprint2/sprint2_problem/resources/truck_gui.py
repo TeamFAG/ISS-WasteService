@@ -17,7 +17,6 @@ def handleSend() :
     reply = request(req)
     update_text(reply)
 
-
 def update_text(new_text) :
     text.configure(state='normal')
     text.insert("1.0", new_text)
