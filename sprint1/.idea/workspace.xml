@@ -5,22 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5238ad2c-1505-46e1-87a2-7bed0307d71c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/.gradle/7.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.gradle/7.4/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/.gradle/7.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.gradle/7.4/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/Arch_demo_wasteservice.py" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/Arch_demo_wasteservice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/demo_wasteservice.pl" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/demo_wasteservice.pl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/src/demo.qak" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/src/demo.qak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/src/it/unibo/ourpathexecutor/Ourpathexecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/src/it/unibo/ourpathexecutor/Ourpathexecutor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprint1_project/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprint1_project/build2022.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/build2022.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprint1_project/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprint1_project/src/it/unibo/pather/Pather.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/src/it/unibo/pather/Pather.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sprint1_project/src/it/unibo/transporttrolley/Transporttrolley.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/src/it/unibo/transporttrolley/Transporttrolley.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sprint1_project/src/it/unibo/trolleymover/Trolleymover.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/src/it/unibo/trolleymover/Trolleymover.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint1_project/src/it/unibo/wasteservice/Wasteservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/sprint1_project/src/it/unibo/wasteservice/Wasteservice.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/userDocs/WasteService.html" beforeDir="false" afterPath="$PROJECT_DIR$/userDocs/WasteService.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2/sprint2_problem/build.gradle.kts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +58,7 @@
       <workItem from="1663945593166" duration="163000" />
       <workItem from="1663945778385" duration="2013000" />
       <workItem from="1665128688494" duration="44000" />
+      <workItem from="1666538963509" duration="20000" />
     </task>
     <servers />
   </component>

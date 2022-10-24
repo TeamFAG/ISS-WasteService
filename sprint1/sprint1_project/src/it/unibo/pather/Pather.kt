@@ -62,7 +62,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				}	 
 				state("handleStopPath") { //this:State
 					action { //it:State
-						answer("stopPath", "stopAck", "stopAck(_)"   )  
+						answer("stopPath", "stopAck", "stopAck(_)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -73,7 +73,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				state("doMove") { //this:State
 					action { //it:State
 						 planner.updateMap(CurMoveTodo, "")  
-						delay(350) 
+						delay(400) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -93,7 +93,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					sysaction { //it:State
 				 	 		//sysaction { //it:State
 				 	 		  stateTimer = TimerActor("timer_doMoveTurn", 
-				 	 			scope, context!!, "local_tout_pather_doMoveTurn", 350.toLong() )
+				 	 			scope, context!!, "local_tout_pather_doMoveTurn", 400.toLong() )
 				 	 		//}
 					}	 	 
 					 transition(edgeName="t116",targetState="nextMove",cond=whenTimeout("local_tout_pather_doMoveTurn"))   
@@ -101,13 +101,14 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				state("doMoveW") { //this:State
 					action { //it:State
 						request("step", "step(350)" ,"basicrobot" )  
+						delay(400) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t217",targetState="nextMove",cond=whenReply("stepdone"))
-					transition(edgeName="t218",targetState="handleAlarm",cond=whenEvent("alarm"))
+					 transition(edgeName="t217",targetState="handleAlarm",cond=whenEvent("alarm"))
+					transition(edgeName="t218",targetState="nextMove",cond=whenReply("stepdone"))
 					transition(edgeName="t219",targetState="endWorkKo",cond=whenReply("stepfail"))
 					transition(edgeName="t220",targetState="handleStopPath",cond=whenRequest("stopPath"))
 				}	 
@@ -124,7 +125,8 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				state("endWorkOk") { //this:State
 					action { //it:State
 						println("	PATHEXECUTOR | path done")
-						answer("doPath", "doPathDone", "doPathDone(OK)"   )  
+						answer("doPath", "doPathDone", "doPathDone(OK)","trolleymover"   )  
+						delay(400) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -136,7 +138,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					action { //it:State
 						 var PathStillTodo = pathut.getPathTodo()  
 						println("	PATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
-						answer("doPath", "doPathFail", "doPathFail($PathStillTodo)"   )  
+						answer("doPath", "doPathFail", "doPathFail($PathStillTodo)","trolleymover"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
