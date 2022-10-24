@@ -306,10 +306,20 @@
         <h2>Introduction</h2>
         <div class="remark">
             <h3>SCRUM goal</h3>
-            In the <b>Sprint2</b> we aim to analyze the <k>problems linked to.<br/>
+            In the <b>Sprint2</b> we aim to analyze the problems linked to the functionalities of the 
+            <k>raspberry</k>.<br/>
             <br/>
-            <h4>Core Service</h4>
-            <img src="./imgs/" alt="SystemArch" style="width:auto;height:750px;" class="center"><br/>            
+            <h4>Raspberry Service</h4>
+            <img src="./imgs/" alt="SystemArch" style="width:auto;height:750px;" class="center"><br/> 
+            <b>The objectives of this Sprint are:</b>
+            <ol><br/>
+                <li>
+                    <b>Implement Sonar interaction.</b>
+                </li>
+                <li>
+                    <b>Implement Led interaction.</b>
+                </li>
+            </ol>          
         </div>
 
         <h2>Requirements</h2>
@@ -325,7 +335,53 @@
         <h2>Problem analysis</h2>
         <div class="remark">
 
-            <h3></h3>
+            <h3>Sonar interaction analysis</h3>
+
+            The <k><b>SONAR</b></k> is a component (be it virtual or physical) that continously collects and sends data based on its surroundings.<br/>
+            As previoulsy mentioned in Sprint0, this project uses a Sonar that detects object proximity.<br/>
+            When the current distance is less than DLIMIT, the trolley must be HALTED. After that, as soon as it becomes higher than DLIMIT, the trolley
+            must resume its routine.<br/>
+
+            The sonar's behaviour is exemplified by a script written by the customer: <a href="">sonarDataGen.kt</a>
+
+
+            <h4>In what form does the trolley receive the information from the Sonar?</h4>
+
+            <h5>RAW DATA: the trolley receives all detection data from the Sonar</h5>
+            With this strategy, all distances detected by the Sonar get sent to the trolley.<br/>
+            He will then be the one to check every detection for a distance value that is less than DLIMIT.<br/><br/>
+
+            This puts a lot of overload onto the trolley (i.e. <i>receiving a huge amount of data and filtering it</i>), that already has important responsibilities. 
+
+            <!-- immagine tipo con due attori -->
+
+            In a Qak script, the messages would be defined as:
+            <pre>
+                <code>distance: distance(V)</code>
+            </pre>
+            Where the payload V represents the protagonist of the "hit" game Cyberpunk2077 released December 18 2020. Amongus.<br/>
+
+
+            <h5>FILTERED DATA: raw data is hidden from the trolley</h5>
+            This strategy implies the definition of a "middle man", an entitiy that filters the raw data from the Sonar and presents it to the transporttrolley.<br/>
+            By handling all the incoming data with a different entity, the transporttrolley only needs to know when a certain detection has gone under the predefined
+            limit (DLIMIT) and when it has subsequently returned above it.<br/><br/>
+            
+            This division of responsibility makes it so the trolley receives only two messages per HALT (one at the start and one at the end).
+
+            <!-- immagine tipo con due attori -->
+
+            In a Qak script, the messages would be defined as:
+            <pre>
+                <code>distance: distance(V)
+startHalt: startHalt(_)
+stopHalt: stopHalt(_)</code>
+            </pre>
+
+
+            <h4>Customer's tools</h4>
+
+            <h4>HALT problem</h4>
 
             <h3></h3>
             
