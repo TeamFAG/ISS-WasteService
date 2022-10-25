@@ -356,9 +356,7 @@
             <!-- immagine tipo con due attori -->
 
             In a Qak script, the messages would be defined as:
-            <pre>
-                <code>distance: distance(V)</code>
-            </pre>
+            <pre><code>distance: distance(V)</code></pre>
             Where the payload V represents the protagonist of the "hit" game Cyberpunk2077 released December 18 2020. Amongus.<br/>
 
 
@@ -370,36 +368,49 @@
             This division of responsibility makes it so the trolley receives only two messages per HALT (one at the start and one at the end).
 
             <!-- immagine tipo con due attori -->
-
+            <img src="">
+            <br/><br/>
             In a Qak script, the messages would be defined as:
-            <pre>
-                <code>distance: distance(V)
+            <pre><code>distance: distance(V)
 startHalt: startHalt(_)
-stopHalt: stopHalt(_)</code>
-            </pre>
-
+stopHalt: stopHalt(_)</code></pre>
 
             <h4>Customer's tools</h4>
 
+            NOTE: Seing as the messages sent by these components are Events, the previously mentioned messages (<i>distance(V), startHat(_), stopHalt(_)</i>)
+            have been also defined as Events.
+
             <h4>HALT problem</h4>
-
-            <h3></h3>
             
-                
-                <h4></h4>
-                
-                <h4></h4>
+            The next issue is the implementation of the HALT functionality that is tied to the sonar interaction.<br/>
+            The objective here is to stop/start the movement of the robot based on the <i>startHalt</i> and <i>stopHalt</i> Events.<br/>
+            <br/>
 
-            <h3></h3>
+            <k><i><b>How can we modify our model to include this behavior?</b></i></k><br/><br/>
+            In the <a href="../../sprint1/userDocs/WasteService.html">Sprint1</a> we defined a complete model of the core service, which includes
+            the movement of our trolley/robot.<br/><br/>
 
-            <h4>Customer's software</h4>
-            <h5></h5>
-            
-            <h5></h5>
+            Now, the goal is to stop the trolley either in the middle or in the beginning/end of the current path.
+            In essence, we have to consider all moves inside a path to properly stop the robot at the requested moment.<br/>
+            <br/>
+            The actor that manages single moves is the <k>pather</k>.<br/>
+            So, we check for the Halt messages:
+            <ul>
+                <li><b>After every move inside the same path</b> to intercept <i>startHalt</i> 
+                during the robot's movement</li>
+                <li><b>Between the end of the current path and the start of the next one</b> to cover 
+                the instances where the trolley is not moving (i.e. during the pickup and dropout actions)</li>
+            </ul>
 
-            <h5></h5>
+            However, a new issue arises: <br/><k><i><b>How can an actor intercept an Event if he's already busy ?</b></i></k><br/><br/>
+            Our pather actor is constantly executing movement tasks, which could cause the loss of Events occurring
+            in an unfortunate moment (as Event messages are not queued).<br/><br/>
 
-                
+            To fix this, we added a new actor between the "middle man" and the pather whose only job is to intercept <i>startHalt</i>
+            and <i>stopHalt</i> messages and convert them into dispatches (i.e. the behavior of a proxy) to ensure they are received.<br/>
+
+            <img src="">
+
             <br/>
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
