@@ -25,6 +25,7 @@ with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_at
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           pather=Custom('pather','./qakicons/symActorSmall.png')
+          halteventshandler=Custom('halteventshandler','./qakicons/symActorSmall.png')
           basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
           envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
           datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
@@ -33,15 +34,14 @@ with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_at
      sonarinterfacemock >> Edge( xlabel='stopHalt', **eventedgeattr, fontcolor='red') >> sys
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
-     sys >> Edge(color='red', style='dashed', xlabel='startHalt', fontcolor='red') >> trolleymover
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pather
      trolleymover >> Edge(color='magenta', style='solid', xlabel='doPath', fontcolor='magenta') >> pather
-     trolleymover >> Edge(color='blue', style='solid', xlabel='suspendPath', fontcolor='blue') >> pather
-     sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> trolleymover
-     trolleymover >> Edge(color='blue', style='solid', xlabel='resumePath', fontcolor='blue') >> pather
-     trolleymover >> Edge(color='blue', style='solid', xlabel='resumeIdle', fontcolor='blue') >> pather
      pather >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
      pather >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
      sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> pather
+     sys >> Edge(color='red', style='dashed', xlabel='startHalt', fontcolor='red') >> halteventshandler
+     halteventshandler >> Edge(color='blue', style='solid', xlabel='halt', fontcolor='blue') >> pather
+     sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> halteventshandler
+     halteventshandler >> Edge(color='blue', style='solid', xlabel='resume', fontcolor='blue') >> pather
      sys >> Edge(color='red', style='dashed', xlabel='sonar', fontcolor='red') >> envsonarhandler
 diag

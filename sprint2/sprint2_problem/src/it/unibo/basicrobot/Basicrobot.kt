@@ -50,10 +50,10 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t131",targetState="execcmd",cond=whenDispatch("cmd"))
-					transition(edgeName="t132",targetState="doStep",cond=whenRequest("step"))
-					transition(edgeName="t133",targetState="handleObstacle",cond=whenDispatch("obstacle"))
-					transition(edgeName="t134",targetState="endwork",cond=whenDispatch("end"))
+					 transition(edgeName="t128",targetState="execcmd",cond=whenDispatch("cmd"))
+					transition(edgeName="t129",targetState="doStep",cond=whenRequest("step"))
+					transition(edgeName="t130",targetState="handleObstacle",cond=whenDispatch("obstacle"))
+					transition(edgeName="t131",targetState="endwork",cond=whenDispatch("end"))
 				}	 
 				state("execcmd") { //this:State
 					action { //it:State
@@ -114,8 +114,8 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 				 	 			scope, context!!, "local_tout_basicrobot_doStep", StepTime )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t035",targetState="stepDone",cond=whenTimeout("local_tout_basicrobot_doStep"))   
-					transition(edgeName="t036",targetState="stepFail",cond=whenDispatch("obstacle"))
+					 transition(edgeName="t032",targetState="stepDone",cond=whenTimeout("local_tout_basicrobot_doStep"))   
+					transition(edgeName="t033",targetState="stepFail",cond=whenDispatch("obstacle"))
 				}	 
 				state("stepDone") { //this:State
 					action { //it:State

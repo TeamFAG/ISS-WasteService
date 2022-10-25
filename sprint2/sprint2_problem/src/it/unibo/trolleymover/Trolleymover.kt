@@ -19,7 +19,6 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				var Actions = ""
 				var Loc = ""
 				var IsMoving = false
-				var Suspended = false
 				SystemConfig.setTheConfiguration("SystemConfiguration")
 				planner.initAI()
 				planner.loadRoomMap("mapRoomEmpty")
@@ -44,7 +43,6 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					sysaction { //it:State
 					}	 	 
 					 transition(edgeName="t011",targetState="handleMovement",cond=whenRequest("move"))
-					transition(edgeName="t012",targetState="handleHalt",cond=whenEvent("startHalt"))
 				}	 
 				state("handleMovement") { //this:State
 					action { //it:State
@@ -57,12 +55,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						 ){updateResourceRep( "trolleymover(handleMovement_stopPath)"  
 						)
 						println("	TROLLEYMOVER | arrived move command when moving")
-						if(  Suspended  
-						 ){ Suspended = false  
-						}
-						else
-						 {request("stopPath", "stopPath(_)" ,"pather" )  
-						 }
+						request("stopPath", "stopPath(_)" ,"pather" )  
 						}
 						else
 						 {
@@ -81,40 +74,10 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t113",targetState="handlePathDone",cond=whenReply("doPathDone"))
-					transition(edgeName="t114",targetState="handlePathFail",cond=whenReply("doPathFail"))
-					transition(edgeName="t115",targetState="handleInterruptedMovement",cond=whenReply("stopAck"))
-					transition(edgeName="t116",targetState="handleMovement",cond=whenRequest("move"))
-					transition(edgeName="t117",targetState="handleHalt",cond=whenEvent("startHalt"))
-				}	 
-				state("handleHalt") { //this:State
-					action { //it:State
-						 Suspended = true  
-						forward("suspendPath", "suspendPath(_)" ,"pather" ) 
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-					 transition(edgeName="t218",targetState="resume",cond=whenEvent("stopHalt"))
-				}	 
-				state("resume") { //this:State
-					action { //it:State
-						if(  IsMoving == true  
-						 ){forward("resumePath", "resumePath(_)" ,"pather" ) 
-						}
-						else
-						 {forward("resumeIdle", "resumeIdle(_)" ,"pather" ) 
-						 }
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-					 transition( edgeName="goto",targetState="handleMovement", cond=doswitchGuarded({ IsMoving  
-					}) )
-					transition( edgeName="goto",targetState="idle", cond=doswitchGuarded({! ( IsMoving  
-					) }) )
+					 transition(edgeName="t112",targetState="handlePathDone",cond=whenReply("doPathDone"))
+					transition(edgeName="t113",targetState="handlePathFail",cond=whenReply("doPathFail"))
+					transition(edgeName="t114",targetState="handleInterruptedMovement",cond=whenReply("stopAck"))
+					transition(edgeName="t115",targetState="handleMovement",cond=whenRequest("move"))
 				}	 
 				state("handleInterruptedMovement") { //this:State
 					action { //it:State

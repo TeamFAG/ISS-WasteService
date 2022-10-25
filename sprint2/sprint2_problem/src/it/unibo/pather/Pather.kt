@@ -27,8 +27,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t019",targetState="doThePath",cond=whenRequest("doPath"))
-					transition(edgeName="t020",targetState="handleSuspend",cond=whenDispatch("suspendPath"))
+					 transition(edgeName="t016",targetState="doThePath",cond=whenRequest("doPath"))
 				}	 
 				state("doThePath") { //this:State
 					action { //it:State
@@ -97,8 +96,8 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				 	 			scope, context!!, "local_tout_pather_doMoveTurn", 350.toLong() )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t121",targetState="nextMove",cond=whenTimeout("local_tout_pather_doMoveTurn"))   
-					transition(edgeName="t122",targetState="handleSuspend",cond=whenDispatch("suspendPath"))
+					 transition(edgeName="t117",targetState="nextMove",cond=whenTimeout("local_tout_pather_doMoveTurn"))   
+					transition(edgeName="t118",targetState="handleHalt",cond=whenDispatch("halt"))
 				}	 
 				state("doMoveW") { //this:State
 					action { //it:State
@@ -109,25 +108,21 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t223",targetState="nextMove",cond=whenReply("stepdone"))
-					transition(edgeName="t224",targetState="handleAlarm",cond=whenEvent("alarm"))
-					transition(edgeName="t225",targetState="endWorkKo",cond=whenReply("stepfail"))
-					transition(edgeName="t226",targetState="handleStopPath",cond=whenRequest("stopPath"))
-					transition(edgeName="t227",targetState="handleSuspend",cond=whenDispatch("suspendPath"))
+					 transition(edgeName="t219",targetState="nextMove",cond=whenReply("stepdone"))
+					transition(edgeName="t220",targetState="handleAlarm",cond=whenEvent("alarm"))
+					transition(edgeName="t221",targetState="endWorkKo",cond=whenReply("stepfail"))
+					transition(edgeName="t222",targetState="handleStopPath",cond=whenRequest("stopPath"))
+					transition(edgeName="t223",targetState="handleHalt",cond=whenDispatch("halt"))
 				}	 
-				state("handleSuspend") { //this:State
+				state("handleHalt") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("suspendPath(_)"), Term.createTerm("suspendPath(_)"), 
-						                        currentMsg.msgContent()) ) { //set msgArgList
-								println("	PATHEXECUTOR | stop")
-						}
+						println("	PATHEXECUTOR | stop...")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t328",targetState="nextMove",cond=whenDispatch("resumePath"))
-					transition(edgeName="t329",targetState="init",cond=whenDispatch("resumeIdle"))
+					 transition(edgeName="t124",targetState="nextMove",cond=whenDispatch("resume"))
 				}	 
 				state("handleAlarm") { //this:State
 					action { //it:State
@@ -160,7 +155,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t330",targetState="handleAlarm",cond=whenEvent("alarm"))
+					 transition(edgeName="t325",targetState="handleAlarm",cond=whenEvent("alarm"))
 				}	 
 			}
 		}
