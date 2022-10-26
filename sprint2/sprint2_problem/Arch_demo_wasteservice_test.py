@@ -20,7 +20,7 @@ with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_at
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
      with Cluster('ctxwasteservice_test', graph_attr=nodeattr):
-          sonarinterfacemock=Custom('sonarinterfacemock','./qakicons/symActorSmall.png')
+          sonarfilter=Custom('sonarfilter','./qakicons/symActorSmall.png')
           wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
@@ -30,8 +30,9 @@ with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_at
           envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
           datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
           distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
-     sonarinterfacemock >> Edge( xlabel='startHalt', **eventedgeattr, fontcolor='red') >> sys
-     sonarinterfacemock >> Edge( xlabel='stopHalt', **eventedgeattr, fontcolor='red') >> sys
+     sys >> Edge(color='red', style='dashed', xlabel='distance', fontcolor='red') >> sonarfilter
+     sonarfilter >> Edge( xlabel='startHalt', **eventedgeattr, fontcolor='red') >> sys
+     sonarfilter >> Edge( xlabel='stopHalt', **eventedgeattr, fontcolor='red') >> sys
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pather

@@ -42,7 +42,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t011",targetState="handleMovement",cond=whenRequest("move"))
+					 transition(edgeName="t012",targetState="handleMovement",cond=whenRequest("move"))
 				}	 
 				state("handleMovement") { //this:State
 					action { //it:State
@@ -74,10 +74,10 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t112",targetState="handlePathDone",cond=whenReply("doPathDone"))
-					transition(edgeName="t113",targetState="handlePathFail",cond=whenReply("doPathFail"))
-					transition(edgeName="t114",targetState="handleInterruptedMovement",cond=whenReply("stopAck"))
-					transition(edgeName="t115",targetState="handleMovement",cond=whenRequest("move"))
+					 transition(edgeName="t113",targetState="handlePathDone",cond=whenReply("doPathDone"))
+					transition(edgeName="t114",targetState="handlePathFail",cond=whenReply("doPathFail"))
+					transition(edgeName="t115",targetState="handleInterruptedMovement",cond=whenReply("stopAck"))
+					transition(edgeName="t116",targetState="handleMovement",cond=whenRequest("move"))
 				}	 
 				state("handleInterruptedMovement") { //this:State
 					action { //it:State

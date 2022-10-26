@@ -2,7 +2,7 @@
 % demo_wasteservice_test description   
 %====================================================================================
 context(ctxwasteservice_test, "localhost",  "TCP", "8050").
- qactor( sonarinterfacemock, ctxwasteservice_test, "it.unibo.sonarinterfacemock.Sonarinterfacemock").
+ qactor( sonarfilter, ctxwasteservice_test, "it.unibo.sonarfilter.Sonarfilter").
   qactor( wasteservice, ctxwasteservice_test, "it.unibo.wasteservice.Wasteservice").
   qactor( transporttrolley, ctxwasteservice_test, "it.unibo.transporttrolley.Transporttrolley").
   qactor( trolleymover, ctxwasteservice_test, "it.unibo.trolleymover.Trolleymover").
