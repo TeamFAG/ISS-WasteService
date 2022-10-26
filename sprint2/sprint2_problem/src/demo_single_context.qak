@@ -69,6 +69,7 @@ QActor sonarinterfacemock context ctxwasteservice_test {
 		
 		emit stopHalt : stopHalt(_)
 	}
+	Goto init
 }
 
 QActor wasteservice context ctxwasteservice_test {
@@ -359,14 +360,19 @@ QActor trolleymover context ctxwasteservice_test {
 }
 
 QActor pather context ctxwasteservice_test {
-	[# var CurMoveTodo = "" #]
+	[# 
+		var CurMoveTodo = ""
+		var Pathing = false 
+	#]
 	
 	State init initial {
 		[# CurMoveTodo = "" #]
 		[# sysUtil.logMsgs = true #]
+		[# Pathing = false #]
 		println("\tPATHEXECUTOR | started")
 	}
 	Transition t0 whenRequest doPath -> doThePath
+				  whenMsg halt -> handleHalt
 	
 	State doThePath {
 		onMsg(doPath : doPath(P, C)) {
@@ -384,6 +390,7 @@ QActor pather context ctxwasteservice_test {
 	State nextMove {
 		[# CurMoveTodo = pathut.nextMove() #]
 		println("\tPATHEXECUTOR | curMoveTodo: $CurMoveTodo")
+		[# Pathing = true #]
 	}
 	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
 	
@@ -417,7 +424,12 @@ QActor pather context ctxwasteservice_test {
 	State handleHalt {
 		println("\tPATHEXECUTOR | stop...")
 	}
-	Transition t1 whenMsg resume -> nextMove
+	Transition t1 whenMsg resume -> resumeFromHalt
+	
+	State resumeFromHalt {
+		println("\tPATHEXECUTOR | resuming from halt")
+	}
+	Goto nextMove if [# Pathing #] else init 
 	
 	State handleAlarm {
 		[# var PathTodo = pathut.getPathTodo() #]

@@ -15,12 +15,15 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
-		 var CurMoveTodo = ""  
+		 
+				var CurMoveTodo = ""
+				var Pathing = false 
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						 CurMoveTodo = ""  
 						 sysUtil.logMsgs = true  
+						 Pathing = false  
 						println("	PATHEXECUTOR | started")
 						//genTimer( actor, state )
 					}
@@ -28,6 +31,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					sysaction { //it:State
 					}	 	 
 					 transition(edgeName="t016",targetState="doThePath",cond=whenRequest("doPath"))
+					transition(edgeName="t017",targetState="handleHalt",cond=whenDispatch("halt"))
 				}	 
 				state("doThePath") { //this:State
 					action { //it:State
@@ -50,6 +54,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					action { //it:State
 						 CurMoveTodo = pathut.nextMove()  
 						println("	PATHEXECUTOR | curMoveTodo: $CurMoveTodo")
+						 Pathing = true  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -96,8 +101,8 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				 	 			scope, context!!, "local_tout_pather_doMoveTurn", 350.toLong() )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t117",targetState="nextMove",cond=whenTimeout("local_tout_pather_doMoveTurn"))   
-					transition(edgeName="t118",targetState="handleHalt",cond=whenDispatch("halt"))
+					 transition(edgeName="t118",targetState="nextMove",cond=whenTimeout("local_tout_pather_doMoveTurn"))   
+					transition(edgeName="t119",targetState="handleHalt",cond=whenDispatch("halt"))
 				}	 
 				state("doMoveW") { //this:State
 					action { //it:State
@@ -108,11 +113,11 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t219",targetState="nextMove",cond=whenReply("stepdone"))
-					transition(edgeName="t220",targetState="handleAlarm",cond=whenEvent("alarm"))
-					transition(edgeName="t221",targetState="endWorkKo",cond=whenReply("stepfail"))
-					transition(edgeName="t222",targetState="handleStopPath",cond=whenRequest("stopPath"))
-					transition(edgeName="t223",targetState="handleHalt",cond=whenDispatch("halt"))
+					 transition(edgeName="t220",targetState="nextMove",cond=whenReply("stepdone"))
+					transition(edgeName="t221",targetState="handleAlarm",cond=whenEvent("alarm"))
+					transition(edgeName="t222",targetState="endWorkKo",cond=whenReply("stepfail"))
+					transition(edgeName="t223",targetState="handleStopPath",cond=whenRequest("stopPath"))
+					transition(edgeName="t224",targetState="handleHalt",cond=whenDispatch("halt"))
 				}	 
 				state("handleHalt") { //this:State
 					action { //it:State
@@ -122,7 +127,20 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t124",targetState="nextMove",cond=whenDispatch("resume"))
+					 transition(edgeName="t125",targetState="resumeFromHalt",cond=whenDispatch("resume"))
+				}	 
+				state("resumeFromHalt") { //this:State
+					action { //it:State
+						println("	PATHEXECUTOR | resuming from halt")
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="nextMove", cond=doswitchGuarded({ Pathing  
+					}) )
+					transition( edgeName="goto",targetState="init", cond=doswitchGuarded({! ( Pathing  
+					) }) )
 				}	 
 				state("handleAlarm") { //this:State
 					action { //it:State
@@ -155,7 +173,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t325",targetState="handleAlarm",cond=whenEvent("alarm"))
+					 transition(edgeName="t326",targetState="handleAlarm",cond=whenEvent("alarm"))
 				}	 
 			}
 		}
