@@ -34,6 +34,7 @@ Event   info       : info( ARG ) 	    //for external components, not coap-observ
 // Sonarmock
 Event startHalt : startHalt(_)
 Event stopHalt : stopHalt(_)
+Event distance : distance(V)
 Dispatch trigger : trigger(_)
 
 // HaltEventsHandler
@@ -51,24 +52,36 @@ QActor sonarmock context ctxrasp {
 	}
 }*/
 
-QActor sonarinterfacemock context ctxwasteservice_test {
+QActor sonarfilter context ctxwasteservice_test {
+	[#
+		var D = 0
+		var DLIMIT = 10
+		var Halted = false
+	#]
 	
 	State init initial {
 		
 	}
-	Transition t0 whenMsg trigger -> work
+	Transition t0 whenEvent distance -> filterDistance
 	
-	State work {
-		println("emit stop event")
+	State filterDistance {
+		onMsg (distance : distance(V)) {
+			[# D = payloadArg(0).toInt() #]
+			
+			if [# D < DLIMIT && !Halted #] {
+				[# Halted = true #]
+				println("\tSONARFILTER | emitting start halt")
+				emit startHalt : startHalt(_)	
+			}
 		
-		emit startHalt : startHalt(_)
-		
-		delay 10000
-		
-		println("passati 10 secondi")
-		
-		emit stopHalt : stopHalt(_)
+			if [# D > DLIMIT && Halted #] {
+				[# Halted = false #]
+				println("\tSONARFILTER | emitting stop halt")
+				emit stopHalt : stopHalt(_)
+			}
+		}
 	}
+	Transition t1 whenEvent distance -> filterDistance
 }
 
 QActor wasteservice context ctxwasteservice_test {
@@ -359,14 +372,19 @@ QActor trolleymover context ctxwasteservice_test {
 }
 
 QActor pather context ctxwasteservice_test {
-	[# var CurMoveTodo = "" #]
+	[# 
+		var CurMoveTodo = ""
+		var Pathing = false 
+	#]
 	
 	State init initial {
 		[# CurMoveTodo = "" #]
 		[# sysUtil.logMsgs = true #]
+		[# Pathing = false #]
 		println("\tPATHEXECUTOR | started")
 	}
 	Transition t0 whenRequest doPath -> doThePath
+				  whenMsg halt -> handleHalt
 	
 	State doThePath {
 		onMsg(doPath : doPath(P, C)) {
@@ -384,6 +402,7 @@ QActor pather context ctxwasteservice_test {
 	State nextMove {
 		[# CurMoveTodo = pathut.nextMove() #]
 		println("\tPATHEXECUTOR | curMoveTodo: $CurMoveTodo")
+		[# Pathing = true #]
 	}
 	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
 	
@@ -417,7 +436,12 @@ QActor pather context ctxwasteservice_test {
 	State handleHalt {
 		println("\tPATHEXECUTOR | stop...")
 	}
-	Transition t1 whenMsg resume -> nextMove
+	Transition t1 whenMsg resume -> resumeFromHalt
+	
+	State resumeFromHalt {
+		println("\tPATHEXECUTOR | resuming from halt")
+	}
+	Goto nextMove if [# Pathing #] else init 
 	
 	State handleAlarm {
 		[# var PathTodo = pathut.getPathTodo() #]
