@@ -374,11 +374,27 @@
             <pre><code>distance: distance(V)
 startHalt: startHalt(_)
 stopHalt: stopHalt(_)</code></pre>
+            
+
+            As for our model, this "middle man" has been temporarily implemented by the actor
+            <k>sonarfilter</k> whose function is to:
+            <ol>
+                <li>Receive raw data from a mock sonar (more info in the "other tools" section)</li>
+                <li>Filter the data by considering the DLIMIT.</li>
+                <li>Sending <i>startHalt</i> and <i>stopHalt</i> according to the already analyzed logic.</li>
+            </ol>
+            
 
             <h4>Customer's tools</h4>
 
-            NOTE: Seing as the messages sent by these components are Events, the previously mentioned messages (<i>distance(V), startHat(_), stopHalt(_)</i>)
-            have been also defined as Events.
+            In the project section of this Sprint, the sonarfilter actor will be substituted by
+            a more complete and detatched filtering system.<br/><br/>
+
+            More specifically, we will use the <k>nonricordo</k> and <k>distanceFilter</k> codedQakActors
+            provided by the customer.
+
+            <h5><k>NOTE</k>: Seing as the messages sent by these components are Events, the previously mentioned messages (<i>distance(V), startHat(_), stopHalt(_)</i>)
+            have been also defined as Events.</h5>
 
             <h4>HALT problem</h4>
             
@@ -406,21 +422,31 @@ stopHalt: stopHalt(_)</code></pre>
             Our pather actor is constantly executing movement tasks, which could cause the loss of Events occurring
             in an unfortunate moment (as Event messages are not queued).<br/><br/>
 
-            To fix this, we added a new actor between the "middle man" and the pather whose only job is to intercept <i>startHalt</i>
-            and <i>stopHalt</i> messages and convert them into dispatches (i.e. the behavior of a proxy) to ensure they are received.<br/>
+            To fix this, we added the new <k>nonricordo</k> actor between <k>sonarfilter</k> and the <k>pather</k> whose only job is to intercept <i>startHalt</i>
+            and <i>stopHalt</i> messages and convert them into dispatches (i.e. the behavior of a proxy) to ensure they are properly queued and received.<br/>
 
             <img src="">
+
+            <h4>Other tools</h4>
+
+            Considering the purpose of a problem analysis, we decided to create a mock version of the sonar to easily test our new simplified
+            model.<br/><br/>
+
+            We did so by writing a simple script in python (<a href="">sonarMockEmitter.py</a>) that connects to the system and generates/emits
+            events based on a certain interval [START, STOP]:
+            <ol>
+                <li>Messages are sent with a descending distance value (from STOP to START)</li>
+                <li>Then, the order is reversed and messages are sent with an ascending distance value (from START to STOP)</li>
+            </ol>
+
+            <h3>Led interaction analysis</h3>
 
             <br/>
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
                 <img src="./imgs/" alt="waasteserviceProblemArch" style="width:auto;height:450px;" class="center">
                 </br>
-                <a href="../sprint2_problem/src/"><k>temp</k></a>
-                <br>
-                <a href="../sprint2_problem/src/"><k>temp</k></a>
-                <br>
-                <a href="../sprint2_problem/src/"><k>temp</k></a>
+                <a href="../sprint2_problem/src/demo_single_context.qak"><k>demo_single_context.qak</k></a>
 
                 <br/>
                 <h5>Test Plans</h5>
