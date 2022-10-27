@@ -20,19 +20,18 @@ with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_at
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
      with Cluster('ctxwasteservice_test', graph_attr=nodeattr):
-          sonarfilter=Custom('sonarfilter','./qakicons/symActorSmall.png')
           wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           pather=Custom('pather','./qakicons/symActorSmall.png')
+          trolleystateobserver=Custom('trolleystateobserver','./qakicons/symActorSmall.png')
+          led=Custom('led','./qakicons/symActorSmall.png')
+          sonarfilter=Custom('sonarfilter','./qakicons/symActorSmall.png')
           halteventshandler=Custom('halteventshandler','./qakicons/symActorSmall.png')
           basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
           envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
           datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
           distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
-     sys >> Edge(color='red', style='dashed', xlabel='distance', fontcolor='red') >> sonarfilter
-     sonarfilter >> Edge( xlabel='startHalt', **eventedgeattr, fontcolor='red') >> sys
-     sonarfilter >> Edge( xlabel='stopHalt', **eventedgeattr, fontcolor='red') >> sys
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pather
@@ -40,6 +39,13 @@ with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_at
      pather >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
      pather >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
      sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> pather
+     transporttrolley >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
+     pather >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
+     trolleystateobserver >> Edge( xlabel='updateLed', **eventedgeattr, fontcolor='red') >> sys
+     sys >> Edge(color='red', style='dashed', xlabel='updateLed', fontcolor='red') >> led
+     sys >> Edge(color='red', style='dashed', xlabel='distance', fontcolor='red') >> sonarfilter
+     sonarfilter >> Edge( xlabel='startHalt', **eventedgeattr, fontcolor='red') >> sys
+     sonarfilter >> Edge( xlabel='stopHalt', **eventedgeattr, fontcolor='red') >> sys
      sys >> Edge(color='red', style='dashed', xlabel='startHalt', fontcolor='red') >> halteventshandler
      halteventshandler >> Edge(color='blue', style='solid', xlabel='halt', fontcolor='blue') >> pather
      sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> halteventshandler

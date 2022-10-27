@@ -5,30 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce0ec372-6f00-4fde-98e7-5b2376d9cc2f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules/unibo.demo_wasteservice.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../percorso/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/../../percorso/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../sprint0/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/../../sprint0/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../sprint1/sprint1_problem/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/../../sprint1/sprint1_problem/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../sprint1/sprint1_project/.gradle/7.4/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../sprint1/sprint1_project/.gradle/7.4/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../sprint1/sprint1_project/.gradle/7.4/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../sprint1/sprint1_project/.gradle/7.4/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../sprint1/sprint1_project/.gradle/7.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../sprint1/sprint1_project/.gradle/7.4/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../sprint1/sprint1_project/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/../../sprint1/sprint1_project/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build2022.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build2022.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/truck_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/truck_gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/demo.qak" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo.qakk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/ctxbasicrobot/MainCtxbasicrobot.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/ctxtrolley/MainCtxtrolley.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/ctxwasteservice/MainCtxwasteservice.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arch_demo_wasteservice_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arch_demo_wasteservice_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo_wasteservice_test.pl" beforeDir="false" afterPath="$PROJECT_DIR$/demo_wasteservice_test.pl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/ws/WasteServiceConstants.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/demo_single_context.qak" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo_single_context.qak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/halteventshandler/Halteventshandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/halteventshandler/Halteventshandler.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/unibo/pather/Pather.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/pather/Pather.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/sonarfilter/Sonarfilter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/sonarfilter/Sonarfilter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/sonarinterfacemock/Sonarinterfacemock.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/sonarinterfacemock/Sonarinterfacemock.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/unibo/transporttrolley/Transporttrolley.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/transporttrolley/Transporttrolley.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/unibo/trolleymover/Trolleymover.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/trolleymover/Trolleymover.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/it/unibo/wasteservice/Wasteservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/wasteservice/Wasteservice.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../unibo.basicrobot22/.project" beforeDir="false" afterPath="$PROJECT_DIR$/../../unibo.basicrobot22/.project" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../unibo.mapperQak22/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/../../unibo.mapperQak22/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +33,14 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Object" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
@@ -68,13 +67,29 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="Kotlin.MainCtxwasteservice_testKt">
-    <configuration name="MainCtxbasicrobotKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.unibo.ctxbasicrobot.MainCtxbasicrobotKt" />
-      <module name="unibo.demo_wasteservice.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+  <component name="RunManager" selected="Gradle.TestHalt">
+    <configuration name="TestHalt" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;TestHalt&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="MainCtxraspKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="it.unibo.ctxrasp.MainCtxraspKt" />
@@ -106,11 +121,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.TestHalt" />
         <item itemvalue="Kotlin.MainCtxwasteservice_testKt" />
         <item itemvalue="Kotlin.MainCtxraspKt" />
         <item itemvalue="Kotlin.MainCtxwasteserviceKt" />
         <item itemvalue="Kotlin.MainCtxtrolleyKt" />
-        <item itemvalue="Kotlin.MainCtxbasicrobotKt" />
       </list>
     </recent_temporary>
   </component>
@@ -125,6 +140,7 @@
       <workItem from="1666539880328" duration="240000" />
       <workItem from="1666596810580" duration="56000" />
       <workItem from="1666597233446" duration="6522000" />
+      <workItem from="1666883409273" duration="6197000" />
     </task>
     <servers />
   </component>

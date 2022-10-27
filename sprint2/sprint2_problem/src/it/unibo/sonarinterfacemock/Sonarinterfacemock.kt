@@ -30,14 +30,12 @@ class Sonarinterfacemock ( name: String, scope: CoroutineScope  ) : ActorBasicFs
 						println("emit stop event")
 						emit("startHalt", "startHalt(_)" ) 
 						delay(10000) 
-						println("passati 10 secondi")
 						emit("stopHalt", "stopHalt(_)" ) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="init", cond=doswitch() )
 				}	 
 			}
 		}

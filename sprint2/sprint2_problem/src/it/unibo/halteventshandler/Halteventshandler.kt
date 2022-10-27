@@ -18,7 +18,7 @@ class Halteventshandler ( name: String, scope: CoroutineScope  ) : ActorBasicFsm
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						println("	HALTEVENTSHANDLER | init...")
+						println("	HALTEVENTSHANDLER | started.")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -34,7 +34,7 @@ class Halteventshandler ( name: String, scope: CoroutineScope  ) : ActorBasicFsm
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t028",targetState="sendHalt",cond=whenEvent("startHalt"))
+					 transition(edgeName="t034",targetState="sendHalt",cond=whenEvent("startHalt"))
 				}	 
 				state("sendHalt") { //this:State
 					action { //it:State
@@ -45,7 +45,7 @@ class Halteventshandler ( name: String, scope: CoroutineScope  ) : ActorBasicFsm
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t029",targetState="sendResume",cond=whenEvent("stopHalt"))
+					 transition(edgeName="t035",targetState="sendResume",cond=whenEvent("stopHalt"))
 				}	 
 				state("sendResume") { //this:State
 					action { //it:State

@@ -24,8 +24,8 @@ class Envsonarhandler ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t136",targetState="dontcare",cond=whenDispatch("cmd"))
-					transition(edgeName="t137",targetState="handleEnvSonar",cond=whenEvent("sonar"))
+					 transition(edgeName="t142",targetState="dontcare",cond=whenDispatch("cmd"))
+					transition(edgeName="t143",targetState="handleEnvSonar",cond=whenEvent("sonar"))
 				}	 
 				state("dontcare") { //this:State
 					action { //it:State
@@ -45,7 +45,7 @@ class Envsonarhandler ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t138",targetState="handleEnvSonar",cond=whenEvent("sonar"))
+					 transition(edgeName="t144",targetState="handleEnvSonar",cond=whenEvent("sonar"))
 				}	 
 			}
 		}
