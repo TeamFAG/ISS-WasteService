@@ -409,8 +409,13 @@ stopHalt: stopHalt(_)</code></pre>
             Now, the goal is to stop the trolley either in the middle or in the beginning/end of the current path.
             In essence, we have to consider all moves inside a path to properly stop the robot at the requested moment.<br/>
             <br/>
-            The actor that manages single moves is the <k>pather</k>.<br/>
-            So, we check for the Halt messages:
+
+            <h5>Using trolleymover</h5>
+
+            The first strategy we tried to use was to modify the <ks>trolleymover</ks> actor by making him catch the <i>startHalt</i> and <i>stopHalt</i> events emitted by the <k>sonarFilter</k>
+            and consequently notify the <k>pather</k> as he is the one that manages the single moves.<br/>
+
+            So, the latter checked for the Halt messages:
             <ul>
                 <li><b>After every move inside the same path</b> to intercept <i>startHalt</i> 
                 during the robot's movement</li>
@@ -421,11 +426,31 @@ stopHalt: stopHalt(_)</code></pre>
             However, a new issue arises: <br/><k><i><b>How can an actor intercept an Event if he's already busy ?</b></i></k><br/><br/>
             Our pather actor is constantly executing movement tasks, which could cause the loss of Events occurring
             in an unfortunate moment (as Event messages are not queued).<br/><br/>
+            
+            <h5>First interruption strategy</h5>
+            In the beginning we opted to completely change the strategy by modifying both the <ks>pather</ks> and the <ks>trolleymover</ks>.<br/>
+            This way, with a higher perspective of the trolley's movements given by <ks>trolleymover</ks>, we could handle
+            halt Events in situations where the trolley was already occupied (ex. <i>startHalt arrives while the trolley is executing a pickup action</i>).<br/>
+            <br/>
 
-            To fix this, we added the new <k>nonricordo</k> actor between <k>sonarfilter</k> and the <k>pather</k> whose only job is to intercept <i>startHalt</i>
+            This solution, while functional, also presented issues: <br/>
+            <ul>
+                <li>The division of tasks between <ks>pather</ks> and <ks>trolleymover</ks> violated the <b>Single Responsibility Principle</b> as 
+                both actors were required to distinguish the trolley's state.</li>
+                <li>Many changes in the structure of our model were required, bringing consfusion to the internal structure of both actors</li>
+            </ul>
+
+            <div class="center">
+                <img src="./imgs/sonar-mover.png">
+            </div>
+
+            <h5>Final interruption strategy</h5>
+            To fix this, we reverted back to the initial strategy and added the new <ks>halteventhandler</ks> actor between <ks>sonarfilter</ks> and the <ks>pather</ks> whose only job is to intercept <i>startHalt</i>
             and <i>stopHalt</i> messages and convert them into dispatches (i.e. the behavior of a proxy) to ensure they are properly queued and received.<br/>
 
-            <img src="">
+            <div class="center">
+                <img src="./imgs/sonar-pather.png">
+            </div>
 
             <h4>Other tools</h4>
 
@@ -453,11 +478,8 @@ stopHalt: stopHalt(_)</code></pre>
             to properly change between its own states.
 
             <h4>What type of message do we need to notify the led ?</h4>
-            The led can simply be notified of the changes in the system by events. These events are emitted by our new actor <ks>trolleystateobserver</ks>
-            which uses the recently added <k>observeResource</k> functionality to observe the actors <ks>transporttrolley</ks> and <ks>pather</ks> thus implementing
-            the <k>Observer</k> pattern.<br/>
-
-            Such notifications are only forwarded in case there is an effective change in the led Status.<br/>
+            The led can simply be notified of the changes in the system by events.<br/>
+            Such notifications are only forwarded in case there is an effective change in the led Status.<br/><br/>
 
             The reasoning behind the decision of using events is that they are useful in case a certain state of the system needs to stay updated on multiple
             components.<br/>
@@ -465,19 +487,46 @@ stopHalt: stopHalt(_)</code></pre>
             state of the led, we can see how useful it is to use Events instead of Dispatches, as the latter would require multple messages.
             
             <h4>What component notifies the led of its desired state ?</h4>
-
+            
             <b>While analyzing this problem, we have come up with two distinct solutions:</b>
-            <ul>
-                <li></li>
-                <li></li>
-            </ul>
+
             <br/>
-            <h5></h5>
+            <h5>Events are emitted by the trolley movement actors</h5>
+
+            The first solution implies that the <ks>trolleymover</ks> and <ks>pather</ks> actors would emit
+            events that described the state of the trolley after each <i>major change</i> in the robot's routine (es. "arrived at INDOOR", "moving to HOME", ecc.).<br/>
+
+            <pre><code>Event stopped: stopped(_)
+Event moving: moving(_)
+Event at_home: at_home(_)</code></pre>
+
+
+            However, the emission of events becomes strongly dependent to the logic of the actors, thus
+            the implementation is less adaptive.
+
+            <h5>The state of the trolley is observed using CoaP</h5>
+
+            Instead, these events are emitted by our new actor <ks>trolleystateobserver</ks> which uses the recently added <k>observeResource</k> 
+            functionality of Qak to observe the actors <ks>transporttrolley</ks> and <ks>pather</ks> thus implementing the <k>Observer</k> pattern.<br/>
+
+            <pre><code>Dispatch coapUpdate: coapUpdate(RESOURCE, VALUE)
+Event updateLed: moving(STATE)</code></pre>
+
+            <pre><code>STATE := ON | OFF | BLINKING </code></pre>
+
+            <div class="center">
+                <img src="./imgs/led-problem.png">
+            </div>
+
+            <h4>Other tools</h4>
+
+            To model a mock version of the Led we definded a simple new actor: <ks>Led</ks>.<br/>
+            After every new <i>updateLed</i>, it prints the new state od the led.<br/>
 
             <br/>
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
-                <img src="./imgs/" alt="waasteserviceProblemArch" style="width:auto;height:450px;" class="center">
+                <img src="./imgs/problem_analisysarch.png" alt="waasteserviceProblemArch" style="width:auto;height:1050px;" class="center">
                 </br>
                 <a href="../sprint2_problem/src/demo_single_context.qak"><k>demo_single_context.qak</k></a>
 
