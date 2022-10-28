@@ -310,7 +310,7 @@
             <k>raspberry</k>.<br/>
             <br/>
             <h4>Raspberry Service</h4>
-            <img src="./imgs/" alt="SystemArch" style="width:auto;height:750px;" class="center"><br/> 
+            <img src="./imgs/systemarchitecturearch_rasp.png" alt="SystemArchRasp" style="width:auto;height:750px;" class="center"><br/> 
             <b>The objectives of this Sprint are:</b>
             <ol><br/>
                 <li>
@@ -429,7 +429,7 @@ stopHalt: stopHalt(_)</code></pre>
 
             <h4>Other tools</h4>
 
-            Considering the purpose of a problem analysis, we decided to create a mock version of the sonar to easily test our new simplified
+            Considering the purpose of the problem analysis, we decided to create a mock version of the sonar to easily test our new simplified
             model.<br/><br/>
 
             We did so by writing a simple script in python (<a href="">sonarMockEmitter.py</a>) that connects to the system and generates/emits
@@ -440,6 +440,39 @@ stopHalt: stopHalt(_)</code></pre>
             </ol>
 
             <h3>Led interaction analysis</h3>
+
+            As a reminder, the led can be found in 3 states, depending on the trolley's behavior:
+            <ul>
+                <li><k>ON</k>: if the trolley is stopped</li>
+                <li><k>OFF</k>: if the trolley is at HOME</li>
+                <li><k>BLINKING</k>: if the trolley is moving</li>
+            </ul>
+            As described in our configuration file <a href="../sprint2_problem/resources/ws/LedState.kt">ledState.kt</a>.
+            <br/>
+            Of course, being a separate component (an actor, as of our Sprint0 analysis), the led will have to be notified of the current state of the trolley
+            to properly change between its own states.
+
+            <h4>What type of message do we need to notify the led ?</h4>
+            The led can simply be notified of the changes in the system by events. These events are emitted by our new actor <ks>trolleystateobserver</ks>
+            which uses the recently added <k>observeResource</k> functionality to observe the actors <ks>transporttrolley</ks> and <ks>pather</ks> thus implementing
+            the <k>Observer</k> pattern.<br/>
+
+            Such notifications are only forwarded in case there is an effective change in the led Status.<br/>
+
+            The reasoning behind the decision of using events is that they are useful in case a certain state of the system needs to stay updated on multiple
+            components.<br/>
+            In fact, if we also consider that the GUI (which is not the topic of this particular Sprint) will need to stay updated on the 
+            state of the led, we can see how useful it is to use Events instead of Dispatches, as the latter would require multple messages.
+            
+            <h4>What component notifies the led of its desired state ?</h4>
+
+            <b>While analyzing this problem, we have come up with two distinct solutions:</b>
+            <ul>
+                <li></li>
+                <li></li>
+            </ul>
+            <br/>
+            <h5></h5>
 
             <br/>
             <h3>Current system architecture</h3>
