@@ -443,6 +443,10 @@ QActor pather context ctxwasteservice_test {
 //-----------------------------------------------------------------------------------------------------------------------------
 
 QActor trolleystateobserver context ctxwasteservice_test {
+	[#
+		var CurrentState = ws.LedState.OFF
+		var LedState = ws.LedState.OFF
+	#]
 	
 	State init initial {
 		println("\tTROLLEYSTATEOBSERVER | started.")
@@ -454,14 +458,18 @@ QActor trolleystateobserver context ctxwasteservice_test {
 	State handleCoapUpdate {
 		onMsg(coapUpdate : coapUpdate(RESOURCE, VALUE)) {
 			// filtraggio del messaggio
-			[# ws.LedUtils.printLedState("\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA coap") #]
 			[#
 				var Resource = payloadArg(0)
 				var Value = payloadArg(1)
-				var LedState = ws.LedUtils.getLedStatusFromCoap(Resource, Value)
+				
+				if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
+					LedState = ws.LedUtils.getLedStatusFromCoap(Resource, Value)
 			#]
 			
-			emit updateLed : updateLed($LedState)
+			if [# !CurrentState.equals(LedState) #] {
+				emit updateLed : updateLed($LedState)
+				[# CurrentState = LedState #]
+			}
 		}
 	}
 	Transition t0 whenMsg coapUpdate -> handleCoapUpdate
@@ -473,7 +481,7 @@ QActor led context ctxwasteservice_test {
 	
 	State init initial {
 		println("\tLED | started.")
-		[# ws.LedUtils.printLedState("\tLED | led Starteeeeeeeeeed") #]
+		updateResource [# "led(OFF)" #]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
@@ -505,6 +513,21 @@ QActor led context ctxwasteservice_test {
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 }
+
+/*
+QActor sonaremitter context ctxwasteservice_test {
+	
+	State init initial {
+		
+	}
+	Goto doWork
+	
+	State doWork {
+		emit distance : distance(V)
+	}
+	Transition t0 whenTime 500 -> doWork
+}
+*/
 
 QActor sonarfilter context ctxwasteservice_test {
 	[#
@@ -552,7 +575,6 @@ QActor halteventshandler context ctxwasteservice_test {
 	
 	State sendHalt {
 		println("\tHALTEVENTSHANDLER | received startHalt Event, sending notification to pather...")
-		updateResource
 		
 		forward pather -m halt : halt(_)
 	}	

@@ -5,8 +5,6 @@ import unibo.comm22.utils.ColorsOut
 object LedUtils {
 
     fun getLedStatusFromCoap(resource: String, value: String): LedState {
-        ColorsOut.outappl(resource, ColorsOut.ANSI_RED_BACKGROUND)
-        ColorsOut.outappl(value, ColorsOut.ANSI_RED_BACKGROUND)
 
         if(resource.equals("pather")) {
             if(value.contains("halt_begin"))
@@ -24,7 +22,7 @@ object LedUtils {
             }
         }
 
-        return LedState.ON
+        return LedState.OFF
     }
 
     fun printLedState(str: String) {

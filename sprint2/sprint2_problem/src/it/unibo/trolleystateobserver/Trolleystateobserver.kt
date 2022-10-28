@@ -15,6 +15,9 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
+		
+				var CurrentState = ws.LedState.OFF
+				var LedState = ws.LedState.OFF
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -32,12 +35,16 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("coapUpdate(RESOURCE,VALUE)"), Term.createTerm("coapUpdate(RESOURCE,VALUE)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 ws.LedUtils.printLedState("\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA coap")  
 								
 												var Resource = payloadArg(0)
 												var Value = payloadArg(1)
-												var LedState = ws.LedUtils.getLedStatusFromCoap(Resource, Value)
-								emit("updateLed", "updateLed($LedState)" ) 
+												
+												if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
+													LedState = ws.LedUtils.getLedStatusFromCoap(Resource, Value)
+								if(  !CurrentState.equals(LedState)  
+								 ){emit("updateLed", "updateLed($LedState)" ) 
+								 CurrentState = LedState  
+								}
 						}
 						//genTimer( actor, state )
 					}

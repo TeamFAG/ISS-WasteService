@@ -6,20 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="ce0ec372-6f00-4fde-98e7-5b2376d9cc2f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arch_demo_wasteservice_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arch_demo_wasteservice_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo_wasteservice_test.pl" beforeDir="false" afterPath="$PROJECT_DIR$/demo_wasteservice_test.pl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/ws/WasteServiceConstants.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Api_demo_wasteservice_test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Api_demo_wasteservice_test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/ws/LedUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/ws/LedUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/demo_single_context.qak" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo_single_context.qak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/halteventshandler/Halteventshandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/halteventshandler/Halteventshandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/pather/Pather.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/pather/Pather.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/sonarfilter/Sonarfilter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/sonarfilter/Sonarfilter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/sonarinterfacemock/Sonarinterfacemock.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/sonarinterfacemock/Sonarinterfacemock.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/transporttrolley/Transporttrolley.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/transporttrolley/Transporttrolley.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/trolleymover/Trolleymover.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/trolleymover/Trolleymover.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/wasteservice/Wasteservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/wasteservice/Wasteservice.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/led/Led.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/led/Led.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/sonaremitter/Sonaremitter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/sonarinterfacemock/Sonarinterfacemock.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/trolleystateobserver/Trolleystateobserver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/trolleystateobserver/Trolleystateobserver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/CoapObserver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/test/CoapObserver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/TestLed.kt" beforeDir="false" afterPath="$PROJECT_DIR$/test/TestLed.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +40,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -67,7 +70,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="Gradle.TestHalt">
+  <component name="RunManager" selected="Gradle.TestLed">
     <configuration name="TestHalt" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -91,23 +94,55 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="TestLed" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;TestLed&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="TestLed.testLedHaltedRoutine" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;TestLed.testLedHaltedRoutine&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="MainCtxraspKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="it.unibo.ctxrasp.MainCtxraspKt" />
       <module name="unibo.demo_wasteservice_test.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainCtxtrolleyKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.unibo.ctxtrolley.MainCtxtrolleyKt" />
-      <module name="unibo.demo_wasteservice.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainCtxwasteserviceKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.unibo.ctxwasteservice.MainCtxwasteserviceKt" />
-      <module name="unibo.demo_wasteservice.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -121,11 +156,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.TestLed" />
+        <item itemvalue="Gradle.TestLed.testLedHaltedRoutine" />
         <item itemvalue="Gradle.TestHalt" />
         <item itemvalue="Kotlin.MainCtxwasteservice_testKt" />
         <item itemvalue="Kotlin.MainCtxraspKt" />
-        <item itemvalue="Kotlin.MainCtxwasteserviceKt" />
-        <item itemvalue="Kotlin.MainCtxtrolleyKt" />
       </list>
     </recent_temporary>
   </component>
@@ -141,6 +176,7 @@
       <workItem from="1666596810580" duration="56000" />
       <workItem from="1666597233446" duration="6522000" />
       <workItem from="1666883409273" duration="6197000" />
+      <workItem from="1666943417324" duration="4299000" />
     </task>
     <servers />
   </component>

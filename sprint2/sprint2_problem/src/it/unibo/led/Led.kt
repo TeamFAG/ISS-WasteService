@@ -20,7 +20,8 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				state("init") { //this:State
 					action { //it:State
 						println("	LED | started.")
-						 ws.LedUtils.printLedState("\tLED | led Starteeeeeeeeeed")  
+						updateResourceRep( "led(OFF)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

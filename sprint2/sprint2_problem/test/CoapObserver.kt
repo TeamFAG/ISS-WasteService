@@ -14,7 +14,7 @@ class CoapObserver : CoapHandler {
     private val contextsMap = HashMap<String, Pair<String, Int>>()
     private val actorsMap = HashMap<String, String>()
     private val activeConnections = HashMap<String, CoapConnection>()
-    private val coapHistory: MutableList<String> = ArrayList()
+    private var coapHistory: MutableList<String> = ArrayList()
 
     private val lock = ReentrantLock()
     private val condition = lock.newCondition()
@@ -75,6 +75,13 @@ class CoapObserver : CoapHandler {
     fun checkIfHystoryContains(entry: String): Boolean {
         lock.withLock {
             return coapHistory.contains(entry)
+        }
+    }
+
+    fun filterDefinitelyHistory(entry: String) {
+        lock.withLock {
+            coapHistory = coapHistory.filter { e -> e.contains("led") } as MutableList<String>
+            coapHistory.forEach { e -> e.replace("\t", "") }
         }
     }
 
