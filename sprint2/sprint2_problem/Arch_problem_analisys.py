@@ -16,23 +16,25 @@ eventedgeattr = {
     'color': 'red',
     'style': 'dotted'
 }
-with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_attr=graphattr) as diag:
+with Diagram('problem_analisysArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
-     with Cluster('ctxwasteservice_test', graph_attr=nodeattr):
+     with Cluster('ctxbasicrobot', graph_attr=nodeattr):
+          basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
+          datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
+          distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
+     with Cluster('ctxwasteservice', graph_attr=nodeattr):
           wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
+     with Cluster('ctxtrolley', graph_attr=nodeattr):
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           pather=Custom('pather','./qakicons/symActorSmall.png')
+     with Cluster('ctxrasp', graph_attr=nodeattr):
           trolleystateobserver=Custom('trolleystateobserver','./qakicons/symActorSmall.png')
           led=Custom('led','./qakicons/symActorSmall.png')
           sonarmockemitter=Custom('sonarmockemitter','./qakicons/symActorSmall.png')
           sonarfilter=Custom('sonarfilter','./qakicons/symActorSmall.png')
           halteventshandler=Custom('halteventshandler','./qakicons/symActorSmall.png')
-          basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
-          envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
-          datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
-          distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pather
@@ -52,5 +54,4 @@ with Diagram('demo_wasteservice_testArch', show=False, outformat='png', graph_at
      halteventshandler >> Edge(color='blue', style='solid', xlabel='halt', fontcolor='blue') >> pather
      sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> halteventshandler
      halteventshandler >> Edge(color='blue', style='solid', xlabel='resume', fontcolor='blue') >> pather
-     sys >> Edge(color='red', style='dashed', xlabel='sonar', fontcolor='red') >> envsonarhandler
 diag
