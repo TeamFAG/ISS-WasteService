@@ -100,7 +100,7 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						updateResourceRep( "trolleymover(handlePathDone_$Loc)"  
 						)
 						println("	TROLLEYMOVER | arrived to $Loc")
-						answer("move", "moveDone", "moveDone(OK)"   )  
+						answer("move", "moveDone", "moveDone(OK)","transporttrolley"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

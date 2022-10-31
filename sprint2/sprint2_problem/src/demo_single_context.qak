@@ -1,5 +1,8 @@
 System demo_wasteservice_test
 
+// Coap
+Dispatch coapUpdate: coapUpdate(RESOURCE, VALUE)
+
 // Smartdevice
 Request storeRequest : storeRequest(MATERIAL, QUANTITY)
 Reply loadAccepted : loadAccepted(_)
@@ -37,52 +40,15 @@ Event stopHalt : stopHalt(_)
 Event distance : distance(V)
 Dispatch trigger : trigger(_)
 
+// Led
+Event updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
+
 // HaltEventsHandler
 Dispatch halt : halt(_)
 Dispatch resume : resume(_)
 
 Context ctxwasteservice_test ip[host="localhost" port=8050]
 //Context ctxrasp ip[host="localhost" port=8070]
-
-/*
-QActor sonarmock context ctxrasp {
-	
-	State init initial {
-		// per ora vuoto, in fase di progetto verrà progettato
-	}
-}*/
-
-QActor sonarfilter context ctxwasteservice_test {
-	[#
-		var D = 0
-		var DLIMIT = 10
-		var Halted = false
-	#]
-	
-	State init initial {
-		
-	}
-	Transition t0 whenEvent distance -> filterDistance
-	
-	State filterDistance {
-		onMsg (distance : distance(V)) {
-			[# D = payloadArg(0).toInt() #]
-			
-			if [# D < DLIMIT && !Halted #] {
-				[# Halted = true #]
-				println("\tSONARFILTER | emitting start halt")
-				emit startHalt : startHalt(_)	
-			}
-		
-			if [# D > DLIMIT && Halted #] {
-				[# Halted = false #]
-				println("\tSONARFILTER | emitting stop halt")
-				emit stopHalt : stopHalt(_)
-			}
-		}
-	}
-	Transition t1 whenEvent distance -> filterDistance
-}
 
 QActor wasteservice context ctxwasteservice_test {
 	[#
@@ -435,11 +401,13 @@ QActor pather context ctxwasteservice_test {
 				  
 	State handleHalt {
 		println("\tPATHEXECUTOR | stop...")
+		updateResource [# "pather(halt_begin)" #]
 	}
 	Transition t1 whenMsg resume -> resumeFromHalt
 	
 	State resumeFromHalt {
 		println("\tPATHEXECUTOR | resuming from halt")
+		updateResource [# "pather(halt_end)" #]
 	}
 	Goto nextMove if [# Pathing #] else init 
 	
@@ -462,10 +430,132 @@ QActor pather context ctxwasteservice_test {
 	Transition t3 whenEvent alarm -> handleAlarm
 }
 
+//-----------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
+
+QActor trolleystateobserver context ctxwasteservice_test {
+	[#
+		var CurrentState = ws.LedState.OFF
+		var LedState = ws.LedState.OFF
+	#]
+	
+	State init initial {
+		println("\tTROLLEYSTATEOBSERVER | started.")
+		observeResource transporttrolley
+		observeResource pather
+	}
+	Transition t0 whenMsg coapUpdate -> handleCoapUpdate 
+	
+	State handleCoapUpdate {
+		onMsg(coapUpdate : coapUpdate(RESOURCE, VALUE)) {
+			// filtraggio del messaggio
+			[#
+				var Resource = payloadArg(0)
+				var Value = payloadArg(1)
+				
+				if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
+					LedState = ws.LedUtils.getLedStatusFromCoap(Resource, Value)
+			#]
+			
+			if [# !CurrentState.equals(LedState) #] {
+				emit updateLed : updateLed($LedState)
+				[# CurrentState = LedState #]
+			}
+		}
+	}
+	Transition t0 whenMsg coapUpdate -> handleCoapUpdate
+}
+
+QActor led context ctxwasteservice_test {
+	
+	[# var LedState = ws.LedState.OFF #]
+	
+	State init initial {
+		println("\tLED | started.")
+		updateResource [# "led(OFF)" #]
+	}
+	Transition t0 whenEvent updateLed -> handleEvent
+	
+	State handleEvent {
+		onMsg(updateLed : updateLed(STATE)) {
+			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
+		}
+	}
+	Goto blink if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
+		
+	State notBlink {}
+	Goto on if [# LedState.equals(ws.LedState.ON) #] else off 
+	
+	State on {
+		updateResource [# "led(ON)" #]
+		[# ws.LedUtils.printLedState("\tLED | led ON") #]
+	}
+	Transition t0 whenEvent updateLed -> handleEvent
+	
+	State off {
+		updateResource [# "led(OFF)" #]
+		[# ws.LedUtils.printLedState("\tLED | led OFF") #]
+	}
+	Transition t0 whenEvent updateLed -> handleEvent
+	
+	State blink {
+		updateResource [# "led(BLINKING)" #]
+		[# ws.LedUtils.printLedState("\tLED | led BLINKING") #]
+	}
+	Transition t0 whenEvent updateLed -> handleEvent
+}
+
+
+QActor sonarmockemitter context ctxwasteservice_test {
+	
+	State init initial {
+		
+	}
+	Goto doWork
+	
+	State doWork {
+		emit distance : distance(V)
+	}
+	Transition t0 whenTime 500 -> doWork
+}
+
+QActor sonarfilter context ctxwasteservice_test {
+	[#
+		var D = 0
+		var DLIMIT = 10
+		var Halted = false
+	#]
+	
+	State init initial {
+		println("\tSONARFILTER | started.")
+	}
+	Transition t0 whenEvent distance -> filterDistance
+	
+	State filterDistance {
+		onMsg (distance : distance(V)) {
+			[# D = payloadArg(0).toInt() #]
+			
+			if [# D < DLIMIT && !Halted #] {
+				[# Halted = true #]
+				println("\tSONARFILTER | emitting start halt")
+				emit startHalt : startHalt(_)	
+			}
+		
+			if [# D > DLIMIT && Halted #] {
+				[# Halted = false #]
+				println("\tSONARFILTER | emitting stop halt")
+				emit stopHalt : stopHalt(_)
+			}
+		}
+	}
+	Transition t1 whenEvent distance -> filterDistance
+}
+
 QActor halteventshandler context ctxwasteservice_test {
 	
 	State init initial {
-		println("\tHALTEVENTSHANDLER | init...")
+		println("\tHALTEVENTSHANDLER | started.")
 	}
 	Goto idle
 	
@@ -488,6 +578,10 @@ QActor halteventshandler context ctxwasteservice_test {
 	}	
 	Goto idle
 }
+
+//-----------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
 
 CodedQActor datacleaner    context ctxwasteservice_test className "rx.dataCleaner"
 CodedQActor distancefilter context ctxwasteservice_test className "rx.distanceFilter"

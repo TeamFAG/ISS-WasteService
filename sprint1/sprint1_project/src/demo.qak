@@ -302,7 +302,7 @@ QActor trolleymover context ctxtrolley {
 		updateResource [# "trolleymover(handlePathDone_$Loc)" #]
 		println("\tTROLLEYMOVER | arrived to $Loc")
 		
-		replyTo move with moveDone : moveDone(OK)
+		replyTo move with moveDone : moveDone(OK) caller==transporttrolley
 	}
 	Goto idle
 	

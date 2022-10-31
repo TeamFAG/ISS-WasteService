@@ -1,7 +1,7 @@
 from diagrams import Cluster, Diagram, Edge
 from diagrams.custom import Custom
 import os
-os.environ['PATH'] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
+os.environ['PATH'] += os.pathsep + 'D:/Programmi/Graphviz/bin/'
 
 graphattr = {     #https://www.graphviz.org/doc/info/attrs.html
     'fontsize': '22',
@@ -32,6 +32,7 @@ with Diagram('demo_wasteserviceArch', show=False, outformat='png', graph_attr=gr
      transporttrolley >> Edge(color='darkgreen', style='dashed', xlabel='pickupDone', fontcolor='darkgreen') >> wasteservice
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pather
      trolleymover >> Edge(color='magenta', style='solid', xlabel='doPath', fontcolor='magenta') >> pather
+     trolleymover >> Edge(color='darkgreen', style='dashed', xlabel='moveDone', fontcolor='darkgreen') >> transporttrolley
      pather >> Edge(color='darkgreen', style='dashed', xlabel='stopAck', fontcolor='darkgreen') >> trolleymover
      pather >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
      pather >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
