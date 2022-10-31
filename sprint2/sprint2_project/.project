@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>sprint2_project</name>
+	<name>unibo.sprint2_project_single_context</name>
 	<comment>Project sprint2_project created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.eclipse.xtext.ui.shared.xtextBuilder</name>
+			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -15,9 +15,15 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.xtext.ui.shared.xtextBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 	</natures>
 </projectDescription>

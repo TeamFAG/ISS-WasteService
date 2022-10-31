@@ -4,7 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce0ec372-6f00-4fde-98e7-5b2376d9cc2f" name="Changes" comment="" />
+    <list default="true" id="ce0ec372-6f00-4fde-98e7-5b2376d9cc2f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/.gitattributes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/.project" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/.project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/resources/ws/WasteServiceConstants.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../unibo.basicrobot22/.gradle/7.3/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../unibo.basicrobot22/.gradle/7.3/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../unibo.basicrobot22/.gradle/7.3/dependencies-accessors/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../unibo.basicrobot22/.gradle/7.3/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../unibo.basicrobot22/.gradle/7.3/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../unibo.basicrobot22/.gradle/7.3/gc.properties" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -166,6 +183,7 @@
       <workItem from="1666597233446" duration="6522000" />
       <workItem from="1666883409273" duration="6197000" />
       <workItem from="1666943417324" duration="4875000" />
+      <workItem from="1667232650539" duration="27000" />
     </task>
     <servers />
   </component>
