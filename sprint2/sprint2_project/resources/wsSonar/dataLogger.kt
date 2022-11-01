@@ -16,7 +16,7 @@ class dataLogger(name : String) : ActorBasic(name){
  	}
 
 	override suspend fun actorBody(msg: IApplMessage) {
- 		if( msg.msgId() != "sonarRobot" ) return //AVOID to handle other events
+ 		if( msg.msgId() != "sonar" ) return //AVOID to handle other events
  		elabData( msg )
 		emitLocalStreamEvent(msg)	//propagate ... 
 	}

@@ -51,6 +51,7 @@ Context ctxwasteservice_test ip[host="localhost" port=8050]
 //Context ctxrasp ip[host="localhost" port=8070]
 
 CodedQActor sonaremittersimulator context ctxwasteservice_test className "wsSonar.sonarEmitterSimulator"
+CodedQActor sonaremitterconcrete context ctxwasteservice_test className "wsSonar.sonarEmitterConcrete"
 CodedQActor wsdatacleaner context ctxwasteservice_test className "wsSonar.dataCleaner"
 CodedQActor wsdistanceFilter context ctxwasteservice_test className "wsSonar.distanceFilter"
 

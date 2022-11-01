@@ -31,6 +31,7 @@ with Diagram('sprint2_project_single_contextArch', show=False, outformat='png', 
           basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
           envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
           sonaremittersimulator=Custom('sonaremittersimulator(coded)','./qakicons/codedQActor.png')
+          sonaremitterconcrete=Custom('sonaremitterconcrete(coded)','./qakicons/codedQActor.png')
           wsdatacleaner=Custom('wsdatacleaner(coded)','./qakicons/codedQActor.png')
           wsdistanceFilter=Custom('wsdistanceFilter(coded)','./qakicons/codedQActor.png')
           datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')

@@ -3,6 +3,7 @@
 %====================================================================================
 context(ctxwasteservice_test, "localhost",  "TCP", "8050").
  qactor( sonaremittersimulator, ctxwasteservice_test, "wsSonar.sonarEmitterSimulator").
+  qactor( sonaremitterconcrete, ctxwasteservice_test, "wsSonar.sonarEmitterConcrete").
   qactor( wsdatacleaner, ctxwasteservice_test, "wsSonar.dataCleaner").
   qactor( wsdistancefilter, ctxwasteservice_test, "wsSonar.distanceFilter").
   qactor( wasteservice, ctxwasteservice_test, "it.unibo.wasteservice.Wasteservice").
