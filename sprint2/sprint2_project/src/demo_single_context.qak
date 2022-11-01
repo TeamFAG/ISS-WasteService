@@ -369,12 +369,22 @@ QActor pather context ctxwasteservice_test {
 	}
 	Goto nextMove
 	
+	/*
+	State checkIfHalt {
+		
+	}
+	Transition t0 whenTime 100 -> nextMove
+				  whenMsg halt -> handleHalt
+				  * 
+				  */
+	
 	State nextMove {
 		[# CurMoveTodo = pathut.nextMove() #]
 		println("\tPATHEXECUTOR | curMoveTodo: $CurMoveTodo")
 		[# Pathing = true #]
 	}
 	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
+			
 	
 	State handleStopPath {
 		replyTo stopPath with stopAck : stopAck(_)
@@ -397,11 +407,11 @@ QActor pather context ctxwasteservice_test {
 		request basicrobot -m step : step(350)
 		delay 350
 	}
-	Transition t2 whenReply stepdone -> nextMove
+	Transition t2 whenMsg halt -> handleHalt
+				  whenReply stepdone -> nextMove
 				  whenEvent alarm -> handleAlarm
 				  whenReply stepfail -> endWorkKo
 				  whenRequest stopPath -> handleStopPath
-				  whenMsg halt -> handleHalt
 				  
 	State handleHalt {
 		println("\tPATHEXECUTOR | stop...")
@@ -473,11 +483,25 @@ QActor trolleystateobserver context ctxwasteservice_test {
 
 QActor led context ctxwasteservice_test {
 	
-	[# var LedState = ws.LedState.OFF #]
+	[# 
+		var LedState = ws.LedState.OFF
+		var Simulation: Boolean = true
+		lateinit var Led: `it.unibo`.radarSystem22.domain.interfaces.ILed
+	#]
 	
 	State init initial {
 		println("\tLED | started.")
 		updateResource [# "led(OFF)" #]
+		[#
+			SystemConfig.setTheConfiguration("SystemConfiguration")
+			Simulation = SystemConfig.sonar["simulation"] as Boolean
+			
+			`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.simulation = Simulation
+			`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.ledGui = Simulation
+			
+			Led = `it.unibo`.radarSystem22.domain.DeviceFactory.createLed()
+			Led.turnOff()
+		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
@@ -486,28 +510,57 @@ QActor led context ctxwasteservice_test {
 			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
 		}
 	}
-	Goto blink if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
+	Goto blinkOn if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
 		
 	State notBlink {}
 	Goto on if [# LedState.equals(ws.LedState.ON) #] else off 
 	
 	State on {
 		updateResource [# "led(ON)" #]
-		[# ws.LedUtils.printLedState("\tLED | led ON") #]
+		[# 
+			ws.LedUtils.printLedState("\tLED | led ON")
+			Led.turnOn() 
+		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
 	State off {
 		updateResource [# "led(OFF)" #]
-		[# ws.LedUtils.printLedState("\tLED | led OFF") #]
+		[#
+			ws.LedUtils.printLedState("\tLED | led OFF")
+			Led.turnOff() 
+		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
+	State blinkOn {
+		updateResource [# "led(BLINKING)" #]
+		[# 
+			ws.LedUtils.printLedState("\tLED | led Blink")
+			Led.turnOn() 
+		#]
+	}
+	Transition t0 whenTime 300 -> blinkOff
+				  whenEvent updateLed -> handleEvent
+	
+	State blinkOff {
+		updateResource [# "led(BLINKING)" #]
+		[# 
+			ws.LedUtils.printLedState("\tLED | led Blink")
+			Led.turnOff() 
+		#]
+	}
+	Transition t0 whenTime 300 -> blinkOn
+				  whenEvent updateLed -> handleEvent
+				  
+	/*
 	State blink {
 		updateResource [# "led(BLINKING)" #]
 		[# ws.LedUtils.printLedState("\tLED | led BLINKING") #]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
+	* 
+	*/
 }
 
 

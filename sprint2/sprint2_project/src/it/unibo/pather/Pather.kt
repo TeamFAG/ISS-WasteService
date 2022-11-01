@@ -113,11 +113,11 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t219",targetState="nextMove",cond=whenReply("stepdone"))
-					transition(edgeName="t220",targetState="handleAlarm",cond=whenEvent("alarm"))
-					transition(edgeName="t221",targetState="endWorkKo",cond=whenReply("stepfail"))
-					transition(edgeName="t222",targetState="handleStopPath",cond=whenRequest("stopPath"))
-					transition(edgeName="t223",targetState="handleHalt",cond=whenDispatch("halt"))
+					 transition(edgeName="t219",targetState="handleHalt",cond=whenDispatch("halt"))
+					transition(edgeName="t220",targetState="nextMove",cond=whenReply("stepdone"))
+					transition(edgeName="t221",targetState="handleAlarm",cond=whenEvent("alarm"))
+					transition(edgeName="t222",targetState="endWorkKo",cond=whenReply("stepfail"))
+					transition(edgeName="t223",targetState="handleStopPath",cond=whenRequest("stopPath"))
 				}	 
 				state("handleHalt") { //this:State
 					action { //it:State

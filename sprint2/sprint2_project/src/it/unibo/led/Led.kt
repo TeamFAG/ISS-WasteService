@@ -15,13 +15,25 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
-		 var LedState = ws.LedState.OFF  
+		 
+				var LedState = ws.LedState.OFF
+				var Simulation: Boolean = true
+				lateinit var Led: `it.unibo`.radarSystem22.domain.interfaces.ILed
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("	LED | started.")
 						updateResourceRep( "led(OFF)"  
 						)
+						
+									SystemConfig.setTheConfiguration("SystemConfiguration")
+									Simulation = SystemConfig.sonar["simulation"] as Boolean
+									
+									`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.simulation = Simulation
+									`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.ledGui = Simulation
+									
+									Led = `it.unibo`.radarSystem22.domain.DeviceFactory.createLed()
+									Led.turnOff()
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -40,7 +52,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="blink", cond=doswitchGuarded({ LedState.equals(ws.LedState.BLINKING)  
+					 transition( edgeName="goto",targetState="blinkOn", cond=doswitchGuarded({ LedState.equals(ws.LedState.BLINKING)  
 					}) )
 					transition( edgeName="goto",targetState="notBlink", cond=doswitchGuarded({! ( LedState.equals(ws.LedState.BLINKING)  
 					) }) )
@@ -61,7 +73,9 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					action { //it:State
 						updateResourceRep( "led(ON)"  
 						)
-						 ws.LedUtils.printLedState("\tLED | led ON")  
+						 
+									ws.LedUtils.printLedState("\tLED | led ON")
+									Led.turnOn() 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -73,7 +87,9 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					action { //it:State
 						updateResourceRep( "led(OFF)"  
 						)
-						 ws.LedUtils.printLedState("\tLED | led OFF")  
+						
+									ws.LedUtils.printLedState("\tLED | led OFF")
+									Led.turnOff() 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -81,17 +97,43 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					}	 	 
 					 transition(edgeName="t030",targetState="handleEvent",cond=whenEvent("updateLed"))
 				}	 
-				state("blink") { //this:State
+				state("blinkOn") { //this:State
 					action { //it:State
 						updateResourceRep( "led(BLINKING)"  
 						)
-						 ws.LedUtils.printLedState("\tLED | led BLINKING")  
+						 
+									ws.LedUtils.printLedState("\tLED | led Blink")
+									Led.turnOn() 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
+				 	 		//sysaction { //it:State
+				 	 		  stateTimer = TimerActor("timer_blinkOn", 
+				 	 			scope, context!!, "local_tout_led_blinkOn", 300.toLong() )
+				 	 		//}
 					}	 	 
-					 transition(edgeName="t031",targetState="handleEvent",cond=whenEvent("updateLed"))
+					 transition(edgeName="t031",targetState="blinkOff",cond=whenTimeout("local_tout_led_blinkOn"))   
+					transition(edgeName="t032",targetState="handleEvent",cond=whenEvent("updateLed"))
+				}	 
+				state("blinkOff") { //this:State
+					action { //it:State
+						updateResourceRep( "led(BLINKING)"  
+						)
+						 
+									ws.LedUtils.printLedState("\tLED | led Blink")
+									Led.turnOff() 
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+				 	 		//sysaction { //it:State
+				 	 		  stateTimer = TimerActor("timer_blinkOff", 
+				 	 			scope, context!!, "local_tout_led_blinkOff", 300.toLong() )
+				 	 		//}
+					}	 	 
+					 transition(edgeName="t033",targetState="blinkOn",cond=whenTimeout("local_tout_led_blinkOff"))   
+					transition(edgeName="t034",targetState="handleEvent",cond=whenEvent("updateLed"))
 				}	 
 			}
 		}
