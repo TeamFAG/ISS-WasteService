@@ -369,15 +369,6 @@ QActor pather context ctxwasteservice_test {
 	}
 	Goto nextMove
 	
-	/*
-	State checkIfHalt {
-		
-	}
-	Transition t0 whenTime 100 -> nextMove
-				  whenMsg halt -> handleHalt
-				  * 
-				  */
-	
 	State nextMove {
 		[# CurMoveTodo = pathut.nextMove() #]
 		println("\tPATHEXECUTOR | curMoveTodo: $CurMoveTodo")
@@ -481,7 +472,7 @@ QActor trolleystateobserver context ctxwasteservice_test {
 	Transition t0 whenMsg coapUpdate -> handleCoapUpdate
 }
 
-QActor led context ctxwasteservice_test {
+QActor ledcontroller context ctxwasteservice_test {
 	
 	[# 
 		var LedState = ws.LedState.OFF
@@ -510,7 +501,7 @@ QActor led context ctxwasteservice_test {
 			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
 		}
 	}
-	Goto blinkOn if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
+	Goto blink if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
 		
 	State notBlink {}
 	Goto on if [# LedState.equals(ws.LedState.ON) #] else off 
@@ -528,11 +519,11 @@ QActor led context ctxwasteservice_test {
 		updateResource [# "led(OFF)" #]
 		[#
 			ws.LedUtils.printLedState("\tLED | led OFF")
-			Led.turnOff() 
 		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
+	/*
 	State blinkOn {
 		updateResource [# "led(BLINKING)" #]
 		[# 
@@ -552,15 +543,17 @@ QActor led context ctxwasteservice_test {
 	}
 	Transition t0 whenTime 300 -> blinkOn
 				  whenEvent updateLed -> handleEvent
+				  * 
+				  */
 				  
-	/*
 	State blink {
 		updateResource [# "led(BLINKING)" #]
-		[# ws.LedUtils.printLedState("\tLED | led BLINKING") #]
+		[# 
+			ws.LedUtils.printLedState("\tLED | led BLINKING")
+			ws.LedUtils.loop() 
+		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
-	* 
-	*/
 }
 
 
