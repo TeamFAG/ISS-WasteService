@@ -52,7 +52,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="blink", cond=doswitchGuarded({ LedState.equals(ws.LedState.BLINKING)  
+					 transition( edgeName="goto",targetState="blinkLedOn", cond=doswitchGuarded({ LedState.equals(ws.LedState.BLINKING)  
 					}) )
 					transition( edgeName="goto",targetState="notBlink", cond=doswitchGuarded({! ( LedState.equals(ws.LedState.BLINKING)  
 					) }) )
@@ -96,19 +96,43 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					}	 	 
 					 transition(edgeName="t030",targetState="handleEvent",cond=whenEvent("updateLed"))
 				}	 
-				state("blink") { //this:State
+				state("blinkLedOn") { //this:State
 					action { //it:State
 						updateResourceRep( "led(BLINKING)"  
 						)
 						 
-									ws.LedUtils.printLedState("\tLED | led BLINKING")
-									ws.LedUtils.loop() 
+									ws.LedUtils.printLedState("\tLED | led Blink")
+									Led.turnOn() 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
+				 	 		//sysaction { //it:State
+				 	 		  stateTimer = TimerActor("timer_blinkLedOn", 
+				 	 			scope, context!!, "local_tout_led_blinkLedOn", 300.toLong() )
+				 	 		//}
 					}	 	 
-					 transition(edgeName="t031",targetState="handleEvent",cond=whenEvent("updateLed"))
+					 transition(edgeName="t031",targetState="blinkLedOff",cond=whenTimeout("local_tout_led_blinkLedOn"))   
+					transition(edgeName="t032",targetState="handleEvent",cond=whenEvent("updateLed"))
+				}	 
+				state("blinkLedOff") { //this:State
+					action { //it:State
+						updateResourceRep( "led(BLINKING)"  
+						)
+						 
+									ws.LedUtils.printLedState("\tLED | led Blink")
+									Led.turnOff() 
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+				 	 		//sysaction { //it:State
+				 	 		  stateTimer = TimerActor("timer_blinkLedOff", 
+				 	 			scope, context!!, "local_tout_led_blinkLedOff", 300.toLong() )
+				 	 		//}
+					}	 	 
+					 transition(edgeName="t033",targetState="blinkLedOn",cond=whenTimeout("local_tout_led_blinkLedOff"))   
+					transition(edgeName="t034",targetState="handleEvent",cond=whenEvent("updateLed"))
 				}	 
 			}
 		}

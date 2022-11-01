@@ -25,7 +25,7 @@ with Diagram('sprint2_project_single_contextArch', show=False, outformat='png', 
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           pather=Custom('pather','./qakicons/symActorSmall.png')
           trolleystateobserver=Custom('trolleystateobserver','./qakicons/symActorSmall.png')
-          ledcontroller=Custom('ledcontroller','./qakicons/symActorSmall.png')
+          led=Custom('led','./qakicons/symActorSmall.png')
           sonar=Custom('sonar','./qakicons/symActorSmall.png')
           halteventshandler=Custom('halteventshandler','./qakicons/symActorSmall.png')
           basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
@@ -45,7 +45,7 @@ with Diagram('sprint2_project_single_contextArch', show=False, outformat='png', 
      transporttrolley >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
      pather >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
      trolleystateobserver >> Edge( xlabel='updateLed', **eventedgeattr, fontcolor='red') >> sys
-     sys >> Edge(color='red', style='dashed', xlabel='updateLed', fontcolor='red') >> ledcontroller
+     sys >> Edge(color='red', style='dashed', xlabel='updateLed', fontcolor='red') >> led
      sys >> Edge(color='red', style='dashed', xlabel='startHalt', fontcolor='red') >> halteventshandler
      halteventshandler >> Edge(color='blue', style='solid', xlabel='halt', fontcolor='blue') >> pather
      sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> halteventshandler

@@ -10,7 +10,7 @@ context(ctxwasteservice_test, "localhost",  "TCP", "8050").
   qactor( trolleymover, ctxwasteservice_test, "it.unibo.trolleymover.Trolleymover").
   qactor( pather, ctxwasteservice_test, "it.unibo.pather.Pather").
   qactor( trolleystateobserver, ctxwasteservice_test, "it.unibo.trolleystateobserver.Trolleystateobserver").
-  qactor( ledcontroller, ctxwasteservice_test, "it.unibo.ledcontroller.Ledcontroller").
+  qactor( led, ctxwasteservice_test, "it.unibo.led.Led").
   qactor( sonar, ctxwasteservice_test, "it.unibo.sonar.Sonar").
   qactor( halteventshandler, ctxwasteservice_test, "it.unibo.halteventshandler.Halteventshandler").
   qactor( datacleaner, ctxwasteservice_test, "rx.dataCleaner").

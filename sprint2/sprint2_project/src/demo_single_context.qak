@@ -472,7 +472,7 @@ QActor trolleystateobserver context ctxwasteservice_test {
 	Transition t0 whenMsg coapUpdate -> handleCoapUpdate
 }
 
-QActor ledcontroller context ctxwasteservice_test {
+QActor led context ctxwasteservice_test {
 	
 	[# 
 		var LedState = ws.LedState.OFF
@@ -501,7 +501,7 @@ QActor ledcontroller context ctxwasteservice_test {
 			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
 		}
 	}
-	Goto blink if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
+	Goto blinkLedOn if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
 		
 	State notBlink {}
 	Goto on if [# LedState.equals(ws.LedState.ON) #] else off 
@@ -523,37 +523,26 @@ QActor ledcontroller context ctxwasteservice_test {
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
-	/*
-	State blinkOn {
+	State blinkLedOn {
 		updateResource [# "led(BLINKING)" #]
 		[# 
 			ws.LedUtils.printLedState("\tLED | led Blink")
 			Led.turnOn() 
 		#]
 	}
-	Transition t0 whenTime 300 -> blinkOff
+	Transition t0 whenTime 300 -> blinkLedOff
 				  whenEvent updateLed -> handleEvent
 	
-	State blinkOff {
+	State blinkLedOff {
 		updateResource [# "led(BLINKING)" #]
 		[# 
 			ws.LedUtils.printLedState("\tLED | led Blink")
 			Led.turnOff() 
 		#]
 	}
-	Transition t0 whenTime 300 -> blinkOn
+	Transition t0 whenTime 300 -> blinkLedOn
 				  whenEvent updateLed -> handleEvent
-				  * 
-				  */
 				  
-	State blink {
-		updateResource [# "led(BLINKING)" #]
-		[# 
-			ws.LedUtils.printLedState("\tLED | led BLINKING")
-			ws.LedUtils.loop() 
-		#]
-	}
-	Transition t0 whenEvent updateLed -> handleEvent
 }
 
 

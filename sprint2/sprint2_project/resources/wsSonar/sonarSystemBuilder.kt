@@ -16,10 +16,16 @@ object sonarSystemBuilder {
         if(simulation)
             firstActorInPipe = sysUtil.getActor("sonaremittersimulator")!!
         else
-            firstActorInPipe = sysUtil.getActor("REALSONARRRRR")!!
+            firstActorInPipe = sysUtil.getActor("sonaremitterconcrete")!!
 
-        firstActorInPipe
-            .subscribeLocalActor("wsdatacleaner")
-            .subscribeLocalActor("wsdistancefilter")
+        if(log)
+            firstActorInPipe
+                .subscribeLocalActor("wsdatacleaner")
+                .subscribeLocalActor("wsdatalogger")
+                .subscribeLocalActor("wsdistancefilter")
+        else
+            firstActorInPipe
+                .subscribeLocalActor("wsdatacleaner")
+                .subscribeLocalActor("wsdistancefilter")
     }
 }
