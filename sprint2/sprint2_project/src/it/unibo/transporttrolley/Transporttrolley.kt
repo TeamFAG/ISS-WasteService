@@ -96,7 +96,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("moveToBox") { //this:State
 					action { //it:State
-						 Loc = utils.getLocationFromMaterialType(Mat)  
+						 Loc = ws.utils.getLocationFromMaterialType(Mat)  
 						updateResourceRep( "transporttrolley(moving_$Loc)"  
 						)
 						println("	TRANSPORTTROLLEY | moving to $Loc")

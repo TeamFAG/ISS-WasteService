@@ -192,7 +192,7 @@ QActor transporttrolley context ctxwasteservice_test {
 	Goto moveToBox if [# Error == false #] else errorHandler
 	
 	State moveToBox {
-		[# Loc = utils.getLocationFromMaterialType(Mat) #]
+		[# Loc = ws.utils.getLocationFromMaterialType(Mat) #]
 		
 		updateResource [# "transporttrolley(moving_$Loc)" #]
 		println("\tTRANSPORTTROLLEY | moving to $Loc")
@@ -264,8 +264,8 @@ QActor trolleymover context ctxwasteservice_test {
 		var Loc = ""
 		var IsMoving = false
 		SystemConfig.setTheConfiguration("SystemConfiguration")
-		planner.initAI()
-		planner.loadRoomMap("mapRoomEmpty")
+		ws.pathing.planner.initAI()
+		ws.pathing.planner.loadRoomMap("mapRoomEmpty")
 	#]
 	
 	State init initial {
@@ -293,10 +293,10 @@ QActor trolleymover context ctxwasteservice_test {
 			request pather -m stopPath : stopPath(_)
 		} else {
 			[#
-				var coord = utils.getClosestCoordinate(planner.get_curCoord(), Loc)
-				planner.setGoal(coord.x, coord.y)
-				planner.doPlan()
-				Actions = planner.getActionsString()
+				var coord = ws.utils.getClosestCoordinate(ws.pathing.planner.get_curCoord(), Loc)
+				ws.pathing.planner.setGoal(coord.x, coord.y)
+				ws.pathing.planner.doPlan()
+				Actions = ws.pathing.planner.getActionsString()
 				IsMoving = true
 			#]
 			
@@ -322,8 +322,8 @@ QActor trolleymover context ctxwasteservice_test {
 	State handlePathDone {
 		[# 
 			IsMoving = false
-			val pos = planner.get_curCoord()
-			planner.showMap()
+			val pos = ws.pathing.planner.get_curCoord()
+			ws.pathing.planner.showMap()
 		#]
 		updateResource [# "trolleymover(handlePathDone_$Loc, POS: ${pos.x}_${pos.y})" #]
 		println("\tTROLLEYMOVER | arrived to $Loc")
@@ -362,16 +362,16 @@ QActor pather context ctxwasteservice_test {
 			[#
 				val path = payloadArg(0)
 				println(path)
-				pathut.setPath(path)
+				ws.pathing.pathut.setPath(path)
 			#]
 		}
 		
-		println("\tPATHEXECUTOR | pathTodo: ${pathut.getPathTodo()}")
+		println("\tPATHEXECUTOR | pathTodo: ${ws.pathing.pathut.getPathTodo()}")
 	}
 	Goto nextMove
 	
 	State nextMove {
-		[# CurMoveTodo = pathut.nextMove() #]
+		[# CurMoveTodo = ws.pathing.pathut.nextMove() #]
 		println("\tPATHEXECUTOR | curMoveTodo: $CurMoveTodo")
 		[# Pathing = true #]
 	}
@@ -384,7 +384,7 @@ QActor pather context ctxwasteservice_test {
 	Goto init
 	
 	State doMove {
-		[# planner.updateMap(CurMoveTodo, "") #]
+		[# ws.pathing.planner.updateMap(CurMoveTodo, "") #]
 		delay 350
 	}
 	Goto doMoveW if [# CurMoveTodo == "w" #] else doMoveTurn
@@ -418,7 +418,7 @@ QActor pather context ctxwasteservice_test {
 	Goto nextMove if [# Pathing #] else init 
 	
 	State handleAlarm {
-		[# var PathTodo = pathut.getPathTodo() #]
+		[# var PathTodo = ws.pathing.pathut.getPathTodo() #]
 		println("\tPATHEXECUTOR | handleAlarm - pathTodo: $PathTodo")
 	}
 	
@@ -429,7 +429,7 @@ QActor pather context ctxwasteservice_test {
 	Goto init
 	
 	State endWorkKo {
-		[# var PathStillTodo = pathut.getPathTodo() #]
+		[# var PathStillTodo = ws.pathing.pathut.getPathTodo() #]
 		println("\tPATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
 		replyTo doPath with doPathFail : doPathFail($PathStillTodo)
 	}
@@ -461,7 +461,7 @@ QActor trolleystateobserver context ctxwasteservice_test {
 				var Value = payloadArg(1)
 				
 				if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
-					LedState = ws.LedUtils.getLedStatusFromCoap(Resource, Value)
+					LedState = wsLed.LedUtils.getLedStatusFromCoap(Resource, Value)
 			#]
 			
 			if [# !CurrentState.equals(LedState) #] {
@@ -510,7 +510,7 @@ QActor led context ctxwasteservice_test {
 	State on {
 		updateResource [# "led(ON)" #]
 		[# 
-			ws.LedUtils.printLedState("\tLED | led ON")
+			wsLed.LedUtils.printLedState("\tLED | led ON")
 			Led.turnOn() 
 		#]
 	}
@@ -519,7 +519,7 @@ QActor led context ctxwasteservice_test {
 	State off {
 		updateResource [# "led(OFF)" #]
 		[#
-			ws.LedUtils.printLedState("\tLED | led OFF")
+			wsLed.LedUtils.printLedState("\tLED | led OFF")
 		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
@@ -527,7 +527,7 @@ QActor led context ctxwasteservice_test {
 	State blinkLedOn {
 		updateResource [# "led(BLINKING)" #]
 		[# 
-			ws.LedUtils.printLedState("\tLED | led Blink")
+			wsLed.LedUtils.printLedState("\tLED | led Blink")
 			Led.turnOn() 
 		#]
 	}
@@ -537,7 +537,7 @@ QActor led context ctxwasteservice_test {
 	State blinkLedOff {
 		updateResource [# "led(BLINKING)" #]
 		[# 
-			ws.LedUtils.printLedState("\tLED | led Blink")
+			wsLed.LedUtils.printLedState("\tLED | led Blink")
 			Led.turnOff() 
 		#]
 	}

@@ -40,9 +40,9 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 								
 												val path = payloadArg(0)
 												println(path)
-												pathut.setPath(path)
+												ws.pathing.pathut.setPath(path)
 						}
-						println("	PATHEXECUTOR | pathTodo: ${pathut.getPathTodo()}")
+						println("	PATHEXECUTOR | pathTodo: ${ws.pathing.pathut.getPathTodo()}")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -52,7 +52,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				}	 
 				state("nextMove") { //this:State
 					action { //it:State
-						 CurMoveTodo = pathut.nextMove()  
+						 CurMoveTodo = ws.pathing.pathut.nextMove()  
 						println("	PATHEXECUTOR | curMoveTodo: $CurMoveTodo")
 						 Pathing = true  
 						//genTimer( actor, state )
@@ -77,7 +77,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				}	 
 				state("doMove") { //this:State
 					action { //it:State
-						 planner.updateMap(CurMoveTodo, "")  
+						 ws.pathing.planner.updateMap(CurMoveTodo, "")  
 						delay(350) 
 						//genTimer( actor, state )
 					}
@@ -148,7 +148,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				}	 
 				state("handleAlarm") { //this:State
 					action { //it:State
-						 var PathTodo = pathut.getPathTodo()  
+						 var PathTodo = ws.pathing.pathut.getPathTodo()  
 						println("	PATHEXECUTOR | handleAlarm - pathTodo: $PathTodo")
 						//genTimer( actor, state )
 					}
@@ -169,7 +169,7 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				}	 
 				state("endWorkKo") { //this:State
 					action { //it:State
-						 var PathStillTodo = pathut.getPathTodo()  
+						 var PathStillTodo = ws.pathing.pathut.getPathTodo()  
 						println("	PATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
 						answer("doPath", "doPathFail", "doPathFail($PathStillTodo)"   )  
 						//genTimer( actor, state )

@@ -20,8 +20,8 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				var Loc = ""
 				var IsMoving = false
 				SystemConfig.setTheConfiguration("SystemConfiguration")
-				planner.initAI()
-				planner.loadRoomMap("mapRoomEmpty")
+				ws.pathing.planner.initAI()
+				ws.pathing.planner.loadRoomMap("mapRoomEmpty")
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -59,10 +59,10 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						}
 						else
 						 {
-						 				var coord = utils.getClosestCoordinate(planner.get_curCoord(), Loc)
-						 				planner.setGoal(coord.x, coord.y)
-						 				planner.doPlan()
-						 				Actions = planner.getActionsString()
+						 				var coord = ws.utils.getClosestCoordinate(ws.pathing.planner.get_curCoord(), Loc)
+						 				ws.pathing.planner.setGoal(coord.x, coord.y)
+						 				ws.pathing.planner.doPlan()
+						 				Actions = ws.pathing.planner.getActionsString()
 						 				IsMoving = true
 						 updateResourceRep( "trolleymover(handleMovement_$Loc)"  
 						 )
@@ -98,8 +98,8 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					action { //it:State
 						 
 									IsMoving = false
-									val pos = planner.get_curCoord()
-									planner.showMap()
+									val pos = ws.pathing.planner.get_curCoord()
+									ws.pathing.planner.showMap()
 						updateResourceRep( "trolleymover(handlePathDone_$Loc, POS: ${pos.x}_${pos.y})"  
 						)
 						println("	TROLLEYMOVER | arrived to $Loc")

@@ -1,16 +1,12 @@
- /*
+package ws.pathing /*
  pathutil.kt
  */
 
 import org.json.JSONObject
 import it.unibo.kactor.*
 import java.util.Scanner
-import alice.tuprolog.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
- 
+
 
 object pathut{
 	var pathDone = ""
@@ -52,7 +48,7 @@ object pathut{
 		//println("pathexecutil | nextMove curPath=$curPath")
 		if( curPath.length == 0 ) return ""
 		//curPath still has moves
-		val move = ""+curPath[0]
+		val move = ""+ curPath[0]
 		curPath  = curPath.substring(1)
 		return move
 	}

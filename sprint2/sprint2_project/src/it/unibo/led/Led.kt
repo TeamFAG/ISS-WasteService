@@ -74,7 +74,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						updateResourceRep( "led(ON)"  
 						)
 						 
-									ws.LedUtils.printLedState("\tLED | led ON")
+									wsLed.LedUtils.printLedState("\tLED | led ON")
 									Led.turnOn() 
 						//genTimer( actor, state )
 					}
@@ -88,7 +88,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						updateResourceRep( "led(OFF)"  
 						)
 						
-									ws.LedUtils.printLedState("\tLED | led OFF")
+									wsLed.LedUtils.printLedState("\tLED | led OFF")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -101,7 +101,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						updateResourceRep( "led(BLINKING)"  
 						)
 						 
-									ws.LedUtils.printLedState("\tLED | led Blink")
+									wsLed.LedUtils.printLedState("\tLED | led Blink")
 									Led.turnOn() 
 						//genTimer( actor, state )
 					}
@@ -120,7 +120,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						updateResourceRep( "led(BLINKING)"  
 						)
 						 
-									ws.LedUtils.printLedState("\tLED | led Blink")
+									wsLed.LedUtils.printLedState("\tLED | led Blink")
 									Led.turnOff() 
 						//genTimer( actor, state )
 					}

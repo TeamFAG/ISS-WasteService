@@ -1,9 +1,7 @@
-import ws.Material
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.ObjectInputStream
-import java.util.*
+package ws
+
+import SystemConfig
+import ws.pathing.Coordinate
 
 object utils {
 

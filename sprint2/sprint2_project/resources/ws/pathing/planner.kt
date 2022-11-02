@@ -1,5 +1,5 @@
-import Coordinate
-import java.util.ArrayList
+package ws.pathing
+
 import aima.core.agent.Action
 import aima.core.search.framework.SearchAgent
 import aima.core.search.framework.problem.GoalTest
@@ -110,18 +110,18 @@ object planner {
 	@JvmStatic fun planForGoal( x: String, y: String) {
 		val vx = Integer.parseInt(x)
 		val vy = Integer.parseInt(y)
-		setGoal(vx,vy)		
-		doPlan()   
+		setGoal(vx,vy)
+		doPlan()
  	}	
   	
 	@JvmStatic fun planForNextDirty() {
 		val rmap = RoomMap.getRoomMap()
-		for( i in 0..getMapDimX( )-1 ){
-			for( j in 0..getMapDimY( )-1 ){
+		for( i in 0..getMapDimX( ) -1 ){
+			for( j in 0..getMapDimY( ) -1 ){
 				//println( ""+ i + "," + j + " -> " + rmap.isDirty(i,j)   );
 				if( rmap.isDirty(i,j)  ){
 					setGoal( i,j )
-					doPlan() 
+					doPlan()
 					return
 				}
 			}
@@ -161,7 +161,7 @@ object planner {
     }
 	@JvmStatic fun existActions() : Boolean{
 		//println("existActions ${actions!!.size}")
-		return actions!!.size>0   
+		return actions!!.size>0
 	}
 	@JvmStatic fun resetActions(){
 		actions = listOf<Action>()
@@ -225,7 +225,7 @@ object planner {
 		println("===================================================")
 		showMap()
 		direction = getDirection()
-		println("RobotPos=(${curPos.first}, ${curPos.second})  direction=$direction  " )  
+		println("RobotPos=(${curPos.first}, ${curPos.second})  direction=$direction  " )
 		println("===================================================")
 	}
 
@@ -236,7 +236,7 @@ object planner {
 */	
  	@JvmStatic fun getMapDimX( ) 	: Int{ return mapDims.first }
 	@JvmStatic fun getMapDimY( ) 	: Int{ return mapDims.second }
-	@JvmStatic fun mapIsEmpty() : Boolean{return (getMapDimX( )==0 &&  getMapDimY( )==0 ) }
+	@JvmStatic fun mapIsEmpty() : Boolean{return (getMapDimX( ) ==0 &&  getMapDimY( ) ==0 ) }
 
 	@JvmStatic fun showMap() {
         println(RoomMap.getRoomMap().toString() )
@@ -312,8 +312,8 @@ object planner {
 	}
  	
     @JvmStatic fun doMove(move: String) {
-        val x   = getPosX()  
-        val y   = getPosY()  
+        val x   = getPosX()
+        val y   = getPosY()
 		val map = RoomMap.getRoomMap()
        // println("Planner22Util: doMove move=$move  dir=$dir x=$x y=$y dimMapX=$dimMapx dimMapY=$dimMapy")
        try {
