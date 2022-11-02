@@ -1,5 +1,6 @@
 System sprint2_project
 
+
 // Coap
 Dispatch coapUpdate: coapUpdate(RESOURCE, VALUE)
 
@@ -47,11 +48,14 @@ Event updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
 Dispatch halt : halt(_)
 Dispatch resume : resume(_)
 
-
-Context ctxbasicrobot ip[host="localhost" port=8020]
 Context ctxwasteservice ip[host="localhost" port=8050]
-Context ctxtrolley ip[host="localhost" port=8060]
-Context ctxrasp ip[host="localhost" port=8070]
+Context ctxtrolley ip[host="127.0.0.1" port=8060]
+Context ctxrasp ip[host="127.0.0.1" port=8070]
+
+CodedQActor sonaremittersimulator context ctxrasp className "wsSonar.sonarEmitterSimulator"
+CodedQActor sonaremitterconcrete context ctxrasp className "wsSonar.sonarEmitterConcrete"
+CodedQActor wsdatacleaner context ctxrasp className "wsSonar.dataCleaner"
+CodedQActor wsdistanceFilter context ctxrasp className "wsSonar.distanceFilter"
 
 QActor wasteservice context ctxwasteservice {
 	[#
@@ -190,7 +194,7 @@ QActor transporttrolley context ctxtrolley {
 	Goto moveToBox if [# Error == false #] else errorHandler
 	
 	State moveToBox {
-		[# Loc = utils.getLocationFromMaterialType(Mat) #]
+		[# Loc = ws.utils.getLocationFromMaterialType(Mat) #]
 		
 		updateResource [# "transporttrolley(moving_$Loc)" #]
 		println("\tTRANSPORTTROLLEY | moving to $Loc")
@@ -262,8 +266,8 @@ QActor trolleymover context ctxtrolley {
 		var Loc = ""
 		var IsMoving = false
 		SystemConfig.setTheConfiguration("SystemConfiguration")
-		planner.initAI()
-		planner.loadRoomMap("mapRoomEmpty")
+		ws.pathing.planner.initAI()
+		ws.pathing.planner.loadRoomMap("mapRoomEmpty")
 	#]
 	
 	State init initial {
@@ -291,10 +295,10 @@ QActor trolleymover context ctxtrolley {
 			request pather -m stopPath : stopPath(_)
 		} else {
 			[#
-				var coord = utils.getClosestCoordinate(planner.get_curCoord(), Loc)
-				planner.setGoal(coord.x, coord.y)
-				planner.doPlan()
-				Actions = planner.getActionsString()
+				var coord = ws.utils.getClosestCoordinate(ws.pathing.planner.get_curCoord(), Loc)
+				ws.pathing.planner.setGoal(coord.x, coord.y)
+				ws.pathing.planner.doPlan()
+				Actions = ws.pathing.planner.getActionsString()
 				IsMoving = true
 			#]
 			
@@ -320,8 +324,8 @@ QActor trolleymover context ctxtrolley {
 	State handlePathDone {
 		[# 
 			IsMoving = false
-			val pos = planner.get_curCoord()
-			planner.showMap()
+			val pos = ws.pathing.planner.get_curCoord()
+			ws.pathing.planner.showMap()
 		#]
 		updateResource [# "trolleymover(handlePathDone_$Loc, POS: ${pos.x}_${pos.y})" #]
 		println("\tTROLLEYMOVER | arrived to $Loc")
@@ -360,20 +364,21 @@ QActor pather context ctxtrolley {
 			[#
 				val path = payloadArg(0)
 				println(path)
-				pathut.setPath(path)
+				ws.pathing.pathut.setPath(path)
 			#]
 		}
 		
-		println("\tPATHEXECUTOR | pathTodo: ${pathut.getPathTodo()}")
+		println("\tPATHEXECUTOR | pathTodo: ${ws.pathing.pathut.getPathTodo()}")
 	}
 	Goto nextMove
 	
 	State nextMove {
-		[# CurMoveTodo = pathut.nextMove() #]
+		[# CurMoveTodo = ws.pathing.pathut.nextMove() #]
 		println("\tPATHEXECUTOR | curMoveTodo: $CurMoveTodo")
 		[# Pathing = true #]
 	}
 	Goto endWorkOk if [# CurMoveTodo.length == 0 #] else doMove
+			
 	
 	State handleStopPath {
 		replyTo stopPath with stopAck : stopAck(_)
@@ -381,7 +386,7 @@ QActor pather context ctxtrolley {
 	Goto init
 	
 	State doMove {
-		[# planner.updateMap(CurMoveTodo, "") #]
+		[# ws.pathing.planner.updateMap(CurMoveTodo, "") #]
 		delay 350
 	}
 	Goto doMoveW if [# CurMoveTodo == "w" #] else doMoveTurn
@@ -396,11 +401,11 @@ QActor pather context ctxtrolley {
 		request basicrobot -m step : step(350)
 		delay 350
 	}
-	Transition t2 whenReply stepdone -> nextMove
+	Transition t2 whenMsg halt -> handleHalt
+				  whenReply stepdone -> nextMove
 				  whenEvent alarm -> handleAlarm
 				  whenReply stepfail -> endWorkKo
 				  whenRequest stopPath -> handleStopPath
-				  whenMsg halt -> handleHalt
 				  
 	State handleHalt {
 		println("\tPATHEXECUTOR | stop...")
@@ -415,7 +420,7 @@ QActor pather context ctxtrolley {
 	Goto nextMove if [# Pathing #] else init 
 	
 	State handleAlarm {
-		[# var PathTodo = pathut.getPathTodo() #]
+		[# var PathTodo = ws.pathing.pathut.getPathTodo() #]
 		println("\tPATHEXECUTOR | handleAlarm - pathTodo: $PathTodo")
 	}
 	
@@ -426,7 +431,7 @@ QActor pather context ctxtrolley {
 	Goto init
 	
 	State endWorkKo {
-		[# var PathStillTodo = pathut.getPathTodo() #]
+		[# var PathStillTodo = ws.pathing.pathut.getPathTodo() #]
 		println("\tPATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
 		replyTo doPath with doPathFail : doPathFail($PathStillTodo)
 	}
@@ -437,7 +442,7 @@ QActor pather context ctxtrolley {
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
 
-QActor trolleystateobserver context ctxrasp {
+QActor trolleystateobserver context ctxtrolley {
 	[#
 		var CurrentState = ws.LedState.OFF
 		var LedState = ws.LedState.OFF
@@ -458,7 +463,7 @@ QActor trolleystateobserver context ctxrasp {
 				var Value = payloadArg(1)
 				
 				if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
-					LedState = ws.LedUtils.getLedStatusFromCoap(Resource, Value)
+					LedState = wsLed.LedUtils.getLedStatusFromCoap(Resource, Value)
 			#]
 			
 			if [# !CurrentState.equals(LedState) #] {
@@ -472,11 +477,25 @@ QActor trolleystateobserver context ctxrasp {
 
 QActor led context ctxrasp {
 	
-	[# var LedState = ws.LedState.OFF #]
+	[# 
+		var LedState = ws.LedState.OFF
+		var Simulation: Boolean = true
+		lateinit var Led: `it.unibo`.radarSystem22.domain.interfaces.ILed
+	#]
 	
 	State init initial {
 		println("\tLED | started.")
 		updateResource [# "led(OFF)" #]
+		[#
+			SystemConfig.setTheConfiguration("SystemConfiguration")
+			Simulation = SystemConfig.sonar["simulation"] as Boolean
+			
+			`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.simulation = Simulation
+			`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.ledGui = Simulation
+			
+			Led = `it.unibo`.radarSystem22.domain.DeviceFactory.createLed()
+			Led.turnOff()
+		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
@@ -485,74 +504,67 @@ QActor led context ctxrasp {
 			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
 		}
 	}
-	Goto blink if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
+	Goto blinkLedOn if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
 		
 	State notBlink {}
 	Goto on if [# LedState.equals(ws.LedState.ON) #] else off 
 	
 	State on {
 		updateResource [# "led(ON)" #]
-		[# ws.LedUtils.printLedState("\tLED | led ON") #]
+		[# 
+			wsLed.LedUtils.printLedState("\tLED | led ON")
+			Led.turnOn() 
+		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
 	State off {
 		updateResource [# "led(OFF)" #]
-		[# ws.LedUtils.printLedState("\tLED | led OFF") #]
+		[#
+			wsLed.LedUtils.printLedState("\tLED | led OFF")
+		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
 	
-	State blink {
+	State blinkLedOn {
 		updateResource [# "led(BLINKING)" #]
-		[# ws.LedUtils.printLedState("\tLED | led BLINKING") #]
+		[# 
+			wsLed.LedUtils.printLedState("\tLED | led Blink")
+			Led.turnOn() 
+		#]
 	}
-	Transition t0 whenEvent updateLed -> handleEvent
+	Transition t0 whenTime 300 -> blinkLedOff
+				  whenEvent updateLed -> handleEvent
+	
+	State blinkLedOff {
+		updateResource [# "led(BLINKING)" #]
+		[# 
+			wsLed.LedUtils.printLedState("\tLED | led Blink")
+			Led.turnOff() 
+		#]
+	}
+	Transition t0 whenTime 300 -> blinkLedOn
+				  whenEvent updateLed -> handleEvent
+				  
 }
 
 
-QActor sonarmockemitter context ctxrasp {
-	
-	State init initial {
-		
-	}
-	Goto doWork
-	
-	State doWork {
-		emit distance : distance(V)
-	}
-	Transition t0 whenTime 500 -> doWork
-}
-
-QActor sonarfilter context ctxrasp {
+QActor sonar context ctxrasp {
 	[#
-		var D = 0
-		var DLIMIT = 10
-		var Halted = false
+		var Simulation: Boolean = true
+		var Log: Boolean = false
 	#]
 	
 	State init initial {
-		println("\tSONARFILTER | started.")
-	}
-	Transition t0 whenEvent distance -> filterDistance
-	
-	State filterDistance {
-		onMsg (distance : distance(V)) {
-			[# D = payloadArg(0).toInt() #]
-			
-			if [# D < DLIMIT && !Halted #] {
-				[# Halted = true #]
-				println("\tSONARFILTER | emitting start halt")
-				emit startHalt : startHalt(_)	
-			}
+		println("\tSONAR | Started.")
+		[#
+			SystemConfig.setTheConfiguration("SystemConfiguration")
+			Simulation = SystemConfig.sonar["simulation"] as Boolean
+			Log = SystemConfig.sonar["log"] as Boolean
+		#]
 		
-			if [# D > DLIMIT && Halted #] {
-				[# Halted = false #]
-				println("\tSONARFILTER | emitting stop halt")
-				emit stopHalt : stopHalt(_)
-			}
-		}
+		run wsSonar.sonarSystemBuilder.createSonar(Simulation, Log)
 	}
-	Transition t1 whenEvent distance -> filterDistance
 }
 
 QActor halteventshandler context ctxrasp {
@@ -586,10 +598,10 @@ QActor halteventshandler context ctxrasp {
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
 
-CodedQActor datacleaner    context ctxbasicrobot className "rx.dataCleaner"
-CodedQActor distancefilter context ctxbasicrobot className "rx.distanceFilter"
+CodedQActor datacleaner    context ctxtrolley className "rx.dataCleaner"
+CodedQActor distancefilter context ctxtrolley className "rx.distanceFilter"
  
-QActor basicrobot context ctxbasicrobot {
+QActor basicrobot context ctxtrolley {
 [#
   var StepTime      = 0L
   var StartTime     = 0L     
@@ -707,8 +719,7 @@ QActor basicrobot context ctxbasicrobot {
  
 }
 
-/*
-QActor envsonarhandler context ctxwasteservice_test {
+QActor envsonarhandler context ctxtrolley {
  	State s0 initial { 	 
  		println("envsonarhandler | (RE)START")	 		
 	}	
@@ -726,8 +737,7 @@ QActor envsonarhandler context ctxwasteservice_test {
 		/* 
 		onMsg( sonar : sonar(D,T)){ 
 			println("envsonarhandler | sonar(${payloadArg(0)}) ")
-		}
+		}*/
 	}
 	Transition t1 whenEvent sonar -> handleEnvSonar  
 }
-*/

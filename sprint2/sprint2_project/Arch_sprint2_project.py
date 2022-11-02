@@ -19,22 +19,25 @@ eventedgeattr = {
 with Diagram('sprint2_projectArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
-     with Cluster('ctxbasicrobot', graph_attr=nodeattr):
-          basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
-          datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
-          distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
      with Cluster('ctxwasteservice', graph_attr=nodeattr):
           wasteservice=Custom('wasteservice','./qakicons/symActorSmall.png')
      with Cluster('ctxtrolley', graph_attr=nodeattr):
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           pather=Custom('pather','./qakicons/symActorSmall.png')
-     with Cluster('ctxrasp', graph_attr=nodeattr):
           trolleystateobserver=Custom('trolleystateobserver','./qakicons/symActorSmall.png')
+          basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
+          envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
+          datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
+          distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
+     with Cluster('ctxrasp', graph_attr=nodeattr):
           led=Custom('led','./qakicons/symActorSmall.png')
-          sonarmockemitter=Custom('sonarmockemitter','./qakicons/symActorSmall.png')
-          sonarfilter=Custom('sonarfilter','./qakicons/symActorSmall.png')
+          sonar=Custom('sonar','./qakicons/symActorSmall.png')
           halteventshandler=Custom('halteventshandler','./qakicons/symActorSmall.png')
+          sonaremittersimulator=Custom('sonaremittersimulator(coded)','./qakicons/codedQActor.png')
+          sonaremitterconcrete=Custom('sonaremitterconcrete(coded)','./qakicons/codedQActor.png')
+          wsdatacleaner=Custom('wsdatacleaner(coded)','./qakicons/codedQActor.png')
+          wsdistanceFilter=Custom('wsdistanceFilter(coded)','./qakicons/codedQActor.png')
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pather
@@ -46,12 +49,9 @@ with Diagram('sprint2_projectArch', show=False, outformat='png', graph_attr=grap
      pather >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
      trolleystateobserver >> Edge( xlabel='updateLed', **eventedgeattr, fontcolor='red') >> sys
      sys >> Edge(color='red', style='dashed', xlabel='updateLed', fontcolor='red') >> led
-     sonarmockemitter >> Edge( xlabel='distance', **eventedgeattr, fontcolor='red') >> sys
-     sys >> Edge(color='red', style='dashed', xlabel='distance', fontcolor='red') >> sonarfilter
-     sonarfilter >> Edge( xlabel='startHalt', **eventedgeattr, fontcolor='red') >> sys
-     sonarfilter >> Edge( xlabel='stopHalt', **eventedgeattr, fontcolor='red') >> sys
      sys >> Edge(color='red', style='dashed', xlabel='startHalt', fontcolor='red') >> halteventshandler
      halteventshandler >> Edge(color='blue', style='solid', xlabel='halt', fontcolor='blue') >> pather
      sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> halteventshandler
      halteventshandler >> Edge(color='blue', style='solid', xlabel='resume', fontcolor='blue') >> pather
+     sys >> Edge(color='red', style='dashed', xlabel='sonar', fontcolor='red') >> envsonarhandler
 diag

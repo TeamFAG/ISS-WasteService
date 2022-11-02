@@ -26,7 +26,11 @@ class Pathexec ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, s
 						updateResourceRep( "pathexecsteptime($StepTime)"  
 						)
 						println("pathexec ready. StepTime=$StepTime")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition(edgeName="t09",targetState="doThePath",cond=whenRequest("dopath"))
 				}	 
 				state("doThePath") { //this:State
@@ -40,13 +44,21 @@ class Pathexec ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, s
 								pathut.setPath( PathTodo  )
 						}
 						println("pathexec pathTodo = ${pathut.getPathTodo()}")
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="nextMove", cond=doswitch() )
 				}	 
 				state("nextMove") { //this:State
 					action { //it:State
 						 CurMoveTodo = pathut.nextMove()  
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="endWorkOk", cond=doswitchGuarded({ CurMoveTodo.length == 0  
 					}) )
 					transition( edgeName="goto",targetState="doMove", cond=doswitchGuarded({! ( CurMoveTodo.length == 0  
@@ -55,7 +67,11 @@ class Pathexec ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, s
 				state("doMove") { //this:State
 					action { //it:State
 						delay(300) 
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="doMoveW", cond=doswitchGuarded({ CurMoveTodo == "w"  
 					}) )
 					transition( edgeName="goto",targetState="doMoveTurn", cond=doswitchGuarded({! ( CurMoveTodo == "w"  
@@ -66,9 +82,15 @@ class Pathexec ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, s
 						updateResourceRep( "pathexecdoturn($CurMoveTodo)"  
 						)
 						forward("cmd", "cmd($CurMoveTodo)" ,"basicrobot" ) 
-						stateTimer = TimerActor("timer_doMoveTurn", 
-							scope, context!!, "local_tout_pathexec_doMoveTurn", 300.toLong() )
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+				 	 		//sysaction { //it:State
+				 	 		  stateTimer = TimerActor("timer_doMoveTurn", 
+				 	 			scope, context!!, "local_tout_pathexec_doMoveTurn", 300.toLong() )
+				 	 		//}
+					}	 	 
 					 transition(edgeName="t010",targetState="nextMove",cond=whenTimeout("local_tout_pathexec_doMoveTurn"))   
 				}	 
 				state("doMoveW") { //this:State
@@ -76,7 +98,11 @@ class Pathexec ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, s
 						updateResourceRep( "pathexecdostep($CurMoveTodo)"  
 						)
 						request("step", "step($StepTime)" ,"basicrobot" )  
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition(edgeName="t011",targetState="endWorkKo",cond=whenEvent("alarm"))
 					transition(edgeName="t012",targetState="nextMove",cond=whenReply("stepdone"))
 					transition(edgeName="t013",targetState="endWorkKo",cond=whenReply("stepfail"))
@@ -87,7 +113,11 @@ class Pathexec ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, s
 						updateResourceRep( "path $PathTodo done"  
 						)
 						answer("dopath", "dopathdone", "dopathdone(ok)"   )  
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="s0", cond=doswitch() )
 				}	 
 				state("endWorkKo") { //this:State
@@ -98,7 +128,11 @@ class Pathexec ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, s
 						)
 						println("PATH FAILURE - SORRY. PathStillTodo=$PathStillTodo")
 						answer("dopath", "dopathfail", "dopathfail($PathStillTodo)"   )  
+						//genTimer( actor, state )
 					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 					 transition( edgeName="goto",targetState="s0", cond=doswitch() )
 				}	 
 			}
