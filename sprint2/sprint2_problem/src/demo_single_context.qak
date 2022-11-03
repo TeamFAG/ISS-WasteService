@@ -506,7 +506,7 @@ QActor led context ctxwasteservice_test {
 	Transition t0 whenEvent updateLed -> handleEvent
 }
 
-
+/*
 QActor sonarmockemitter context ctxwasteservice_test {
 	
 	State init initial {
@@ -519,6 +519,8 @@ QActor sonarmockemitter context ctxwasteservice_test {
 	}
 	Transition t0 whenTime 500 -> doWork
 }
+* 
+*/
 
 QActor sonarfilter context ctxwasteservice_test {
 	[#
@@ -582,9 +584,6 @@ QActor halteventshandler context ctxwasteservice_test {
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
-
-CodedQActor datacleaner    context ctxwasteservice_test className "rx.dataCleaner"
-CodedQActor distancefilter context ctxwasteservice_test className "rx.distanceFilter"
  
 QActor basicrobot context ctxwasteservice_test {
 [#
@@ -702,27 +701,4 @@ QActor basicrobot context ctxwasteservice_test {
  		terminate 1
 	}   
  
-}
-
-QActor envsonarhandler context ctxwasteservice_test {
- 	State s0 initial { 	 
- 		println("envsonarhandler | (RE)START")	 		
-	}	
-	Transition t1 
-	  whenMsg cmd     -> dontcare
-	  whenEvent sonar -> handleEnvSonar
-
-	State dontcare{
-		printCurrentMessage
-	}
-	Goto s0
-		
-	State handleEnvSonar{
-		printCurrentMessage
-		/* 
-		onMsg( sonar : sonar(D,T)){ 
-			println("envsonarhandler | sonar(${payloadArg(0)}) ")
-		}*/
-	}
-	Transition t1 whenEvent sonar -> handleEnvSonar  
 }

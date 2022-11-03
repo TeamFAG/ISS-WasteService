@@ -17,7 +17,14 @@ object SystemConfig {
 
     var MAXPB = 100
     var MAXGB = 100
-    var DLIMIT = 100
+
+    var sonar = mutableMapOf(
+        "simulation" to false,
+        "log" to false,
+        "min" to 0,
+        "max" to 50,
+        "dlimit" to 10
+    )
 
     fun setTheConfiguration(fileName: String) {
         var file = "${fileName}.json"
@@ -33,7 +40,7 @@ object SystemConfig {
             positions = values.get("positions") as MutableMap<String, List<List<Int>>>
             MAXPB = values.get("MAXPB") as Int
             MAXGB = values.get("MAXGB") as Int
-            DLIMIT = values.get("DLIMIT") as Int
+            sonar = values.get("sonar") as MutableMap<String, Any>
         } catch (e: FileNotFoundException) {
             ColorsOut.outerr("setTheConfiguration ERROR " + e.message)
         }

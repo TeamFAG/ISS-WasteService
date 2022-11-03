@@ -1,0 +1,15 @@
+
+FROM adoptopenjdk/openjdk11
+EXPOSE 8070
+
+RUN apt-get update -y
+RUN apt-get install -y libxrender1 libxtst6 libxi6
+
+RUN mkdir ./MainRasp/
+
+WORKDIR ./MainRasp/
+COPY ./build/libs/it.unibo.ctxrasp.MainCtxraspKt-1.0.jar ./
+COPY ./docker/local/*.pl ./
+COPY ./docker/local/*.json ./
+
+CMD [ "java", "-jar", "it.unibo.ctxrasp.MainCtxraspKt-1.0.jar" ]

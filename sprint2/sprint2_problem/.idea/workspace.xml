@@ -4,7 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce0ec372-6f00-4fde-98e7-5b2376d9cc2f" name="Changes" comment="" />
+    <list default="true" id="ce0ec372-6f00-4fde-98e7-5b2376d9cc2f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/modules/unibo.problem_analisys.test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Api_demo_wasteservice_test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Api_demo_wasteservice_test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Api_problem_analisys.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Api_problem_analisys.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arch_demo_wasteservice_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arch_demo_wasteservice_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build2022.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build2022.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo_wasteservice_test.pl" beforeDir="false" afterPath="$PROJECT_DIR$/demo_wasteservice_test.pl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/trigger_stop.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/trigger_stop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/demo_single_context.qak" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo_single_context.qak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/halteventshandler/Halteventshandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/halteventshandler/Halteventshandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/sonarfilter/Sonarfilter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/sonarfilter/Sonarfilter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/trolleystateobserver/Trolleystateobserver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/trolleystateobserver/Trolleystateobserver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/Api_sprint2_project_single_context.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/Api_sprint2_project_single_context.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/Arch_sprint2_project_single_context.py" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/Arch_sprint2_project_single_context.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/sprint2_project_single_context.pl" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/sprint2_project_single_context.pl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/demo_single_context.qak" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/demo_single_context.qak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/basicrobot/Basicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/basicrobot/Basicrobot.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/envsonarhandler/Envsonarhandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/envsonarhandler/Envsonarhandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/halteventshandler/Halteventshandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/halteventshandler/Halteventshandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/led/Led.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/led/Led.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/ledcontroller/Ledcontroller.kt" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,7 +85,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="Gradle.TestLed">
+  <component name="RunManager" selected="Gradle.TestHalt.testHalt">
     <configuration name="TestHalt" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -74,6 +100,29 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;TestHalt&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="TestHalt.testHalt" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;TestHalt.testHalt&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -129,27 +178,22 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="MainCtxraspKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.unibo.ctxrasp.MainCtxraspKt" />
-      <module name="unibo.demo_wasteservice_test.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainCtxwasteservice_testKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.unibo.ctxwasteservice_test.MainCtxwasteservice_testKt" />
-      <module name="unibo.demo_wasteservice_test.main" />
+    <configuration name="TestHalt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unibo.problem_analisys.test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestHalt" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.TestHalt.testHalt" />
+        <item itemvalue="JUnit.TestHalt" />
         <item itemvalue="Gradle.TestLed" />
         <item itemvalue="Gradle.TestLed.testLedHaltedRoutine" />
         <item itemvalue="Gradle.TestHalt" />
-        <item itemvalue="Kotlin.MainCtxwasteservice_testKt" />
-        <item itemvalue="Kotlin.MainCtxraspKt" />
       </list>
     </recent_temporary>
   </component>
@@ -166,6 +210,8 @@
       <workItem from="1666597233446" duration="6522000" />
       <workItem from="1666883409273" duration="6197000" />
       <workItem from="1666943417324" duration="4875000" />
+      <workItem from="1667232650539" duration="27000" />
+      <workItem from="1667325811682" duration="627000" />
     </task>
     <servers />
   </component>

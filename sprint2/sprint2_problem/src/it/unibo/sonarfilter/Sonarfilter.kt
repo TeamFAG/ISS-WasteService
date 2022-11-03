@@ -28,7 +28,7 @@ class Sonarfilter ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t033",targetState="filterDistance",cond=whenEvent("distance"))
+					 transition(edgeName="t032",targetState="filterDistance",cond=whenEvent("distance"))
 				}	 
 				state("filterDistance") { //this:State
 					action { //it:State
@@ -51,7 +51,7 @@ class Sonarfilter ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t134",targetState="filterDistance",cond=whenEvent("distance"))
+					 transition(edgeName="t133",targetState="filterDistance",cond=whenEvent("distance"))
 				}	 
 			}
 		}

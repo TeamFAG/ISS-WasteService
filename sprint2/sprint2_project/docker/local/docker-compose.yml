@@ -1,0 +1,44 @@
+version: "3.3"
+services:
+  wenv:
+    image: docker.io/natbodocker/virtualrobotdisi:4.0
+    ports:
+      - 8090:8090 
+      - 8091:8091/tcp
+      - 8091:8091/udp
+  wasteservice:
+    image: wasteservice
+    build: 
+      context: ../../
+      dockerfile: docker/local/Dockerfile-ctxwasteservice 
+    container_name: wasteservice
+    expose:
+      - "8050"
+    ports:
+      - "8050:8050"
+  trolley:
+    image: trolley
+    build:
+      context: ../../
+      dockerfile: docker/local/Dockerfile-ctxtrolley
+    container_name: trolley
+    expose:
+      - "8060"
+    depends_on:
+      - "wasteservice"
+    ports:
+      - "8060:8060"
+  rasp:
+    image: rasp
+    build:
+      context: ../../
+      dockerfile: docker/local/Dockerfile-ctxrasp
+    container_name: rasp
+    environment:
+      - DISPLAY=IP:0
+    expose:
+      - "8070"
+    depends_on:
+      - "wasteservice"
+    ports:
+      - "8070:8070"
