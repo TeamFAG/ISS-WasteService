@@ -1,11 +1,5 @@
 version: "3.3"
 services:
-  wenv:
-    image: docker.io/natbodocker/virtualrobotdisi:4.0
-    ports:
-      - 8090:8090 
-      - 8091:8091/tcp
-      - 8091:8091/udp
   wasteservice:
     image: wasteservice
     build: 
@@ -14,8 +8,12 @@ services:
     container_name: wasteservice
     expose:
       - "8050"
+    networks:
+      - wsnetwork
+    depends_on:
+      - "wenv"
     ports:
-      - "8050:8050"
+      - "0.0.0.0:8050:8050"
   trolley:
     image: trolley
     build:
@@ -26,6 +24,8 @@ services:
       - "8060"
     depends_on:
       - "wasteservice"
+    networks:
+      - wsnetwork
     ports:
       - "8060:8060"
   rasp:
@@ -35,10 +35,24 @@ services:
       dockerfile: docker/local/Dockerfile-ctxrasp
     container_name: rasp
     environment:
-      - DISPLAY=IP:0
+      - DISPLAY=192.168.50.134:0
     expose:
       - "8070"
     depends_on:
       - "wasteservice"
+    networks:
+      - wsnetwork
     ports:
       - "8070:8070"
+  wenv:
+    image: wenvl
+    build:
+      context: ../../../../it.unibo.virtualRobot2020/
+    container_name: wenvl
+    networks:
+      - wsnetwork
+    ports:
+      - "0.0.0.0:8090:8090"
+      - "8091:8091"
+networks:
+  wsnetwork:
