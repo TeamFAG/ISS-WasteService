@@ -1,0 +1,42 @@
+version: "3.3"
+services:
+  wasteservice:
+    image: ${IP}:5000/wasteservice
+    build: 
+      context: ../../
+      dockerfile: docker/distributed/Dockerfile-ctxwasteservice 
+    container_name: wasteservice
+    expose:
+      - "8050"
+    networks:
+      - wsnetwork
+    depends_on:
+      - "wenv"
+    ports:
+      - "0.0.0.0:8050:8050"
+  trolley:
+    image: ${IP}:5000/trolley
+    build:
+      context: ../../
+      dockerfile: docker/distributed/Dockerfile-ctxtrolley
+    container_name: trolley
+    expose:
+      - "8060"
+    depends_on:
+      - "wasteservice"
+    networks:
+      - wsnetwork
+    ports:
+      - "8060:8060"
+  wenv:
+    image: ${IP}:5000/wenvl
+    build:
+      context: ../../../../it.unibo.virtualRobot2020/
+    container_name: wenvl
+    networks:
+      - wsnetwork
+    ports:
+      - "0.0.0.0:8090:8090"
+      - "8091:8091"
+networks:
+  wsnetwork:

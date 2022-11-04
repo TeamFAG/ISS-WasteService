@@ -1,0 +1,14 @@
+
+FROM adoptopenjdk/openjdk11
+EXPOSE 8050
+
+RUN apt-get update -y
+
+RUN mkdir ./MainWasteservice/
+
+WORKDIR ./MainWasteservice/
+COPY ./build/libs/it.unibo.ctxwasteservice.MainCtxwasteserviceKt-1.0.jar ./
+COPY ./docker/distributed/*.pl ./
+COPY ./docker/distributed/*.json ./
+
+CMD [ "java", "-jar", "it.unibo.ctxwasteservice.MainCtxwasteserviceKt-1.0.jar" ]

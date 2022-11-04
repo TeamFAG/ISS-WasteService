@@ -1,0 +1,20 @@
+
+FROM adoptopenjdk/openjdk11
+EXPOSE 8070
+
+RUN apt-get update -y
+RUN apt-get install -y libxrender1 libxtst6 libxi6
+
+RUN mkdir ./MainRasp/
+
+WORKDIR ./MainRasp/
+COPY ./build/libs/it.unibo.ctxrasp.MainCtxraspKt-1.0.jar ./
+COPY ./docker/local/*.pl ./
+COPY ./docker/local/*.json ./
+COPY ./resources/wsLed/led25GpioTurnOff.sh ./
+COPY ./resources/wsLed/led25GpioTurnOn.sh ./
+COPY ./resources/wsSonar/SonarAlone.c ./
+
+RUN g++ SonarAlone.c -l wiringPi -o SonarAlone
+
+CMD [ "java", "-jar", "it.unibo.ctxrasp.MainCtxraspKt-1.0.jar" ]
