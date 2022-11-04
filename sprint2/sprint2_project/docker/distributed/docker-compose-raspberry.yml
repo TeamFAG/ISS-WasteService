@@ -20,5 +20,9 @@ services:
       - wsnetwork
     ports:
       - "8070:8070"
+    deploy:
+      mode: global
 networks:
   wsnetwork:
+    driver: overlay
+    attachable: true

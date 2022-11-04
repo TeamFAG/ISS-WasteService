@@ -14,6 +14,8 @@ services:
       - "wenv"
     ports:
       - "0.0.0.0:8050:8050"
+    deploy:
+      mode: global
   trolley:
     image: ${IP}:5000/trolley
     build:
@@ -28,6 +30,8 @@ services:
       - wsnetwork
     ports:
       - "8060:8060"
+    deploy:
+      mode: global
   wenv:
     image: ${IP}:5000/wenvl
     build:
@@ -38,5 +42,9 @@ services:
     ports:
       - "0.0.0.0:8090:8090"
       - "8091:8091"
+    deploy:
+      mode: global
 networks:
   wsnetwork:
+    driver: overlay
+    attachable: true
