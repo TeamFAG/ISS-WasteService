@@ -490,11 +490,7 @@ QActor led context ctxrasp {
 			SystemConfig.setTheConfiguration("SystemConfiguration")
 			Simulation = SystemConfig.sonar["simulation"] as Boolean
 			
-			`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.simulation = Simulation
-			`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.ledGui = Simulation
-			
-			Led = `it.unibo`.radarSystem22.domain.DeviceFactory.createLed()
-			Led.turnOff()
+			wsLed.LedUtils.createLed(Simulation, Simulation)
 		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
@@ -513,7 +509,7 @@ QActor led context ctxrasp {
 		updateResource [# "led(ON)" #]
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led ON")
-			Led.turnOn() 
+			wsLed.LedUtils.turnOn()
 		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
@@ -522,6 +518,7 @@ QActor led context ctxrasp {
 		updateResource [# "led(OFF)" #]
 		[#
 			wsLed.LedUtils.printLedState("\tLED | led OFF")
+			wsLed.LedUtils.turnOff()
 		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
@@ -530,7 +527,7 @@ QActor led context ctxrasp {
 		updateResource [# "led(BLINKING)" #]
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led Blink")
-			Led.turnOn() 
+			wsLed.LedUtils.turnOn()
 		#]
 	}
 	Transition t0 whenTime 300 -> blinkLedOff
@@ -540,7 +537,7 @@ QActor led context ctxrasp {
 		updateResource [# "led(BLINKING)" #]
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led Blink")
-			Led.turnOff() 
+			wsLed.LedUtils.turnOff()
 		#]
 	}
 	Transition t0 whenTime 300 -> blinkLedOn

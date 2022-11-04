@@ -29,11 +29,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 									SystemConfig.setTheConfiguration("SystemConfiguration")
 									Simulation = SystemConfig.sonar["simulation"] as Boolean
 									
-									`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.simulation = Simulation
-									`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.ledGui = Simulation
-									
-									Led = `it.unibo`.radarSystem22.domain.DeviceFactory.createLed()
-									Led.turnOff()
+									wsLed.LedUtils.createLed(Simulation, Simulation)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -75,7 +71,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						)
 						 
 									wsLed.LedUtils.printLedState("\tLED | led ON")
-									Led.turnOn() 
+									wsLed.LedUtils.turnOn()
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -89,6 +85,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						)
 						
 									wsLed.LedUtils.printLedState("\tLED | led OFF")
+									wsLed.LedUtils.turnOff()
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -102,7 +99,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						)
 						 
 									wsLed.LedUtils.printLedState("\tLED | led Blink")
-									Led.turnOn() 
+									wsLed.LedUtils.turnOn()
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -121,7 +118,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						)
 						 
 									wsLed.LedUtils.printLedState("\tLED | led Blink")
-									Led.turnOff() 
+									wsLed.LedUtils.turnOff()
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

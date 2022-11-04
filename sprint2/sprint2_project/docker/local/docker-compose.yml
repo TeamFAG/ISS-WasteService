@@ -34,8 +34,8 @@ services:
       context: ../../
       dockerfile: docker/local/Dockerfile-ctxrasp
     container_name: rasp
-    environment:
-      - DISPLAY=192.168.50.134:0
+    #environment:
+    #  - DISPLAY=IP:0
     expose:
       - "8070"
     depends_on:
