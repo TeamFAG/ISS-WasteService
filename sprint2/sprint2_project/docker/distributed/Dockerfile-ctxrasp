@@ -2,8 +2,14 @@
 FROM adoptopenjdk/openjdk11
 EXPOSE 8070
 
+COPY ./resources/wsSonar/wiringpi-2.46.deb ./
+
 RUN apt-get update -y
-RUN apt-get install -y libxrender1 libxtst6 libxi6
+#RUN apt-get install -y libxrender1 libxtst6 libxi6
+RUN apt-get install -y sudo
+RUN apt-get install -y build-essential 
+RUN apt-get install -y g++
+RUN apt install ./wiringpi-2.46.deb
 
 RUN mkdir ./MainRasp/
 
