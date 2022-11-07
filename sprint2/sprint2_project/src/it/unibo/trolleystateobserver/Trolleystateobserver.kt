@@ -22,8 +22,8 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 				state("init") { //this:State
 					action { //it:State
 						println("	TROLLEYSTATEOBSERVER | started.")
-						CoapObserverSupport(myself, "127.0.0.1","8060","ctxtrolley","transporttrolley")
-						CoapObserverSupport(myself, "127.0.0.1","8060","ctxtrolley","pather")
+						CoapObserverSupport(myself, "192.168.1.125","8060","ctxtrolley","transporttrolley")
+						CoapObserverSupport(myself, "192.168.1.125","8060","ctxtrolley","pather")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

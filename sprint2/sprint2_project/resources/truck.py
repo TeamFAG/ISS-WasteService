@@ -4,7 +4,7 @@ import socket
 import time
 
 port = 8050 
-host = 'localhost' ##'192.168.1.62'
+host = '192.168.1.125' ##'192.168.1.62'
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 depositrequest   = "msg(storeRequest, request,python,wasteservice,storeRequest(GLASS,K),1)"

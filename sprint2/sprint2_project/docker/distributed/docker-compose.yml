@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   wasteservice:
-    image: ${IP}:5000/wasteservice
+    image: 192.168.50.134:5000/wasteservice
     build: 
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxwasteservice 
@@ -17,7 +17,7 @@ services:
     deploy:
       mode: global
   trolley:
-    image: ${IP}:5000/trolley
+    image: 192.168.50.134:5000/trolley
     build:
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxtrolley
@@ -33,7 +33,7 @@ services:
     deploy:
       mode: global
   wenv:
-    image: ${IP}:5000/wenvl
+    image: 192.168.50.134:5000/wenvl
     build:
       context: ../../../../it.unibo.virtualRobot2020/
     container_name: wenvl
@@ -47,4 +47,4 @@ services:
 networks:
   wsnetwork:
     driver: overlay
-    attachable: true
+    attachable: false
