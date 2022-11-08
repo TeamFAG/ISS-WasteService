@@ -10,7 +10,7 @@ log() {
 }
 
 copy_resources() {
-  ssh pi@$IP mkdir ~/Sviluppo/wsdistr
+  ssh pi@$IP mkdir /home/pi/Sviluppo/wsdistr
   #scp -P 2222 $JAR_PATH pi@$IP:~/Sviluppo/wsdistr
   #scp -P 2222  pi@$IP:~/Sviluppo/wsdistr
 }
