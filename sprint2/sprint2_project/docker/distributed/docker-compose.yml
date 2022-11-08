@@ -1,50 +1,28 @@
 version: "3.3"
 services:
   wasteservice:
-    image: 192.168.50.134:5000/wasteservice
+    image: wasteservice
     build: 
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxwasteservice 
     container_name: wasteservice
-    expose:
-      - "8050"
-    networks:
-      - wsnetwork
     depends_on:
       - "wenv"
-    ports:
-      - "0.0.0.0:8050:8050"
-    deploy:
-      mode: global
+    network_mode: "host"
   trolley:
-    image: 192.168.50.134:5000/trolley
+    image: trolley
     build:
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxtrolley
     container_name: trolley
-    expose:
-      - "8060"
     depends_on:
       - "wasteservice"
-    networks:
-      - wsnetwork
-    ports:
-      - "8060:8060"
-    deploy:
-      mode: global
+    network_mode: "host"
   wenv:
-    image: 192.168.50.134:5000/wenvl
+    image: wenvl
     build:
       context: ../../../../it.unibo.virtualRobot2020/
     container_name: wenvl
-    networks:
-      - wsnetwork
     ports:
-      - "0.0.0.0:8090:8090"
+      - "8090:8090"
       - "8091:8091"
-    deploy:
-      mode: global
-networks:
-  wsnetwork:
-    driver: overlay
-    attachable: false
