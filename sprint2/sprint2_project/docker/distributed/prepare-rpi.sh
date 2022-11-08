@@ -15,18 +15,18 @@ copy_resources() {
   ssh pi@$IP ls /home/pi/Sviluppo | grep wsdistr > CHECK
 
   if [[ "$CHECK" =~ "wsdistr" ]]; then
-    log("distribution folder already exist... deleting")
+    log Distribution folder already exist... deleting
     ssh pi@$IP rm -r /home/pi/Sviluppo/wsdistr
   fi
 
-  log("Copying distribution files")
+  log Copying distribution files
 
   ssh pi@$IP mkdir /home/pi/Sviluppo/wsdistr
   scp -P 2222 $JAR_PATH pi@$IP:~/Sviluppo/wsdistr
   scp -P 2222 ./sprint2_project.pl pi@$IP:~/Sviluppo/wsdistr
   scp -P 2222 ./SystemConfiguration.json pi@$IP:~/Sviluppo/wsdistr
 
-  log("Copy done")
+  log Copy done
 }
 
 main() {
