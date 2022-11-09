@@ -43,6 +43,8 @@ Dispatch trigger : trigger(_)
 
 // Led
 Event updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
+Dispatch turnOnLed : turnOnLed(_)
+Dispatch turnOffLed : turnOffLed(_)
 
 // HaltEventsHandler
 Dispatch halt : halt(_)
@@ -50,7 +52,7 @@ Dispatch resume : resume(_)
 
 Context ctxwasteservice ip[host="localhost" port=8050]
 Context ctxtrolley ip[host="localhost" port=8060]
-Context ctxrasp ip[host="localhost" port=8070]
+Context ctxrasp ip[host="192.168.50.13" port=8070]
 
 CodedQActor sonaremittersimulator context ctxrasp className "wsSonar.sonarEmitterSimulator"
 CodedQActor sonaremitterconcrete context ctxrasp className "wsSonar.sonarEmitterConcrete"
@@ -494,6 +496,31 @@ QActor led context ctxrasp {
 		#]
 	}
 	Transition t0 whenEvent updateLed -> handleEvent
+				  whenMsg turnOnLed -> turnOnMsg
+				  whenMsg turnOffLed -> turnOffMsg
+				  
+	State idle {
+		
+	}
+	Transition t0 whenEvent updateLed -> handleEvent
+				  whenMsg turnOnLed -> turnOnMsg
+				  whenMsg turnOffLed -> turnOffMsg
+	
+	State turnOnMsg {
+		[#
+			wsLed.LedUtils.printLedState("\tLED | LED ON")
+			wsLed.LedUtils.turnOn()
+		#]
+	}
+	Goto idle
+	
+	State turnOffMsg {
+		[#
+			wsLed.LedUtils.printLedState("\tLED | LED OFF")
+			wsLed.LedUtils.turnOff()
+		#]
+	}
+	Goto idle
 	
 	State handleEvent {
 		onMsg(updateLed : updateLed(STATE)) {

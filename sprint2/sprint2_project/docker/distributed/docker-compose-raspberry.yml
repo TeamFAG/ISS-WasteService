@@ -13,15 +13,11 @@ services:
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxrasp
     container_name: rasp
-    expose:
-      - "8070"
-    networks:
-      - wsnetwork
+#    networks:
+#      - wsnetwork
     ports:
       - "8070:8070"
-    deploy:
-      mode: global
-networks:
-  wsnetwork:
+#networks:
+#  wsnetwork:
 #    driver: overlay
 #    attachable: true

@@ -36,6 +36,43 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					sysaction { //it:State
 					}	 	 
 					 transition(edgeName="t028",targetState="handleEvent",cond=whenEvent("updateLed"))
+					transition(edgeName="t029",targetState="turnOnMsg",cond=whenDispatch("turnOnLed"))
+					transition(edgeName="t030",targetState="turnOffMsg",cond=whenDispatch("turnOffLed"))
+				}	 
+				state("idle") { //this:State
+					action { //it:State
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t031",targetState="handleEvent",cond=whenEvent("updateLed"))
+					transition(edgeName="t032",targetState="turnOnMsg",cond=whenDispatch("turnOnLed"))
+					transition(edgeName="t033",targetState="turnOffMsg",cond=whenDispatch("turnOffLed"))
+				}	 
+				state("turnOnMsg") { //this:State
+					action { //it:State
+						
+									wsLed.LedUtils.printLedState("\tLED | LED ON")
+									wsLed.LedUtils.turnOn()
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
+				}	 
+				state("turnOffMsg") { //this:State
+					action { //it:State
+						
+									wsLed.LedUtils.printLedState("\tLED | LED OFF")
+									wsLed.LedUtils.turnOff()
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
 				state("handleEvent") { //this:State
 					action { //it:State
@@ -77,7 +114,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t029",targetState="handleEvent",cond=whenEvent("updateLed"))
+					 transition(edgeName="t034",targetState="handleEvent",cond=whenEvent("updateLed"))
 				}	 
 				state("off") { //this:State
 					action { //it:State
@@ -91,7 +128,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t030",targetState="handleEvent",cond=whenEvent("updateLed"))
+					 transition(edgeName="t035",targetState="handleEvent",cond=whenEvent("updateLed"))
 				}	 
 				state("blinkLedOn") { //this:State
 					action { //it:State
@@ -109,8 +146,8 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				 	 			scope, context!!, "local_tout_led_blinkLedOn", 300.toLong() )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t031",targetState="blinkLedOff",cond=whenTimeout("local_tout_led_blinkLedOn"))   
-					transition(edgeName="t032",targetState="handleEvent",cond=whenEvent("updateLed"))
+					 transition(edgeName="t036",targetState="blinkLedOff",cond=whenTimeout("local_tout_led_blinkLedOn"))   
+					transition(edgeName="t037",targetState="handleEvent",cond=whenEvent("updateLed"))
 				}	 
 				state("blinkLedOff") { //this:State
 					action { //it:State
@@ -128,8 +165,8 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				 	 			scope, context!!, "local_tout_led_blinkLedOff", 300.toLong() )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t033",targetState="blinkLedOn",cond=whenTimeout("local_tout_led_blinkLedOff"))   
-					transition(edgeName="t034",targetState="handleEvent",cond=whenEvent("updateLed"))
+					 transition(edgeName="t038",targetState="blinkLedOn",cond=whenTimeout("local_tout_led_blinkLedOff"))   
+					transition(edgeName="t039",targetState="handleEvent",cond=whenEvent("updateLed"))
 				}	 
 			}
 		}
