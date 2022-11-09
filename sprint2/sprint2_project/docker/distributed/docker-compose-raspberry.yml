@@ -8,7 +8,7 @@ services:
     volumes:
       - "/proc:/proc"
       - "/sys/firmware/devicetree:/sys/firmware/devicetree"
-    image: 192.168.50.134:5000/rasp
+    image: rasp
     build:
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxrasp
@@ -23,5 +23,5 @@ services:
       mode: global
 networks:
   wsnetwork:
-    driver: overlay
-    attachable: true
+#    driver: overlay
+#    attachable: true
