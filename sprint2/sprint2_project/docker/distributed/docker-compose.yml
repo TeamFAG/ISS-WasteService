@@ -8,7 +8,6 @@ services:
     container_name: wasteservice
     depends_on:
       - "wenv"
-    network_mode: "host"
   trolley:
     image: trolley
     build:
@@ -17,7 +16,6 @@ services:
     container_name: trolley
     depends_on:
       - "wasteservice"
-    network_mode: "host"
   wenv:
     image: wenvl
     build:
