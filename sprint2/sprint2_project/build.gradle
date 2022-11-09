@@ -106,7 +106,7 @@ eclipse {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'it.unibo.ctxwasteservice.MainCtxwasteserviceKt'
+    mainClassName = 'it.unibo.ctxrasp.MainCtxraspKt'
 }
 
 
@@ -125,29 +125,3 @@ jar {
 	    exclude 'META-INF/*.RSA'
     }
 }
-
-/*
-jar {
-    from sourceSets.main.allSource
-    String main = project.findProperty('mainClassName')
-    if (main==null) {
-  		println("NULL")
-  		manifest {
-	        attributes 'Main-Class': "$mainClassName"
-	    }
-	}else{
-		println(main)
-		manifest {
-			attributes 'Main-Class': main
-		}
-		baseName = main
-	    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	    from (configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }) {
-	        exclude 'META-INF/MANIFEST.MF'
-	        exclude 'META-INF/*.SF'
-	        exclude 'META-INF/*.DSA'
-	        exclude 'META-INF/*.RSA'
-	    }
-	}
-}
-*/
