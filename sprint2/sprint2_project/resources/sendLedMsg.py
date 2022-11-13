@@ -1,7 +1,7 @@
 import socket
 
 port = 8070 
-host = '192.168.50.13' ##'192.168.1.62'
+host = '192.168.1.124' ##'192.168.1.62'
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 def connect(port) :

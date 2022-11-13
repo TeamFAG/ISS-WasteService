@@ -52,7 +52,7 @@ Dispatch resume : resume(_)
 
 Context ctxwasteservice ip[host="localhost" port=8050]
 Context ctxtrolley ip[host="localhost" port=8060]
-Context ctxrasp ip[host="192.168.50.13" port=8070]
+Context ctxrasp ip[host="localhost" port=8070]
 
 CodedQActor sonaremittersimulator context ctxrasp className "wsSonar.sonarEmitterSimulator"
 CodedQActor sonaremitterconcrete context ctxrasp className "wsSonar.sonarEmitterConcrete"

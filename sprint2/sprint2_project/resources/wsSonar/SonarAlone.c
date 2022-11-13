@@ -4,8 +4,8 @@
 #include <cmath>
 
 
-#define TRIG 0
-#define ECHO 2
+#define TRIG 4
+#define ECHO 5
 
 #define CLOSE 18
 #define MEDIUM 21

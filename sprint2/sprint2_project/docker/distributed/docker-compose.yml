@@ -6,6 +6,7 @@ services:
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxwasteservice 
     container_name: wasteservice
+    network_mode: "host"
     depends_on:
       - "wenv"
   trolley:
@@ -14,6 +15,7 @@ services:
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxtrolley
     container_name: trolley
+    network_mode: "host"
     depends_on:
       - "wasteservice"
   wenv:
