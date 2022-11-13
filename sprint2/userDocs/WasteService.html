@@ -390,7 +390,7 @@ stopHalt: stopHalt(_)</code></pre>
             In the project section of this Sprint, the sonarfilter actor will be substituted by
             a more complete and detatched filtering system.<br/><br/>
 
-            More specifically, we will use the <k>nonricordo</k> and <k>distanceFilter</k> codedQakActors
+            More specifically, we will use the <k>dataCleaner</k> and <k>distanceFilter</k> codedQakActors
             provided by the customer.
 
             <h5><k>NOTE</k>: Seing as the messages sent by these components are Events, the previously mentioned messages (<i>distance(V), startHat(_), stopHalt(_)</i>)
@@ -457,7 +457,7 @@ stopHalt: stopHalt(_)</code></pre>
             Considering the purpose of the problem analysis, we decided to create a mock version of the sonar to easily test our new simplified
             model.<br/><br/>
 
-            We did so by writing a simple script in python (<a href="">sonarMockEmitter.py</a>) that connects to the system and generates/emits
+            We did so by writing a simple script in python (<a href="">trigger_stop.py</a>) that connects to the system and generates/emits
             events based on a certain interval [START, STOP]:
             <ol>
                 <li>Messages are sent with a descending distance value (from STOP to START)</li>
@@ -544,20 +544,71 @@ Event updateLed: moving(STATE)</code></pre>
         <h2>Project</h2>
         <div class="remark">
             <h3>Final Model preview</h3>
-
             
             <a href="../sprint2_project/src/demo.qak"><img src="./imgs/" alt="demo" style="width:auto;height:450px;" class="center"> </a>
 
             <h3></h3>
             <dd>
+                Do we want to tell the process we took to get to the full distributed?
+
+                Do we still want to use events for the rasp comunications or switch to dispatch?
+
+                qak events work like mqtt?
+
+                
                 <h4></h4>
             </dd>
             
-            <h3></h3>
-            
+            <h3>Implementation of Sonar functions</h3>
+
+            <h4>Sonar Events Emission</h4>
+
+            In the project phase we introduced a way to choose between a real sonar and a simulated sonar by changing
+            the emitter of events based on the system configuration file.<br/>
+
+            To do this we created two CodedActors, one simulator (<a href="../sprint2_project/resources/wsSonar/sonarEmitterSimulator.kt">sonarEmitterSimulator</a>)
+            and one concrete sonar (<a href="">sonarEmitterConcrete</a>):
+
+            <ul>
+                <li><b>sonarEmitterSimulator</b> is a mock version of the sonar that replaces the previoulsy defined trigger_stop.py.</li>
+                <li><b>sonarEmitterConcrete</b> reads the data from the real sonar by executing <a href="">sonarAlone.c</a> (already mentioned in the <b>Sprint0</b>) and emits it as a localStreamEvent.<br/>
+                <k><i>The objective is to run this CodedActor on the RaspberryPi to read real sonar data.</i></k>
+                </li>
+            </ul>
+
+            <h4>Sonar Events Filtering</h4>
+
+            As a first decision, we chose to change how the sonar emissions are filtered and delivered in our system.<br/>
+            While in the problem analisys everything was handled by our <ks>sonarfilter</ks> actor (defined in the relative qak model), 
+            we opted for a <k>reactive</k> approach by using <b>Actors as streams</b> (<b>pipe</b>).
+            <br/><br/>
+            <!-- TODO: immagine p.i.p.e. (piedi irsuti per eiaculazione)-->
+            <!-- RAGIONE PER L'UTILIZZO DELLE PIPE-->
+            The first actor in the pipe will be either <ks>sonarEmitterSimulator</ks> or <ks>sonarEmitterConcrete</ks>, based on the configuration file.<br/>
+            We have reporpoused these scripts given by the customer to achieve our goal:
+            <ul>
+                <li><i><b>dataCleaner</i></b><br/>
+                    This CodedActor in the pipe defines an interval of distances [min, max]. If the recorded distance from our
+                    emitter (real or mock) is outside that interval, the event is not propagated.<br/>
+                    We do this to clean the incoming data and put less pressure on the following actors.
+                </li>
+                <li><i><b>distanceFilter</i></b><br/>
+                    This particular CodedActor replaces our <ks>sonarfilter</ks> in the pipe by emitting the <i>startHalt</i> and <i>stopHalt</i>
+                    events with the same logic.
+                </li>
+            </ul>
+
             <h3></h3>
           
-            <h4>Other changes</h4>
+            <h4>Tools</h4>
+            
+            <h5>sonarSystemBuilder</h5>
+            <dd>
+                This Kotlin object simply creates the pipe by building it based on the configuration of the system.<br/>
+                If we are running a simulation, it will put <ks>sonarEmitterSimulator</ks> as the first actor.<br/>
+                Otherwise, it will use <ks>sonarEmitterConcrete</ks>.
+            </dd>
+
 
             <h4></h4>
            
