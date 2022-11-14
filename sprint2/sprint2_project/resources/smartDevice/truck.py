@@ -7,7 +7,7 @@ port = 8050
 host = 'localhost' ##'192.168.1.62'
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-depositrequest   = "msg(storeRequest, request,python,wasteservice,storeRequest(GLASS,K),1)"
+depositrequest   = "msg(storeRequest, request, python, wasteservice, storeRequest(M,Q), 1)"
  
 
 def connect(port) :
@@ -76,7 +76,15 @@ def console() :
     v =  str( input() )
     print("INPUT" , v  )    
     while( v != "q"  ) :
-        request(  depositrequest.replace("K", v) )
+        x = v.split(" ")
+        mat = x[0].replace(" ", "").upper()
+        qty = x[1].replace(" ", "")
+        print('Qty: ' + qty)
+        print('Mat: ' + mat)
+        temp1 = depositrequest.replace("M", mat)
+        req = temp1.replace("Q", qty)
+        print('Sending: ' + req)
+        request(req)
         v = str(input() )      
 
 ###########################################    
