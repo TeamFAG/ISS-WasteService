@@ -17,14 +17,15 @@ class dataCleaner (name : String ) : ActorBasic( name ) {
  	}
 
 	suspend fun elabData( msg: IApplMessage ) {
-		println("$tt $name | CLEANER $msg")
+		//println("$tt $name | CLEANER $msg")
 
  		val data  = (Term.createTerm( msg.msgContent() ) as Struct).getArg(0).toString()
 		val Distance = Integer.parseInt( data )
+		println("\tCLEANER | distance: $Distance")
  		if( Distance > LimitLow && Distance < LimitHigh ){
 			emitLocalStreamEvent( msg ) //propagate
      	}else{
-			println("$tt $name |  DISCARDS $Distance ")
+			//println("$tt $name |  DISCARDS $Distance ")
  		}				
  	}
 }

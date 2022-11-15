@@ -10,5 +10,6 @@ WORKDIR ./MainTrolley/
 COPY ./build/libs/it.unibo.ctxtrolley.MainCtxtrolleyKt-1.0.jar ./
 COPY ./docker/distributed/*.pl ./
 COPY ./docker/distributed/*.json ./
+COPY ./docker/distributed/*.bin ./
 
 CMD [ "java", "-jar", "it.unibo.ctxtrolley.MainCtxtrolleyKt-1.0.jar" ]

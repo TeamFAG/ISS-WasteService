@@ -23,10 +23,13 @@ copy_resources() {
 
   ssh pi@$IP mkdir /home/pi/Sviluppo/wsdistr
   scp $JAR_PATH pi@$IP:~/Sviluppo/wsdistr
-  scp ./sprint2_rasp.pl pi@$IP:~/Sviluppo/wsdistr
+  scp ./sprint2_project.pl pi@$IP:~/Sviluppo/wsdistr
   scp ./sysRules.pl pi@$IP:~/Sviluppo/wsdistr
   scp ./SystemConfiguration.json pi@$IP:~/Sviluppo/wsdistr
-  ssh pi@$IP mv /home/pi/Sviluppo/sprint2_rasp.pl /home/pi/Sviluppo/sprint2_project.pl
+  scp ../../resources/wsLed/led25GpioTurnOff.sh pi@$IP:~/Sviluppo/wsdistr
+  scp ../../resources/wsLed/led25GpioTurnOn.sh pi@$IP:~/Sviluppo/wsdistr
+  scp ../../resources/wsSonar/SonarAlone.c pi@$IP:~/Sviluppo/wsdistr
+  ssh pi@$IP g++ SonarAlone.c -l wiringPi -o SonarAlone
 
   log Copy done
 }

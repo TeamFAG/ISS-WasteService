@@ -49,12 +49,14 @@ Dispatch turnOffLed : turnOffLed(_)
 // HaltEventsHandler
 Dispatch halt : halt(_)
 Dispatch resume : resume(_)
+//Event haltEv : haltEv(_)
+//Event resumeEv : resumeEv(_)
 
 Context ctxwasteservice ip[host="localhost" port=8050]
 Context ctxtrolley ip[host="localhost" port=8060]
 Context ctxrasp ip[host="localhost" port=8070]
 
-CodedQActor sonaremittersimulator context ctxrasp className "wsSonar.sonarEmitterSimulator"
+//CodedQActor sonaremittersimulator context ctxrasp className "wsSonar.sonarEmitterSimulator"
 CodedQActor sonaremitterconcrete context ctxrasp className "wsSonar.sonarEmitterConcrete"
 CodedQActor wsdatacleaner context ctxrasp className "wsSonar.dataCleaner"
 CodedQActor wsdistanceFilter context ctxrasp className "wsSonar.distanceFilter"
@@ -575,7 +577,7 @@ QActor led context ctxrasp {
 
 QActor sonar context ctxrasp {
 	[#
-		var Simulation: Boolean = true
+		var Simulation: Boolean = false
 		var Log: Boolean = false
 	#]
 	
@@ -586,6 +588,7 @@ QActor sonar context ctxrasp {
 			Simulation = SystemConfig.sonar["simulation"] as Boolean
 			Log = SystemConfig.sonar["log"] as Boolean
 		#]
+		println("\tSONAR | simulation is $Simulation")
 		
 		run wsSonar.sonarSystemBuilder.createSonar(Simulation, Log)
 	}

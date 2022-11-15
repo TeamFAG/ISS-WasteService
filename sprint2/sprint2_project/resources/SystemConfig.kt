@@ -23,7 +23,7 @@ object SystemConfig {
         "log" to false,
         "min" to 0,
         "max" to 50,
-        "dlimit" to 10
+        "dlimit" to 25
     )
 
     fun setTheConfiguration(fileName: String) {

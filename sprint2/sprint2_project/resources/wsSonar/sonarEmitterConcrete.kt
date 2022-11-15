@@ -14,13 +14,14 @@ class sonarEmitterConcrete(name: String): ActorBasic(name) {
     lateinit var reader: BufferedReader
 
     init{
-        println("$tt $name | Started.")
+        println("\tsonarEmitterConcrete | Started.")
     }
 
     override suspend fun actorBody(msg: IApplMessage) {
         try{
             val p = Runtime.getRuntime().exec("sudo ./SonarAlone")
             reader = BufferedReader(InputStreamReader(p.getInputStream()))
+            println("\tsonarEmitterConcrete | before startRead")
             startRead()
         }catch( e : Exception){
             println("$tt $name | WARNING:  does not find SonarAlone")
@@ -28,6 +29,7 @@ class sonarEmitterConcrete(name: String): ActorBasic(name) {
     }
 
     suspend fun startRead(){
+        println("\tsonarEmitterConcrete | startRead")
         var counter = 0
         GlobalScope.launch{	//to allow message handling
             while( true ){
@@ -40,11 +42,10 @@ class sonarEmitterConcrete(name: String): ActorBasic(name) {
                             val m1 = "distance($v)"
                             val event = MsgUtil.buildEvent( name,"sonar",m1)
                             emitLocalStreamEvent( event )		//not propagated to remote actors
-                            println("$tt $name |  ${counter++}: $event "   )
+                            //println("sonarEmitterConcrete | ${counter++}: $event "   )
                         }
                     }catch(e: Exception){}
                 }
-                delay( 100 )
             }
         }
     }

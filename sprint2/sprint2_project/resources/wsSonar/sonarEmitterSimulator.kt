@@ -12,8 +12,16 @@ class sonarEmitterSimulator(name: String): ActorBasic(name) {
     var curr = max
     var down = true
 
+    init{
+        println("\tsonarEmitterSimulator | Started.")
+    }
+
     override suspend fun actorBody(msg: IApplMessage) {
-        while(curr >= min && curr <= max) {
+        SystemConfig.setTheConfiguration("SystemConfiguration")
+        val simulation = SystemConfig.sonar["simulation"] as Boolean
+        println("\tsonarEmitterSimulator | simulation: $simulation")
+
+        while(curr >= min && curr <= max && !simulation) {
             val d = "distance($curr)"
             val ev = MsgUtil.buildEvent(name, "sonar", d)
 

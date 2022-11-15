@@ -16,7 +16,7 @@ class Sonar ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-				var Simulation: Boolean = true
+				var Simulation: Boolean = false
 				var Log: Boolean = false
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
@@ -26,6 +26,7 @@ class Sonar ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 									SystemConfig.setTheConfiguration("SystemConfiguration")
 									Simulation = SystemConfig.sonar["simulation"] as Boolean
 									Log = SystemConfig.sonar["log"] as Boolean
+						println("	SONAR | simulation is $Simulation")
 						wsSonar.sonarSystemBuilder.createSonar( Simulation, Log  )
 						//genTimer( actor, state )
 					}
