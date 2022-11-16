@@ -6,20 +6,17 @@ services:
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxwasteservice 
     container_name: wasteservice
-    network_mode: "host"
   trolley:
     image: trolley
     build:
       context: ../../
       dockerfile: docker/distributed/Dockerfile-ctxtrolley
     container_name: trolley
-    network_mode: "host"
   wenv:
     image: wenvl
     build:
       context: ../../../../it.unibo.virtualRobot2020/
     container_name: wenvl
-    #network_mode: "host"
     ports:
       - "8090:8090"
       - "8091:8091"
