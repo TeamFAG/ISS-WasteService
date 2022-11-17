@@ -14,7 +14,7 @@ object sonarSystemBuilder {
 
     fun buildSonarPipe(simulation: Boolean, log: Boolean) {
         if(simulation)
-            //firstActorInPipe = sysUtil.getActor("sonaremittersimulator")!!
+            firstActorInPipe = sysUtil.getActor("sonaremittersimulator")!!
         else
             firstActorInPipe = sysUtil.getActor("sonaremitterconcrete")!!
 

@@ -42,21 +42,20 @@ Event distance : distance(V)
 Dispatch trigger : trigger(_)
 
 // Led
-Event updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
+//Event updateLed : updateLed(STATE) 
+Dispatch updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
 Dispatch turnOnLed : turnOnLed(_)
 Dispatch turnOffLed : turnOffLed(_)
 
 // HaltEventsHandler
 Dispatch halt : halt(_)
 Dispatch resume : resume(_)
-//Event haltEv : haltEv(_)
-//Event resumeEv : resumeEv(_)
 
 Context ctxwasteservice ip[host="localhost" port=8050]
 Context ctxtrolley ip[host="localhost" port=8060]
 Context ctxrasp ip[host="localhost" port=8070]
 
-//CodedQActor sonaremittersimulator context ctxrasp className "wsSonar.sonarEmitterSimulator"
+CodedQActor sonaremittersimulator context ctxrasp className "wsSonar.sonarEmitterSimulator"
 CodedQActor sonaremitterconcrete context ctxrasp className "wsSonar.sonarEmitterConcrete"
 CodedQActor wsdatacleaner context ctxrasp className "wsSonar.dataCleaner"
 CodedQActor wsdistanceFilter context ctxrasp className "wsSonar.distanceFilter"
@@ -471,7 +470,7 @@ QActor trolleystateobserver context ctxtrolley {
 			#]
 			
 			if [# !CurrentState.equals(LedState) #] {
-				emit updateLed : updateLed($LedState)
+				forward led -m updateLed : updateLed($LedState)
 				[# CurrentState = LedState #]
 			}
 		}
@@ -497,14 +496,14 @@ QActor led context ctxrasp {
 			wsLed.LedUtils.createLed(Simulation, Simulation)
 		#]
 	}
-	Transition t0 whenEvent updateLed -> handleEvent
+	Transition t0 whenMsg updateLed -> handleEvent
 				  whenMsg turnOnLed -> turnOnMsg
 				  whenMsg turnOffLed -> turnOffMsg
 				  
 	State idle {
 		
 	}
-	Transition t0 whenEvent updateLed -> handleEvent
+	Transition t0 whenMsg updateLed -> handleEvent
 				  whenMsg turnOnLed -> turnOnMsg
 				  whenMsg turnOffLed -> turnOffMsg
 	
@@ -541,7 +540,7 @@ QActor led context ctxrasp {
 			wsLed.LedUtils.turnOn()
 		#]
 	}
-	Transition t0 whenEvent updateLed -> handleEvent
+	Transition t0 whenMsg updateLed -> handleEvent
 	
 	State off {
 		updateResource [# "led(OFF)" #]
@@ -550,27 +549,29 @@ QActor led context ctxrasp {
 			wsLed.LedUtils.turnOff()
 		#]
 	}
-	Transition t0 whenEvent updateLed -> handleEvent
+	Transition t0 whenMsg updateLed -> handleEvent
 	
 	State blinkLedOn {
-		updateResource [# "led(BLINKING)" #]
+		if [# !LedState.equals(ws.LedState.BLINKING) #] {
+			updateResource [# "led(BLINKING)" #]	
+		}
+		
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led Blink")
 			wsLed.LedUtils.turnOn()
 		#]
 	}
 	Transition t0 whenTime 300 -> blinkLedOff
-				  whenEvent updateLed -> handleEvent
+				  whenMsg updateLed -> handleEvent
 	
 	State blinkLedOff {
-		updateResource [# "led(BLINKING)" #]
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led Blink")
 			wsLed.LedUtils.turnOff()
 		#]
 	}
 	Transition t0 whenTime 300 -> blinkLedOn
-				  whenEvent updateLed -> handleEvent
+				  whenMsg updateLed -> handleEvent
 				  
 }
 

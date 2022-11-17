@@ -3,11 +3,11 @@ services:
   rasp:
     platform: "linux/arm/v7"
     privileged: true
-    devices:
-      - "/dev/mem"
-    volumes:
-      - "/proc:/proc"
-      - "/sys/firmware/devicetree:/sys/firmware/devicetree"
+    #devices:
+    #  - "/dev/mem"
+    #volumes:
+    #  - "/proc:/proc"
+    #  - "/sys/firmware/devicetree:/sys/firmware/devicetree"
     image: rasp
     build:
       context: ../../

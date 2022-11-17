@@ -3,8 +3,9 @@
 %====================================================================================
 context(ctxwasteservice, "localhost",  "TCP", "8050").
 context(ctxtrolley, "localhost",  "TCP", "8060").
-context(ctxrasp, "192.168.50.13",  "TCP", "8070").
- qactor( sonaremitterconcrete, ctxrasp, "wsSonar.sonarEmitterConcrete").
+context(ctxrasp, "localhost",  "TCP", "8070").
+ qactor( sonaremittersimulator, ctxrasp, "wsSonar.sonarEmitterSimulator").
+  qactor( sonaremitterconcrete, ctxrasp, "wsSonar.sonarEmitterConcrete").
   qactor( wsdatacleaner, ctxrasp, "wsSonar.dataCleaner").
   qactor( wsdistancefilter, ctxrasp, "wsSonar.distanceFilter").
   qactor( wasteservice, ctxwasteservice, "it.unibo.wasteservice.Wasteservice").

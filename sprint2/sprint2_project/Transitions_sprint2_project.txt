@@ -4,10 +4,16 @@
 {"actor":"pather", "msgType":"dispatch", "curstate":"handleHalt", "nextstate":"resumeFromHalt", "msgId":"resume"}
 {"actor":"trolleystateobserver", "msgType":"dispatch", "curstate":"init", "nextstate":"handleCoapUpdate", "msgId":"coapUpdate"}
 {"actor":"trolleystateobserver", "msgType":"dispatch", "curstate":"handleCoapUpdate", "nextstate":"handleCoapUpdate", "msgId":"coapUpdate"}
+{"actor":"led", "msgType":"dispatch", "curstate":"init", "nextstate":"handleEvent", "msgId":"updateLed"}
 {"actor":"led", "msgType":"dispatch", "curstate":"init", "nextstate":"turnOnMsg", "msgId":"turnOnLed"}
 {"actor":"led", "msgType":"dispatch", "curstate":"init", "nextstate":"turnOffMsg", "msgId":"turnOffLed"}
+{"actor":"led", "msgType":"dispatch", "curstate":"idle", "nextstate":"handleEvent", "msgId":"updateLed"}
 {"actor":"led", "msgType":"dispatch", "curstate":"idle", "nextstate":"turnOnMsg", "msgId":"turnOnLed"}
 {"actor":"led", "msgType":"dispatch", "curstate":"idle", "nextstate":"turnOffMsg", "msgId":"turnOffLed"}
+{"actor":"led", "msgType":"dispatch", "curstate":"on", "nextstate":"handleEvent", "msgId":"updateLed"}
+{"actor":"led", "msgType":"dispatch", "curstate":"off", "nextstate":"handleEvent", "msgId":"updateLed"}
+{"actor":"led", "msgType":"dispatch", "curstate":"blinkLedOn", "nextstate":"handleEvent", "msgId":"updateLed"}
+{"actor":"led", "msgType":"dispatch", "curstate":"blinkLedOff", "nextstate":"handleEvent", "msgId":"updateLed"}
 {"actor":"basicrobot", "msgType":"dispatch", "curstate":"work", "nextstate":"execcmd", "msgId":"cmd"}
 {"actor":"basicrobot", "msgType":"dispatch", "curstate":"work", "nextstate":"handleObstacle", "msgId":"obstacle"}
 {"actor":"basicrobot", "msgType":"dispatch", "curstate":"work", "nextstate":"endwork", "msgId":"end"}

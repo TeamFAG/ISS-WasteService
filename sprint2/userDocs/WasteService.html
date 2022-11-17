@@ -609,9 +609,52 @@ Event updateLed: moving(STATE)</code></pre>
                 Otherwise, it will use <ks>sonarEmitterConcrete</ks>.
             </dd>
 
+            <h3>Implementation of Led functions</h3>
 
-            <h4></h4>
-           
+            <h4>Changes from problem analisys</h4>
+            We have decided to make some <k>changes</k> to the business logic of the Led after extensive use of the system.<br/>
+            Previously, our <ks>trolleystateobserver</ks> actor notified the <ks>led</ks> actor running on the raspberry context through
+            <k>Events</k>.<br/><br/>
+
+            Our <b>reasoning</b> behind this was that other components (i.e. <k>GUI</k>) were to be notified of the state of the Led.<br/>
+            However this strategy could <k>saturate the network</k>, as there are many actors in our main service context.<br/><br/>
+
+            To solve this issue, we decided to use <k>Dispatches</k> as a way to notify all required actors of the state of the Led.<br/><br/>
+            So, now we use:
+            <pre><code>Dispatch updateLed(STATE) 
+//The possible commands do not change
+STATE := ON | OFF | BLINKING </code></pre>
+
+            <h4>Project changes</h4>
+
+            We approched the inclusion of the real Led similarly to the Sonar.<br/>
+            Which means that, in the final demo it will be possible to use both the simulated Led and the real 
+            one on the raspberry.
+
+            The customer provided us with a library that helps us in doing so: <k>it.unibo.radarSystem22</k>.<br/>
+            It exposes Factories and Interfaces that can create real/mock Sonars and Led components.<br/>
+            <br/>
+            In our system, we are just going to use the Led portion of this library:
+            <ul>
+                <li><b>DeviceFactory</b>: we use it to create either a LedConcrete object (that can turn ON and OFF the REAL led)
+                or a LedMock object (that changes the state of a fake led instance) based on the current System Configuration.</li>
+                <li><b>ILed</b>: is an interface of the object created by the <b>DeviceFactory</b>. The methods <i>turnOn()</i> and
+                <i>turnOff()</i> are used to interact with the led.</li>
+            </ul>
+            The previous tools are all used by our <ks>led</ks> actor, running in the raspberryPi context, to turn ON and OFF
+            the real/mock led.
+
+            <h4>LedUtils</h4>
+
+            <b>LedUtils</b> is a wrapper we created to implement some useful methods to manage the led creation and status using DeviceFactory and ILed:
+            <ul>
+                <li><b>fun createLed(simulation: Boolean, ledGui: Boolean)</b>: is used to instantiate an ILed and allows us to create the led depending
+                    on the necessities using the DeviceFactory previously mentioned.</li>
+                <li><b>fun getLedStatusFromCoap(resource: String, value: String): LedState</b>: allows us to monitor a Coap Resource that gives the
+                    informations we need to determine the current LedState.</li>
+                <li><b>turnOn()</b>: turns ON the ILed.</li>
+                <li><b>turnOff()</b>: turns OFF the ILed.</li>
+            </ul>
 
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">

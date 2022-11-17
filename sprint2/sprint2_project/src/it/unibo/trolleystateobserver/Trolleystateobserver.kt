@@ -42,7 +42,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 												if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
 													LedState = wsLed.LedUtils.getLedStatusFromCoap(Resource, Value)
 								if(  !CurrentState.equals(LedState)  
-								 ){emit("updateLed", "updateLed($LedState)" ) 
+								 ){forward("updateLed", "updateLed($LedState)" ,"led" ) 
 								 CurrentState = LedState  
 								}
 						}
