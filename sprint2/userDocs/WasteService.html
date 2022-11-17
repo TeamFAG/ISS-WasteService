@@ -544,20 +544,14 @@ Event updateLed: moving(STATE)</code></pre>
         <h2>Project</h2>
         <div class="remark">
             <h3>Final Model preview</h3>
+
+            This is the <b>model</b> created following the problem analysis, integrating the <b>raspberry</b> and its elements in the system.<br/>
+            It uses the coordinate strategy and all previously mentioned tools provided by the customer (some of them have been modified
+            and will be discussed shortly).<br/>
+            As usual, it was created using the <b>QAK modeling language</b> and its code can be found here: 
+            <a href="../sprint2_project/src/demo_project.qak"><k>demo_project.qak</k></a> 
             
-            <a href="../sprint2_project/src/demo.qak"><img src="./imgs/" alt="demo" style="width:auto;height:450px;" class="center"> </a>
-
-            <h3></h3>
-            <dd>
-                Do we want to tell the process we took to get to the full distributed?
-
-                Do we still want to use events for the rasp comunications or switch to dispatch?
-
-                qak events work like mqtt?
-
-                
-                <h4></h4>
-            </dd>
+            <a href="../sprint2_project/src/demo_project.qak"><img src="./imgs/" alt="demo" style="width:auto;height:450px;" class="center"> </a>
             
             <h3>Implementation of Sonar functions</h3>
 
@@ -567,11 +561,12 @@ Event updateLed: moving(STATE)</code></pre>
             the emitter of events based on the system configuration file.<br/>
 
             To do this we created two CodedActors, one simulator (<a href="../sprint2_project/resources/wsSonar/sonarEmitterSimulator.kt">sonarEmitterSimulator</a>)
-            and one concrete sonar (<a href="">sonarEmitterConcrete</a>):
+            and one concrete sonar (<a href="../sprint2_project/resources/wsSonar/sonarEmitterConcrete.kt">sonarEmitterConcrete</a>):
 
             <ul>
                 <li><b>sonarEmitterSimulator</b> is a mock version of the sonar that replaces the previoulsy defined trigger_stop.py.</li>
-                <li><b>sonarEmitterConcrete</b> reads the data from the real sonar by executing <a href="">sonarAlone.c</a> (already mentioned in the <b>Sprint0</b>) and emits it as a localStreamEvent.<br/>
+                <li><b>sonarEmitterConcrete</b> reads the data from the real sonar by executing <a href="../sprint2_project/resources/wsSonar/SonarAlone.c">sonarAlone.c</a>
+                        (already mentioned in the <b>Sprint0</b>) and emits it as a localStreamEvent.<br/>
                 <k><i>The objective is to run this CodedActor on the RaspberryPi to read real sonar data.</i></k>
                 </li>
             </ul>
@@ -656,11 +651,21 @@ STATE := ON | OFF | BLINKING </code></pre>
                 <li><b>turnOff()</b>: turns OFF the ILed.</li>
             </ul>
 
+            <h3>System Distribution</h3>
+            When it comes to the distribution of our system, we tried two main strategies.</br>
+            The first and most simple was to compile a .jar file for each context and launch these files on multiple divices to test the distribution.
+            This stratedy worked from the beginning but we also tried something more complicated through the use Docker.</br>
+
+            <i>Small explaination of docker?!?</i></br>
+
+            Unfortunatly we couldn't make this strategy work due to connection problems external to our system that prevented the raspberry from connecting
+            to the actors hosted on our PC.
+
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
-                <img src="./imgs/" alt="demoarch" style="width:auto;height:450px;" class="center">
+                <img src="./imgs/" alt="demo" style="width:auto;height:450px;" class="center">
                 </br>
-                <a href="../sprint2_project/src/demo.qak"><k>Demo QAK</k></a>
+                <a href="../sprint2_project/src/demo_project.qak"><k>Demo QAK</k></a>
                 <br>
                 <h5>Test Plans</h5>
                 <dd>
@@ -677,10 +682,15 @@ STATE := ON | OFF | BLINKING </code></pre>
 
         <h2>Work plan</h2>
         <div class="remark">
-            
+            <kc>Sprint 2</kc> was focused on the implementation of the <b>raspberry</b> segment, it's interaction with
+            the <b>waste service</b> and the distribution of the whole system.<br/>
+            In <kc>Sprint 3</kc> we aim to complete the project implementing the <b>WasteServiceStatusGUI</b>.<br/>
             
             SCRUM Goal:
             <ol>
+                <li>Realize the <b>GUI</b></li>
+                <li>Connect the <b>GUI</b> to the system</li>
+                <li>Implement the <k>GUI</k> updating methods</li>
             </ol>
 
             <h5>Next Sprint: <kc href=""><kc>Sprint 3</kc></a></h5>
@@ -695,44 +705,39 @@ STATE := ON | OFF | BLINKING </code></pre>
                     <th>Developers</th>
                 </tr>
                 <tr>
-                    <td><center>Implementation of Util and Config features</center></td>
-                    <td>Util and config methods and general business logic classes</td>
-                    <td><b>Alex Gianelli</b></td>
+                    <td><center>Implementing the Halt behavior</center></td>
+                    <td>Modifying the existing Qak actors and making new ones to achieve the Halt behaviour.</td>
+                    <td><center></center></td>
                 </tr>
                 <tr>
-                    <td><center>Implementation of CoaP features</center></td>
-                    <td>Using CoaP to add observability to our actors</td>
-                    <td><center><b>Federico Andrucci, <br/>Alex Gianelli, <br/>Gabriele Marconi</b></center></td>
+                    <td><center>Sonar developement</center></td>
+                    <td>Creating the CodedActors, Qak actor and the pipe.</td>
+                    <td><center></center></td>
                 </tr>
                 <tr>
-                    <td><center>Implementation of new and updated actors</center></td>
-                    <td>Creating the Qak files with the single actors and the complete architecture </td>
-                    <td><center><b>Federico Andrucci, <br/>Alex Gianelli, <br/>Gabriele Marconi</b></center></td>
+                    <td><center>Led developement</center></td>
+                    <td>Implementing the Qak actor and the LedUtils wrapper.</td>
+                    <td><center></center></td>
                 </tr>
                 <tr>
-                    <td><center>Implementation of Path Switching feature</center></td>
-                    <td>Editing of the Qak files in order to implement the path switching feature</td>
-                    <td><center><b>Federico Andrucci</b></td></center></td>
+                    <td><center>System Distribution</center></td>
+                    <td>Creating the .jar files and distributing the system.</td>
+                    <td><center></center></td>
                 </tr>
                 <tr>
-                    <td><center>Smart Device development</center></td>
-                    <td>Creating a mini-app that simulates the Truck Driver interaction with the wasteservice.</td>
-                    <td><center><b>Gabriele Marconi</b></center></td>
+                    <td><center>Sonar Testing</center></td>
+                    <td>Creating test routines for the sonar actor and the pipe system.</td>
+                    <td><center></center></td>
                 </tr>
                 <tr>
-                    <td><center> Wasteservice Testing</center></td>
-                    <td>Creating test routines for the wasteservice actor, implementing CoaP communication as a monitoring tool</td>
-                    <td><center><b>Alex Gianelli</b></center></td>
+                    <td><center>Led Testing</center></td>
+                    <td>Creating test routines for the led actor.</td>
+                    <td><center></center></td>
                 </tr>
                 <tr>
-                    <td><center> Transporttrolley Testing</center></td>
-                    <td>Creating test routines for the transporttrolley actor, implementing CoaP communication as a monitoring tool</td>
-                    <td><center><b>Federico Andrucci</b></center></td>
-                </tr>
-                <tr>
-                    <td><center> Trolleymover Testing</center></td>
-                    <td>Creating test routines for the trolleymover actor, implementing CoaP communication as a monitoring tool</td>
-                    <td><center><b>Gabriele Marconi</b></center></td>
+                    <td><center>Distribution Testing</center></td>
+                    <td>Creating test routines for the TCP connections.</td>
+                    <td><center></center></td>
                 </tr>
             </table>
         </div>
