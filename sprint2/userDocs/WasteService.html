@@ -578,7 +578,11 @@ Event updateLed: moving(STATE)</code></pre>
             we opted for a <k>reactive</k> approach by using <b>Actors as streams</b> (<b>pipe</b>).
             <br/><br/>
             <!-- TODO: immagine p.i.p.e. (piedi irsuti per eiaculazione)-->
-            <!-- RAGIONE PER L'UTILIZZO DELLE PIPE-->
+            
+            Infact, while filtering was necessary, adopting the use of normal standalone actors would have
+            meant that each component of the filtering process would have sent <k>Events</k> to every actor in the context.<br/>
+            This is redundant and could strain the network.<br/><br/>
+
             The first actor in the pipe will be either <ks>sonarEmitterSimulator</ks> or <ks>sonarEmitterConcrete</ks>, based on the configuration file.<br/>
             We have reporpoused these scripts given by the customer to achieve our goal:
             <ul>
@@ -652,14 +656,20 @@ STATE := ON | OFF | BLINKING </code></pre>
             </ul>
 
             <h3>System Distribution</h3>
-            When it comes to the distribution of our system, we tried two main strategies.</br>
-            The first and most simple was to compile a .jar file for each context and launch these files on multiple divices to test the distribution.
-            This stratedy worked from the beginning but we also tried something more complicated through the use Docker.</br>
+            When it comes to the distribution of our system, we tried <b>two main strategies</b>.</br><br/>
+            The first and most simple was to compile a <k>.jar</k> file for each context and launch these files on multiple devices to test the distribution.<br/>
+            This stratedy worked from the beginning but we also tried something more complicated through the use of <ks>Docker</ks>.</br></br>
 
-            <i>Small explaination of docker?!?</i></br>
+            We tested the Dockerized system with this configuration:
+            <ul>
+                <li><b>PC</b>: a <ks><i>Docker-compose.yml</i></ks> file defined so that each context had its own container.</li>
+                <li><b>Raspberry</b>: a Docker-file to only run the <b><i>rasp</i></b> context.</li>
+            </ul>
 
-            Unfortunatly we couldn't make this strategy work due to connection problems external to our system that prevented the raspberry from connecting
-            to the actors hosted on our PC.
+            Unfortunately,  connection problems external to our system prevented us from successfully distributing the system.<br/>
+
+            <h4>System execution details</h4>
+            To run the whole distributed system, follow the instructions in our <a href="">run_system_guide.txt</a> file.
 
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
@@ -707,37 +717,37 @@ STATE := ON | OFF | BLINKING </code></pre>
                 <tr>
                     <td><center>Implementing the Halt behavior</center></td>
                     <td>Modifying the existing Qak actors and making new ones to achieve the Halt behaviour.</td>
-                    <td><center></center></td>
+                    <td><center>Federico Andrucci</center></td>
                 </tr>
                 <tr>
                     <td><center>Sonar developement</center></td>
                     <td>Creating the CodedActors, Qak actor and the pipe.</td>
-                    <td><center></center></td>
+                    <td><center>Gabriele Marconi</center></td>
                 </tr>
                 <tr>
                     <td><center>Led developement</center></td>
                     <td>Implementing the Qak actor and the LedUtils wrapper.</td>
-                    <td><center></center></td>
+                    <td><center>Alex Gianelli</center></td>
                 </tr>
                 <tr>
                     <td><center>System Distribution</center></td>
                     <td>Creating the .jar files and distributing the system.</td>
-                    <td><center></center></td>
+                    <td><center>Gabriele Marconi<br/>Alex Gianelli<br/>Federico Andrucci</center></td>
                 </tr>
                 <tr>
                     <td><center>Sonar Testing</center></td>
                     <td>Creating test routines for the sonar actor and the pipe system.</td>
-                    <td><center></center></td>
+                    <td><center>Federico Andrucci</center></td>
                 </tr>
                 <tr>
                     <td><center>Led Testing</center></td>
                     <td>Creating test routines for the led actor.</td>
-                    <td><center></center></td>
+                    <td><center>Alex Gianelli</center></td>
                 </tr>
                 <tr>
                     <td><center>Distribution Testing</center></td>
                     <td>Creating test routines for the TCP connections.</td>
-                    <td><center></center></td>
+                    <td><center>Gabriele Marconi</center></td>
                 </tr>
             </table>
         </div>
@@ -793,15 +803,3 @@ STATE := ON | OFF | BLINKING </code></pre>
 </body>
 
 </html>
-
-PROJECT TASKS
-1) creato sonarSystemBuilder
-2) modificato dataCleaner.kt
-3) modificato distanceFilter.kt
-
-
-
-
-//DOC NOTES
--Utilizzo pipe e coded sono una variazione basata su un cambiamento di prospettiva (pipe (?) , coded (unico modo per chiamare sonaralone.c))
--Blink logic: single command (analysis) => multiple looping commands (project ?) Variazione basata sul funzionamento del led reale nella raspberry (due file .c [ON e OFF])
