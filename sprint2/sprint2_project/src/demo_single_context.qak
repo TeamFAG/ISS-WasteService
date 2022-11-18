@@ -41,14 +41,15 @@ Event distance : distance(V)
 Dispatch trigger : trigger(_)
 
 // Led
-Event updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
+Dispatch updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
+Dispatch turnOnLed : turnOnLed(_)
+Dispatch turnOffLed : turnOffLed(_)
 
 // HaltEventsHandler
 Dispatch halt : halt(_)
 Dispatch resume : resume(_)
 
 Context ctxwasteservice_test ip[host="localhost" port=8050]
-//Context ctxrasp ip[host="localhost" port=8070]
 
 CodedQActor sonaremittersimulator context ctxwasteservice_test className "wsSonar.sonarEmitterSimulator"
 CodedQActor sonaremitterconcrete context ctxwasteservice_test className "wsSonar.sonarEmitterConcrete"
@@ -465,7 +466,7 @@ QActor trolleystateobserver context ctxwasteservice_test {
 			#]
 			
 			if [# !CurrentState.equals(LedState) #] {
-				emit updateLed : updateLed($LedState)
+				forward led -m updateLed : updateLed($LedState)
 				[# CurrentState = LedState #]
 			}
 		}
@@ -488,18 +489,41 @@ QActor led context ctxwasteservice_test {
 			SystemConfig.setTheConfiguration("SystemConfiguration")
 			Simulation = SystemConfig.sonar["simulation"] as Boolean
 			
-			`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.simulation = Simulation
-			`it.unibo`.radarSystem22.domain.utils.DomainSystemConfig.ledGui = Simulation
-			
-			Led = `it.unibo`.radarSystem22.domain.DeviceFactory.createLed()
-			Led.turnOff()
+			wsLed.LedUtils.createLed(Simulation, Simulation)
 		#]
 	}
-	Transition t0 whenEvent updateLed -> handleEvent
+	Transition t0 whenMsg updateLed -> handleEvent
+				  whenMsg turnOnLed -> turnOnMsg
+				  whenMsg turnOffLed -> turnOffMsg
+				  
+	State idle {
+		
+	}
+	Transition t0 whenMsg updateLed -> handleEvent
+				  whenMsg turnOnLed -> turnOnMsg
+				  whenMsg turnOffLed -> turnOffMsg
+	
+	State turnOnMsg {
+		[#
+			wsLed.LedUtils.printLedState("\tLED | LED ON")
+			wsLed.LedUtils.turnOn()
+		#]
+	}
+	Goto idle
+	
+	State turnOffMsg {
+		[#
+			wsLed.LedUtils.printLedState("\tLED | LED OFF")
+			wsLed.LedUtils.turnOff()
+		#]
+	}
+	Goto idle
 	
 	State handleEvent {
 		onMsg(updateLed : updateLed(STATE)) {
 			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
+			
+			updateResource [# "led($LedState)" #]
 		}
 	}
 	Goto blinkLedOn if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
@@ -508,48 +532,46 @@ QActor led context ctxwasteservice_test {
 	Goto on if [# LedState.equals(ws.LedState.ON) #] else off 
 	
 	State on {
-		updateResource [# "led(ON)" #]
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led ON")
-			Led.turnOn() 
+			wsLed.LedUtils.turnOn()
 		#]
 	}
-	Transition t0 whenEvent updateLed -> handleEvent
+	Transition t0 whenMsg updateLed -> handleEvent
 	
 	State off {
-		updateResource [# "led(OFF)" #]
 		[#
 			wsLed.LedUtils.printLedState("\tLED | led OFF")
+			wsLed.LedUtils.turnOff()
 		#]
 	}
-	Transition t0 whenEvent updateLed -> handleEvent
+	Transition t0 whenMsg updateLed -> handleEvent
 	
 	State blinkLedOn {
-		updateResource [# "led(BLINKING)" #]
+		
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led Blink")
-			Led.turnOn() 
+			wsLed.LedUtils.turnOn()
 		#]
 	}
 	Transition t0 whenTime 300 -> blinkLedOff
-				  whenEvent updateLed -> handleEvent
+				  whenMsg updateLed -> handleEvent
 	
 	State blinkLedOff {
-		updateResource [# "led(BLINKING)" #]
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led Blink")
-			Led.turnOff() 
+			wsLed.LedUtils.turnOff()
 		#]
 	}
 	Transition t0 whenTime 300 -> blinkLedOn
-				  whenEvent updateLed -> handleEvent
+				  whenMsg updateLed -> handleEvent
 				  
 }
 
 
 QActor sonar context ctxwasteservice_test {
 	[#
-		var Simulation: Boolean = true
+		var Simulation: Boolean = false
 		var Log: Boolean = false
 	#]
 	
@@ -560,6 +582,7 @@ QActor sonar context ctxwasteservice_test {
 			Simulation = SystemConfig.sonar["simulation"] as Boolean
 			Log = SystemConfig.sonar["log"] as Boolean
 		#]
+		println("\tSONAR | simulation is $Simulation")
 		
 		run wsSonar.sonarSystemBuilder.createSonar(Simulation, Log)
 	}

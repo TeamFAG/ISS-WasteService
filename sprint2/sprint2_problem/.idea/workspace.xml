@@ -5,31 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce0ec372-6f00-4fde-98e7-5b2376d9cc2f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules/unibo.problem_analisys.test.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sprint2_project/.idea/modules/unibo.sprint2_project_single_context.test.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sprint2_project/test/IntegrationTestLedHalt.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api_demo_wasteservice_test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Api_demo_wasteservice_test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api_problem_analisys.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Api_problem_analisys.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arch_demo_wasteservice_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arch_demo_wasteservice_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build2022.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build2022.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo_wasteservice_test.pl" beforeDir="false" afterPath="$PROJECT_DIR$/demo_wasteservice_test.pl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/trigger_stop.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/trigger_stop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/demo_single_context.qak" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo_single_context.qak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/basicrobot/Basicrobot.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/envsonarhandler/Envsonarhandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/halteventshandler/Halteventshandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/halteventshandler/Halteventshandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/sonarfilter/Sonarfilter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/sonarfilter/Sonarfilter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/trolleystateobserver/Trolleystateobserver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/trolleystateobserver/Trolleystateobserver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/Api_sprint2_project.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/Api_sprint2_project.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sprint2_project/Api_sprint2_project_single_context.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/Api_sprint2_project_single_context.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sprint2_project/Arch_sprint2_project_single_context.py" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/Arch_sprint2_project_single_context.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2_project/sprint2_project_single_context.pl" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/sprint2_project_single_context.pl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/demo_single_context.qak" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/demo_single_context.qak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/basicrobot/Basicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/basicrobot/Basicrobot.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/envsonarhandler/Envsonarhandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/envsonarhandler/Envsonarhandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/halteventshandler/Halteventshandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/halteventshandler/Halteventshandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/led/Led.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/led/Led.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/ledcontroller/Ledcontroller.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/demo_project.qak" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/src/demo_project.qak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/demo_single_context.qakk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/basicrobot/Basicrobot.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/ctxprova/MainCtxprova.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/ctxrasp/MainCtxrasp.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/ctxtrolley/MainCtxtrolley.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/ctxwasteservice/MainCtxwasteservice.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/ctxwasteservice_test/MainCtxwasteservice_test.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/envsonarhandler/Envsonarhandler.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/halteventshandler/Halteventshandler.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/led/Led.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/p/P.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/pather/Pather.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/sonar/Sonar.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/sonarfilter/Sonarfilter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/sonarmockemitter/Sonarmockemitter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/transporttrolley/Transporttrolley.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/trolleymover/Trolleymover.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/trolleystateobserver/Trolleystateobserver.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/src/it/unibo/wasteservice/Wasteservice.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/test/IntegrationTestLed.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/test/IntegrationTestLed.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/test/IntegrationTestLedSonar.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_project/test/UnitTestLed.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_project/test/UnitTestLed.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../userDocs/WasteService.html" beforeDir="false" afterPath="$PROJECT_DIR$/../userDocs/WasteService.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,12 +89,13 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager" selected="Gradle.TestHalt.testHalt">
-    <configuration name="TestHalt" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.TestLed">
+    <configuration name="TestHalt (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -189,11 +198,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.TestLed" />
+        <item itemvalue="Gradle.TestHalt (1)" />
         <item itemvalue="Gradle.TestHalt.testHalt" />
         <item itemvalue="JUnit.TestHalt" />
-        <item itemvalue="Gradle.TestLed" />
         <item itemvalue="Gradle.TestLed.testLedHaltedRoutine" />
-        <item itemvalue="Gradle.TestHalt" />
       </list>
     </recent_temporary>
   </component>
@@ -212,6 +221,8 @@
       <workItem from="1666943417324" duration="4875000" />
       <workItem from="1667232650539" duration="27000" />
       <workItem from="1667325811682" duration="627000" />
+      <workItem from="1668787262915" duration="636000" />
+      <workItem from="1668789133654" duration="374000" />
     </task>
     <servers />
   </component>

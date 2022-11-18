@@ -79,6 +79,8 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						if( checkMsgContent( Term.createTerm("updateLed(STATE)"), Term.createTerm("updateLed(STATE)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 LedState = ws.LedState.valueOf(payloadArg(0))  
+								updateResourceRep( "led($LedState)"  
+								)
 						}
 						//genTimer( actor, state )
 					}
@@ -104,8 +106,6 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				}	 
 				state("on") { //this:State
 					action { //it:State
-						updateResourceRep( "led(ON)"  
-						)
 						 
 									wsLed.LedUtils.printLedState("\tLED | led ON")
 									wsLed.LedUtils.turnOn()
@@ -118,8 +118,6 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				}	 
 				state("off") { //this:State
 					action { //it:State
-						updateResourceRep( "led(OFF)"  
-						)
 						
 									wsLed.LedUtils.printLedState("\tLED | led OFF")
 									wsLed.LedUtils.turnOff()
@@ -132,10 +130,6 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				}	 
 				state("blinkLedOn") { //this:State
 					action { //it:State
-						if(  !LedState.equals(ws.LedState.BLINKING)  
-						 ){updateResourceRep( "led(BLINKING)"  
-						)
-						}
 						 
 									wsLed.LedUtils.printLedState("\tLED | led Blink")
 									wsLed.LedUtils.turnOn()

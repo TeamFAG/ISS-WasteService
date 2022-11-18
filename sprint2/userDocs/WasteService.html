@@ -543,16 +543,6 @@ Event updateLed: moving(STATE)</code></pre>
         </div>
         <h2>Project</h2>
         <div class="remark">
-            <h3>Final Model preview</h3>
-
-            This is the <b>model</b> created following the problem analysis, integrating the <b>raspberry</b> and its elements in the system.<br/>
-            It uses the coordinate strategy and all previously mentioned tools provided by the customer (some of them have been modified
-            and will be discussed shortly).<br/>
-            As usual, it was created using the <b>QAK modeling language</b> and its code can be found here: 
-            <a href="../sprint2_project/src/demo_project.qak"><k>demo_project.qak</k></a> 
-            
-            <a href="../sprint2_project/src/demo_project.qak"><img src="./imgs/" alt="demo" style="width:auto;height:450px;" class="center"> </a>
-            
             <h3>Implementation of Sonar functions</h3>
 
             <h4>Sonar Events Emission</h4>
@@ -664,7 +654,7 @@ STATE := ON | OFF | BLINKING </code></pre>
                 <li><b>Raspberry</b>: a Docker-file to only run the <b><i>rasp</i></b> context.</li>
             </ul>
 
-            Unfortunately,  connection problems external to our system prevented us from successfully distributing the system.<br/>
+            Unfortunately, connection problems external to our system prevented us from successfully distributing the system.<br/>
 
             <h4>System execution details</h4>
             To run the whole distributed system, follow the instructions in our <a href="">run_system_guide.txt</a> file.
@@ -674,14 +664,17 @@ STATE := ON | OFF | BLINKING </code></pre>
                 <img src="./imgs/" alt="demo" style="width:auto;height:450px;" class="center">
                 </br>
                 <a href="../sprint2_project/src/demo_project.qak"><k>Demo QAK</k></a>
+                <h4>Bug Fixes</h4>
+                While testing our system we found that the basicrobot22 docker image (which included both the virtual environment and 
+                the basicrobot actor) caused some 
                 <br>
                 <h5>Test Plans</h5>
                 <dd>
                     We have prepared the following tests for this particular model:
                     <ol>
-                        <li><a href="../sprint2_project/test/IntegrationTestLed.kt"><k>Inte</k></a>temp</li>
-                        <li><a href="../sprint2_project/test/IntegrationTestLedSonar.kt"><k>temp</k></a>temp</li>
-                        <li><a href="../sprint2_project/test/UnitTestLed.kt"><k>temp</k></a>temp</li>
+                        <li><a href="../sprint2_project/test/IntegrationTestLed.kt"><k>IntegrationTestLed.kt</k></a>: Integration testing to ensure the correct behavior of the led inside the system using CoaP.</li>
+                        <li><a href="../sprint2_project/test/IntegrationTestLedHalt.kt"><k>IntegrationTestLedHalt.kt</k></a>: Integration testing to ensure the correct behavior of the halt procedure inside the system using CoaP.</li>
+                        <li><a href="../sprint2_project/test/UnitTestLed.kt"><k>UnitTestLed.kt</k></a>: Specifically sends <i>updateLed(STATE)</i> messages to the led and verifies its status.</li>
                     </ol>
                 </dd>
             </div>
@@ -729,11 +722,11 @@ STATE := ON | OFF | BLINKING </code></pre>
                 <tr>
                     <td><center>System Distribution</center></td>
                     <td>Creating the .jar files and distributing the system.</td>
-                    <td><center>Gabriele Marconi<br/>Alex Gianelli<br/>Federico Andrucci</center></td>
+                    <td><center>Gabriele Marconi,<br/>Alex Gianelli,<br/>Federico Andrucci</center></td>
                 </tr>
                 <tr>
-                    <td><center>Sonar Testing</center></td>
-                    <td>Creating test routines for the sonar actor and the pipe system.</td>
+                    <td><center>Halt Testing</center></td>
+                    <td>Creating test routines for the halt behaviour.</td>
                     <td><center>Federico Andrucci</center></td>
                 </tr>
                 <tr>
@@ -743,7 +736,7 @@ STATE := ON | OFF | BLINKING </code></pre>
                 </tr>
                 <tr>
                     <td><center>Distribution Testing</center></td>
-                    <td>Creating test routines for the TCP connections.</td>
+                    <td>Testing different methods of distribution.</td>
                     <td><center>Gabriele Marconi</center></td>
                 </tr>
             </table>
