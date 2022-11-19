@@ -4,16 +4,16 @@ System sprint2_project_single_context
 Dispatch coapUpdate: coapUpdate(RESOURCE, VALUE)
 
 // Smartdevice
-Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Request storeRequest : storeRequest(MATERIAL, QUANTITY)		// MATERIAL := GLASS | PLASTIC
 Reply loadAccepted : loadAccepted(_)
 Reply loadRejected : loadRejected(_)
 
 // Wasteservice
-Request depositRequest : depositRequest(MATERIAL, QUANTITY)
+Request depositRequest : depositRequest(MATERIAL, QUANTITY)	// MATERIAL := GLASS | PLASTIC
 Reply pickupDone : pickupDone(RESULT)
 
 // Transporttrolley
-Request move : move(LOCATION)
+Request move : move(LOCATION)	// LOCATION := HOME | INDOOR | GLASSBOX | PLASTICBOX
 Reply moveDone : moveDone(ANSWER)
 
 // Trolleymover

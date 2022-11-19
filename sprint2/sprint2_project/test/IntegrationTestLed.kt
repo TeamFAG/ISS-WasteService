@@ -38,6 +38,8 @@ class IntegrationTestLed {
         CommSystemConfig.tracing = false
         SystemConfig.setTheConfiguration("SystemConfiguration")
 
+        CommUtils.delay(2000)
+
         obs = CoapObserver()
         obs.addContext("ctxwasteservice_test", Pair("localhost", 8050))
         obs.addActor("led", "ctxwasteservice_test")
@@ -72,9 +74,11 @@ class IntegrationTestLed {
 
         obs.waitForSpecificHistoryEntry("transporttrolley(arrived_HOME)")
 
+        println(obs.getCoapHistory())
+
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
-            "transporttrolley(handleDepositRequest)",
             "led(OFF)",
+            "transporttrolley(handleDepositRequest)",
             "transporttrolley(moving_INDOOR)",
             "led(BLINKING)",
             "transporttrolley(arrived_INDOOR)",

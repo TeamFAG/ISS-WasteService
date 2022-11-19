@@ -6,6 +6,7 @@ import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommSystemConfig
 import unibo.comm22.utils.CommUtils
 import ws.Material
+import kotlin.concurrent.thread
 import kotlin.test.assertTrue
 import kotlin.test.BeforeTest
 import kotlin.test.AfterTest
@@ -20,7 +21,7 @@ class IntegrationTestLedHalt {
         @BeforeClass
         @JvmStatic
         fun prepareTest() {
-            t = Thread {
+            t = thread {
                 it.unibo.ctxwasteservice_test.main()
             }
         }
@@ -37,9 +38,13 @@ class IntegrationTestLedHalt {
         CommSystemConfig.tracing = false
         SystemConfig.setTheConfiguration("SystemConfiguration")
 
+        CommUtils.delay(2000)
+
         obs = CoapObserver()
         obs.addContext("ctxwasteservice_test", Pair("localhost", 8050))
         obs.addActor("led", "ctxwasteservice_test")
+        obs.addActor("pather", "ctxwasteservice_test")
+        obs.addActor("transporttrolley", "ctxwasteservice_test")
         obs.createCoapConnection("led")
         obs.createCoapConnection("transporttrolley")
         obs.createCoapConnection("pather")
@@ -74,20 +79,24 @@ class IntegrationTestLedHalt {
         simulateHalt(connTcp, 1)
 
         obs.waitForSpecificHistoryEntry("transporttrolley(arrived_HOME)")
+        obs.removeHistoryEntry("transporttrolley  | created")
+        obs.removeHistoryEntry("pather  | created")
+
+        println(obs.getCoapHistory())
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
-            "transporttrolley(handleDepositRequest)",
             "led(OFF)",
+            "transporttrolley(handleDepositRequest)",
             "transporttrolley(moving_INDOOR)",
             "led(BLINKING)",
             "transporttrolley(arrived_INDOOR)",
             "led(ON)",
             "transporttrolley(pickupDone)",
-            "pather(halt_begin)",
-            "led(ON)",
-            "pather(halt_end)",
-            "led(BLINKING)",
             "transporttrolley(moving_GLASSBOX)",
+            "led(BLINKING)",
+            "pather(halt_begin)",
+            "pather(halt_end)",
+            "led(ON)",
             "led(BLINKING)",
             "transporttrolley(arrived_GLASSBOX)",
             "led(ON)",

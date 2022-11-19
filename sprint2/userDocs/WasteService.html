@@ -322,7 +322,7 @@
             </ol>          
         </div>
 
-        <h2>Requirements</h2>
+        <h2>Index</h2>
         <div class="remark">
             <a
                 href="https://github.com/anatali/issLab2022/blob/main/it.unibo.issLabStart/userDocs/Dispense/lezioni/html/TemaFinale22.html">
@@ -330,6 +330,8 @@
             </a>
             <br/>
             <a href="../../sprint0/userDocs/WasteService.html">Sprint0</a>
+            <br/>
+            <a href="../../sprint1/userDocs/WasteService.html">Sprint1</a>
         </div>
 
         <h2>Problem analysis</h2>
@@ -338,46 +340,41 @@
             <h3>Sonar interaction analysis</h3>
 
             The <k><b>SONAR</b></k> is a component (be it virtual or physical) that continously collects and sends data based on its surroundings.<br/>
-            As previoulsy mentioned in Sprint0, this project uses a Sonar that detects object proximity.<br/>
+            As previoulsy mentioned in <b>Sprint0</b>, this project uses a Sonar that detects object proximity.<br/>
             When the current distance is less than DLIMIT, the trolley must be HALTED. After that, as soon as it becomes higher than DLIMIT, the trolley
             must resume its routine.<br/>
 
-            The sonar's behaviour is exemplified by a script written by the customer: <a href="">sonarDataGen.kt</a>
+            The sonar's behaviour is exemplified by a script written by the customer: <k>sonarDataGen.kt</k>
 
 
             <h4>In what form does the trolley receive the information from the Sonar?</h4>
 
             <h5>RAW DATA: the trolley receives all detection data from the Sonar</h5>
-            With this strategy, all distances detected by the Sonar get sent to the trolley.<br/>
+            With this strategy, all distances detected by the Sonar get sent to the <ks>transporttrolley</ks>.<br/>
             He will then be the one to check every detection for a distance value that is less than DLIMIT.<br/><br/>
 
             This puts a lot of overload onto the trolley (i.e. <i>receiving a huge amount of data and filtering it</i>), that already has important responsibilities. 
 
-            <!-- immagine tipo con due attori -->
-
-            In a Qak script, the messages would be defined as:
+            In a <b>Qak</b> script, the messages would be defined as:
             <pre><code>distance: distance(V)</code></pre>
-            Where the payload V represents the protagonist of the "hit" game Cyberpunk2077 deceased December 18 2020. Amongus.<br/>
+            Where the payload V represents the distance in <k>centimiters</k>.<br/>
 
 
             <h5>FILTERED DATA: raw data is hidden from the trolley</h5>
-            This strategy implies the definition of a "middle man", an entitiy that filters the raw data from the Sonar and presents it to the transporttrolley.<br/>
-            By handling all the incoming data with a different entity, the transporttrolley only needs to know when a certain detection has gone under the predefined
+            This strategy implies the definition of a "middle man", an entitiy that filters the raw data from the Sonar and presents it to the <ks>transporttrolley</ks>.<br/>
+            By handling all the incoming data with a different entity, the <ks>transporttrolley</ks> only needs to know when a certain detection has gone under the predefined
             limit (DLIMIT) and when it has subsequently returned above it.<br/><br/>
             
-            This division of responsibility makes it so the trolley receives only two messages per HALT (one at the start and one at the end).
-
-            <!-- immagine tipo con due attori -->
-            <img src="">
+            This division of responsibility makes it so the trolley receives only two messages per <b>HALT</b> (one at the start and one at the end).
             <br/><br/>
-            In a Qak script, the messages would be defined as:
+            In a <b>Qak</b> script, the messages would be defined as:
             <pre><code>distance: distance(V)
 startHalt: startHalt(_)
 stopHalt: stopHalt(_)</code></pre>
             
 
             As for our model, this "middle man" has been temporarily implemented by the actor
-            <k>sonarfilter</k> whose function is to:
+            <ks>sonarfilter</ks> whose function is to:
             <ol>
                 <li>Receive raw data from a mock sonar (more info in the "other tools" section)</li>
                 <li>Filter the data by considering the DLIMIT.</li>
@@ -387,7 +384,7 @@ stopHalt: stopHalt(_)</code></pre>
 
             <h4>Customer's tools</h4>
 
-            In the project section of this Sprint, the sonarfilter actor will be substituted by
+            In the project section of this Sprint, the <ks>sonarfilter</ks> actor will be substituted by
             a more complete and detatched filtering system.<br/><br/>
 
             More specifically, we will use the <k>dataCleaner</k> and <k>distanceFilter</k> codedQakActors
@@ -398,24 +395,24 @@ stopHalt: stopHalt(_)</code></pre>
 
             <h4>HALT problem</h4>
             
-            The next issue is the implementation of the HALT functionality that is tied to the sonar interaction.<br/>
+            The next issue is the implementation of the <k>HALT</k> functionality that is tied to the sonar interaction.<br/>
             The objective here is to stop/start the movement of the robot based on the <i>startHalt</i> and <i>stopHalt</i> Events.<br/>
             <br/>
 
             <k><i><b>How can we modify our model to include this behavior?</b></i></k><br/><br/>
-            In the <a href="../../sprint1/userDocs/WasteService.html">Sprint1</a> we defined a complete model of the core service, which includes
+            In the <a href="../../sprint1/userDocs/WasteService.html">Sprint1</a> we defined a complete model of the <b>core service</b>, which includes
             the movement of our trolley/robot.<br/><br/>
 
-            Now, the goal is to stop the trolley either in the middle or in the beginning/end of the current path.
+            Now, the goal is to stop the trolley either in the middle or in the beginning/end of its current path.
             In essence, we have to consider all moves inside a path to properly stop the robot at the requested moment.<br/>
             <br/>
 
             <h5>Using trolleymover</h5>
 
-            The first strategy we tried to use was to modify the <ks>trolleymover</ks> actor by making him catch the <i>startHalt</i> and <i>stopHalt</i> events emitted by the <k>sonarFilter</k>
-            and consequently notify the <k>pather</k> as he is the one that manages the single moves.<br/>
+            The first strategy we tried to use was to modify the <ks>trolleymover</ks> actor by making him catch the <i>startHalt</i> and <i>stopHalt</i> events emitted by the <ks>sonarFilter</ks>
+            and consequently notify the <ks>pather</ks> as he is the one that manages the single moves.<br/>
 
-            So, the latter checked for the Halt messages:
+            So, the latter checked for the <i>Halt</i> messages:
             <ul>
                 <li><b>After every move inside the same path</b> to intercept <i>startHalt</i> 
                 during the robot's movement</li>
@@ -424,20 +421,20 @@ stopHalt: stopHalt(_)</code></pre>
             </ul>
 
             However, a new issue arises: <br/><k><i><b>How can an actor intercept an Event if he's already busy ?</b></i></k><br/><br/>
-            Our pather actor is constantly executing movement tasks, which could cause the loss of Events occurring
+            Our <ks>pather</ks> actor is constantly executing movement tasks, which could cause the loss of <k>Events</k> occurring
             in an unfortunate moment (as Event messages are not queued).<br/><br/>
             
             <h5>First interruption strategy</h5>
             In the beginning we opted to completely change the strategy by modifying both the <ks>pather</ks> and the <ks>trolleymover</ks>.<br/>
             This way, with a higher perspective of the trolley's movements given by <ks>trolleymover</ks>, we could handle
-            halt Events in situations where the trolley was already occupied (ex. <i>startHalt arrives while the trolley is executing a pickup action</i>).<br/>
+            halt <k>Events</k> in situations where the trolley was already occupied (ex. <i>startHalt arrives while the trolley is executing a pickup action</i>).<br/>
             <br/>
 
             This solution, while functional, also presented issues: <br/>
             <ul>
                 <li>The division of tasks between <ks>pather</ks> and <ks>trolleymover</ks> violated the <b>Single Responsibility Principle</b> as 
                 both actors were required to distinguish the trolley's state.</li>
-                <li>Many changes in the structure of our model were required, bringing consfusion to the internal structure of both actors</li>
+                <li>Many changes in the structure of our model were required, bringing confusion to the internal structure of both actors.</li>
             </ul>
 
             <div class="center">
@@ -446,7 +443,7 @@ stopHalt: stopHalt(_)</code></pre>
 
             <h5>Final interruption strategy</h5>
             To fix this, we reverted back to the initial strategy and added the new <ks>halteventhandler</ks> actor between <ks>sonarfilter</ks> and the <ks>pather</ks> whose only job is to intercept <i>startHalt</i>
-            and <i>stopHalt</i> messages and convert them into dispatches (i.e. the behavior of a proxy) to ensure they are properly queued and received.<br/>
+            and <i>stopHalt</i> messages and convert them into <k>dispatches</k> (i.e. the behavior of a proxy) to ensure they are properly queued and received.<br/>
 
             <div class="center">
                 <img src="./imgs/sonar-pather.png">
@@ -454,10 +451,10 @@ stopHalt: stopHalt(_)</code></pre>
 
             <h4>Other tools</h4>
 
-            Considering the purpose of the problem analysis, we decided to create a mock version of the sonar to easily test our new simplified
+            Considering the purpose of the <b>problem analysis</b>, we decided to create a mock version of the sonar to easily test our new simplified
             model.<br/><br/>
 
-            We did so by writing a simple script in python (<a href="">trigger_stop.py</a>) that connects to the system and generates/emits
+            We did so by writing a simple script in python (<a href="../sprint2_problem/resources/trigger_stop.py">trigger_stop.py</a>) that connects to the system and generates/emits
             events based on a certain interval [START, STOP]:
             <ol>
                 <li>Messages are sent with a descending distance value (from STOP to START)</li>
@@ -466,7 +463,7 @@ stopHalt: stopHalt(_)</code></pre>
 
             <h3>Led interaction analysis</h3>
 
-            As a reminder, the led can be found in 3 states, depending on the trolley's behavior:
+            As a reminder, the led can be found in <b>3 states</b>, depending on the trolley's behavior:
             <ul>
                 <li><k>ON</k>: if the trolley is stopped</li>
                 <li><k>OFF</k>: if the trolley is at HOME</li>
@@ -488,21 +485,18 @@ stopHalt: stopHalt(_)</code></pre>
             
             <h4>What component notifies the led of its desired state ?</h4>
             
-            <b>While analyzing this problem, we have come up with two distinct solutions:</b>
-
-            <br/>
+            <b>While analyzing this problem, we have come up with two distinct solutions:</b><br/>
+            
             <h5>Events are emitted by the trolley movement actors</h5>
 
-            The first solution implies that the <ks>trolleymover</ks> and <ks>pather</ks> actors would emit
-            events that described the state of the trolley after each <i>major change</i> in the robot's routine (es. "arrived at INDOOR", "moving to HOME", ecc.).<br/>
+            The first solution implies that the <ks>trolleymover</ks> and <ks>pather</ks> actors would emit events that described the 
+            state of the trolley after each <i>major change</i> in the robot's routine (ex. "arrived at INDOOR", "moving to HOME", ecc.).<br/>
 
             <pre><code>Event stopped: stopped(_)
 Event moving: moving(_)
 Event at_home: at_home(_)</code></pre>
 
-
-            However, the emission of events becomes strongly dependent to the logic of the actors, thus
-            the implementation is less adaptive.
+            However, the emission of events becomes strongly dependent to the logic of the actors, thus the implementation is less adaptive.
 
             <h5>The state of the trolley is observed using CoaP</h5>
 
@@ -521,7 +515,7 @@ Event updateLed: moving(STATE)</code></pre>
             <h4>Other tools</h4>
 
             To model a mock version of the Led we definded a simple new actor: <ks>Led</ks>.<br/>
-            After every new <i>updateLed</i>, it prints the new state od the led.<br/>
+            After every new <i>updateLed</i>, it prints the new led state.<br/>
 
             <br/>
             <h3>Current system architecture</h3>
@@ -554,8 +548,8 @@ Event updateLed: moving(STATE)</code></pre>
             and one concrete sonar (<a href="../sprint2_project/resources/wsSonar/sonarEmitterConcrete.kt">sonarEmitterConcrete</a>):
 
             <ul>
-                <li><b>sonarEmitterSimulator</b> is a mock version of the sonar that replaces the previoulsy defined trigger_stop.py.</li>
-                <li><b>sonarEmitterConcrete</b> reads the data from the real sonar by executing <a href="../sprint2_project/resources/wsSonar/SonarAlone.c">sonarAlone.c</a>
+                <li><ks>sonarEmitterSimulator</ks> is a mock version of the sonar that replaces the previoulsy defined trigger_stop.py.</li>
+                <li><ks>sonarEmitterConcrete</ks> reads the data from the real sonar by executing <a href="../sprint2_project/resources/wsSonar/SonarAlone.c">sonarAlone.c</a>
                         (already mentioned in the <b>Sprint0</b>) and emits it as a localStreamEvent.<br/>
                 <k><i>The objective is to run this CodedActor on the RaspberryPi to read real sonar data.</i></k>
                 </li>
@@ -563,11 +557,12 @@ Event updateLed: moving(STATE)</code></pre>
 
             <h4>Sonar Events Filtering</h4>
 
-            As a first decision, we chose to change how the sonar emissions are filtered and delivered in our system.<br/>
+            As a first decision, we chose to change <b>how the sonar emissions are filtered and delivered in our system.</b><br/>
             While in the problem analisys everything was handled by our <ks>sonarfilter</ks> actor (defined in the relative qak model), 
             we opted for a <k>reactive</k> approach by using <b>Actors as streams</b> (<b>pipe</b>).
             <br/><br/>
-            <!-- TODO: immagine p.i.p.e. (piedi irsuti per eiaculazione)-->
+            
+            <center><img src="./imgs/wssonarpipe.png"></center><br/>
             
             Infact, while filtering was necessary, adopting the use of normal standalone actors would have
             meant that each component of the filtering process would have sent <k>Events</k> to every actor in the context.<br/>
@@ -576,12 +571,12 @@ Event updateLed: moving(STATE)</code></pre>
             The first actor in the pipe will be either <ks>sonarEmitterSimulator</ks> or <ks>sonarEmitterConcrete</ks>, based on the configuration file.<br/>
             We have reporpoused these scripts given by the customer to achieve our goal:
             <ul>
-                <li><i><b>dataCleaner</i></b><br/>
+                <li><a href="../sprint2_project/resources/wsSonar/dataCleaner.kt"><b>wsdataCleaner</b></a><br/>
                     This CodedActor in the pipe defines an interval of distances [min, max]. If the recorded distance from our
                     emitter (real or mock) is outside that interval, the event is not propagated.<br/>
                     We do this to clean the incoming data and put less pressure on the following actors.
                 </li>
-                <li><i><b>distanceFilter</i></b><br/>
+                <li><a href="../sprint2_project/resources/wsSonar/distanceFilter.kt"><b>wsdistanceFilter</b></a><br/>
                     This particular CodedActor replaces our <ks>sonarfilter</ks> in the pipe by emitting the <i>startHalt</i> and <i>stopHalt</i>
                     events with the same logic.
                 </li>
@@ -589,7 +584,7 @@ Event updateLed: moving(STATE)</code></pre>
           
             <h4>Tools</h4>
             
-            <h5>sonarSystemBuilder</h5>
+            <h5><a href="../sprint2_project/resources/wsSonar/sonarSystemBuilder.kt">sonarSystemBuilder</a></h5>
             <dd>
                 This Kotlin object simply creates the pipe by building it based on the configuration of the system.<br/>
                 If we are running a simulation, it will put <ks>sonarEmitterSimulator</ks> as the first actor.<br/>
@@ -618,7 +613,7 @@ STATE := ON | OFF | BLINKING </code></pre>
             Which means that, in the final demo it will be possible to use both the simulated Led and the real 
             one on the raspberry.
 
-            The customer provided us with a library that helps us in doing so: <k>it.unibo.radarSystem22</k>.<br/>
+            The customer provided a library that helps us in doing so: <a href="https://github.com/anatali/issLab2022/tree/main/it.unibo.radarSystem22.domain"><k>it.unibo.radarSystem22.domain</k></a>.<br/>
             It exposes Factories and Interfaces that can create real/mock Sonars and Led components.<br/>
             <br/>
             In our system, we are just going to use the Led portion of this library:
@@ -628,19 +623,24 @@ STATE := ON | OFF | BLINKING </code></pre>
                 <li><b>ILed</b>: is an interface of the object created by the <b>DeviceFactory</b>. The methods <i>turnOn()</i> and
                 <i>turnOff()</i> are used to interact with the led.</li>
             </ul>
+
+            <div class="center">
+                <img src="./imgs/ILed.png" style="padding: 20px;">
+            </div>
+
             The previous tools are all used by our <ks>led</ks> actor, running in the raspberryPi context, to turn ON and OFF
             the real/mock led.
 
             <h4>LedUtils</h4>
 
-            <b>LedUtils</b> is a wrapper we created to implement some useful methods to manage the led creation and status using DeviceFactory and ILed:
+            <a href="../sprint2_project/resources/wsLed/LedUtils.kt"><b>LedUtils</b></a> is a wrapper we created to implement some useful methods to manage the led creation and status using DeviceFactory and ILed:
             <ul>
-                <li><b>fun createLed(simulation: Boolean, ledGui: Boolean)</b>: is used to instantiate an ILed and allows us to create the led depending
+                <li><i>fun createLed(simulation: Boolean, ledGui: Boolean)</i>: is used to instantiate an ILed and allows us to create the led depending
                     on the necessities using the DeviceFactory previously mentioned.</li>
-                <li><b>fun getLedStatusFromCoap(resource: String, value: String): LedState</b>: allows us to monitor a Coap Resource that gives the
+                <li><i>fun getLedStatusFromCoap(resource: String, value: String): LedState</i>: allows us to monitor a Coap Resource that gives the
                     informations we need to determine the current LedState.</li>
-                <li><b>turnOn()</b>: turns ON the ILed.</li>
-                <li><b>turnOff()</b>: turns OFF the ILed.</li>
+                <li><i>turnOn()</i>: turns ON the ILed.</li>
+                <li><i>turnOff()</i>: turns OFF the ILed.</li>
             </ul>
 
             <h3>System Distribution</h3>
@@ -650,23 +650,27 @@ STATE := ON | OFF | BLINKING </code></pre>
 
             We tested the Dockerized system with this configuration:
             <ul>
-                <li><b>PC</b>: a <ks><i>Docker-compose.yml</i></ks> file defined so that each context had its own container.</li>
-                <li><b>Raspberry</b>: a Docker-file to only run the <b><i>rasp</i></b> context.</li>
+                <li><b>PC</b>: a <ks><i><a href="../sprint2_project/docker/distributed/docker-compose.yml">Docker-compose.yml</a></i></ks> file defined so that each context had its own container.</li>
+                <li><b>Raspberry</b>: a <a href="../sprint2_project/docker/distributed/Dockerfile-ctxrasp">Docker-file</a> to only run the <b><i>rasp</i></b> context.</li>
             </ul>
 
             Unfortunately, connection problems external to our system prevented us from successfully distributing the system.<br/>
 
             <h4>System execution details</h4>
-            To run the whole distributed system, follow the instructions in our <a href="">run_system_guide.txt</a> file.
+            To run the whole distributed system, follow the instructions in our <a href="../sprint2_project/resources/HOW-TO-RUN.txt">HOW-TO-RUN.txt</a> file.
 
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
-                <img src="./imgs/" alt="demo" style="width:auto;height:450px;" class="center">
+                <img src="./imgs/sprint2_projectarch.png" alt="demo" style="width:900px;height:auto;" class="center">
                 </br>
                 <a href="../sprint2_project/src/demo_project.qak"><k>Demo QAK</k></a>
                 <h4>Bug Fixes</h4>
-                While testing our system we found that the basicrobot22 docker image (which included both the virtual environment and 
-                the basicrobot actor) caused some 
+                While testing our system we found that the <ks><i>basicrobot22</i></ks> docker image (which included both the <b>virtual environment</b> and 
+                the <b>basicrobot</b> actor) caused some mismatches between the virtual robot and the actual state the trolley inside our system's
+                <b>business logic</b>.<br/><br/>
+
+                To solve this issue, we moved the <ks>basicrobot</ks> actor from docker to our <k>ctxtrolley</k> qak context.<br/>
+                While the virtual environment would still be running on docker.<br/>
                 <br>
                 <h5>Test Plans</h5>
                 <dd>
