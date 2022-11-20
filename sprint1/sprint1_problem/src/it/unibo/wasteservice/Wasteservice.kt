@@ -16,31 +16,34 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
+				var occupiedGlass : Double = 0.0
+				var occupiedPlastic : Double = 0.0
 				var CurrentMaterial : ws.Material
 				var CurrentQuantity : Float
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	WASTESERVICE | Started... waiting for truck driver")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t10",targetState="handleTruckRequest",cond=whenRequest("storeRequest"))
+					 transition(edgeName="t10",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
 				}	 
 				state("idle") { //this:State
 					action { //it:State
-						println("	WASTESERVICE | idle...")
+						println("	WASTESERVICE | idle - waiting for store requests")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+					 transition(edgeName="t21",targetState="handleStoreRequest",cond=whenRequest("storeRequest"))
 				}	 
-				state("handleTruckRequest") { //this:State
+				state("handleStoreRequest") { //this:State
 					action { //it:State
+						println("$name in ${currentState.stateName} | $currentMsg")
 						if( checkMsgContent( Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), Term.createTerm("storeRequest(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
@@ -48,15 +51,35 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 												CurrentQuantity = payloadArg(1).toFloat()
 								println("	WASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 								if(  ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity)  
-								 ){answer("storeRequest", "loadAccepted", "loadAccepted(_)","wastetruck"   )  
-								 ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)  
+								 ){ ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)  
 								println("	WASTESERVICE | accepted request from truck driver")
-								forward("notifyDeposit", "notifyDeposit($CurrentMaterial,$CurrentQuantity)" ,"transporttrolley" ) 
+								request("depositRequest", "depositRequest($CurrentMaterial,$CurrentQuantity)" ,"transporttrolley" )  
 								println("	WASTESERVICE | notifying transporttrolley")
 								}
 								else
-								 {answer("storeRequest", "loadRejected", "loadRejected(_)","wastetruck"   )  
+								 {answer("storeRequest", "loadRejected", "loadRejected(_)","smartdevicemock"   )  
 								 println("	WASTESERVICE | rejected request from truck driver")
+								 }
+						}
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t22",targetState="handlePickupReply",cond=whenReply("pickupDone"))
+				}	 
+				state("handlePickupReply") { //this:State
+					action { //it:State
+						if( checkMsgContent( Term.createTerm("pickupDone(RESULT)"), Term.createTerm("pickupDone(RESULT)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								 var Res = payloadArg(0)  
+								if(  Res == "ok"  
+								 ){println("	WASTESERVICE | arrived pickupDone reply ok")
+								answer("storeRequest", "loadAccepted", "loadAccepted(_)","smartdevicemock"   )  
+								}
+								else
+								 {println("	WASTESERVICE | arrived pickupDone reply ko - FATAL ERROR")
+								 answer("storeRequest", "loadRejected", "loadRejected(_)","smartdevicemock"   )  
 								 }
 						}
 						//genTimer( actor, state )

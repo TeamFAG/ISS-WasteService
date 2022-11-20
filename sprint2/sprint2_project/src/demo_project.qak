@@ -5,16 +5,16 @@ System sprint2_project
 Dispatch coapUpdate: coapUpdate(RESOURCE, VALUE)
 
 // Smartdevice
-Request storeRequest : storeRequest(MATERIAL, QUANTITY)
+Request storeRequest : storeRequest(MATERIAL, QUANTITY)		// MATERIAL := GLASS | PLASTIC
 Reply loadAccepted : loadAccepted(_)
 Reply loadRejected : loadRejected(_)
 
 // Wasteservice
-Request depositRequest : depositRequest(MATERIAL, QUANTITY)
+Request depositRequest : depositRequest(MATERIAL, QUANTITY)	// MATERIAL := GLASS | PLASTIC
 Reply pickupDone : pickupDone(RESULT)
 
 // Transporttrolley
-Request move : move(LOCATION)
+Request move : move(LOCATION)		// LOCATION := HOME | INDOOR | GLASSBOX | PLASTICBOX
 Reply moveDone : moveDone(ANSWER)
 
 // Trolleymover
@@ -42,7 +42,6 @@ Event distance : distance(V)
 Dispatch trigger : trigger(_)
 
 // Led
-//Event updateLed : updateLed(STATE) 
 Dispatch updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
 Dispatch turnOnLed : turnOnLed(_)
 Dispatch turnOffLed : turnOffLed(_)
@@ -186,12 +185,12 @@ QActor transporttrolley context ctxtrolley {
 			updateResource [# "transporttrolley(pickupDone)" #]
 			println("\tTRANSPORTTROLLEY | pickup done")
 			
-			replyTo depositRequest with pickupDone : pickupDone(OK)
+			replyTo depositRequest with pickupDone : pickupDone(OK) caller==wasteservice
 		} else {
 			println("\tTRANSPORTTROLLEY | failed pickup")
 			[# Error = true #]
 			
-			replyTo depositRequest with pickupDone : pickupDone(NO)
+			replyTo depositRequest with pickupDone : pickupDone(NO) caller==wasteservice
 		}
 	}
 	Goto moveToBox if [# Error == false #] else errorHandler
@@ -333,7 +332,7 @@ QActor trolleymover context ctxtrolley {
 		updateResource [# "trolleymover(handlePathDone_$Loc, POS: ${pos.x}_${pos.y})" #]
 		println("\tTROLLEYMOVER | arrived to $Loc")
 		
-		replyTo move with moveDone : moveDone(OK)
+		replyTo move with moveDone : moveDone(OK) caller==transporttrolley
 	}
 	Goto idle
 	
@@ -342,7 +341,7 @@ QActor trolleymover context ctxtrolley {
 		updateResource [# "trolleymover(handlePathFail_$Loc)" #]
 		println("\tTROLLEYMOVER | path failed to $Loc")
 		
-		replyTo move with moveDone : moveDone(NO)
+		replyTo move with moveDone : moveDone(NO) caller==transporttrolley
 	}
 	Goto idle
 }
@@ -384,7 +383,7 @@ QActor pather context ctxtrolley {
 			
 	
 	State handleStopPath {
-		replyTo stopPath with stopAck : stopAck(_)
+		replyTo stopPath with stopAck : stopAck(_) caller==trolleymover
 	}
 	Goto init
 	
@@ -429,14 +428,14 @@ QActor pather context ctxtrolley {
 	
 	State endWorkOk {
 		println("\tPATHEXECUTOR | path done")
-		replyTo doPath with doPathDone : doPathDone(OK)
+		replyTo doPath with doPathDone : doPathDone(OK) caller==trolleymover
 	}
 	Goto init
 	
 	State endWorkKo {
 		[# var PathStillTodo = ws.pathing.pathut.getPathTodo() #]
 		println("\tPATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
-		replyTo doPath with doPathFail : doPathFail($PathStillTodo)
+		replyTo doPath with doPathFail : doPathFail($PathStillTodo) caller==trolleymover
 	}
 	Transition t3 whenEvent alarm -> handleAlarm
 }
@@ -526,6 +525,8 @@ QActor led context ctxrasp {
 	State handleEvent {
 		onMsg(updateLed : updateLed(STATE)) {
 			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
+			
+			updateResource [# "led($LedState)" #]
 		}
 	}
 	Goto blinkLedOn if [# LedState.equals(ws.LedState.BLINKING) #] else notBlink 
@@ -534,7 +535,6 @@ QActor led context ctxrasp {
 	Goto on if [# LedState.equals(ws.LedState.ON) #] else off 
 	
 	State on {
-		updateResource [# "led(ON)" #]
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led ON")
 			wsLed.LedUtils.turnOn()
@@ -543,7 +543,6 @@ QActor led context ctxrasp {
 	Transition t0 whenMsg updateLed -> handleEvent
 	
 	State off {
-		updateResource [# "led(OFF)" #]
 		[#
 			wsLed.LedUtils.printLedState("\tLED | led OFF")
 			wsLed.LedUtils.turnOff()
@@ -552,10 +551,6 @@ QActor led context ctxrasp {
 	Transition t0 whenMsg updateLed -> handleEvent
 	
 	State blinkLedOn {
-		if [# !LedState.equals(ws.LedState.BLINKING) #] {
-			updateResource [# "led(BLINKING)" #]	
-		}
-		
 		[# 
 			wsLed.LedUtils.printLedState("\tLED | led Blink")
 			wsLed.LedUtils.turnOn()
@@ -719,7 +714,7 @@ QActor basicrobot context ctxtrolley {
  		run unibo.robot.robotSupport.move( "h" )  //stop the real robot already done ???
 		updateResource [# "stepDone($StepTime)" #]
    		//emit info : info( stepdone($StepTime) )
-   		replyTo step with stepdone : stepdone(ok)
+   		replyTo step with stepdone : stepdone(ok) caller==pather
 		println("basicrobot | stepDone reply done")
   	}
 	Goto work  
@@ -736,7 +731,7 @@ QActor basicrobot context ctxtrolley {
 			run unibo.robot.robotSupport.move( "h" ) 
  		updateResource [# "stepFail($Duration)" #] 
  		//emit info : info( stepFail($Duration) )
- 		replyTo step with stepfail : stepfail($Duration, obst)
+ 		replyTo step with stepfail : stepfail($Duration, obst) caller==pather
     }
 	Goto work
 	

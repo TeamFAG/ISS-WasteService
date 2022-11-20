@@ -78,6 +78,12 @@ class CoapObserver : CoapHandler {
         }
     }
 
+    fun removeHistoryEntry(entry: String) {
+        lock.withLock {
+            coapHistory.remove(coapHistory.find { en -> en.contains(entry) })
+        }
+    }
+
     fun filterDefinitelyHistory(entry: String) {
         lock.withLock {
             coapHistory = coapHistory.filter { e -> e.contains("led") } as MutableList<String>

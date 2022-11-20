@@ -15,147 +15,118 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
-		
-					var CarriedQuantity : Double = 0.0
-					var CarriedMaterialType = ws.Material.PLASTIC
+		 
+				lateinit var Mat: ws.Material
+				var Qty: Float
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANPOSRTTROLLEY | init at HOME")
-						 
-									var Pos = ws.TrolleyPosition.HOME
-									var Status = ws.TrolleyStatus.IDLE 
-						emit("updatePosition", "updatePosition($Pos)" ) 
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
+						println("	TRANSPORTTROLLEY | started...")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t03",targetState="goIndoor",cond=whenDispatch("notifyDeposit"))
+					 transition( edgeName="goto",targetState="idle", cond=doswitch() )
 				}	 
-				state("goIndoor") { //this:State
+				state("idle") { //this:State
 					action { //it:State
-						
-									var Move = "w"
-									var Status = ws.TrolleyStatus.MOVING
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | going to INDOOR port")
-						if( checkMsgContent( Term.createTerm("notifyDeposit(MATERIAL,QUANTITY)"), Term.createTerm("notifyDeposit(MATERIAL,QUANTITY)"), 
+						println("	TRANSPORTROLLEY | waiting for requests...")
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t03",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
+				}	 
+				state("handleDepositRequest") { //this:State
+					action { //it:State
+						updateResourceRep( "transporttrolley(handleDepositRequest)"  
+						)
+						println("	TRANSPORTTROLLEY | moving to indoor")
+						updateResourceRep( "transporttrolley(moving_Indoor)"  
+						)
+						delay(1000) 
+						println("	TRANSPORTTROLLEY | arrived to indoor")
+						updateResourceRep( "transporttrolley(arrived_Indoor)"  
+						)
+						if( checkMsgContent( Term.createTerm("depositRequest(MATERIAL,QUANTITY)"), Term.createTerm("depositRequest(MATERIAL,QUANTITY)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								
-												CarriedMaterialType = ws.Material.valueOf(payloadArg(0))
-												CarriedQuantity = payloadArg(1).toDouble() 
+								 Mat = ws.Material.valueOf(payloadArg(0))  
+								 Qty = payloadArg(1).toFloat()  
+								answer("depositRequest", "pickupDone", "pickupDone(ok)","wasteservice"   )  
 						}
-						forward("cmd", "cmd(w)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t14",targetState="indoor",cond=whenReply("stepdone"))
-					transition(edgeName="t15",targetState="goIndoor",cond=whenReply("stepfail"))
+					 transition( edgeName="goto",targetState="moveToGlassBox", cond=doswitchGuarded({ Mat == ws.Material.GLASS  
+					}) )
+					transition( edgeName="goto",targetState="moveToPlasticBox", cond=doswitchGuarded({! ( Mat == ws.Material.GLASS  
+					) }) )
 				}	 
-				state("indoor") { //this:State
+				state("moveToPlasticBox") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | At INDOOR port, picking up $CarriedQuantity KG of $CarriedMaterialType")
-						 
-									var Pos = ws.TrolleyPosition.INDOOR 
-									var Status = ws.TrolleyStatus.PICKUP	
-						emit("updatePosition", "updatePosition($Pos)" ) 
-						emit("updateTrolleyStatus", "updateTrolleryStatus($Status)" ) 
+						println("	TRANSPORT TROLLEY | moving to PlasticBox")
+						updateResourceRep( "transporttrolley(moving_PlasticBox)"  
+						)
+						delay(1000) 
+						println("	TRANSPORT TROLLEY | arrived to PlasticBox")
+						updateResourceRep( "transporttrolley(arrived_PlasticBox)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="goBox", cond=doswitch() )
+					 transition( edgeName="goto",targetState="doDeposit", cond=doswitch() )
 				}	 
-				state("goBox") { //this:State
+				state("moveToGlassBox") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | going to $CarriedMaterialType box")
-						if(  CarriedMaterialType == ws.Material.PLASTIC  
-						 ){forward("cmd", "cmd(w)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
-						}
-						else
-						 {forward("cmd", "cmd(w)" ,"basicrobot" ) 
-						 request("step", "step(700)" ,"basicrobot" )  
-						 }
-						 
-									var Status = ws.TrolleyStatus.MOVING	
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
+						println("	TRANSPORT TROLLEY | moving to GlassBox")
+						updateResourceRep( "transporttrolley(moving_GlassBox)"  
+						)
+						delay(1000) 
+						println("	TRANSPORT TROLLEY | arrived to GlassBox")
+						updateResourceRep( "transporttrolley(arrived_GlassBox)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t36",targetState="box",cond=whenReply("stepdone"))
-					transition(edgeName="t37",targetState="goBox",cond=whenReply("stepfail"))
+					 transition( edgeName="goto",targetState="doDeposit", cond=doswitch() )
 				}	 
-				state("box") { //this:State
+				state("doDeposit") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | At $CarriedMaterialType box, unloading $CarriedQuantity KG of $CarriedMaterialType")
-						 
-									var Pos = if(CarriedMaterialType.equals(ws.Material.PLASTIC)) ws.TrolleyPosition.PLASTICBOX else ws.TrolleyPosition.GLASSBOX
-									var Status = ws.TrolleyStatus.DEPOSIT 
-						emit("updatePosition", "updatePosition($Pos)" ) 
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
-						delay(250) 
-						emit("updateWeight", "updateWeight(_)" ) 
+						println("	TRANSPORT TROLLEY | doing the deposit")
+						delay(500) 
+						println("	TRANSPORT TROLLEY | deposit done")
+						updateResourceRep( "transporttrolley(depositDone)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="goHome", cond=doswitch() )
+					 transition( edgeName="goto",targetState="endRequest", cond=doswitch() )
 				}	 
-				state("goHome") { //this:State
+				state("endRequest") { //this:State
 					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | going back to HOME")
-						
-									var Status = ws.TrolleyStatus.MOVING
-						forward("cmd", "cmd(w)" ,"basicrobot" ) 
-						request("step", "step(500)" ,"basicrobot" )  
-						emit("updateTrolleyStatus", "updateTrolleyStatus($Status)" ) 
+						println("	TRANSPORTTROLLEY | moving back to home")
+						updateResourceRep( "transporttrolley(moving_Home)"  
+						)
+						delay(1000) 
+						println("	TRANSPORTTROLLEY | arrived to home")
+						updateResourceRep( "transporttrolley(arrived_Home)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t58",targetState="home",cond=whenReply("stepdone"))
-					transition(edgeName="t59",targetState="goHome",cond=whenReply("stepfail"))
-				}	 
-				state("home") { //this:State
-					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | at HOME")
-						 var Pos = ws.TrolleyPosition.HOME  
-						emit("updatePosition", "updatePosition($Pos)" ) 
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-					 transition( edgeName="goto",targetState="done", cond=doswitch() )
-				}	 
-				state("done") { //this:State
-					action { //it:State
-						println("$name in ${currentState.stateName} | $currentMsg")
-						println("	TRANSPORTTROLLEY | done")
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-					 transition( edgeName="goto",targetState="init", cond=doswitch() )
+					 transition(edgeName="t14",targetState="handleDepositRequest",cond=whenRequest("depositRequest"))
 				}	 
 			}
 		}

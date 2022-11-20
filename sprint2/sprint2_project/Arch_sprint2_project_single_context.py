@@ -45,8 +45,7 @@ with Diagram('sprint2_project_single_contextArch', show=False, outformat='png', 
      sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> pather
      transporttrolley >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
      pather >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
-     trolleystateobserver >> Edge( xlabel='updateLed', **eventedgeattr, fontcolor='red') >> sys
-     sys >> Edge(color='red', style='dashed', xlabel='updateLed', fontcolor='red') >> led
+     trolleystateobserver >> Edge(color='blue', style='solid', xlabel='updateLed', fontcolor='blue') >> led
      sys >> Edge(color='red', style='dashed', xlabel='startHalt', fontcolor='red') >> halteventshandler
      halteventshandler >> Edge(color='blue', style='solid', xlabel='halt', fontcolor='blue') >> pather
      sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> halteventshandler

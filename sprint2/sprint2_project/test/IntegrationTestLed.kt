@@ -6,6 +6,7 @@ import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommSystemConfig
 import unibo.comm22.utils.CommUtils
 import ws.Material
+import kotlin.concurrent.thread
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.assertTrue
@@ -20,7 +21,7 @@ class IntegrationTestLed {
         @BeforeClass
         @JvmStatic
         fun prepareTest() {
-            t = Thread {
+            t = thread {
                 it.unibo.ctxwasteservice_test.main()
             }
         }
@@ -37,11 +38,14 @@ class IntegrationTestLed {
         CommSystemConfig.tracing = false
         SystemConfig.setTheConfiguration("SystemConfiguration")
 
+        CommUtils.delay(2000)
+
         obs = CoapObserver()
         obs.addContext("ctxwasteservice_test", Pair("localhost", 8050))
         obs.addActor("led", "ctxwasteservice_test")
-        obs.createCoapConnection("led")
+        obs.addActor("transporttrolley", "ctxwasteservice_test")
         obs.createCoapConnection("transporttrolley")
+        obs.createCoapConnection("led")
 
         CommUtils.delay(2000)
 
@@ -60,8 +64,8 @@ class IntegrationTestLed {
     }
 
     @Test
-    fun testLedOn() {
-        val answer = simulateRequest(connTcp, Material.PLASTIC, 5F)
+    fun integrationTestWithLed() {
+        val answer = simulateRequest(connTcp, Material.GLASS, 5F)
 
         ColorsOut.outappl("Answer: $answer", ColorsOut.GREEN)
 
@@ -70,13 +74,24 @@ class IntegrationTestLed {
 
         obs.waitForSpecificHistoryEntry("transporttrolley(arrived_HOME)")
 
+        println(obs.getCoapHistory())
+
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
+            "led(OFF)",
+            "transporttrolley(handleDepositRequest)",
+            "transporttrolley(moving_INDOOR)",
+            "led(BLINKING)",
+            "transporttrolley(arrived_INDOOR)",
+            "led(ON)",
+            "transporttrolley(pickupDone)",
+            "transporttrolley(moving_GLASSBOX)",
+            "led(BLINKING)",
+            "transporttrolley(arrived_GLASSBOX)",
+            "led(ON)",
+            "transporttrolley(depositDone_GLASS)",
+            "led(BLINKING)",
+            "transporttrolley(arrived_HOME)",
+            "led(OFF)",
         )))
     }
 

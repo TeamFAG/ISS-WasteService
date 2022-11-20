@@ -6,9 +6,8 @@ import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommSystemConfig
 import unibo.comm22.utils.CommUtils
 import ws.LedState
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.assertTrue
+import kotlin.concurrent.thread
+import kotlin.test.*
 
 class UnitTestLed {
     private lateinit var obs: CoapObserver
@@ -20,7 +19,7 @@ class UnitTestLed {
         @BeforeClass
         @JvmStatic
         fun prepareTest() {
-            t = Thread {
+            t = thread {
                 it.unibo.ctxwasteservice_test.main()
             }
         }
@@ -82,7 +81,11 @@ class UnitTestLed {
 
         obs.waitForSpecificHistoryEntry("led(BLINKING)")
 
+        CommUtils.delay(1000)
+
         simulateForward(connTcp, LedState.OFF)
+
+        obs.waitForSpecificHistoryEntry("led(OFF)")
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "led(BLINKING)",
@@ -96,7 +99,7 @@ class UnitTestLed {
         try {
             connTcp.forward(dispatch)
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
     }
 }
