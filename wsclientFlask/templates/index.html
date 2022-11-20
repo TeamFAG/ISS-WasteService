@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+</head>
+<body>
+<h1>This is webSocket client</h1>
+
+<form action="/sendRequest" method="post">
+    <label for="material">Material</label>
+    <select id="material" name="material">
+        <option value="PLASTIC">PLASTIC</option>
+        <option value="GLASS">GLASS</option>
+    </select>
+    <br/><br/><label for="weight">Weight Input</label>
+    <input id="weight" name="weight" type="text"><br/><br/>
+
+    <label for="textarea">Log</label><br/>
+    <textarea name="textarea" id="textarea" rows="15" cols="50" readonly="true">{{log}}</textarea><br/>
+    <button name="sendRequest" type="submit">Send Request</button>
+</form>
+</body>
+</html>
+
+<!-- <input id="log" name="weight" type="text" 
+    readonly="true" style="height: 200px; width: 
+    300px; overflow: scroll;" value={{log}}><br/><br/>-->
