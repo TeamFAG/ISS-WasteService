@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>WasteServiceGui - Demo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url('./imgs/bg.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed; 
+      background-size: cover;
+    }
+
+    h2 {
+      color: rgb(255, 255, 255);
+    }
+
+    /* Style the header */
+    .header {
+      padding: 30px;
+      text-align: center;
+      font-size: 35px;
+    }
+
+    /* Container for flexboxes */
+    .row {
+      display: -webkit-flex;
+      display: flex;
+    }
+
+    /* Create three equal columns that sits next to each other */
+    .column {
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      padding: 10px;
+      height: 300px;
+      /* Should be removed. Only for demonstration */
+    }
+
+    /* Style the footer */
+    .footer {
+      background-color: #f1f1f1;
+      padding: 10px;
+      text-align: center;
+    }
+
+    /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+    @media (max-width: 600px) {
+      .row {
+        -webkit-flex-direction: column;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h2>WasteServiceSIUM</h2>
+  </div>
+
+  <div class="row">
+    <div class="column"><center><img src="./imgs/Bar.png" alt="LeftSideBar" style="width:300px;height:600px;"></center></div>
+    <div class="column"><center><img src="./imgs/Log.png" alt="Center" style="width:600px;height:400px;"></center></div>
+    <div class="column"><center><img src="./imgs/Bar.png" alt="LeftSideBar" style="width:300px;height:600px;"></center></div>
+  </div>
+
+  <!--
+  <div class="footer">
+    <p>Footer</p>
+  </div>
+  -->
+  
+
+</body>
+
+</html>
