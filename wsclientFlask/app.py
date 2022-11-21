@@ -4,10 +4,11 @@ from truck import *
 
 app = Flask(__name__)
 message="msg(in,request,react,echo,in(M,Q),1)"
+dispatch = "msg(echo,dispatch,react,echo,echo(M),1)"
 
 @app.route('/')
 def index():
-    connect(8000)
+    connect(8090)
     return render_template('index.html')
 
 @app.route('/sendRequest', methods=['POST'])

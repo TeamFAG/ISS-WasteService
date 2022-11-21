@@ -3,7 +3,7 @@
 import socket
 import time
 
-port = 8090
+port = 8050 
 host = 'localhost' ##'192.168.1.62'
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -28,7 +28,7 @@ def forward( message ) :
     sock.send(byt)
     ##receiveALine()
 
-def send_request( message ) :
+def request( message ) :
     print("request ", message)
     msg = message + "\n"
     byt=msg.encode()    #required in Python3
@@ -76,10 +76,10 @@ def console() :
     v =  str( input() )
     print("INPUT" , v  )    
     while( v != "q"  ) :
-        send_request(  depositrequest.replace("K", v) )
+        request(  depositrequest.replace("K", v) )
         v = str(input() )      
 
 ###########################################    
-#connect(port)
-#console()
-##terminate()  
+connect(port)
+console()
+terminate()  
