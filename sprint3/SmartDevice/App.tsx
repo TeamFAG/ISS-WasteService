@@ -10,20 +10,38 @@
 
 import {NavigationContainer, NavigationContext} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {type PropsWithChildren} from 'react';
+import React, {createContext, useState, type PropsWithChildren} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import OptionsProvider from './src/context/OptionsContext';
 import {RootStackParams} from './src/RootStackParams';
 import HomeView from './src/views/HomeView';
 import TruckView from './src/views/TruckView';
 
+const OptionsContext = createContext({});
+
+interface Options {
+  port: number;
+}
+
+const options = {
+  port: 8050,
+  host: 'localhost',
+  localAddress: '127.0.0.1',
+  reuseAddress: true,
+};
+
 const App = () => {
+  const [connectionOptions, setConnectionOptions] = useState(options);
+
   return (
-    <NavigationContainer>
-      <RootStack.Navigator initialRouteName="Home">
-        <RootStack.Screen name="Home" component={HomeView} />
-        <RootStack.Screen name="Truck" component={TruckView} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <OptionsProvider>
+      <NavigationContainer>
+        <RootStack.Navigator initialRouteName="Home">
+          <RootStack.Screen name="Home" component={HomeView} />
+          <RootStack.Screen name="Truck" component={TruckView} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </OptionsProvider>
   );
 };
 
