@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import TcpSockets from 'react-native-tcp-socket';
 
 const useConnection = () => {
   const [connection, setConnection] = useState();
