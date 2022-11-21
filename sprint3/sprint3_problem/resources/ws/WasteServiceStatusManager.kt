@@ -24,4 +24,10 @@ object WasteServiceStatusManager {
         ColorsOut.outappl("Plastic: ${storedPlastic}", ColorsOut.YELLOW)
         ColorsOut.outappl("Glass: ${storedGlass}", ColorsOut.YELLOW)
     }
+
+    fun getStoredQuantity(material: Material): Float {
+        if(material.equals(Material.PLASTIC))
+            return storedPlastic
+        else return storedGlass
+    }
 }
