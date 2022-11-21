@@ -42,12 +42,14 @@ Dispatch trigger : trigger(_)
 
 // Led
 Dispatch updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
-Dispatch turnOnLed : turnOnLed(_)
-Dispatch turnOffLed : turnOffLed(_)
 
 // HaltEventsHandler
 Dispatch halt : halt(_)
 Dispatch resume : resume(_)
+
+// GUI
+Dispatch updateMaterial : updateMaterial(MATERIAL, QUANTITY) // MATERIAL := GLASS | PLASTIC
+Dispatch updateRobotState : updateRobotState(STATE) // String representing current task/location
 
 Context ctxwasteservice_test ip[host="localhost" port=8050]
 
@@ -87,11 +89,13 @@ QActor wasteservice context ctxwasteservice_test {
 			if [# ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity) #] {
 				[#
 					ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)
+					TotalQuantity = ws.WasteServiceStatusManager.getStoredQuantity(CurrentMaterial)
 				#]
 								
 				updateResource [# "wasteservice(Plastic: ${ws.WasteServiceStatusManager.storedPlastic})" #]
 				updateResource [# "wasteservice(Glass: ${ws.WasteServiceStatusManager.storedGlass})" #]
 				request transporttrolley -m depositRequest : depositRequest($CurrentMaterial, $CurrentQuantity)
+				forward wsgui -m updateMaterial : updateMaterial($CurrentMaterial, $TotalQuantity)
 				
 				println("\tWASTESERVICE | sended depositRequest to trolley")
 			} else {
@@ -151,7 +155,6 @@ QActor transporttrolley context ctxwasteservice_test {
 	
 	State handleDepositRequest {
 		updateResource [# "transporttrolley(handleDepositRequest)" #]
-			
 			onMsg(depositRequest : depositRequest(MATERIAL, QUANTITY)) {
 				[#
 					Mat = ws.Material.valueOf(payloadArg(0))
@@ -159,6 +162,7 @@ QActor transporttrolley context ctxwasteservice_test {
 				#]
 			}
 			
+			forward wsgui -m updateRobotState: updateRobotState("moving to INDOOR")
 			updateResource [# "transporttrolley(moving_INDOOR)" #]
 			println("\tTRANSPORTTROLLEY | moving to INDOOR")
 			
@@ -174,6 +178,7 @@ QActor transporttrolley context ctxwasteservice_test {
 		}
 		
 		if [# Answer == "OK" #] {
+			forward wsgui -m updateRobotState: updateRobotState("INDOOR - Pickup")
 			updateResource [# "transporttrolley(arrived_INDOOR)" #]
 			println("\tTRANSPORTTROLLEY | arrived to INDOOR")
 			
@@ -184,6 +189,7 @@ QActor transporttrolley context ctxwasteservice_test {
 			
 			replyTo depositRequest with pickupDone : pickupDone(OK)
 		} else {
+			forward wsgui -m updateRobotState: updateRobotState("INDOOR - Pickup FAIL")
 			println("\tTRANSPORTTROLLEY | failed pickup")
 			[# Error = true #]
 			
@@ -195,6 +201,7 @@ QActor transporttrolley context ctxwasteservice_test {
 	State moveToBox {
 		[# Loc = ws.utils.getLocationFromMaterialType(Mat) #]
 		
+		forward wsgui -m updateRobotState: updateRobotState("moving to $Loc")
 		updateResource [# "transporttrolley(moving_$Loc)" #]
 		println("\tTRANSPORTTROLLEY | moving to $Loc")
 		
@@ -210,9 +217,11 @@ QActor transporttrolley context ctxwasteservice_test {
 		}
 		
 		if [# Answer == "OK" #] {
+			forward wsgui -m updateRobotState: updateRobotState("$Loc")
 			updateResource [# "transporttrolley(arrived_$Loc)" #]
 			println("\tTRANSPORTTROLLEY | arrived to $Loc")
 		} else {
+			forward wsgui -m updateRobotState: updateRobotState("$Loc - FAILED")
 			println("\tTRANSPORTTROLLEY | failed $Loc")
 			[# Error = true #]			
 		}
@@ -220,6 +229,7 @@ QActor transporttrolley context ctxwasteservice_test {
 	Goto doDeposit
 	
 	State doDeposit {
+		forward wsgui -m updateRobotState: updateRobotState("Deposit")
 		println("\tTRANSPORTTROLLEY | doing the deposit of $Qty KG of $Mat")
 		delay 1000
 	}
@@ -228,6 +238,7 @@ QActor transporttrolley context ctxwasteservice_test {
 	State depositDone {
 		[# Loc = "HOME" #]
 		
+		forward wsgui -m updateRobotState: updateRobotState("moving to $Loc")
 		updateResource [# "transporttrolley(depositDone_$Mat)" #]
 		println("\tTRANSPORTTROLLEY | deposit done of $Qty KG of $Mat")
 				
@@ -237,6 +248,7 @@ QActor transporttrolley context ctxwasteservice_test {
 				  whenReply moveDone -> endWork
 	
 	State endWork {
+		forward wsgui -m updateRobotState: updateRobotState("HOME - Idle")
 		updateResource [# "transporttrolley(arrived_HOME)" #]
 		println("\tTRANSPORTTROLLEY | arrived to HOME")
 	}
@@ -407,12 +419,14 @@ QActor pather context ctxwasteservice_test {
 				  whenRequest stopPath -> handleStopPath
 				  
 	State handleHalt {
+		forward wsgui -m updateRobotState: updateRobotState("HALT")
 		println("\tPATHEXECUTOR | stop...")
 		updateResource [# "pather(halt_begin)" #]
 	}
 	Transition t1 whenMsg resume -> resumeFromHalt
 	
 	State resumeFromHalt {
+		forward wsgui -m updateRobotState: updateRobotState("RESUME")
 		println("\tPATHEXECUTOR | resuming from halt")
 		updateResource [# "pather(halt_end)" #]
 	}
@@ -467,6 +481,7 @@ QActor trolleystateobserver context ctxwasteservice_test {
 			
 			if [# !CurrentState.equals(LedState) #] {
 				forward led -m updateLed : updateLed($LedState)
+				forward wsgui -m updateLed : updateLed($LedState)
 				[# CurrentState = LedState #]
 			}
 		}
@@ -492,32 +507,12 @@ QActor led context ctxwasteservice_test {
 			wsLed.LedUtils.createLed(Simulation, Simulation)
 		#]
 	}
-	Transition t0 whenMsg updateLed -> handleEvent
-				  whenMsg turnOnLed -> turnOnMsg
-				  whenMsg turnOffLed -> turnOffMsg
+	Goto idle
 				  
 	State idle {
 		
 	}
 	Transition t0 whenMsg updateLed -> handleEvent
-				  whenMsg turnOnLed -> turnOnMsg
-				  whenMsg turnOffLed -> turnOffMsg
-	
-	State turnOnMsg {
-		[#
-			wsLed.LedUtils.printLedState("\tLED | LED ON")
-			wsLed.LedUtils.turnOn()
-		#]
-	}
-	Goto idle
-	
-	State turnOffMsg {
-		[#
-			wsLed.LedUtils.printLedState("\tLED | LED OFF")
-			wsLed.LedUtils.turnOff()
-		#]
-	}
-	Goto idle
 	
 	State handleEvent {
 		onMsg(updateLed : updateLed(STATE)) {
@@ -612,6 +607,77 @@ QActor halteventshandler context ctxwasteservice_test {
 		
 		forward pather -m resume : resume(_)
 	}	
+	Goto idle
+}
+//-----------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
+
+QActor wsgui context ctxwasteservice_test {
+	[# 
+		var LedState = ws.LedState.OFF
+		var GlassQty: Float = 0F
+		var PlasticQty: Float = 0F
+		var RobotState: String = "HOME - Idle"
+	#]
+	
+	State init initial {
+		println("\tWSGUI | started.")
+	}
+	Goto idle
+	
+	State idle {
+		
+	}
+	Transition t0 whenMsg updateLed -> updLedHandler
+				  whenMsg updateMaterial -> updMaterialHandler
+				  whenMsg updateRobotState -> updRobotHandler
+	
+	State updLedHandler {
+		onMsg(updateLed : updateLed(STATE)) {
+			[# LedState = ws.LedState.valueOf(payloadArg(0)) #]
+			
+			updateResource [# "led($LedState)" #]
+		}
+	}
+	Goto idle
+	
+	State updMaterialHandler {
+		onMsg(updateMaterial : updateMaterial(MATERIAL, QUANTITY)) {
+			[#
+				CurrentMaterial = ws.Material.valueOf(payloadArg(0))
+				CurrentQuantity = payloadArg(1).toFloat()
+			#]
+			
+			if [# CurrentMaterial.equals(ws.Material.GLASS) #] {
+				[#
+					GlassQty = CurrentQuantity
+				#]
+								
+				updateResource [# "WSGUI | GLASS UPDATE - $GlassQty" #]
+				println("\tWSGUI | GLASS UPDATE - $GlassQty")
+			} else {
+				[#
+					PlasticQty = CurrentQuantity
+				#]
+								
+				updateResource [# "WSGUI | PLASTIC UPDATE - $PlastixQty" #]
+				println("\tWSGUI | PLASTIC UPDATE - $PlastixQty")
+			}
+		}
+	}
+	Goto idle
+	
+	State updRobotHandler {
+		onMsg(updateRobotState : updateRobotState(STATE)) {
+			[#
+				RobotState = payloadArg(0).toString()
+			#]
+			
+			updateResource [# "WSGUI | ROBOT UPDATE - $RobotState" #]
+			println("\tWSGUI | ROBOT UPDATE - $RobotState")
+		}
+	} 
 	Goto idle
 }
 

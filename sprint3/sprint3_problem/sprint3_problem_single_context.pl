@@ -14,6 +14,7 @@ context(ctxwasteservice_test, "localhost",  "TCP", "8050").
   qactor( led, ctxwasteservice_test, "it.unibo.led.Led").
   qactor( sonar, ctxwasteservice_test, "it.unibo.sonar.Sonar").
   qactor( halteventshandler, ctxwasteservice_test, "it.unibo.halteventshandler.Halteventshandler").
+  qactor( wsgui, ctxwasteservice_test, "it.unibo.wsgui.Wsgui").
   qactor( datacleaner, ctxwasteservice_test, "rx.dataCleaner").
   qactor( distancefilter, ctxwasteservice_test, "rx.distanceFilter").
   qactor( basicrobot, ctxwasteservice_test, "it.unibo.basicrobot.Basicrobot").

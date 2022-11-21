@@ -43,6 +43,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 													LedState = wsLed.LedUtils.getLedStatusFromCoap(Resource, Value)
 								if(  !CurrentState.equals(LedState)  
 								 ){forward("updateLed", "updateLed($LedState)" ,"led" ) 
+								forward("updateLed", "updateLed($LedState)" ,"wsgui" ) 
 								 CurrentState = LedState  
 								}
 						}
