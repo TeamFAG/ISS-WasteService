@@ -1,0 +1,1 @@
+D:\dev\TestWS-kt\build\classes\kotlin\main\MainKt$main$1$1.class;D:\dev\TestWS-kt\build\classes\kotlin\main\MainKt$main$1.class;D:\dev\TestWS-kt\build\classes\kotlin\main\MainKt$main$client$1$1.class;D:\dev\TestWS-kt\build\classes\kotlin\main\MainKt$main$client$1.class;D:\dev\TestWS-kt\build\classes\kotlin\main\MainKt.class
