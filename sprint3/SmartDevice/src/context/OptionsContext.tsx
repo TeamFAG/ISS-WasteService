@@ -3,7 +3,11 @@ import {Options, OptionsContextType} from '../static/Types';
 
 export const OptionsContext = createContext<OptionsContextType | null>(null);
 
-const OptionsProvider: React.FC<ReactNode> = ({children}) => {
+type Props = {
+  children: ReactNode;
+};
+
+const OptionsProvider = (props: Props) => {
   const [options, setOptions] = useState<Options>({
     port: 8050,
     host: 'localhost',
@@ -17,7 +21,7 @@ const OptionsProvider: React.FC<ReactNode> = ({children}) => {
 
   return (
     <OptionsContext.Provider value={{options, updateOptions}}>
-      {children}
+      {props.children}
     </OptionsContext.Provider>
   );
 };

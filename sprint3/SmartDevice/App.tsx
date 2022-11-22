@@ -19,17 +19,6 @@ import TruckView from './src/views/TruckView';
 
 const OptionsContext = createContext({});
 
-interface Options {
-  port: number;
-}
-
-const options = {
-  port: 8050,
-  host: 'localhost',
-  localAddress: '127.0.0.1',
-  reuseAddress: true,
-};
-
 const App = () => {
   const [connectionOptions, setConnectionOptions] = useState(options);
 
