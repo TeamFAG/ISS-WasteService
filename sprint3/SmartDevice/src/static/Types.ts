@@ -9,3 +9,8 @@ export type OptionsContextType = {
   options: Options;
   updateOptions: (options: Options) => void;
 };
+
+export enum Material {
+  GLASS,
+  PLASTIC,
+}

@@ -11,6 +11,10 @@ const HomeView: React.FC<Props> = (props: Props) => {
     props.navigation.navigate('Truck');
   };
 
+  const handleSettingsButton = () => {
+    props.navigation.navigate('Settings');
+  };
+
   return (
     <View style={styles.container}>
       <LargeButton
@@ -21,7 +25,7 @@ const HomeView: React.FC<Props> = (props: Props) => {
       <LargeButton
         text="Settings"
         icon="settings"
-        handleFunction={handleConnectButton}
+        handleFunction={handleSettingsButton}
       />
     </View>
   );

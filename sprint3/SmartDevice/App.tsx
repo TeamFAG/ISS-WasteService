@@ -15,19 +15,19 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import OptionsProvider from './src/context/OptionsContext';
 import {RootStackParams} from './src/RootStackParams';
 import HomeView from './src/views/HomeView';
+import SettingsView from './src/views/SettingsView';
 import TruckView from './src/views/TruckView';
 
 const OptionsContext = createContext({});
 
 const App = () => {
-  const [connectionOptions, setConnectionOptions] = useState(options);
-
   return (
     <OptionsProvider>
       <NavigationContainer>
         <RootStack.Navigator initialRouteName="Home">
           <RootStack.Screen name="Home" component={HomeView} />
           <RootStack.Screen name="Truck" component={TruckView} />
+          <RootStack.Screen name="Settings" component={SettingsView} />
         </RootStack.Navigator>
       </NavigationContainer>
     </OptionsProvider>

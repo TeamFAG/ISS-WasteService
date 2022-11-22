@@ -1,63 +1,85 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useContext, useState} from 'react';
-import {Text, View} from 'react-native';
-import LargeButton from '../components/LargeButton';
-import RoundedInput from '../components/RoundedInput';
-import {OptionsContext} from '../context/OptionsContext';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {Dropdown} from 'react-native-element-dropdown';
 import {RootStackParams} from '../RootStackParams';
-import {Options, OptionsContextType} from '../static/Types';
+import {Material} from '../static/Types';
 
 type Props = NativeStackScreenProps<RootStackParams, 'Truck'>;
 
 const TruckView: React.FC<Props> = (props: Props) => {
-  const {options, updateOptions} = useContext(
-    OptionsContext,
-  ) as OptionsContextType;
+  const [selectedMaterial, setSelectedMaterial] = useState(Material.GLASS);
+  const [dropdownIsFocus, setDropdownIsFocus] = useState(false);
 
-  const [ipText, setIpText] = useState('');
-  const [portText, setPortText] = useState('');
-  const [localAddressText, setLocalAddressText] = useState('');
-
-  const saveSettings = () => {
-    const newOptions: Options = {
-      port: portText != '' ? Number(portText) : options.port,
-      host: ipText != '' ? ipText : options.host,
-      localAddress:
-        localAddressText != '' ? localAddressText : options.localAddress,
-      reuseAddress: options.reuseAddress,
-    };
-
-    updateOptions(newOptions);
-  };
+  const materialData = [
+    {label: 'Glass', value: Material.GLASS},
+    {label: 'Plastic', value: Material.PLASTIC},
+  ];
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Truck</Text>
-      <Text>{options.host}</Text>
-      <Text>{options.port}</Text>
-      <Text>{options.localAddress}</Text>
-      <Text>{options.reuseAddress}</Text>
-      <RoundedInput
-        placeholder="IP Address"
-        value={ipText}
-        setValue={setIpText}
+      <Dropdown
+        style={[styles.dropdown, dropdownIsFocus && {borderColor: 'blue'}]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        data={materialData}
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder={!dropdownIsFocus ? 'Select item' : '...'}
+        searchPlaceholder="Search..."
+        value={selectedMaterial}
+        onFocus={() => setDropdownIsFocus(true)}
+        onBlur={() => setDropdownIsFocus(false)}
+        onChange={item => {
+          setSelectedMaterial(item.value);
+          setDropdownIsFocus(false);
+        }}
       />
-      <RoundedInput
-        placeholder="Port"
-        value={portText}
-        setValue={setPortText}
-      />
-      <RoundedInput
-        placeholder="Local Address"
-        value={localAddressText}
-        setValue={setLocalAddressText}
-      />
-      <LargeButton
-        text="Save settings"
-        icon="settings"
-        handleFunction={saveSettings}></LargeButton>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    padding: 16,
+  },
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+});
 
 export default TruckView;
