@@ -16,10 +16,12 @@ const TruckView: React.FC<Props> = (props: Props) => {
     {label: 'Plastic', value: Material.PLASTIC},
   ];
 
-  const {options} = useContext(OptionsContext) as OptionsContextType;
-
   const [selectedMaterial, setSelectedMaterial] = useState(Material.GLASS);
   const [dropdownIsFocus, setDropdownIsFocus] = useState(false);
+
+  /*
+  const {options} = useContext(OptionsContext) as OptionsContextType;
+
 
   const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
   const tcpClientRef = useRef<TcpSockets.Socket>();
@@ -56,6 +58,7 @@ const TruckView: React.FC<Props> = (props: Props) => {
   useConnection(options, onMessageHandler, (client: TcpSockets.Socket) =>
     setTcpClient(client),
   );
+  */
 
   return (
     <View style={styles.container}>
