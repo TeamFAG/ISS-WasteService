@@ -1,0 +1,26 @@
+# PC
+1 - se si vuole runnare tutto in locale, utilizzare il docker-compose nella cartella docker/local
+
+    docker-compse -f docker-compose.yml up
+
+2 - se si vuole runnare il sistema distribuito
+2.1 - buildare i 3 jar facendo attenzione di cambiare la mainclass nel file build.gradle:
+
+    ./gradlew jar
+
+2.2 - runnare i 2 jar in 2 finestre diverse di terminale:
+
+    java -jar it.unibo.ctxtrolley.MainCtxtrolleyKt-1.0.jar
+    java -jar it.unibo.ctxwasteservice.MainCtxwasteserviceKt-1.0.jar
+
+2.3 - utilizzare lo script prepare-rpi.sh nella cartella docker/distributed per distribuire i file su raspberry mettendo il giusto IP nello script
+
+    ./prepare-rpi.sh
+
+# RASP
+1 - posizionarsi nella cartella di distribuzione creata dallo script
+
+    cd Sviluppo/wsdistr
+
+2 - runnare il jar
+    java -jar it.unibo.ctxrasp.MainCtxraspKt-1.0.jar
