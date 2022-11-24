@@ -648,13 +648,29 @@ STATE := ON | OFF | BLINKING </code></pre>
             The first and most simple was to compile a <k>.jar</k> file for each context and launch these files on multiple devices to test the distribution.<br/>
             This stratedy worked from the beginning but we also tried something more complicated through the use of <ks>Docker</ks>.</br></br>
 
-            We tested the Dockerized system with this configuration:
+            <h4>Distribution Issues</h4>
+
+            During our distribution testing, we encountered external problems caused by unknown network issues.<br/>
+            In short, <b>all</b> messages can be sent from the <k>RaspberryPi</k> to the <k>PC</k>. However, some messages are not received if sent from the <k>PC</k>
+            to the <k>RaspberryPi</k>. From further testing, this seems to be true for <b>Dispatches</b>.<br/><br/>
+
+            Because of this, some parts of our system are affected by these problems:
             <ul>
-                <li><b>PC</b>: a <ks><i><a href="../sprint2_project/docker/distributed/docker-compose.yml">Docker-compose.yml</a></i></ks> file defined so that each context had its own container.</li>
-                <li><b>Raspberry</b>: a <a href="../sprint2_project/docker/distributed/Dockerfile-ctxrasp">Docker-file</a> to only run the <b><i>rasp</i></b> context.</li>
+                <li>
+                    The previously changed <i>updateLed(STATE)</i> messages will have to be reverted back to <k>Events</k> for the distributed version of the system 
+                    (Tests and the local version won't be changed).<br/>
+                    An effort will be made in <b>Sprint3</b> to solve the issue.
+                </li>
+                <li>
+                    We tested the Dockerized system with this configuration:
+                    <ul>
+                        <li><b>PC</b>: a <ks><i><a href="../sprint2_project/docker/distributed/docker-compose.yml">Docker-compose.yml</a></i></ks> file defined so that each context had its own container.</li>
+                        <li><b>Raspberry</b>: a <a href="../sprint2_project/docker/distributed/Dockerfile-ctxrasp">Docker-file</a> to only run the <b><i>rasp</i></b> context.</li>
+                    </ul>
+                    <k>Unfortunately, these connection problems prevent us from using this version of the distribution, the JAR based solution is fully functional.</k><br/>
+                </li>
             </ul>
 
-            Unfortunately, connection problems external to our system prevented us from successfully distributing the system.<br/>
 
             <h4>System execution details</h4>
             To run the whole distributed system, follow the instructions in our <a href="../sprint2_project/resources/HOW-TO-RUN.txt">HOW-TO-RUN.txt</a> file.
