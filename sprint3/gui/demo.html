@@ -5,6 +5,7 @@
   <title>WasteServiceGui - Demo</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./js/test.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -12,7 +13,7 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background-image: url('./imgs/bg.jpg');
+      background-image: url('./imgs/bg.png');
       background-repeat: no-repeat;
       background-attachment: fixed; 
       background-size: cover;
@@ -20,6 +21,25 @@
 
     h2 {
       color: rgb(255, 255, 255);
+    }
+
+    h3 {
+      color: #323232;
+      font-size: 24px;
+      font-weight: bolder;
+      -webkit-text-stroke: .7px rgb(243, 243, 243);
+    }
+
+    h4 {
+      color: #323232;
+      font-size: 24px;
+      font-weight: bolder;
+      -webkit-text-stroke: .7px rgb(243, 243, 243);
+
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 3% 0;
     }
 
     /* Style the header */
@@ -31,18 +51,47 @@
 
     /* Container for flexboxes */
     .row {
+      flex: 1;
       display: -webkit-flex;
       display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
     }
 
     /* Create three equal columns that sits next to each other */
-    .column {
+    .col-side {
       -webkit-flex: 1;
-      -ms-flex: 1;
       flex: 1;
       padding: 10px;
-      height: 300px;
-      /* Should be removed. Only for demonstration */
+      display: flex;
+      justify-content: center;
+      width: 350px;
+      height: 600px;
+    }
+
+    .overlay {
+      position: absolute;
+      top: -4%;
+      left: -5%;
+      height: 108%;
+      width: 110%;
+      opacity: 1;
+      background-image: url('./imgs/Bar.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      text-align: center;
+      padding-top: 6%;
+    }
+
+    .col-center {
+      flex: 1;
+      flex-direction: column;
+      -ms-flex-align: center;
+      display: flex;
+      justify-content: center;
     }
 
     /* Style the footer */
@@ -50,6 +99,25 @@
       background-color: #f1f1f1;
       padding: 10px;
       text-align: center;
+    }
+
+    .progressCont {
+      display: flex;
+      position: relative;
+      width: inherit;
+      background-color: #272727;
+      border-radius: 3%;
+    }
+
+    .progressBar {
+      height: 1%;
+      width: 100%;
+      background-color: green;
+      position: relative;
+      align-self: flex-end;
+      bottom:1px;
+      text-align: center;
+      border-radius: 3%;
     }
 
     /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
@@ -62,16 +130,37 @@
   </style>
 </head>
 
-<body>
-
+<body onload="init()">
   <div class="header">
     <h2>WasteServiceSIUM</h2>
   </div>
 
   <div class="row">
-    <div class="column"><center><img src="./imgs/Bar.png" alt="LeftSideBar" style="width:300px;height:600px;"></center></div>
-    <div class="column"><center><img src="./imgs/Log.png" alt="Center" style="width:600px;height:400px;"></center></div>
-    <div class="column"><center><img src="./imgs/Bar.png" alt="LeftSideBar" style="width:300px;height:600px;"></center></div>
+    <div class="col-side">
+      <div class="progressCont">
+        <div class="progressBar" id="glassBar"></div>
+        <div class="overlay">
+          <h3>GLASS</h3></br>
+          <h4 id="glassText">TEMP</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-center">
+      <button onclick="updateGlass(50)"> <- LeftSIUM 50 </button>
+      <button onclick="updateGlass(150)"> <- LeftSIUM MAX </button>
+      <button onclick="updatePlastic(10)"> RightSIUM 10 -> </button>
+      <button onclick="updatePlastic(90)"> RightSIUM 90 -> </button>
+      <img src="./imgs/Log.png" alt="Center" style="width:700px;height:450px;">
+    </div>
+    <div class="col-side">
+      <div class="progressCont">
+        <div class="progressBar" id="plasticBar"></div>
+        <div class="overlay">
+          <h3>PLASTIC</h3>
+          <h4 id="plasticText">TEMP</h4>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!--
