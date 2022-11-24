@@ -80,6 +80,6 @@ def console() :
         v = str(input() )      
 
 ###########################################    
-connect(port)
-console()
-terminate()  
+#connect(port)
+#console()
+#terminate()  

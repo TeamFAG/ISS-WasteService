@@ -42,7 +42,8 @@ Event distance : distance(V)
 Dispatch trigger : trigger(_)
 
 // Led
-Dispatch updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
+//Dispatch updateLed : updateLed(STATE) // STATE := ON | OFF | BLINK
+Event updateLed : updateLed(STATE)
 Dispatch turnOnLed : turnOnLed(_)
 Dispatch turnOffLed : turnOffLed(_)
 
@@ -469,7 +470,9 @@ QActor trolleystateobserver context ctxtrolley {
 			#]
 			
 			if [# !CurrentState.equals(LedState) #] {
-				forward led -m updateLed : updateLed($LedState)
+				println("\tTROLLEYSTATEOBSERVER | send updateLed")
+				//forward led -m updateLed : updateLed($LedState)
+				emit updateLed : updateLed($LedState)
 				[# CurrentState = LedState #]
 			}
 		}
@@ -495,14 +498,14 @@ QActor led context ctxrasp {
 			wsLed.LedUtils.createLed(Simulation, Simulation)
 		#]
 	}
-	Transition t0 whenMsg updateLed -> handleEvent
+	Transition t0 whenEvent updateLed -> handleEvent
 				  whenMsg turnOnLed -> turnOnMsg
 				  whenMsg turnOffLed -> turnOffMsg
 				  
 	State idle {
 		
 	}
-	Transition t0 whenMsg updateLed -> handleEvent
+	Transition t0 whenEvent updateLed -> handleEvent
 				  whenMsg turnOnLed -> turnOnMsg
 				  whenMsg turnOffLed -> turnOffMsg
 	
@@ -540,7 +543,7 @@ QActor led context ctxrasp {
 			wsLed.LedUtils.turnOn()
 		#]
 	}
-	Transition t0 whenMsg updateLed -> handleEvent
+	Transition t0 whenEvent updateLed -> handleEvent
 	
 	State off {
 		[#
@@ -548,7 +551,7 @@ QActor led context ctxrasp {
 			wsLed.LedUtils.turnOff()
 		#]
 	}
-	Transition t0 whenMsg updateLed -> handleEvent
+	Transition t0 whenEvent updateLed -> handleEvent
 	
 	State blinkLedOn {
 		[# 
@@ -557,7 +560,7 @@ QActor led context ctxrasp {
 		#]
 	}
 	Transition t0 whenTime 300 -> blinkLedOff
-				  whenMsg updateLed -> handleEvent
+				  whenEvent updateLed -> handleEvent
 	
 	State blinkLedOff {
 		[# 
@@ -566,7 +569,7 @@ QActor led context ctxrasp {
 		#]
 	}
 	Transition t0 whenTime 300 -> blinkLedOn
-				  whenMsg updateLed -> handleEvent
+				  whenEvent updateLed -> handleEvent
 				  
 }
 

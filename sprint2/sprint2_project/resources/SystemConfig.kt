@@ -21,7 +21,7 @@ object SystemConfig {
     var sonar = mutableMapOf(
         "simulation" to false,
         "log" to false,
-        "min" to 0,
+        "min" to 10,
         "max" to 50,
         "dlimit" to 25
     )
