@@ -60,28 +60,6 @@ function updatePlastic(newPlastQt) {
   }
 }
 
-function ledOn() {
-  if (newPlastQt > curPlastQt) {
-    var bar = document.getElementById("plasticBar");
-    var text = document.getElementById("plasticText");
-
-    var height = curPlastQt;
-    var id = setInterval(frame, 10);
-    function frame() {
-      if (height >= newPlastQt) {
-        clearInterval(id);
-        curPlastQt = newPlastQt;
-        text.innerHTML = curPlastQt + "/" + maxPlastQt;
-      } else {
-        height++;
-        var perc = height / maxPlastQt * 100;
-        bar.style.height = perc + "%";
-        text.innerHTML = height + "/" + maxPlastQt;
-      }
-    }
-  }
-}
-
 function ledOff() {
   if(ledCurState !== ledState.OFF){
     var led = document.getElementById("led");
