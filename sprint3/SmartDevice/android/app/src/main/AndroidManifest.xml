@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.smartdevice">
+  package="com.cardsagainsthumanity">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

@@ -1,4 +1,4 @@
-package com.smartdevice;
+package com.cardsagainsthumanity;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

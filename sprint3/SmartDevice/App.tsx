@@ -21,17 +21,17 @@ import TruckView from './src/views/TruckView';
 const OptionsContext = createContext({});
 
 const App = () => {
-  return (
-    <OptionsProvider>
-      <NavigationContainer>
-        <RootStack.Navigator initialRouteName="Home">
-          <RootStack.Screen name="Home" component={HomeView} />
-          <RootStack.Screen name="Truck" component={TruckView} />
-          <RootStack.Screen name="Settings" component={SettingsView} />
-        </RootStack.Navigator>
-      </NavigationContainer>
-    </OptionsProvider>
-  );
+	return (
+		<OptionsProvider>
+			<NavigationContainer>
+				<RootStack.Navigator initialRouteName="Home">
+					<RootStack.Screen name="Home" component={HomeView} />
+					<RootStack.Screen name="Truck" component={TruckView} />
+					<RootStack.Screen name="Settings" component={SettingsView} />
+				</RootStack.Navigator>
+			</NavigationContainer>
+		</OptionsProvider>
+	);
 };
 
 const RootStack = createNativeStackNavigator<RootStackParams>();

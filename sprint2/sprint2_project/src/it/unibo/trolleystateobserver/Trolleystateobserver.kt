@@ -22,8 +22,8 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 				state("init") { //this:State
 					action { //it:State
 						println("	TROLLEYSTATEOBSERVER | started.")
-						CoapObserverSupport(myself, "localhost","8060","ctxtrolley","transporttrolley")
-						CoapObserverSupport(myself, "localhost","8060","ctxtrolley","pather")
+						CoapObserverSupport(myself, "localhost","8050","ctxwasteservice_test","transporttrolley")
+						CoapObserverSupport(myself, "localhost","8050","ctxwasteservice_test","pather")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -42,8 +42,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 												if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
 													LedState = wsLed.LedUtils.getLedStatusFromCoap(Resource, Value)
 								if(  !CurrentState.equals(LedState)  
-								 ){println("	TROLLEYSTATEOBSERVER | send updateLed")
-								emit("updateLed", "updateLed($LedState)" ) 
+								 ){forward("updateLed", "updateLed($LedState)" ,"led" ) 
 								 CurrentState = LedState  
 								}
 						}
