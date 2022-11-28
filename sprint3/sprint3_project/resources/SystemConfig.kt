@@ -26,6 +26,12 @@ object SystemConfig {
         "dlimit" to 25
     )
 
+    var guiEP = mutableMapOf(
+        "host" to "localhost",
+        "port" to "8085",
+        "path" to "socket"
+    )
+
     fun setTheConfiguration(fileName: String) {
         var file = "${fileName}.json"
 
@@ -41,6 +47,7 @@ object SystemConfig {
             MAXPB = values.get("MAXPB") as Int
             MAXGB = values.get("MAXGB") as Int
             sonar = values.get("sonar") as MutableMap<String, Any>
+            guiEP = values.get("guiEP") as MutableMap<String, String>
         } catch (e: FileNotFoundException) {
             ColorsOut.outerr("setTheConfiguration ERROR " + e.message)
         }

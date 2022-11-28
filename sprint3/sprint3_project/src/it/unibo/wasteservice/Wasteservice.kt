@@ -19,6 +19,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				var CurrentMaterial: ws.Material
 				var CurrentQuantity: Float
 				var Rejected: Boolean = false
+				var TotalQuantity: Float
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State

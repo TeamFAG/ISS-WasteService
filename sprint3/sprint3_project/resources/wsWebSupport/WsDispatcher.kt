@@ -1,24 +1,9 @@
 package wsWebSupport
 
+import SystemConfig
 import it.unibo.kactor.ActorBasic
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.ws.WsConnection
-
-interface Bean {
-    override fun toString(): String
-}
-
-class WSBean: Bean {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
-}
-
-class TrolleyBean: Bean {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
-}
 
 object WsDispatcher {
 
@@ -34,6 +19,7 @@ object WsDispatcher {
     }
 
     fun create(owner: ActorBasic, hostName: String, port: String, path: String, trace: Boolean = false) {
+        //TODO make create async
         this.owner = owner
         this.traceOn = trace
         this.hostName = hostName
@@ -43,26 +29,18 @@ object WsDispatcher {
         try {
             connection = WsConnection.create("$hostName:$port/$path")
             ColorsOut.outappl("WsDispatcher | created connection to $hostName:$port/$path", ColorsOut.GREEN)
+            connection.forward("{maxPB: ${SystemConfig.MAXPB}, maxGB: ${SystemConfig.MAXGB}}")
         } catch (e: Exception) {
             ColorsOut.outappl("WsDispatcher | connection error...", ColorsOut.RED)
             e.printStackTrace()
         }
     }
 
-    fun dispatchGuiUpdate(type: String, bean: Bean) {
-        if(type.equals("trolley"))
-            updateTrolley(bean as TrolleyBean)
-        else if(type.equals("wasteservice"))
-            updateWS(bean as WSBean)
-    }
-    
-    private fun updateTrolley(bean: TrolleyBean) {
-        val msg = bean.toString()
-        connection.forward(msg)
-    }
-
-    private fun updateWS(bean: WSBean) {
-        val msg = bean.toString()
-        connection.forward(msg)
+    fun dispatchGuiUpdate(status: GuiStatus) {
+        try {
+            connection.forward(status.toJSON().toString())
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

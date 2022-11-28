@@ -60,10 +60,10 @@ dependencies {
     implementation group: 'org.eclipse.californium', name: 'californium-proxy2', version: '3.5.0'
 
 //OkHttp library for websockets with Kotlin
-	//implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.14.0'    
-	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.3' 
-	// https://mvnrepository.com/artifact/com.squareup.okhttp3/mockwebserver
-	testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: '4.9.3'
+    //implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.14.0'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.3'
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/mockwebserver
+    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: '4.9.3'
 
     /* LOG4J *************************************************************************************************************** */
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-reload4j
@@ -78,11 +78,12 @@ dependencies {
     /* UNIBO *************************************************************************************************************** */
     implementation name: 'uniboInterfaces'
     implementation name: '2p301'
-	implementation name: 'unibo.qakactor22-3.2'
-	implementation name: 'unibo.comm22-1.1'
+    implementation name: 'unibo.qakactor22-3.2'
+    implementation name: 'unibo.comm22-1.1'
+    implementation name: 'it.unibo.radarSystem22.domain-1.0'
 
     /* AIMA **************************************************************************************************************** */
- 	//PLANNER  
+    //PLANNER
     implementation name: 'unibo.planner22-1.0'
     // https://mvnrepository.com/artifact/com.googlecode.aima-java/aima-core
     implementation group: 'com.googlecode.aima-java', name: 'aima-core', version: '3.0.0'
@@ -94,13 +95,13 @@ sourceSets {
     main.java.srcDirs += 'resources'
     test.java.srcDirs += 'test'		//test is specific
 }
-  
+
 
 eclipse {
     classpath {
-        sourceSets -= [sourceSets.main, sourceSets.test]	
-    }	
- }
+        sourceSets -= [sourceSets.main, sourceSets.test]
+    }
+}
 
 
 application {
@@ -108,7 +109,7 @@ application {
     mainClass = 'it.unibo.ctxwasteservice_test.MainCtxwasteservice_testKt'
 }
 
- jar {
+jar {
     println("building jar")
     from sourceSets.main.allSource
     manifest {

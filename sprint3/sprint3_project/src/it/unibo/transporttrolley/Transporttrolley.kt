@@ -20,6 +20,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				var Qty: Float = 0F
 				var Error: Boolean = false
 				var Loc: String = ""
+				var MsgPayload = ""	
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -51,7 +52,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 													Mat = ws.Material.valueOf(payloadArg(0))
 													Qty = payloadArg(1).toFloat()
 						}
-						forward("updateRobotState", "updateRobotState("moving to INDOOR")" ,"wsgui" ) 
+						
+										MsgPayload = "Moving to INDOOR"	
+						forward("updateRobotState", "updateRobotState($MsgPayload)" ,"wsgui" ) 
 						updateResourceRep( "transporttrolley(moving_INDOOR)"  
 						)
 						println("	TRANSPORTTROLLEY | moving to INDOOR")
@@ -71,7 +74,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 								 Answer = payloadArg(0).toString()  
 						}
 						if(  Answer == "OK"  
-						 ){forward("updateRobotState", "updateRobotState("INDOOR - Pickup")" ,"wsgui" ) 
+						 ){
+										MsgPayload = "INDOOR - Pickup"	
+						forward("updateRobotState", "updateRobotState($MsgPayload)" ,"wsgui" ) 
 						updateResourceRep( "transporttrolley(arrived_INDOOR)"  
 						)
 						println("	TRANSPORTTROLLEY | arrived to INDOOR")
@@ -82,7 +87,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						answer("depositRequest", "pickupDone", "pickupDone(OK)"   )  
 						}
 						else
-						 {forward("updateRobotState", "updateRobotState("INDOOR - Pickup FAIL")" ,"wsgui" ) 
+						 {
+						 				MsgPayload = "INDOOR - Pickup FAIL"	
+						 forward("updateRobotState", "updateRobotState($MsgPayload)" ,"wsgui" ) 
 						 println("	TRANSPORTTROLLEY | failed pickup")
 						  Error = true  
 						 answer("depositRequest", "pickupDone", "pickupDone(NO)"   )  
@@ -99,8 +106,10 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("moveToBox") { //this:State
 					action { //it:State
-						 Loc = ws.utils.getLocationFromMaterialType(Mat)  
-						forward("updateRobotState", "updateRobotState("moving to $Loc")" ,"wsgui" ) 
+						 
+									Loc = ws.utils.getLocationFromMaterialType(Mat)
+									MsgPayload = "Moving to $Loc"	
+						forward("updateRobotState", "updateRobotState($MsgPayload)" ,"wsgui" ) 
 						updateResourceRep( "transporttrolley(moving_$Loc)"  
 						)
 						println("	TRANSPORTTROLLEY | moving to $Loc")
@@ -120,13 +129,15 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 								 Answer = payloadArg(0).toString()  
 						}
 						if(  Answer == "OK"  
-						 ){forward("updateRobotState", "updateRobotState("$Loc")" ,"wsgui" ) 
+						 ){forward("updateRobotState", "updateRobotState($Loc)" ,"wsgui" ) 
 						updateResourceRep( "transporttrolley(arrived_$Loc)"  
 						)
 						println("	TRANSPORTTROLLEY | arrived to $Loc")
 						}
 						else
-						 {forward("updateRobotState", "updateRobotState("$Loc - FAILED")" ,"wsgui" ) 
+						 {
+						 				MsgPayload = "$Loc - FAILED"	
+						 forward("updateRobotState", "updateRobotState($MsgPayload)" ,"wsgui" ) 
 						 println("	TRANSPORTTROLLEY | failed $Loc")
 						  Error = true  
 						 }
@@ -139,7 +150,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("doDeposit") { //this:State
 					action { //it:State
-						forward("updateRobotState", "updateRobotState("Deposit")" ,"wsgui" ) 
+						forward("updateRobotState", "updateRobotState(Deposit)" ,"wsgui" ) 
 						println("	TRANSPORTTROLLEY | doing the deposit of $Qty KG of $Mat")
 						delay(1000) 
 						//genTimer( actor, state )
@@ -151,8 +162,10 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("depositDone") { //this:State
 					action { //it:State
-						 Loc = "HOME"  
-						forward("updateRobotState", "updateRobotState("moving to $Loc")" ,"wsgui" ) 
+						 
+									Loc = "HOME"
+									MsgPayload = "Moving to $Loc"	
+						forward("updateRobotState", "updateRobotState($MsgPayload)" ,"wsgui" ) 
 						updateResourceRep( "transporttrolley(depositDone_$Mat)"  
 						)
 						println("	TRANSPORTTROLLEY | deposit done of $Qty KG of $Mat")
@@ -167,7 +180,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("endWork") { //this:State
 					action { //it:State
-						forward("updateRobotState", "updateRobotState("HOME - Idle")" ,"wsgui" ) 
+						
+									MsgPayload = "HOME - Idle"	
+						forward("updateRobotState", "updateRobotState($MsgPayload)" ,"wsgui" ) 
 						updateResourceRep( "transporttrolley(arrived_HOME)"  
 						)
 						println("	TRANSPORTTROLLEY | arrived to HOME")

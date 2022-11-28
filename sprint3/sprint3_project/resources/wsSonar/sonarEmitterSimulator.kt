@@ -21,7 +21,7 @@ class sonarEmitterSimulator(name: String): ActorBasic(name) {
         val simulation = SystemConfig.sonar["simulation"] as Boolean
         println("\tsonarEmitterSimulator | simulation: $simulation")
 
-        while(curr >= min && curr <= max && simulation) {
+        while(curr >= min && curr <= max) {
             val d = "distance($curr)"
             val ev = MsgUtil.buildEvent(name, "sonar", d)
 

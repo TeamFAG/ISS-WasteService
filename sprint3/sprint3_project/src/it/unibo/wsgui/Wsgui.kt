@@ -20,6 +20,13 @@ class Wsgui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 				var GlassQty: Float = 0F
 				var PlasticQty: Float = 0F
 				var RobotState: String = "HOME - Idle"
+				var CurrentMaterial: ws.Material
+				var CurrentQuantity: Float
+				SystemConfig.setTheConfiguration("SystemConfiguration")
+				var GuiHost = SystemConfig.guiEP["host"] as String
+				var GuiPort = SystemConfig.guiEP["port"] as String
+				var GuiPath = SystemConfig.guiEP["path"] as String
+				wsWebSupport.WsDispatcher.create(this, GuiHost, GuiPort, GuiPath)
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -46,9 +53,10 @@ class Wsgui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("updateLed(STATE)"), Term.createTerm("updateLed(STATE)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 LedState = ws.LedState.valueOf(payloadArg(0))  
-								updateResourceRep( "led($LedState)"  
-								)
+								 
+												LedState = ws.LedState.valueOf(payloadArg(0)) 
+												var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
+												wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
 						}
 						//genTimer( actor, state )
 					}
@@ -67,6 +75,8 @@ class Wsgui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 								if(  CurrentMaterial.equals(ws.Material.GLASS)  
 								 ){
 													GlassQty = CurrentQuantity
+													var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
+													wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
 								updateResourceRep( "WSGUI | GLASS UPDATE - $GlassQty"  
 								)
 								println("	WSGUI | GLASS UPDATE - $GlassQty")
@@ -74,9 +84,11 @@ class Wsgui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 								else
 								 {
 								 					PlasticQty = CurrentQuantity
-								 updateResourceRep( "WSGUI | PLASTIC UPDATE - $PlastixQty"  
+								 					var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
+								 					wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
+								 updateResourceRep( "WSGUI | PLASTIC UPDATE - $PlasticQty"  
 								 )
-								 println("	WSGUI | PLASTIC UPDATE - $PlastixQty")
+								 println("	WSGUI | PLASTIC UPDATE - $PlasticQty")
 								 }
 						}
 						//genTimer( actor, state )
@@ -92,6 +104,8 @@ class Wsgui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												RobotState = payloadArg(0).toString()
+												var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
+												wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
 								updateResourceRep( "WSGUI | ROBOT UPDATE - $RobotState"  
 								)
 								println("	WSGUI | ROBOT UPDATE - $RobotState")
