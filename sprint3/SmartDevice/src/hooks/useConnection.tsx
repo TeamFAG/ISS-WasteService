@@ -30,6 +30,18 @@ const useConnection = (
 			if (client) client.destroy();
 		};
 	}, []);
+
+	const refreshConnection = () => {
+		try {
+			clientRef.current = TcpSockets.createConnection(tcpOptions, () => {
+				onConnectedHandler(clientRef.current!);
+			});
+		} catch (error) {
+			console.log('Error: ', error);
+		}
+	};
+
+	return refreshConnection;
 };
 
 export default useConnection;

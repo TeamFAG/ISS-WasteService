@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useContext, useState} from 'react';
-import {Settings, Text, View} from 'react-native';
+import {Settings, StyleSheet, Text, View} from 'react-native';
 import LargeButton from '../components/LargeButton';
 import RoundedInput from '../components/RoundedInput';
 import {OptionsContext} from '../context/OptionsContext';
@@ -30,33 +30,59 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 	};
 
 	return (
-		<View>
-			<Text>Settings</Text>
-			<Text>{options.host}</Text>
-			<Text>{options.port}</Text>
-			<Text>{options.localAddress}</Text>
-			<Text>{options.reuseAddress}</Text>
-			<RoundedInput
-				placeholder="IP Address"
-				value={ipText}
-				setValue={setIpText}
-			/>
-			<RoundedInput
-				placeholder="Port"
-				value={portText}
-				setValue={setPortText}
-			/>
-			<RoundedInput
-				placeholder="Local Address"
-				value={localAddressText}
-				setValue={setLocalAddressText}
-			/>
-			<LargeButton
-				text="Save settings"
-				icon="settings"
-				handleFunction={saveSettings}></LargeButton>
+		<View style={styles.container}>
+			<View style={styles.textContainer}>
+				<Text style={styles.text}>Host: {options.host}</Text>
+				<Text style={styles.text}>Port: {options.port}</Text>
+				<Text style={styles.text}>LocalAddress: {options.localAddress}</Text>
+				<Text style={styles.text}>
+					ReuseAddress: {options.reuseAddress ? 'True' : 'False'}
+				</Text>
+			</View>
+			<View style={styles.buttonContainer}>
+				<RoundedInput
+					placeholder="IP Address"
+					value={ipText}
+					setValue={setIpText}
+				/>
+				<RoundedInput
+					placeholder="Port"
+					value={portText}
+					setValue={setPortText}
+				/>
+				<RoundedInput
+					placeholder="Local Address"
+					value={localAddressText}
+					setValue={setLocalAddressText}
+				/>
+				<LargeButton
+					text="Save settings"
+					icon="settings"
+					handleFunction={saveSettings}></LargeButton>
+			</View>
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	textContainer: {
+		flex: 0.3,
+		justifyContent: 'space-evenly',
+	},
+	buttonContainer: {
+		flex: 0.7,
+		justifyContent: 'space-evenly',
+		alignItems: 'center',
+	},
+	text: {
+		fontSize: 22,
+		fontWeight: '400',
+	},
+});
 
 export default SettingsView;

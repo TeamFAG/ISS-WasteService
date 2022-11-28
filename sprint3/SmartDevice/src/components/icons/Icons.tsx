@@ -135,6 +135,30 @@ function SmallUser(props: SvgProps) {
 	);
 }
 
+function Check(props: SvgProps) {
+	return (
+		<Svg width={24} height={24} fill="none" {...props}>
+			<Path
+				d="M18.71 7.21a.999.999 0 00-1.42 0l-7.45 7.46-3.13-3.14A1.02 1.02 0 105.29 13l3.84 3.84a1 1 0 001.42 0l8.16-8.16a.999.999 0 000-1.47z"
+				fill="#6DBC51"
+			/>
+			<Circle cx={12} cy={12} r={11.5} stroke="#6DBC51" />
+		</Svg>
+	);
+}
+
+function Cross(props: SvgProps) {
+	return (
+		<Svg width={24} height={24} fill="none" {...props}>
+			<Path
+				d="M13.41 12l4.3-4.29a1.004 1.004 0 10-1.42-1.42L12 10.59l-4.29-4.3a1.004 1.004 0 00-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 000 1.42.998.998 0 001.42 0l4.29-4.3 4.29 4.3a.998.998 0 001.42 0 .997.997 0 00.219-1.095.998.998 0 00-.22-.325L13.41 12z"
+				fill="#DB0000"
+			/>
+			<Circle cx={12} cy={12} r={11.5} stroke="#DB0000" />
+		</Svg>
+	);
+}
+
 export default {
 	World,
 	Search,
@@ -142,4 +166,6 @@ export default {
 	Play,
 	User,
 	SmallUser,
+	Check,
+	Cross,
 };

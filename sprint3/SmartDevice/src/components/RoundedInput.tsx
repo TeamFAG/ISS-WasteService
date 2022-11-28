@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
 		padding: 10,
 		flexDirection: 'row',
 		width: '100%',
-		backgroundColor: Palette.LightBlue,
+		backgroundColor: Palette.White,
+		borderColor: Palette.Grey,
 		borderRadius: 22,
 	},
 	input: {

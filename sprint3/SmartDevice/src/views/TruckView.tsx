@@ -1,13 +1,16 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import TcpSockets from 'react-native-tcp-socket';
-import React, {useContext, useRef, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {RootStackParams} from '../RootStackParams';
 import {Material, OptionsContextType} from '../static/Types';
 import useConnection from '../hooks/useConnection';
 import {OptionsContext} from '../context/OptionsContext';
 import LargeButton from '../components/LargeButton';
+import RoundedInput from '../components/RoundedInput';
+import {Palette} from '../static/Colors';
+import Icons from '../components/icons/Icons';
 
 type Props = NativeStackScreenProps<RootStackParams, 'Truck'>;
 
@@ -17,25 +20,16 @@ const TruckView: React.FC<Props> = (props: Props) => {
 		{label: 'Plastic', value: Material.PLASTIC},
 	];
 
+	const [client, setClient] = useState<TcpSockets.Socket>();
+	const {options} = useContext(OptionsContext) as OptionsContextType;
 	const [selectedMaterial, setSelectedMaterial] = useState(Material.GLASS);
+	const [quantity, setQuantity] = useState('');
+	const [isConnected, setIsConnected] = useState(false);
+	const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
 	const [dropdownIsFocus, setDropdownIsFocus] = useState(false);
 
-	const {options} = useContext(OptionsContext) as OptionsContextType;
-
-	const opzioni = {
-		port: 8050,
-		host: '127.0.0.1',
-		localAddress: '127.0.0.1',
-		reuseAddress: true,
-	};
-
-	const createConnection = () => {};
-
-	const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
-	const tcpClientRef = useRef<TcpSockets.Socket>();
-
 	const setTcpClient = (client: any) => {
-		tcpClientRef.current = client;
+		setClient(client);
 	};
 
 	const clearMessages = () => {
@@ -56,22 +50,28 @@ const TruckView: React.FC<Props> = (props: Props) => {
 
 	const onConnectedHandler = (client: TcpSockets.Socket) => {
 		setTcpClient(client);
+		setIsConnected(true);
 	};
 
-	const sendTcpMessage = (client: TcpSockets.Socket) => {
+	const sendTcpMessage = () => {
 		if (!client) {
-			console.log('Client error');
+			console.log('error');
 			return;
 		}
 
-		client.write('CIAO');
+		client.write('ciao');
 	};
 
-	//useConnection(options, onMessageHandler, onConnectedHandler);
+	const refresh = useConnection(options, onMessageHandler, onConnectedHandler);
 
 	return (
 		<View style={styles.container}>
-			<Text>Truck</Text>
+			<Pressable style={styles.statusContainer} onPress={refresh}>
+				<Text>Status: {isConnected ? 'connected' : 'not connected'}</Text>
+				<View style={styles.icon}>
+					{isConnected ? <Icons.Check /> : <Icons.Cross />}
+				</View>
+			</Pressable>
 			<Dropdown
 				style={[styles.dropdown, dropdownIsFocus && {borderColor: 'blue'}]}
 				placeholderStyle={styles.placeholderStyle}
@@ -91,25 +91,27 @@ const TruckView: React.FC<Props> = (props: Props) => {
 					setDropdownIsFocus(false);
 				}}
 			/>
+			<RoundedInput
+				value={quantity}
+				setValue={setQuantity}
+				placeholder="Quantity"
+			/>
 			<LargeButton
 				icon="world"
-				text="Connect"
-				handleFunction={createConnection}
+				text="Send msg"
+				handleFunction={sendTcpMessage}
 			/>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: 'white',
-		padding: 16,
-	},
+	container: {},
 	dropdown: {
 		height: 50,
 		borderColor: 'gray',
 		borderWidth: 0.5,
-		borderRadius: 8,
+		borderRadius: 22,
 		paddingHorizontal: 8,
 	},
 	icon: {
@@ -137,6 +139,19 @@ const styles = StyleSheet.create({
 	inputSearchStyle: {
 		height: 40,
 		fontSize: 16,
+	},
+	icon: {
+		padding: 5,
+	},
+	statusContainer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderColor: '#464646',
+		borderWidth: 1,
+		borderRadius: 22,
+		width: '50%',
+		height: 35,
 	},
 });
 
