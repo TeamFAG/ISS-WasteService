@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import LargeButton from '../components/LargeButton';
 import {RootStackParams} from '../RootStackParams';
 
@@ -16,7 +16,7 @@ const HomeView: React.FC<Props> = (props: Props) => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<LargeButton
 				text="Connect"
 				icon="world"
@@ -27,13 +27,14 @@ const HomeView: React.FC<Props> = (props: Props) => {
 				icon="settings"
 				handleFunction={handleSettingsButton}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		justifyContent: 'space-evenly',
 		alignItems: 'center',
 		alignContent: 'center',
 		backgroundColor: '#FAFAFA',

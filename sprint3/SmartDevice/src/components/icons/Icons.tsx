@@ -159,6 +159,21 @@ function Cross(props: SvgProps) {
 	);
 }
 
+function ChevronLeft(props: SvgProps) {
+	return (
+		<Svg width={24} height={24} fill="none" {...props}>
+			<Path
+				d="M15 18l-6-6 6-6"
+				stroke="#000"
+				strokeOpacity={0.8}
+				strokeWidth={2}
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</Svg>
+	);
+}
+
 export default {
 	World,
 	Search,
@@ -168,4 +183,5 @@ export default {
 	SmallUser,
 	Check,
 	Cross,
+	ChevronLeft,
 };
