@@ -25,9 +25,21 @@ const App = () => {
 		<OptionsProvider>
 			<NavigationContainer>
 				<RootStack.Navigator initialRouteName="Home">
-					<RootStack.Screen name="Home" component={HomeView} />
-					<RootStack.Screen name="Truck" component={TruckView} />
-					<RootStack.Screen name="Settings" component={SettingsView} />
+					<RootStack.Screen
+						name="Home"
+						component={HomeView}
+						options={{headerShown: false}}
+					/>
+					<RootStack.Screen
+						name="Truck"
+						component={TruckView}
+						options={{headerShown: false}}
+					/>
+					<RootStack.Screen
+						name="Settings"
+						component={SettingsView}
+						options={{headerShown: false}}
+					/>
 				</RootStack.Navigator>
 			</NavigationContainer>
 		</OptionsProvider>

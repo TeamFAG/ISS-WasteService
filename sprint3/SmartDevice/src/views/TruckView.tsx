@@ -1,7 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import TcpSockets from 'react-native-tcp-socket';
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {RootStackParams} from '../RootStackParams';
 import {Material, OptionsContextType} from '../static/Types';
@@ -11,6 +11,8 @@ import LargeButton from '../components/LargeButton';
 import RoundedInput from '../components/RoundedInput';
 import {Palette} from '../static/Colors';
 import Icons from '../components/icons/Icons';
+import TextArea from '../components/TextArea';
+import Header from '../components/Header';
 
 type Props = NativeStackScreenProps<RootStackParams, 'Truck'>;
 
@@ -27,6 +29,10 @@ const TruckView: React.FC<Props> = (props: Props) => {
 	const [isConnected, setIsConnected] = useState(false);
 	const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
 	const [dropdownIsFocus, setDropdownIsFocus] = useState(false);
+
+	const handleBackPressed = () => {
+		props.navigation.navigate('Home');
+	};
 
 	const setTcpClient = (client: any) => {
 		setClient(client);
@@ -65,7 +71,10 @@ const TruckView: React.FC<Props> = (props: Props) => {
 	const refresh = useConnection(options, onMessageHandler, onConnectedHandler);
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
+			<View style={styles.header}>
+				<Header handleButtonPressed={handleBackPressed}></Header>
+			</View>
 			<Pressable style={styles.statusContainer} onPress={refresh}>
 				<Text>Status: {isConnected ? 'connected' : 'not connected'}</Text>
 				<View style={styles.icon}>
@@ -96,17 +105,21 @@ const TruckView: React.FC<Props> = (props: Props) => {
 				setValue={setQuantity}
 				placeholder="Quantity"
 			/>
+			<TextArea />
 			<LargeButton
 				icon="world"
 				text="Send msg"
 				handleFunction={sendTcpMessage}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		backgroundColor: 'white',
+		flex: 1,
+	},
 	dropdown: {
 		height: 50,
 		borderColor: 'gray',
@@ -152,6 +165,12 @@ const styles = StyleSheet.create({
 		borderRadius: 22,
 		width: '50%',
 		height: 35,
+	},
+	header: {
+		width: '100%',
+		height: '6%',
+		paddingTop: 10,
+		paddingLeft: 10,
 	},
 });
 

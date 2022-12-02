@@ -1,6 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useContext, useState} from 'react';
-import {Settings, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, Settings, StyleSheet, Text, View} from 'react-native';
+import Header from '../components/Header';
 import LargeButton from '../components/LargeButton';
 import RoundedInput from '../components/RoundedInput';
 import {OptionsContext} from '../context/OptionsContext';
@@ -17,6 +18,10 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 	const [portText, setPortText] = useState('');
 	const [localAddressText, setLocalAddressText] = useState('');
 
+	const handlebackPressed = () => {
+		props.navigation.navigate('Home');
+	};
+
 	const saveSettings = () => {
 		const newOptions: Options = {
 			port: portText != '' ? Number(portText) : options.port,
@@ -30,7 +35,10 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
+			<View style={styles.header}>
+				<Header handleButtonPressed={handlebackPressed}></Header>
+			</View>
 			<View style={styles.textContainer}>
 				<Text style={styles.text}>Host: {options.host}</Text>
 				<Text style={styles.text}>Port: {options.port}</Text>
@@ -60,7 +68,7 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 					icon="settings"
 					handleFunction={saveSettings}></LargeButton>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 };
 
@@ -82,6 +90,12 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: 22,
 		fontWeight: '400',
+	},
+	header: {
+		width: '100%',
+		height: '6%',
+		paddingTop: 10,
+		paddingLeft: 10,
 	},
 });
 
