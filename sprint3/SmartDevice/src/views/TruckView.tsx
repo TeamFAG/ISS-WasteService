@@ -1,7 +1,14 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import TcpSockets from 'react-native-tcp-socket';
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+	Alert,
+	Pressable,
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {RootStackParams} from '../RootStackParams';
 import {Material, OptionsContextType} from '../static/Types';
@@ -29,9 +36,30 @@ const TruckView: React.FC<Props> = (props: Props) => {
 	const [isConnected, setIsConnected] = useState(false);
 	const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
 	const [dropdownIsFocus, setDropdownIsFocus] = useState(false);
+	const [log, setLog] = useState('');
+
+	useEffect(() => {
+		setTextAreaValue(incomingMessages.toString());
+	}, [incomingMessages]);
 
 	const handleBackPressed = () => {
+		if (isConnected) {
+			client?.destroy();
+			setIsConnected(false);
+		}
 		props.navigation.navigate('Home');
+	};
+
+	const showAlert = (text: string) => {
+		Alert.alert(text);
+	};
+
+	const filterQuantityInput = (text: string) => {
+		!isNaN(+text.slice(-1)) && setQuantity(text);
+	};
+
+	const setTextAreaValue = (value: string) => {
+		setLog(value);
 	};
 
 	const setTcpClient = (client: any) => {
@@ -40,14 +68,12 @@ const TruckView: React.FC<Props> = (props: Props) => {
 
 	const clearMessages = () => {
 		setIncomingMessages(() => []);
+		setTextAreaValue('');
 	};
 
 	const addMessage = (message: string) => {
 		console.log('Arrived: ' + message);
-		setIncomingMessages((incomingMessages: string[]) => [
-			...incomingMessages,
-			message,
-		]);
+		setIncomingMessages(incomingMessages => [...incomingMessages, message]);
 	};
 
 	const onMessageHandler = (data: string | Buffer) => {
@@ -59,16 +85,38 @@ const TruckView: React.FC<Props> = (props: Props) => {
 		setIsConnected(true);
 	};
 
-	const sendTcpMessage = () => {
+	const sendTcpMessage = (message: string) => {
 		if (!client) {
-			console.log('error');
+			console.log('Error sending message');
 			return;
 		}
 
-		client.write('ciao');
+		client.write(message);
 	};
 
-	const refresh = useConnection(options, onMessageHandler, onConnectedHandler);
+	const chekIfRequestPossible = () => {
+		if (!isConnected) showAlert('You are not connected to the WasteService');
+		else if (quantity === '') showAlert('Quantity field is empty');
+		else {
+			const requestMessage = buildRequestMessage();
+
+			sendTcpMessage(requestMessage);
+		}
+	};
+
+	const buildRequestMessage = (): string => {
+		return `msg(${options.requestName}, request, smartdevice, ${
+			options.destinationActor
+		}, ${options.requestName}(${
+			Material[selectedMaterial.valueOf()]
+		}, ${quantity}), 1)\n`;
+	};
+
+	const refresh = useConnection(
+		options.tcpOptions,
+		onMessageHandler,
+		onConnectedHandler,
+	);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -81,6 +129,7 @@ const TruckView: React.FC<Props> = (props: Props) => {
 					{isConnected ? <Icons.Check /> : <Icons.Cross />}
 				</View>
 			</Pressable>
+			<Text style={styles.text}>Insert material type:</Text>
 			<Dropdown
 				style={[styles.dropdown, dropdownIsFocus && {borderColor: 'blue'}]}
 				placeholderStyle={styles.placeholderStyle}
@@ -100,16 +149,18 @@ const TruckView: React.FC<Props> = (props: Props) => {
 					setDropdownIsFocus(false);
 				}}
 			/>
+			<Text style={styles.text}>Insert quantity:</Text>
 			<RoundedInput
 				value={quantity}
-				setValue={setQuantity}
+				setValue={filterQuantityInput}
 				placeholder="Quantity"
 			/>
-			<TextArea />
+			<Text style={styles.text}>Log:</Text>
+			<TextArea value={log} setValue={setTextAreaValue} />
 			<LargeButton
-				icon="world"
-				text="Send msg"
-				handleFunction={sendTcpMessage}
+				icon="play"
+				text="Send Request"
+				handleFunction={chekIfRequestPossible}
 			/>
 		</SafeAreaView>
 	);
@@ -119,9 +170,12 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: 'white',
 		flex: 1,
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	dropdown: {
-		height: 50,
+		height: 40,
+		width: '60%',
 		borderColor: 'gray',
 		borderWidth: 0.5,
 		borderRadius: 22,
@@ -160,17 +214,22 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderColor: '#464646',
-		borderWidth: 1,
+		borderColor: 'gray',
+		borderWidth: 0.5,
 		borderRadius: 22,
 		width: '50%',
 		height: 35,
+		top: -30,
 	},
 	header: {
 		width: '100%',
 		height: '6%',
 		paddingTop: 10,
 		paddingLeft: 10,
+	},
+	text: {
+		fontSize: 16,
+		bottom: -10,
 	},
 });
 

@@ -1,4 +1,10 @@
 export interface Options {
+	tcpOptions: TcpOptions;
+	destinationActor: string;
+	requestName: string;
+}
+
+export interface TcpOptions {
 	port: number;
 	host: string;
 	localAddress: string;

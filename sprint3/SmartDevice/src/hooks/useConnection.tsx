@@ -1,9 +1,9 @@
 import {useEffect, useRef} from 'react';
 import TcpSockets from 'react-native-tcp-socket';
-import {Options} from '../static/Types';
+import {Options, TcpOptions} from '../static/Types';
 
 const useConnection = (
-	tcpOptions: Options,
+	tcpOptions: TcpOptions,
 	onMessage: (data: string | Buffer) => void,
 	onConnectedHandler = (client: TcpSockets.Socket) => {},
 ) => {
@@ -17,13 +17,20 @@ const useConnection = (
 				onConnectedHandler(client);
 			});
 		} catch (error) {
-			console.log('Error: ', error);
+			console.log('useConnection | Error: ', error);
 		}
 
 		const client: TcpSockets.Socket = clientRef.current!;
 
 		client.on('data', data => {
+			console.log('useConnection | arrived msg ' + data);
 			onMessage(data);
+		});
+
+		client.on('close', data => {
+			console.log(
+				`useConnection | closed connection to ${tcpOptions.host}:${tcpOptions.port}`,
+			);
 		});
 
 		return () => {
@@ -37,7 +44,7 @@ const useConnection = (
 				onConnectedHandler(clientRef.current!);
 			});
 		} catch (error) {
-			console.log('Error: ', error);
+			console.log('useConnection | Error: ', error);
 		}
 	};
 

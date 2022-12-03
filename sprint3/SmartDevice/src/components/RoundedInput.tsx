@@ -33,8 +33,9 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		width: '100%',
 		backgroundColor: Palette.White,
-		borderColor: Palette.Grey,
+		borderColor: 'gray',
 		borderRadius: 22,
+		borderWidth: 0.5,
 	},
 	input: {
 		fontSize: 20,

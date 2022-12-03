@@ -9,10 +9,14 @@ type Props = {
 
 const OptionsProvider = (props: Props) => {
 	const [options, setOptions] = useState<Options>({
-		port: 8050,
-		host: 'localhost',
-		localAddress: '127.0.0.1',
-		reuseAddress: true,
+		tcpOptions: {
+			port: 8050,
+			host: 'localhost',
+			localAddress: '127.0.0.1',
+			reuseAddress: true,
+		},
+		destinationActor: 'wasteservice',
+		requestName: 'storeRequest',
 	});
 
 	const updateOptions = (options: Options) => {

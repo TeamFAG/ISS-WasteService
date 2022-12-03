@@ -4,21 +4,20 @@ import React, {FC, useState} from 'react';
 import {Palette} from '../static/Colors';
 import {warn} from 'console';
 
-type Props = {};
+type Props = {
+	value: string;
+	setValue: (value: string) => void;
+};
 
 const TextArea: React.FC<Props> = (props: Props) => {
-	const [value, setValue] = useState(
-		'ciao\nciao\nciao\nciao\nciao\nciao\nciao\nciao\nciao\nciao',
-	);
-
 	return (
 		<View style={styles.container}>
 			<TextInput
 				style={styles.text_input}
 				multiline
 				numberOfLines={5}
-				value={value}
-				onChangeText={text => setValue(text)}
+				value={props.value}
+				onChangeText={text => props.setValue(text)}
 				editable={false}
 			/>
 		</View>
@@ -29,9 +28,9 @@ const styles = StyleSheet.create({
 	container: {
 		alignSelf: 'center',
 		width: '80%',
-		height: '60%',
-		borderWidth: 1,
-		borderColor: '#464646',
+		height: '50%',
+		borderWidth: 0.5,
+		borderColor: 'gray',
 		borderRadius: 12,
 		backgroundColor: Palette.White,
 	},

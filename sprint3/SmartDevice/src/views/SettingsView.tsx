@@ -17,6 +17,8 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 	const [ipText, setIpText] = useState('');
 	const [portText, setPortText] = useState('');
 	const [localAddressText, setLocalAddressText] = useState('');
+	const [destActor, setDestActor] = useState('');
+	const [requestName, setRequestName] = useState('');
 
 	const handlebackPressed = () => {
 		props.navigation.navigate('Home');
@@ -24,11 +26,17 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 
 	const saveSettings = () => {
 		const newOptions: Options = {
-			port: portText != '' ? Number(portText) : options.port,
-			host: ipText != '' ? ipText : options.host,
-			localAddress:
-				localAddressText != '' ? localAddressText : options.localAddress,
-			reuseAddress: options.reuseAddress,
+			tcpOptions: {
+				port: portText != '' ? Number(portText) : options.tcpOptions.port,
+				host: ipText != '' ? ipText : options.tcpOptions.host,
+				localAddress:
+					localAddressText != ''
+						? localAddressText
+						: options.tcpOptions.localAddress,
+				reuseAddress: options.tcpOptions.reuseAddress,
+			},
+			destinationActor: destActor != '' ? destActor : options.destinationActor,
+			requestName: requestName != '' ? requestName : options.requestName,
 		};
 
 		updateOptions(newOptions);
@@ -40,11 +48,29 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 				<Header handleButtonPressed={handlebackPressed}></Header>
 			</View>
 			<View style={styles.textContainer}>
-				<Text style={styles.text}>Host: {options.host}</Text>
-				<Text style={styles.text}>Port: {options.port}</Text>
-				<Text style={styles.text}>LocalAddress: {options.localAddress}</Text>
 				<Text style={styles.text}>
-					ReuseAddress: {options.reuseAddress ? 'True' : 'False'}
+					<Text style={styles.text_bold}>Host: </Text>
+					{options.tcpOptions.host}
+				</Text>
+				<Text style={styles.text}>
+					<Text style={styles.text_bold}>Port: </Text>
+					{options.tcpOptions.port}
+				</Text>
+				<Text style={styles.text}>
+					<Text style={styles.text_bold}>LocalAddress: </Text>
+					{options.tcpOptions.localAddress}
+				</Text>
+				<Text style={styles.text}>
+					<Text style={styles.text_bold}>ReuseAddress: </Text>
+					{options.tcpOptions.reuseAddress ? 'True' : 'False'}
+				</Text>
+				<Text style={styles.text}>
+					<Text style={styles.text_bold}>Dest. Actor: </Text>
+					{options.destinationActor}
+				</Text>
+				<Text style={styles.text}>
+					<Text style={styles.text_bold}>Request name: </Text>
+					{options.requestName}
 				</Text>
 			</View>
 			<View style={styles.buttonContainer}>
@@ -63,6 +89,16 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 					value={localAddressText}
 					setValue={setLocalAddressText}
 				/>
+				<RoundedInput
+					placeholder="Destination Actor"
+					value={destActor}
+					setValue={setDestActor}
+				/>
+				<RoundedInput
+					placeholder="Request Name"
+					value={requestName}
+					setValue={setRequestName}
+				/>
 				<LargeButton
 					text="Save settings"
 					icon="settings"
@@ -77,10 +113,16 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+		backgroundColor: 'white',
 	},
 	textContainer: {
 		flex: 0.3,
 		justifyContent: 'space-evenly',
+		padding: 10,
+		borderWidth: 1,
+		borderColor: 'gray',
+		borderRadius: 22,
+		width: '85%',
 	},
 	buttonContainer: {
 		flex: 0.7,
@@ -90,6 +132,10 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: 22,
 		fontWeight: '400',
+	},
+	text_bold: {
+		fontSize: 22,
+		fontWeight: 'bold',
 	},
 	header: {
 		width: '100%',
