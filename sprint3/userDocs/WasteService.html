@@ -378,11 +378,20 @@
             <h3>Update policy</h3>
 
             <k>How do we know when a gui update is needed ?</k>
-
-            This particular problem is very similar to the sonar and led analysis of Sprint2, in which we had to monitor
-            the trolley's behavior to update the state of the system.<br/>
             <br/>
-            Consequently, for the same reasons, we decided to use the Observer pattern by implementing CoaP messaging.<br/>
+            This particular problem is very similar to the sonar and led analysis of Sprint2, in which we had to monitor
+            the trolley's behavior to update the state of the system.
+            <br/>
+            Consequently, for the same reasons, we decided to use the Observer pattern by implementing CoaP messaging.<br/><br/>
+
+            We introduced a new actor called <ks>wsgui</ks> that receives Dispatches from all the update sources and
+            consequently calls for an updateResources to notify the CoaP observers.<br/>
+            
+            <img src="">
+
+            For now, the only CoaP observer that listens to these updates is part of a Test for this particular analysis.<br/>
+            In the project portion of this document we will tackle the issue of the real observer.<br/>
+            
 
 
             <br/>
@@ -431,21 +440,6 @@
             </div>
         </div>
 
-        <h2>Work plan</h2>
-        <div class="remark">
-            <kc>Sprint 2</kc> was focused on the implementation of the <b>raspberry</b> segment, it's interaction with
-            the <b>waste service</b> and the distribution of the whole system.<br/>
-            In <kc>Sprint 3</kc> we aim to complete the project implementing the <b>WasteServiceStatusGUI</b>.<br/>
-            
-            SCRUM Goal:
-            <ol>
-                <li>Realize the <b>GUI</b></li>
-                <li>Connect the <b>GUI</b> to the system</li>
-                <li>Implement the <k>GUI</k> updating methods</li>
-            </ol>
-
-            <h5>Next Sprint: <kc href=""><kc>Sprint 3</kc></a></h5>
-        </div>
       
         <h2>Task assignment</h2>
         <div class="remark">
