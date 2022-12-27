@@ -44,7 +44,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t028",targetState="handleEvent",cond=whenDispatch("updateLed"))
+					 transition(edgeName="t030",targetState="handleEvent",cond=whenDispatch("updateLed"))
 				}	 
 				state("handleEvent") { //this:State
 					action { //it:State
@@ -86,7 +86,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t029",targetState="handleEvent",cond=whenDispatch("updateLed"))
+					 transition(edgeName="t031",targetState="handleEvent",cond=whenDispatch("updateLed"))
 				}	 
 				state("off") { //this:State
 					action { //it:State
@@ -98,7 +98,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t030",targetState="handleEvent",cond=whenDispatch("updateLed"))
+					 transition(edgeName="t032",targetState="handleEvent",cond=whenDispatch("updateLed"))
 				}	 
 				state("blinkLedOn") { //this:State
 					action { //it:State
@@ -114,8 +114,8 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				 	 			scope, context!!, "local_tout_led_blinkLedOn", 300.toLong() )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t031",targetState="blinkLedOff",cond=whenTimeout("local_tout_led_blinkLedOn"))   
-					transition(edgeName="t032",targetState="handleEvent",cond=whenDispatch("updateLed"))
+					 transition(edgeName="t033",targetState="blinkLedOff",cond=whenTimeout("local_tout_led_blinkLedOn"))   
+					transition(edgeName="t034",targetState="handleEvent",cond=whenDispatch("updateLed"))
 				}	 
 				state("blinkLedOff") { //this:State
 					action { //it:State
@@ -131,8 +131,8 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 				 	 			scope, context!!, "local_tout_led_blinkLedOff", 300.toLong() )
 				 	 		//}
 					}	 	 
-					 transition(edgeName="t033",targetState="blinkLedOn",cond=whenTimeout("local_tout_led_blinkLedOff"))   
-					transition(edgeName="t034",targetState="handleEvent",cond=whenDispatch("updateLed"))
+					 transition(edgeName="t035",targetState="blinkLedOn",cond=whenTimeout("local_tout_led_blinkLedOff"))   
+					transition(edgeName="t036",targetState="handleEvent",cond=whenDispatch("updateLed"))
 				}	 
 			}
 		}

@@ -34,6 +34,7 @@ const SettingsView: React.FC<Props> = (props: Props) => {
 						? localAddressText
 						: options.tcpOptions.localAddress,
 				reuseAddress: options.tcpOptions.reuseAddress,
+				interface: 'wifi',
 			},
 			destinationActor: destActor != '' ? destActor : options.destinationActor,
 			requestName: requestName != '' ? requestName : options.requestName,

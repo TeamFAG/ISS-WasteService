@@ -121,7 +121,6 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				}	 
 				state("handleHalt") { //this:State
 					action { //it:State
-						forward("updateRobotState", "updateRobotState(HALT)" ,"wsgui" ) 
 						println("	PATHEXECUTOR | stop...")
 						updateResourceRep( "pather(halt_begin)"  
 						)
@@ -134,7 +133,6 @@ class Pather ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				}	 
 				state("resumeFromHalt") { //this:State
 					action { //it:State
-						forward("updateRobotState", "updateRobotState(RESUME)" ,"wsgui" ) 
 						println("	PATHEXECUTOR | resuming from halt")
 						updateResourceRep( "pather(halt_end)"  
 						)

@@ -20,6 +20,7 @@ import {Palette} from '../static/Colors';
 import Icons from '../components/icons/Icons';
 import TextArea from '../components/TextArea';
 import Header from '../components/Header';
+import {err} from 'react-native-svg/lib/typescript/xml';
 
 type Props = NativeStackScreenProps<RootStackParams, 'Truck'>;
 
@@ -80,6 +81,10 @@ const TruckView: React.FC<Props> = (props: Props) => {
 		addMessage(data.toString());
 	};
 
+	const onErrorHandler = (error: Error) => {
+		showAlert(`${error}`);
+	};
+
 	const onConnectedHandler = (client: TcpSockets.Socket) => {
 		setTcpClient(client);
 		setIsConnected(true);
@@ -115,6 +120,7 @@ const TruckView: React.FC<Props> = (props: Props) => {
 	const refresh = useConnection(
 		options.tcpOptions,
 		onMessageHandler,
+		onErrorHandler,
 		onConnectedHandler,
 	);
 
