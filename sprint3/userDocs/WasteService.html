@@ -349,15 +349,42 @@
                 <li><b>Web-based GUI</b></li>
             </ul>
 
-            <h4>Application</h4>
-
-            This approach guarantees [ROBEEEEE]
-            However, this is <b>hardly dependent</b> on the kind of platform/OS of the machine that executes it.
-
-            <h4>Web-based GUI</h4>
-
-            This strategy grants us the ability to be completely intependent from the machine and [prepuzio]
+            <h4>Importance of clean architecture in relation to the UI</h4>
             
+            The <a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">clean architecture</a> is a way of separating responsibilities and parts of functionality according to their proximity 
+            to the application domain.<br/><br/>
+
+            By the domain, we mean the part of the real world that we model with a program. This is the data transformations 
+            that reflect transformations in the real world.<br/>
+            For example, if we updated the name of a product, replacing the old name with the new one is a domain transformation.<br/><br/>
+
+            <img src="./imgs/CleanArchitecture.jpg">
+
+            In the scheme of the architecture, our GUI component is an <k>external interface</k> and as such it should be
+            detatched from the core business logic of the system.<br/>
+
+            <h4>Desktop Application</h4>
+            With this strategy, the GUI component is an executable that needs to be installed on the target machine.<br/>
+            <ol>
+                <li>- The App can be independent from the system (if developed as an external program), however it still will be highly
+                    dependent on the OS/platform used to run it.
+                </li>
+                <li>- If developed as an internal component (part of the qak architecture with a Qak actor/codedActor), it will be
+                    too dependent on the system itself, limiting present and future development. 
+                </li>
+                <li>- Running this application using Docker is always more difficult, as visualization of the gui needs to be
+                    handled inside the container.
+                </li>
+            </ol>
+
+            <h4>Web Application</h4>
+            With this strategy, the GUI component runs on an external server as a website.<br/>
+            <ol>
+                <li>+ The <b>webApp</b> is detached (or independent) from the system.</li>
+                <li>+ The customer provides support for this choice by presenting other functioning projects.</li>
+                <li>+ There are no OS/platform limitations as the only required application is a browser.</li>
+                <li>- Defining the interaction between a Qak based system and an external server could prove to be challenging.</li>
+            </ol>
             
             <h3>WasteService to GUI communication handling</h3>
             One of the core problems of this sprint is the communication of the system and the GUI as the latter needs to be constantly updated
@@ -373,7 +400,7 @@
 
             <k>However, after further analysis the team realised that Dispatches require the knowledge of the receiving end of the connection.<br/>
             Which means that they introduce a level of dependency that should be avoided.<br/>
-            We will tackle the issue in a separate part of this problem analysis.</k>
+            We will tackle the issue in a separate part of this Sprint document.</k>
 
             <h3>Update policy</h3>
 
@@ -384,12 +411,30 @@
             <br/>
             Consequently, for the same reasons, we decided to use the Observer pattern by implementing CoaP messaging.<br/><br/>
 
-            We introduced a new actor called <ks>wsgui</ks> that receives Dispatches from all the update sources and
-            consequently calls for an updateResources to notify the CoaP observers.<br/>
+            Our pre-existing <ks>trolleystateobserver</ks> actor already observes the <k>state</k> ad <k>position</k> of the trolley.<br/>
+            It also acts as the notifier for the Led state, so reusing it is the best possible choice.<br/><br/>
+
+<pre><code>Dispatch updateLed : updateLed(STATE)
+Dispatch updateRobotState : updateRobotState(STATE)
+</code></pre>
+
+            However, one required information for the gui is not being observed. The <k>containers'</k> state.<br/>
+            To solve this, we created another observer, <ks>wasteserviceobserver</ks> that runs in the <i>ctxwasteservice</i> qak context.<br/>
+            This actor receives CoaP messages sent by the <ks>wasteservice</ks> actor whenever a container is updated by the system (by using <k>updateResource</k> funcitons).<br/>
+            Next, it sends Dispatches to notify of the update of the GUI.<br/><br/>
+
+<pre><code>Dispatch updateMaterial : updateMaterial(MATERIAL, QUANTITY)</code></pre>
+
+            <k><i>Who receives these messages ?</i></k>
+            We introduced a new actor called <ks>guiupdater</ks> that receives Dispatches from all the update sources (<k>Observers</k>) and
+            consequently uses them to create and ultimately send the final update message.<br/><br/>            
+
+            This was done so that the eventual GUI component will only have to receive one type of message from the system, instead of
+            having to parse each message differently based on its origin.<br/>
             
             <img src="">
 
-            For now, the only CoaP observer that listens to these updates is part of a Test for this particular analysis.<br/>
+            For now, the only entity that listens to these updates is a CoaP observer built as part of a Test for this particular analysis.<br/>
             In the project portion of this document we will tackle the issue of the real observer.<br/>
 
             <br/>
@@ -438,7 +483,13 @@
             all updates of the system to the GUI.<br/><br/>
 
             To finally complete the implementation of this structure, we defined a new object called wsDispatcher the uses
-            the WsConnection class (provided by the customer), to connect to the GUI server and send all new updates. 
+            the WsConnection class (provided by the customer), to connect to the GUI server and send all new updates received by 
+            <ks>guiupdater</ks>.
+
+            <h4>Error handling</h4>
+            During the project phase, we found a mistake made in the problem analysis phase of this Sprint.<br/>
+            Regarding the update messages for the Led and Robot state forwaded to <ks>guiupdater</ks>, they were being sent by the <ks>transporttrolley</ks> actor instead
+            of the <ks>trolleystateobserver</ks> actor.
 
             <h3>Smart Device re-definition</h3>
 
@@ -456,7 +507,32 @@
                 <li><b>Extensive Support</b>: There are many pre-made assets that significantly sped-up the development process.</li>
             </ul>
 
+            <img src="">
+
             <h3>MQTT and its possible use in our project</h3>
+
+            Right now, our core system needs to know the endpoint of the GUI server to be able to send update messages.<br/>
+            This means that there is still some dependency between the two components, which violates the clean architecture mentioned
+            in the analysis section of the document.
+
+            <k>How can we completely detach the GUI from the system ?</k>
+            <a href="https://mqtt.org/">MQTT</a> is messaging protocol designed for IoT messaging that uses the Pub/Sub design pattern.<br/>
+            <br/>
+
+            Messages are sent to/from an entity called <b>message broker</b> that handles the traffic between endpoints<br/>
+            Our GUI interaction would greatly benefit from using this protocol as the core system would only need to know the broker,
+            not the GUI server.<br/>
+            <br/>
+            These would be the required steps:
+            <ol>
+                <li><b>Create a topic</b> on the broker specifically for GUI messages (ex. "<i>guiupdates</i>")</li>
+                <li><b>The GUI subscribes to <i>guiupdates</i></b> so that all messages published on that topic are automatically received.</li>
+                <li><b>The system publishes all updates</b> on the topic by sending specific messages to the message broker.</li>
+            </ol>
+            This means that each component involved in the interaction can change and evolve without the need for updates on 
+            the opposite endpoint, creating complete independency.<br/><br/>
+
+            The strategy will be implemented as a future update to the service.<br/>
 
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
