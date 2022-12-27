@@ -44,4 +44,11 @@ object utils {
         if(material.equals(Material.GLASS)) return "GLASSBOX"
         else return "PLASTICBOX"
     }
+
+    fun get() {
+        var str = "wasteservice(Plastic: 5.0)"
+
+        var x = str.split(" ")[1].replace(")", "").toFloat()
+
+    }
 }

@@ -14,6 +14,7 @@ const OptionsProvider = (props: Props) => {
 			host: 'localhost',
 			localAddress: '127.0.0.1',
 			reuseAddress: true,
+			interface: 'wifi',
 		},
 		destinationActor: 'wasteservice',
 		requestName: 'storeRequest',

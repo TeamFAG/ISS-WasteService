@@ -18,6 +18,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 		
 				var CurrentState = ws.LedState.OFF
 				var LedState = ws.LedState.OFF
+				var TrolleyState = ""
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
@@ -29,7 +30,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t026",targetState="handleCoapUpdate",cond=whenDispatch("coapUpdate"))
+					 transition(edgeName="t028",targetState="handleCoapUpdate",cond=whenDispatch("coapUpdate"))
 				}	 
 				state("handleCoapUpdate") { //this:State
 					action { //it:State
@@ -40,10 +41,13 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 												var Value = payloadArg(1)
 												
 												if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
-													LedState = wsLed.LedUtils.getLedStatusFromCoap(Resource, Value)
+													LedState = ws.ObserversUtils.getLedStatusFromCoapUpdate(Resource, Value)
+													
+												TrolleyState = ws.ObserversUtils.getTrolleyStateFromCoapUpdate(Resource, Value)
+								forward("updateRobotState", "updateRobotState($TrolleyState)" ,"guiupdater" ) 
 								if(  !CurrentState.equals(LedState)  
 								 ){forward("updateLed", "updateLed($LedState)" ,"led" ) 
-								forward("updateLed", "updateLed($LedState)" ,"wsgui" ) 
+								forward("updateLed", "updateLed($LedState)" ,"guiupdater" ) 
 								 CurrentState = LedState  
 								}
 						}
@@ -52,7 +56,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t027",targetState="handleCoapUpdate",cond=whenDispatch("coapUpdate"))
+					 transition(edgeName="t029",targetState="handleCoapUpdate",cond=whenDispatch("coapUpdate"))
 				}	 
 			}
 		}

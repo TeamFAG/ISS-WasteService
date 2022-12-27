@@ -5,6 +5,7 @@ import {Options, TcpOptions} from '../static/Types';
 const useConnection = (
 	tcpOptions: TcpOptions,
 	onMessage: (data: string | Buffer) => void,
+	onError: (error: Error) => void,
 	onConnectedHandler = (client: TcpSockets.Socket) => {},
 ) => {
 	const clientRef = useRef<TcpSockets.Socket>();
@@ -31,6 +32,11 @@ const useConnection = (
 			console.log(
 				`useConnection | closed connection to ${tcpOptions.host}:${tcpOptions.port}`,
 			);
+		});
+
+		client.on('error', error => {
+			console.log('useConnection | error: ' + error);
+			onError(error);
 		});
 
 		return () => {

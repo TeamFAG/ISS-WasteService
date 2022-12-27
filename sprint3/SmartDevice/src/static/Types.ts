@@ -9,6 +9,7 @@ export interface TcpOptions {
 	host: string;
 	localAddress: string;
 	reuseAddress: boolean;
+	interface: string;
 }
 
 export type OptionsContextType = {
