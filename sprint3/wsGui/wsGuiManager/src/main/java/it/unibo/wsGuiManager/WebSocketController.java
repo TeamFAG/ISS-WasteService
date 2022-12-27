@@ -1,4 +1,4 @@
-package it.unibo.wsdemoNoSTOMP;
+package it.unibo.wsGuiManager;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package it.unibo.wsdemoNoSTOMP;
+package it.unibo.wsGuiManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;

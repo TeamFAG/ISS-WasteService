@@ -1,4 +1,4 @@
-package it.unibo.wsdemoNoSTOMP;
+package it.unibo.wsGuiManager;
 
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;

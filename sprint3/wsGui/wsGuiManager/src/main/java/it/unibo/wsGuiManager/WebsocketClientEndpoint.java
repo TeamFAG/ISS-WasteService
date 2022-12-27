@@ -1,4 +1,4 @@
-package it.unibo.wsdemoNoSTOMP;
+package it.unibo.wsGuiManager;
 
 import javax.imageio.ImageIO;
 import javax.websocket.*;
