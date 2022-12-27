@@ -378,12 +378,19 @@
             <h3>Update policy</h3>
 
             <k>How do we know when a gui update is needed ?</k>
-
-            This particular problem is very similar to the sonar and led analysis of Sprint2, in which we had to monitor
-            the trolley's behavior to update the state of the system.<br/>
             <br/>
-            Consequently, for the same reasons, we decided to use the Observer pattern by implementing CoaP messaging.<br/>
+            This particular problem is very similar to the sonar and led analysis of Sprint2, in which we had to monitor
+            the trolley's behavior to update the state of the system.
+            <br/>
+            Consequently, for the same reasons, we decided to use the Observer pattern by implementing CoaP messaging.<br/><br/>
 
+            We introduced a new actor called <ks>wsgui</ks> that receives Dispatches from all the update sources and
+            consequently calls for an updateResources to notify the CoaP observers.<br/>
+            
+            <img src="">
+
+            For now, the only CoaP observer that listens to these updates is part of a Test for this particular analysis.<br/>
+            In the project portion of this document we will tackle the issue of the real observer.<br/>
 
             <br/>
             <h3>Current system architecture</h3>
@@ -405,6 +412,51 @@
         </div>
         <h2>Project</h2>
         <div class="remark">
+
+            <h3>GUI framework</h3>
+
+            As previously discussed, we chose a Web-based solution for our GUI service.<br/>
+
+            We chose Spring Boot as a platform to develop the GUI server.<br/>
+            We did this for several reasons:
+            <ul>
+                <li>We first tried to use React, as it's a light, easily developed library with a lot of support.<br/>
+                Unfortunately, Qak systems cannot communicate with Javascript-based WebSockets, for unknown reasons.</li>
+                <li>Service deployment is handled using WebJar functionality, making it easy to manage.</li>
+                <li>The team was alredy familiar with the framework.</li>
+            </ul>
+
+            <h3>GUI design</h3>
+            As for the GUI design, we wanted to make sure it was as clear and understandable as possible.<br/>
+            All assets were used with this in mind. Also, pretty cool brosky.
+
+            <img src="">
+
+            <h3>Connecting to the Wasteservice system</h3>
+
+            In the problem analysis section of the document, we defined a CoaP based software structure to collect and send
+            all updates of the system to the GUI.<br/><br/>
+
+            To finally complete the implementation of this structure, we defined a new object called wsDispatcher the uses
+            the WsConnection class (provided by the customer), to connect to the GUI server and send all new updates. 
+
+            <h3>Smart Device re-definition</h3>
+
+            Up to this point, our Smart Device has always been a python GUI script that ran inside the main PC.<br/>
+            However, while starting to develop the wasteservice GUI, we wanted to make the Deposit Request experience closer
+            to the actual real life counterpart.<br/><br/>
+
+            To do this, we chose to create a mobile app that could connect to the system from anywhere, using Sockets.<br/>
+            By doing so, we simulate the requesting process completely.<br/><br/>
+
+            As a "mobile framework" we used React Native, which was the better choice for the following reasons:
+            <ul>
+                <li><b>Versatility</b>: The final app can be adapted for Android and iOS.</li>
+                <li><b>Familiarity</b>: As previously discussed, the team is already familiar with the React family of libraries.</li>
+                <li><b>Extensive Support</b>: There are many pre-made assets that significantly sped-up the development process.</li>
+            </ul>
+
+            <h3>MQTT and its possible use in our project</h3>
 
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
@@ -431,21 +483,6 @@
             </div>
         </div>
 
-        <h2>Work plan</h2>
-        <div class="remark">
-            <kc>Sprint 2</kc> was focused on the implementation of the <b>raspberry</b> segment, it's interaction with
-            the <b>waste service</b> and the distribution of the whole system.<br/>
-            In <kc>Sprint 3</kc> we aim to complete the project implementing the <b>WasteServiceStatusGUI</b>.<br/>
-            
-            SCRUM Goal:
-            <ol>
-                <li>Realize the <b>GUI</b></li>
-                <li>Connect the <b>GUI</b> to the system</li>
-                <li>Implement the <k>GUI</k> updating methods</li>
-            </ol>
-
-            <h5>Next Sprint: <kc href=""><kc>Sprint 3</kc></a></h5>
-        </div>
       
         <h2>Task assignment</h2>
         <div class="remark">
