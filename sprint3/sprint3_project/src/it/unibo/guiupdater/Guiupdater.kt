@@ -57,6 +57,8 @@ class Guiupdater ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 												LedState = ws.LedState.valueOf(payloadArg(0)) 
 												var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
 												wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
+								updateResourceRep( "guiupdater(LED_$LedState)"  
+								)
 						}
 						//genTimer( actor, state )
 					}
@@ -73,23 +75,17 @@ class Guiupdater ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 												CurrentMaterial = ws.Material.valueOf(payloadArg(0))
 												CurrentQuantity = payloadArg(1).toFloat()
 								if(  CurrentMaterial.equals(ws.Material.GLASS)  
-								 ){
-													GlassQty = CurrentQuantity
-													var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
-													wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
-								updateResourceRep( "GUIUPDATER | GLASS UPDATE - $GlassQty"  
-								)
-								println("	guiupdater | GLASS UPDATE - $GlassQty")
+								 ){ GlassQty = CurrentQuantity  
 								}
 								else
-								 {
-								 					PlasticQty = CurrentQuantity
-								 					var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
-								 					wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
-								 updateResourceRep( "GUIUPDATER | PLASTIC UPDATE - $PlasticQty"  
-								 )
-								 println("	guiupdater | PLASTIC UPDATE - $PlasticQty")
+								 { PlasticQty = CurrentQuantity  
 								 }
+								
+												var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
+												wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
+								updateResourceRep( "guiupdater(${CurrentMaterial}_$CurrentQuantity)"  
+								)
+								println("	GUIUPDATER | $CurrentMaterial UPDATE - $CurrentQuantity")
 						}
 						//genTimer( actor, state )
 					}
@@ -104,11 +100,12 @@ class Guiupdater ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 												RobotState = payloadArg(0).toString()
+												println("GUIGUIGUIGUIGUIGUIGUI $RobotState")
 												var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
 												wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
-								updateResourceRep( "GUIUPDATER | ROBOT UPDATE - $RobotState"  
+								updateResourceRep( "guiupdater(TROLLEY_$RobotState)"  
 								)
-								println("	GUIUPDATER | ROBOT UPDATE - $RobotState")
+								println("	GUIUPDATER | TROLLEY UPDATE - $RobotState")
 						}
 						//genTimer( actor, state )
 					}

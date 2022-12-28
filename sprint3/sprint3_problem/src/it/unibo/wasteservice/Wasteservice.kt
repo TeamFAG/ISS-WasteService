@@ -54,11 +54,13 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 								if(  ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity)  
 								 ){
 													ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)
+													TotalQuantity = ws.WasteServiceStatusManager.getStoredQuantity(CurrentMaterial)
 								updateResourceRep( "wasteservice(Plastic: ${ws.WasteServiceStatusManager.storedPlastic})"  
 								)
 								updateResourceRep( "wasteservice(Glass: ${ws.WasteServiceStatusManager.storedGlass})"  
 								)
 								request("depositRequest", "depositRequest($CurrentMaterial,$CurrentQuantity)" ,"transporttrolley" )  
+								forward("updateMaterial", "updateMaterial($CurrentMaterial,$TotalQuantity)" ,"wsgui" ) 
 								println("	WASTESERVICE | sended depositRequest to trolley")
 								}
 								else

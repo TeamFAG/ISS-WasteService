@@ -3,3 +3,4 @@
 sprint0/.settings/org.eclipse.buildship.core.prefs
 
 node_modules/
+.DS_Store

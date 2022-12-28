@@ -35,7 +35,10 @@ class Wasteserviceobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 						if( checkMsgContent( Term.createTerm("coapUpdate(RESOURCE,VALUE)"), Term.createTerm("coapUpdate(RESOURCE,VALUE)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 												
-												val (mat, qty) = ws.ObserversUtils.getContainersStateFromCoapUpdate(payloadArg(0), payloadArg(1))
+												val Resource = payloadArg(0)
+												val Value = payloadArg(1)
+												println("COAPPPPPPPPPPPPPPPPPPPP | $Value")
+												val (mat, qty) = ws.ObserversUtils.getContainersStateFromCoapUpdate(Resource, Value)
 												Material = mat
 												Quantity = qty
 								forward("updateMaterial", "updateMaterial($Material,$Quantity)" ,"guiupdater" ) 

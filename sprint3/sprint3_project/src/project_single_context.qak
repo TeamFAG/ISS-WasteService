@@ -68,6 +68,7 @@ QActor wasteservice context ctxwasteservice_test {
 	
 	State init initial {
 		println("\tWASTESERVICE | started.")
+		discardMsg Off
 	}
 	Transition t0 whenRequest storeRequest -> handleStoreRequest
 		
@@ -84,15 +85,15 @@ QActor wasteservice context ctxwasteservice_test {
 				CurrentQuantity = payloadArg(1).toFloat()
 			#]
 			
-			updateResource [# "wasteservice(handleStoreRequest_${CurrentMaterial.toString()}_$CurrentQuantity)" #]
 			println("\tWASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
+			updateResource [# "wasteservice(handleStoreRequest_${CurrentMaterial.toString()}_$CurrentQuantity)" #]
 			
 			if [# ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity) #] {
 				[#
 					ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)
 					TotalQuantity = ws.WasteServiceStatusManager.getStoredQuantity(CurrentMaterial)
 				#]
-								
+				
 				updateResource [# "wasteservice(Plastic: ${ws.WasteServiceStatusManager.storedPlastic})" #]
 				updateResource [# "wasteservice(Glass: ${ws.WasteServiceStatusManager.storedGlass})" #]
 				
@@ -465,7 +466,10 @@ QActor wasteserviceobserver context ctxwasteservice_test {
 	State handleCoapUpdate {
 		onMsg(coapUpdate : coapUpdate(RESOURCE, VALUE)) {
 			[#				
-				val (mat, qty) = ws.ObserversUtils.getContainersStateFromCoapUpdate(payloadArg(0), payloadArg(1))
+				val Resource = payloadArg(0)
+				val Value = payloadArg(1)
+				println("COAPPPPPPPPPPPPPPPPPPPP | $Value")
+				val (mat, qty) = ws.ObserversUtils.getContainersStateFromCoapUpdate(Resource, Value)
 				Material = mat
 				Quantity = qty
 			#]
@@ -480,6 +484,7 @@ QActor wasteserviceobserver context ctxwasteservice_test {
 QActor trolleystateobserver context ctxwasteservice_test {
 	[#
 		var CurrentState = ws.LedState.OFF
+		var CurrentTrolleyState = ""
 		var LedState = ws.LedState.OFF
 		var TrolleyState = ""
 	#]
@@ -502,9 +507,14 @@ QActor trolleystateobserver context ctxwasteservice_test {
 					LedState = ws.ObserversUtils.getLedStatusFromCoapUpdate(Resource, Value)
 					
 				TrolleyState = ws.ObserversUtils.getTrolleyStateFromCoapUpdate(Resource, Value)
+				println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA $TrolleyState")
 			#]
 			
-			forward guiupdater -m updateRobotState : updateRobotState($TrolleyState)
+			if [# !CurrentTrolleyState.equals(TrolleyState) #] {
+				forward guiupdater -m updateRobotState : updateRobotState($TrolleyState)
+				[# CurrentTrolleyState = TrolleyState #]	
+			}
+			
 			
 			if [# !CurrentState.equals(LedState) #] {
 				forward led -m updateLed : updateLed($LedState)
@@ -675,7 +685,7 @@ QActor guiupdater context ctxwasteservice_test {
 				wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
 			#]
 			
-			//updateResource [# "led($LedState)" #]
+			updateResource [# "guiupdater(LED_$LedState)" #]
 		}
 	}
 	Goto idle
@@ -688,24 +698,18 @@ QActor guiupdater context ctxwasteservice_test {
 			#]
 			
 			if [# CurrentMaterial.equals(ws.Material.GLASS) #] {
-				[#
-					GlassQty = CurrentQuantity
-					var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
-					wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
-				#]
-								
-				updateResource [# "GUIUPDATER | GLASS UPDATE - $GlassQty" #]
-				println("\tguiupdater | GLASS UPDATE - $GlassQty")
+				[# GlassQty = CurrentQuantity #]
 			} else {
-				[#
-					PlasticQty = CurrentQuantity
-					var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
-					wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
-				#]
-								
-				updateResource [# "GUIUPDATER | PLASTIC UPDATE - $PlasticQty" #]
-				println("\tguiupdater | PLASTIC UPDATE - $PlasticQty")
+				[# PlasticQty = CurrentQuantity #]
 			}
+			
+			[#
+				var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
+				wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
+			#]
+			
+			updateResource [# "guiupdater(${CurrentMaterial}_$CurrentQuantity)" #]
+			println("\tGUIUPDATER | $CurrentMaterial UPDATE - $CurrentQuantity")
 		}
 	}
 	Goto idle
@@ -714,12 +718,13 @@ QActor guiupdater context ctxwasteservice_test {
 		onMsg(updateRobotState : updateRobotState(STATE)) {
 			[#
 				RobotState = payloadArg(0).toString()
+				println("GUIGUIGUIGUIGUIGUIGUI $RobotState")
 				var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
 				wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
 			#]
 			
-			updateResource [# "GUIUPDATER | ROBOT UPDATE - $RobotState" #]
-			println("\tGUIUPDATER | ROBOT UPDATE - $RobotState")
+			updateResource [# "guiupdater(TROLLEY_$RobotState)" #]
+			println("\tGUIUPDATER | TROLLEY UPDATE - $RobotState")
 		}
 	} 
 	Goto idle

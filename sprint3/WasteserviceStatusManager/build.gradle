@@ -1,0 +1,49 @@
+//import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+	id 'org.springframework.boot' version '2.7.7'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+	id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21'
+}
+
+group = 'it.unibo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	flatDir {   dirs '../../unibolibs'	 }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+	implementation 'org.jetbrains.kotlin:kotlin-reflect'
+	implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation name: 'uniboInterfaces'
+	implementation name: '2p301'
+	implementation name: 'unibo.comm22-1.1'
+	/* COAP **************************************************************************************************************** */
+	// https://mvnrepository.com/artifact/org.eclipse.californium/californium-core
+	implementation group: 'org.eclipse.californium', name: 'californium-core', version: '3.5.0'
+	// https://mvnrepository.com/artifact/org.eclipse.californium/californium-proxy2
+	implementation group: 'org.eclipse.californium', name: 'californium-proxy2', version: '3.5.0'
+}
+/*
+tasks.withType(KotlinCompile) {
+	kotlinOptions {
+		freeCompilerArgs = ['-Xjsr305=strict']
+		jvmTarget = '11'
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+ */

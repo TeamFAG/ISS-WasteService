@@ -17,6 +17,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
 				var CurrentState = ws.LedState.OFF
+				var CurrentTrolleyState = ""
 				var LedState = ws.LedState.OFF
 				var TrolleyState = ""
 		return { //this:ActionBasciFsm
@@ -44,7 +45,11 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 													LedState = ws.ObserversUtils.getLedStatusFromCoapUpdate(Resource, Value)
 													
 												TrolleyState = ws.ObserversUtils.getTrolleyStateFromCoapUpdate(Resource, Value)
-								forward("updateRobotState", "updateRobotState($TrolleyState)" ,"guiupdater" ) 
+												println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA $TrolleyState")
+								if(  !CurrentTrolleyState.equals(TrolleyState)  
+								 ){forward("updateRobotState", "updateRobotState($TrolleyState)" ,"guiupdater" ) 
+								 CurrentTrolleyState = TrolleyState  
+								}
 								if(  !CurrentState.equals(LedState)  
 								 ){forward("updateLed", "updateLed($LedState)" ,"led" ) 
 								forward("updateLed", "updateLed($LedState)" ,"guiupdater" ) 

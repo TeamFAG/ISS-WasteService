@@ -24,6 +24,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				state("init") { //this:State
 					action { //it:State
 						println("	WASTESERVICE | started.")
+						discardMessages = false
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -49,9 +50,9 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 								
 												CurrentMaterial = ws.Material.valueOf(payloadArg(0))
 												CurrentQuantity = payloadArg(1).toFloat()
+								println("	WASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 								updateResourceRep( "wasteservice(handleStoreRequest_${CurrentMaterial.toString()}_$CurrentQuantity)"  
 								)
-								println("	WASTESERVICE | received store request: $CurrentQuantity KG of $CurrentMaterial")
 								if(  ws.WasteServiceStatusManager.checkIfDepositPossible(CurrentMaterial, CurrentQuantity)  
 								 ){
 													ws.WasteServiceStatusManager.updateBox(CurrentMaterial, CurrentQuantity)
