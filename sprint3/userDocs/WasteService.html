@@ -358,7 +358,7 @@
             that reflect transformations in the real world.<br/>
             For example, if we updated the name of a product, replacing the old name with the new one is a domain transformation.<br/><br/>
 
-            <img src="./imgs/CleanArchitecture.jpg">
+            <center><img src="./imgs/CleanArchitecture.jpg" width="500px" height="380px"></center><br/><br/>
 
             In the scheme of the architecture, our GUI component is an <k>external interface</k> and as such it should be
             detatched from the core business logic of the system.<br/>
@@ -412,7 +412,7 @@
             Consequently, for the same reasons, we decided to use the Observer pattern by implementing CoaP messaging.<br/><br/>
 
             Our pre-existing <ks>trolleystateobserver</ks> actor already observes the <k>state</k> ad <k>position</k> of the trolley.<br/>
-            It also acts as the notifier for the Led state, so reusing it is the best possible choice.<br/><br/>
+            It also acts as the notifier for the Led state, so reusing it is the best possible choice.<br/>
 
 <pre><code>Dispatch updateLed : updateLed(STATE)
 Dispatch updateRobotState : updateRobotState(STATE)
@@ -421,7 +421,7 @@ Dispatch updateRobotState : updateRobotState(STATE)
             However, one required information for the gui is not being observed. The <k>containers'</k> state.<br/>
             To solve this, we created another observer, <ks>wasteserviceobserver</ks> that runs in the <i>ctxwasteservice</i> qak context.<br/>
             This actor receives CoaP messages sent by the <ks>wasteservice</ks> actor whenever a container is updated by the system (by using <k>updateResource</k> funcitons).<br/>
-            Next, it sends Dispatches to notify of the update of the GUI.<br/><br/>
+            Next, it sends Dispatches to notify of the update of the GUI.<br/>
 
 <pre><code>Dispatch updateMaterial : updateMaterial(MATERIAL, QUANTITY)</code></pre>
 
@@ -442,17 +442,11 @@ Dispatch updateRobotState : updateRobotState(STATE)
             <div class="remark" style="background-color: #bec7fe;">
                 <img src="./imgs/problem_analisysarch.png" alt="waasteserviceProblemArch" style="width:auto;height:1050px;" class="center">
                 </br>
-                <a href="../sprint2_problem/src/demo_single_context.qak"><k>demo_single_context.qak</k></a>
+                <a href="../sprint3_problem/src/demo_single_context.qak"><k>demo_single_context.qak</k></a>
 
-                <br/>
                 <h5>Test Plans</h5>
-                <dd>
-                    We have prepared the following tests for this particular model:
-                    <ol>
-                        <li><a href="../sprint2_problem/test/TestLed.kt"><k>TestLed</k></a>: executes two trolley routines and verfies the required states of the led.</li>
-                        <li><a href="../sprint2_problem/test/TestHalt.kt"><k>TestHalt</k></a>: executes a routine and verifies the states of our <ks>pather</ks> actor.</li>
-                    </ol>
-                </dd>
+                <k>The test plans for this particular Sprint have been developed only for the Project section, as they would have 
+                been very similar in both phases.</k><br/><br/>
             </div>
         </div>
         <h2>Project</h2>
@@ -473,9 +467,9 @@ Dispatch updateRobotState : updateRobotState(STATE)
 
             <h3>GUI design</h3>
             As for the GUI design, we wanted to make sure it was as clear and understandable as possible.<br/>
-            All assets were used with this in mind. Also, pretty cool brosky.
+            All assets were used with this in mind.<br/><br/>
 
-            <img src="">
+            <img src="./imgs/gui.png" height="550" width="980">
 
             <h3>Connecting to the Wasteservice system</h3>
 
@@ -484,12 +478,7 @@ Dispatch updateRobotState : updateRobotState(STATE)
 
             To finally complete the implementation of this structure, we defined a new object called wsDispatcher the uses
             the WsConnection class (provided by the customer), to connect to the GUI server and send all new updates received by 
-            <ks>guiupdater</ks>.
-
-            <h4>Error handling</h4>
-            During the project phase, we found a mistake made in the problem analysis phase of this Sprint.<br/>
-            Regarding the update messages for the Led and Robot state forwaded to <ks>guiupdater</ks>, they were being sent by the <ks>transporttrolley</ks> actor instead
-            of the <ks>trolleystateobserver</ks> actor.
+            <ks>guiupdater</ks>.<br/><br/>
 
             <h3>Smart Device re-definition</h3>
 
@@ -537,23 +526,18 @@ Dispatch updateRobotState : updateRobotState(STATE)
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
                 <img src="./imgs/sprint2_projectarch.png" alt="demo" style="width:900px;height:auto;" class="center">
-                </br>
+                <br/>
                 <a href="../sprint2_project/src/demo_project.qak"><k>Demo QAK</k></a>
-                <h4>Bug Fixes</h4>
-                While testing our system we found that the <ks><i>basicrobot22</i></ks> docker image (which included both the <b>virtual environment</b> and 
-                the <b>basicrobot</b> actor) caused some mismatches between the virtual robot and the actual state the trolley inside our system's
-                <b>business logic</b>.<br/><br/>
-
-                To solve this issue, we moved the <ks>basicrobot</ks> actor from docker to our <k>ctxtrolley</k> qak context.<br/>
-                While the virtual environment would still be running on docker.<br/>
-                <br>
+                <br/>
+                <h4>Handling Implementation Oversights</h4>
+                During the project phase, we found a mistake made in the problem analysis phase of this Sprint.<br/>
+                Regarding the update messages for the Led and Robot state forwaded to <ks>guiupdater</ks>, they were being sent by the <ks>transporttrolley</ks> actor instead
+                of the <ks>trolleystateobserver</ks> actor.<br/>
                 <h5>Test Plans</h5>
                 <dd>
                     We have prepared the following tests for this particular model:
                     <ol>
-                        <li><a href="../sprint2_project/test/IntegrationTestLed.kt"><k>IntegrationTestLed.kt</k></a>: Integration testing to ensure the correct behavior of the led inside the system using CoaP.</li>
-                        <li><a href="../sprint2_project/test/IntegrationTestLedHalt.kt"><k>IntegrationTestLedHalt.kt</k></a>: Integration testing to ensure the correct behavior of the halt procedure inside the system using CoaP.</li>
-                        <li><a href="../sprint2_project/test/UnitTestLed.kt"><k>UnitTestLed.kt</k></a>: Specifically sends <i>updateLed(STATE)</i> messages to the led and verifies its status.</li>
+                        <li><a href="../sprint3_project/test/IntegrationTestGuiUpdater.kt"><k>IntegrationTestGuiUpdater.kt</k></a>: Integration testing to ensure the correct behavior of the Gui updates inside the system using CoaP.</li>
                     </ol>
                 </dd>
             </div>
@@ -569,39 +553,29 @@ Dispatch updateRobotState : updateRobotState(STATE)
                     <th>Developers</th>
                 </tr>
                 <tr>
-                    <td><center>Implementing the Halt behavior</center></td>
-                    <td>Modifying the existing Qak actors and making new ones to achieve the Halt behaviour.</td>
-                    <td><center>Federico Andrucci</center></td>
-                </tr>
-                <tr>
-                    <td><center>Sonar developement</center></td>
-                    <td>Creating the CodedActors, Qak actor and the pipe.</td>
+                    <td><center>SpringBoot project development</center></td>
+                    <td>Creating the SpringBoot project and classes.</td>
                     <td><center>Gabriele Marconi</center></td>
                 </tr>
                 <tr>
-                    <td><center>Led developement</center></td>
-                    <td>Implementing the Qak actor and the LedUtils wrapper.</td>
+                    <td><center>HTML design and Javascript development</center></td>
+                    <td>Designing the graphic interface.</td>
                     <td><center>Alex Gianelli</center></td>
                 </tr>
                 <tr>
-                    <td><center>System Distribution</center></td>
-                    <td>Creating the .jar files and distributing the system.</td>
-                    <td><center>Gabriele Marconi,<br/>Alex Gianelli,<br/>Federico Andrucci</center></td>
-                </tr>
-                <tr>
-                    <td><center>Halt Testing</center></td>
-                    <td>Creating test routines for the halt behaviour.</td>
+                    <td><center>New Smart Device implementation</center></td>
+                    <td>Developing the React Native based mobile app for the Smart Device component.</td>
                     <td><center>Federico Andrucci</center></td>
                 </tr>
                 <tr>
-                    <td><center>Led Testing</center></td>
-                    <td>Creating test routines for the led actor.</td>
-                    <td><center>Alex Gianelli</center></td>
+                    <td><center>Qak model editing</center></td>
+                    <td>Modifying the existing Qak actors and making new ones to implement GUI functionalities.</td>
+                    <td><center>Federico Andrucci,<br/>Alex Gianelli,<br/>Gabriele Marconi</center></td>
                 </tr>
                 <tr>
-                    <td><center>Distribution Testing</center></td>
-                    <td>Testing different methods of distribution.</td>
-                    <td><center>Gabriele Marconi</center></td>
+                    <td><center>Gui Testing</center></td>
+                    <td>Creating tests for GUI interactions.</td>
+                    <td><center>Federico Andrucci</center></td>
                 </tr>
             </table>
         </div>
