@@ -24,12 +24,10 @@ with Diagram('sprint3_project_single_contextArch', show=False, outformat='png', 
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           trolleymover=Custom('trolleymover','./qakicons/symActorSmall.png')
           pather=Custom('pather','./qakicons/symActorSmall.png')
-          wasteserviceobserver=Custom('wasteserviceobserver','./qakicons/symActorSmall.png')
           trolleystateobserver=Custom('trolleystateobserver','./qakicons/symActorSmall.png')
           led=Custom('led','./qakicons/symActorSmall.png')
           sonar=Custom('sonar','./qakicons/symActorSmall.png')
           halteventshandler=Custom('halteventshandler','./qakicons/symActorSmall.png')
-          guiupdater=Custom('guiupdater','./qakicons/symActorSmall.png')
           basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
           envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
           sonaremittersimulator=Custom('sonaremittersimulator(coded)','./qakicons/codedQActor.png')
@@ -45,13 +43,9 @@ with Diagram('sprint3_project_single_contextArch', show=False, outformat='png', 
      pather >> Edge(color='blue', style='solid', xlabel='cmd', fontcolor='blue') >> basicrobot
      pather >> Edge(color='magenta', style='solid', xlabel='step', fontcolor='magenta') >> basicrobot
      sys >> Edge(color='red', style='dashed', xlabel='alarm', fontcolor='red') >> pather
-     wasteservice >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> wasteserviceobserver
-     wasteserviceobserver >> Edge(color='blue', style='solid', xlabel='updateMaterial', fontcolor='blue') >> guiupdater
      transporttrolley >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
      pather >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
-     trolleystateobserver >> Edge(color='blue', style='solid', xlabel='updateRobotState', fontcolor='blue') >> guiupdater
      trolleystateobserver >> Edge(color='blue', style='solid', xlabel='updateLed', fontcolor='blue') >> led
-     trolleystateobserver >> Edge(color='blue', style='solid', xlabel='updateLed', fontcolor='blue') >> guiupdater
      sys >> Edge(color='red', style='dashed', xlabel='startHalt', fontcolor='red') >> halteventshandler
      halteventshandler >> Edge(color='blue', style='solid', xlabel='halt', fontcolor='blue') >> pather
      sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> halteventshandler

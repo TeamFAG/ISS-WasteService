@@ -7,6 +7,7 @@ import java.nio.ByteBuffer
 import javax.imageio.ImageIO
 import javax.websocket.*
 
+@ClientEndpoint
 class WebSocketClientEndpoint(endpoint: URI) {
     private var userSession: Session? = null
     private lateinit var messageHandler: IMessageHandler

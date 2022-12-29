@@ -31,7 +31,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t028",targetState="handleCoapUpdate",cond=whenDispatch("coapUpdate"))
+					 transition(edgeName="t026",targetState="handleCoapUpdate",cond=whenDispatch("coapUpdate"))
 				}	 
 				state("handleCoapUpdate") { //this:State
 					action { //it:State
@@ -47,12 +47,12 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 												TrolleyState = ws.ObserversUtils.getTrolleyStateFromCoapUpdate(Resource, Value)
 												println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA $TrolleyState")
 								if(  !CurrentTrolleyState.equals(TrolleyState)  
-								 ){forward("updateRobotState", "updateRobotState($TrolleyState)" ,"guiupdater" ) 
+								 ){updateResourceRep( "trolleystateobserver($TrolleyState)"  
+								)
 								 CurrentTrolleyState = TrolleyState  
 								}
 								if(  !CurrentState.equals(LedState)  
 								 ){forward("updateLed", "updateLed($LedState)" ,"led" ) 
-								forward("updateLed", "updateLed($LedState)" ,"guiupdater" ) 
 								 CurrentState = LedState  
 								}
 						}
@@ -61,7 +61,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t029",targetState="handleCoapUpdate",cond=whenDispatch("coapUpdate"))
+					 transition(edgeName="t027",targetState="handleCoapUpdate",cond=whenDispatch("coapUpdate"))
 				}	 
 			}
 		}

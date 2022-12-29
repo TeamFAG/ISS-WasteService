@@ -33,6 +33,7 @@ dependencies {
 	implementation group: 'org.eclipse.californium', name: 'californium-core', version: '3.5.0'
 	// https://mvnrepository.com/artifact/org.eclipse.californium/californium-proxy2
 	implementation group: 'org.eclipse.californium', name: 'californium-proxy2', version: '3.5.0'
+	implementation group: 'org.json', name: 'json', version: '20220320'
 }
 /*
 tasks.withType(KotlinCompile) {

@@ -60,6 +60,7 @@ CodedQActor wsdistanceFilter context ctxwasteservice_test className "wsSonar.dis
 
 QActor wasteservice context ctxwasteservice_test {
 	[#
+		SystemConfig.setTheConfiguration("SystemConfiguration")
 		var CurrentMaterial: ws.Material
 		var CurrentQuantity: Float
 		var Rejected: Boolean = false
@@ -69,6 +70,8 @@ QActor wasteservice context ctxwasteservice_test {
 	State init initial {
 		println("\tWASTESERVICE | started.")
 		discardMsg Off
+		updateResource [# "wasteservice(maxpb: ${SystemCOnfig.MAXPB})" #]
+		updateResource [# "wasteservice(maxgb: ${SystemCOnfig.MAXGB})" #]
 	}
 	Transition t0 whenRequest storeRequest -> handleStoreRequest
 		
@@ -449,7 +452,7 @@ QActor pather context ctxwasteservice_test {
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
-
+/*
 QActor wasteserviceobserver context ctxwasteservice_test {
 	[#
 		var Material = ""
@@ -480,6 +483,8 @@ QActor wasteserviceobserver context ctxwasteservice_test {
 	}
 	Transition t0 whenMsg coapUpdate -> handleCoapUpdate
 }
+* 
+*/
 
 QActor trolleystateobserver context ctxwasteservice_test {
 	[#
@@ -511,14 +516,15 @@ QActor trolleystateobserver context ctxwasteservice_test {
 			#]
 			
 			if [# !CurrentTrolleyState.equals(TrolleyState) #] {
-				forward guiupdater -m updateRobotState : updateRobotState($TrolleyState)
+				//forward guiupdater -m updateRobotState : updateRobotState($TrolleyState)
+				
+				updateResource [# "trolleystateobserver($TrolleyState)" #]
 				[# CurrentTrolleyState = TrolleyState #]	
 			}
 			
 			
 			if [# !CurrentState.equals(LedState) #] {
 				forward led -m updateLed : updateLed($LedState)
-				forward guiupdater -m updateLed : updateLed($LedState)
 				[# CurrentState = LedState #]
 			}
 		}
@@ -650,6 +656,7 @@ QActor halteventshandler context ctxwasteservice_test {
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
 
+	/*
 QActor guiupdater context ctxwasteservice_test {
 	[# 
 		var LedState = ws.LedState.OFF
@@ -729,6 +736,7 @@ QActor guiupdater context ctxwasteservice_test {
 	} 
 	Goto idle
 }
+	* */
 
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------

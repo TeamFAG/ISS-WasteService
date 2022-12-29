@@ -16,6 +16,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
+				SystemConfig.setTheConfiguration("SystemConfiguration")
 				var CurrentMaterial: ws.Material
 				var CurrentQuantity: Float
 				var Rejected: Boolean = false
@@ -25,6 +26,10 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					action { //it:State
 						println("	WASTESERVICE | started.")
 						discardMessages = false
+						updateResourceRep( "wasteservice(maxpb: ${SystemCOnfig.MAXPB})"  
+						)
+						updateResourceRep( "wasteservice(maxgb: ${SystemCOnfig.MAXGB})"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

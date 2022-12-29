@@ -1,5 +1,6 @@
-package it.unibo.WasteserviceStatusManager
+package it.unibo.WasteserviceStatusManager.observers
 
+import it.unibo.WasteserviceStatusManager.GuiStatusBean
 import org.eclipse.californium.core.CoapHandler
 import org.eclipse.californium.core.CoapResponse
 import org.springframework.web.socket.TextMessage
@@ -18,13 +19,15 @@ class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession
     override fun onLoad(response: CoapResponse) {
         val payload = response.responseText
 
+        ColorsOut.outappl(payload, ColorsOut.GREEN)
+
         if(payload.isBlank()) {
             // print error
             // need reconnection?
         }
 
         // filtraggio messaggio
-        if(payload.isNotBlank() && payload.contains("cose")) {
+        if(payload.isNotBlank() /*&& payload.contains("cose")*/) {
             val glass = 10F
             val plastic = 10F
 
@@ -49,8 +52,9 @@ class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession
     }
 
     private fun sendUpdateToGui(glass: Float, plastic: Float) {
+        val bean = GuiStatusBean(plastic, glass, "ON", "AFFFFFFF")
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage(""))
+            ws.sendMessage(TextMessage(bean.toJSON().toString()))
         }
     }
 }
