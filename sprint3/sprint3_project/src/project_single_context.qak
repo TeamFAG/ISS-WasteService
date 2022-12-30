@@ -70,8 +70,7 @@ QActor wasteservice context ctxwasteservice_test {
 	State init initial {
 		println("\tWASTESERVICE | started.")
 		discardMsg Off
-		updateResource [# "wasteservice(maxpb: ${SystemCOnfig.MAXPB})" #]
-		updateResource [# "wasteservice(maxgb: ${SystemCOnfig.MAXGB})" #]
+		updateResource [# "wasteservice(maxpb: ${SystemConfig.MAXPB}, maxgb: ${SystemConfig.MAXGB})" #]
 	}
 	Transition t0 whenRequest storeRequest -> handleStoreRequest
 		

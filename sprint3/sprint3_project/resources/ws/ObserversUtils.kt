@@ -59,7 +59,6 @@ object ObserversUtils {
                 when {
                     contains("transporttrolley(arrived_INDOOR)") -> "PICKUP"
                     contains("transporttrolley(depositing)") -> "DEPOSIT"
-                    contains("transporttrolley(arrived_HOME)") -> "IDLE"
                     contains("transporttrolley(arrived_") -> "IDLE"
                     contains("transporttrolley(moving_") -> "MOVING"
                     else -> ""

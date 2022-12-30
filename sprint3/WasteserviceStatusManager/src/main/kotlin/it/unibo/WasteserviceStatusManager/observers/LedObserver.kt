@@ -10,16 +10,28 @@ import unibo.comm22.coap.CoapConnection
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommUtils
 
-class LedObserver(private val websocketList: ArrayList<WebSocketSession>): CoapHandler {
+class LedObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
 
     init {
         SystemConfiguration.setTheConfiguration("SystemConfig")
-
         startCoapConnection("led")
     }
 
-    override fun onLoad(response: CoapResponse?) {
-        TODO("Not yet implemented")
+    override fun onLoad(response: CoapResponse) {
+        val payload = response.responseText
+
+        ColorsOut.outappl(payload, ColorsOut.GREEN)
+
+        if(payload.isBlank()) {
+            // print error
+            // need reconnection?
+        }
+
+        // filtraggio messaggio
+        if(payload.isNotBlank()) {
+            // led(ON)
+            sendLedUpdateToGui(payload.split("(")[1].replace(")", ""))
+        }
     }
 
     override fun onError() {
@@ -43,10 +55,13 @@ class LedObserver(private val websocketList: ArrayList<WebSocketSession>): CoapH
         }
     }
 
-    private fun sendUpdateToGui(glass: Float, plastic: Float) {
-        val bean = GuiStatusBean(plastic, glass, "ON", "AFFFFFFF")
+    private fun sendLedUpdateToGui(state: String) {
+        synchronized(guiBean) {
+            guiBean.ledState = state
+        }
+
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage(bean.toJSON().toString()))
+            ws.sendMessage(TextMessage("{\"led\": $state}"))
         }
     }
 }

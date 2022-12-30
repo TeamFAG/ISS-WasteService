@@ -1,6 +1,6 @@
 {
   "contexts": {
-    "wasteservice": "ctwasteservice_test",
+    "wasteservice": "ctxwasteservice_test",
     "led": "ctxwasteservice_test",
     "trolleystateobserver": "ctxwasteservice_test",
     "transporttrolley": "ctxwasteservice_text"

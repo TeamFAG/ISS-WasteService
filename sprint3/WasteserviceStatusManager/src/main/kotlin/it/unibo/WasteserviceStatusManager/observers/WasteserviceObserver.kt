@@ -2,6 +2,7 @@ package it.unibo.WasteserviceStatusManager.observers
 
 import it.unibo.WasteserviceStatusManager.GuiStatusBean
 import it.unibo.WasteserviceStatusManager.utils.SystemConfiguration
+import netscape.javascript.JSObject
 import org.eclipse.californium.core.CoapHandler
 import org.eclipse.californium.core.CoapResponse
 import org.springframework.web.socket.TextMessage
@@ -10,11 +11,10 @@ import unibo.comm22.coap.CoapConnection
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommUtils
 
-class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession>): CoapHandler {
+class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
 
     init {
         SystemConfiguration.setTheConfiguration("SystemConfig")
-
         startCoapConnection("wasteservice")
     }
 
@@ -29,11 +29,19 @@ class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession
         }
 
         // filtraggio messaggio
-        if(payload.isNotBlank() /*&& payload.contains("cose")*/) {
-            val glass = 10F
-            val plastic = 10F
+        if(payload.isNotBlank()) {
+            with(payload) {
+                when {
+                    contains("Plastic") -> sendPlasticUpdateToGui(payload.split(" ")[0].replace(")", "").toFloat())
+                    contains("Glass") -> sendGlassUpdateToGui(payload.split(" ")[0].replace(")", "").toFloat())
+                    contains("max") -> {
+                        val maxpb = payload.split("(")[1].split(" ")[1].replace(",", "").toFloat()
+                        val maxgb = payload.split(" ")[3].replace(")", "").toFloat()
 
-            sendUpdateToGui(glass, plastic)
+                        sendContainerInit(maxpb, maxgb)
+                    }
+                }
+            }
         }
     }
 
@@ -57,10 +65,34 @@ class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession
         }
     }
 
-    private fun sendUpdateToGui(glass: Float, plastic: Float) {
-        val bean = GuiStatusBean(plastic, glass, "ON", "AFFFFFFF")
+    private fun sendGlassUpdateToGui(quantity: Float) {
+        synchronized(guiBean) {
+            guiBean.glass = quantity
+        }
+
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage(bean.toJSON().toString()))
+            ws.sendMessage(TextMessage("{\"glass\": $quantity}"))
+        }
+    }
+
+    private fun sendPlasticUpdateToGui(quantity: Float) {
+        synchronized(guiBean) {
+            guiBean.plastic = quantity
+        }
+
+        for(ws in websocketList) {
+            ws.sendMessage(TextMessage("{\"plastic\": $quantity}"))
+        }
+    }
+
+    private fun sendContainerInit(maxpb: Float, maxgb: Float) {
+        synchronized(guiBean) {
+            guiBean.maxgb = maxgb
+            guiBean.maxpb = maxpb
+        }
+
+        for(ws in websocketList) {
+            ws.sendMessage(TextMessage("{\"MAXGB\": $maxgb, \"MAXPB\": $maxpb}"))
         }
     }
 }

@@ -10,7 +10,7 @@ import unibo.comm22.coap.CoapConnection
 import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommUtils
 
-class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSession>): CoapHandler {
+class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
 
     init {
         SystemConfiguration.setTheConfiguration("SystemConfig")
@@ -18,8 +18,8 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         startCoapConnection("transporttrolley")
     }
 
-    override fun onLoad(response: CoapResponse?) {
-        TODO("Not yet implemented")
+    override fun onLoad(response: CoapResponse) {
+        // transporttrolley(arrived_POSIZIONE)
     }
 
     override fun onError() {
@@ -43,10 +43,9 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         }
     }
 
-    private fun sendUpdateToGui(glass: Float, plastic: Float) {
-        val bean = GuiStatusBean(plastic, glass, "ON", "AFFFFFFF")
+    private fun sendUpdateToGui() {
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage(bean.toJSON().toString()))
+            ws.sendMessage(TextMessage(""))
         }
     }
 }

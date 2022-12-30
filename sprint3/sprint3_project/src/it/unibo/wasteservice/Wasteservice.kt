@@ -26,9 +26,7 @@ class Wasteservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					action { //it:State
 						println("	WASTESERVICE | started.")
 						discardMessages = false
-						updateResourceRep( "wasteservice(maxpb: ${SystemCOnfig.MAXPB})"  
-						)
-						updateResourceRep( "wasteservice(maxgb: ${SystemCOnfig.MAXGB})"  
+						updateResourceRep( "wasteservice(maxpb: ${SystemConfig.MAXPB}, maxgb: ${SystemConfig.MAXGB})"  
 						)
 						//genTimer( actor, state )
 					}
