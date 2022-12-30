@@ -61,7 +61,7 @@ class LedObserver(private val websocketList: ArrayList<WebSocketSession>, privat
         }
 
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage("{\"led\": $state}"))
+            ws.sendMessage(TextMessage("{\"ledstate\": $state}"))
         }
     }
 }

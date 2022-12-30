@@ -19,7 +19,20 @@ class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession
     }
 
     override fun onLoad(response: CoapResponse) {
-        // trolleystateobserver(STATO)
+        val payload = response.responseText
+
+        ColorsOut.outappl(payload, ColorsOut.GREEN)
+
+        if(payload.isBlank()) {
+            // print error
+            // need reconnection?
+        }
+
+        // filtraggio messaggio
+        if(payload.isNotBlank()) {
+            // trolleystateobserver(STATO)
+            sendUpdateToGui(payload.split("(")[1].replace(")", ""))
+        }
     }
 
     override fun onError() {
@@ -43,9 +56,13 @@ class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession
         }
     }
 
-    private fun sendUpdateToGui() {
+    private fun sendUpdateToGui(state: String) {
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage(""))
+            synchronized(guiBean) {
+                guiBean.trolleyState = state
+            }
+
+            ws.sendMessage(TextMessage("{\"trolleystate\": $state}"))
         }
     }
 }

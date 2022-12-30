@@ -11,7 +11,6 @@ import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommUtils
 
 class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
-
     init {
         SystemConfiguration.setTheConfiguration("SystemConfig")
 
@@ -19,7 +18,20 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
     }
 
     override fun onLoad(response: CoapResponse) {
-        // transporttrolley(arrived_POSIZIONE)
+        val payload = response.responseText
+
+        ColorsOut.outappl(payload, ColorsOut.GREEN)
+
+        if(payload.isBlank()) {
+            // print error
+            // need reconnection?
+        }
+
+        // filtraggio messaggio
+        if(payload.isNotBlank()) {
+            // transporttrolley(arrived_POSIZIONE)
+            sendUpdateToGui(payload.split("_")[1].replace(")", ""))
+        }
     }
 
     override fun onError() {
@@ -43,9 +55,13 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         }
     }
 
-    private fun sendUpdateToGui() {
+    private fun sendUpdateToGui(position: String) {
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage(""))
+            synchronized(guiBean) {
+                guiBean.trolleyPosition = position
+            }
+
+            ws.sendMessage(TextMessage("{\"trolleyposition\": $position}"))
         }
     }
 }
