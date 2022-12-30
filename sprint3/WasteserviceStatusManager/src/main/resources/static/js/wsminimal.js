@@ -20,20 +20,18 @@ function connect(){
     return socket;
 }//connect
 
-function handleMsg(message) {
-    message.toString().includes("MAXGB") ? handleSetupMsg(message) : handleStateMsg(message)
-}
-
-function handleSetupMsg(message) {
-    const newGuiSetup = JSON.parse(message)
-    updateMaxQt(newGuiSetup["MAXGB"], newGuiSetup["MAXPB"])
-}
-
-function handleStateMsg(message) {
+function handleTrolleyStateMsg(message) {
     const newGuiState = JSON.parse(message)
-    updatePosition(newGuiState["trolleyPosition"])
-    updateGlass(newGuiState["glassContainerState"])
-    updatePlastic(newGuiState["plasticContainerState"])
+    updatePosition(newGuiState["trolleystate"])
+}
+
+function handleTrolleyPositionMsg(message) {
+    const newGuiState = JSON.parse(message)
+    updatePosition(newGuiState["trolleyposition"])
+}
+
+function handleLedStateMsg(message) {
+    const newGuiState = JSON.parse(message)
 
     switch (newGuiState["ledState"]) {
         case "OFF":
@@ -46,5 +44,41 @@ function handleStateMsg(message) {
             ledBlink()
             break
     }
+}
+
+function handlePlasticStateMsg(message) {
+    const newGuiState = JSON.parse(message)
+    updatePlastic(newGuiState["plastic"])
+}
+
+function handleGlassStateMsg(message) {
+    const newGuiState = JSON.parse(message)
+    updateGlass(newGuiState["glass"])
+}
+
+function handleMsg(message) {
+    if (message.toString().includes("MAXPB")) {
+        handleSetupMsg(message)
+    }
+    else if (message.toString().includes("trolleystate")) {
+        handleTrolleyStateMsg(message)
+    }
+    else if (message.toString().includes("trolleyposition")) {
+        handleTrolleyPositionMsg(message)
+    }
+    else if (message.toString().includes("ledstate")) {
+        handleLedStateMsg(message)
+    }
+    else if (message.toString().includes("plastic")) {
+        handlePlasticStateMsg(message)
+    }
+    else if (message.toString().includes("glass")) {
+        handleGlassStateMsg(message)
+    }
+}
+
+function handleSetupMsg(message) {
+    const newGuiSetup = JSON.parse(message)
+    updateMaxQt(newGuiSetup["MAXGB"], newGuiSetup["MAXPB"])
 }
 
