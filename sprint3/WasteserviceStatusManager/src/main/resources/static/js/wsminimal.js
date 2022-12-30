@@ -56,8 +56,19 @@ function handleGlassStateMsg(message) {
     updateGlass(newGuiState["glass"])
 }
 
+function handleRefreshMsg(message) {
+    handleGlassStateMsg(message)
+    handlePlasticStateMsg(message)
+    handleLedStateMsg(message)
+    handleTrolleyStateMsg(message)
+    handleTrolleyPositionMsg(message)
+}
+
 function handleMsg(message) {
-    if (message.toString().includes("MAXPB")) {
+    if (message.toString().includes("bean")) {
+        handleRefreshMsg(message)
+    }
+    else if (message.toString().includes("MAXPB")) {
         handleSetupMsg(message)
     }
     else if (message.toString().includes("trolleystate")) {
