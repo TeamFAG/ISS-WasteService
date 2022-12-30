@@ -15,11 +15,11 @@ class GuiStatusBean(plasticContainerState: Float = 0f, glassContainerState: Floa
 
     private val statusGui = mutableMapOf(
         "bean" to bean,
-        "plasticContainerState" to plastic,
-        "glassContainerState" to glass,
-        "ledState" to this.ledState,
-        "trolleyPosition" to this.trolleyPosition,
-        "trolleyState" to this.trolleyState,
+        "plastic" to plastic,
+        "glass" to glass,
+        "ledstate" to this.ledState,
+        "trolleyposition" to this.trolleyPosition,
+        "trolleystate" to this.trolleyState,
         "MAXPB" to this.maxpb,
         "MAXGB" to this.maxgb
     )
