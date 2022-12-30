@@ -1,6 +1,7 @@
 package it.unibo.WasteserviceStatusManager.observers
 
 import it.unibo.WasteserviceStatusManager.GuiStatusBean
+import it.unibo.WasteserviceStatusManager.utils.SystemConfiguration
 import org.eclipse.californium.core.CoapHandler
 import org.eclipse.californium.core.CoapResponse
 import org.springframework.web.socket.TextMessage
@@ -10,6 +11,13 @@ import unibo.comm22.utils.ColorsOut
 import unibo.comm22.utils.CommUtils
 
 class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSession>): CoapHandler {
+
+    init {
+        SystemConfiguration.setTheConfiguration("SystemConfig")
+
+        startCoapConnection("transporttrolley")
+    }
+
     override fun onLoad(response: CoapResponse?) {
         TODO("Not yet implemented")
     }
@@ -18,10 +26,15 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         TODO("Not yet implemented")
     }
 
-    private fun startCoapConnection() {
+    private fun startCoapConnection(actor: String) {
         ColorsOut.outappl("WasteserviceObserver | creating coap connection", ColorsOut.BLUE)
 
-        val connection = CoapConnection("localhost:8050", "transporttrolley/led")
+        val context = SystemConfiguration.contexts[actor] as String
+        val host = SystemConfiguration.hosts[actor] as String
+        val port = SystemConfiguration.ports[actor] as Int
+
+        val connection = CoapConnection("${host}:${port}", "${context}/${actor}")
+
         connection.observeResource(this)
 
         while (connection.request("") == "0") {

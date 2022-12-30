@@ -35,11 +35,12 @@ object ObserversUtils {
 
         if(resource.equals("pather")) {
             res = when(value) {
-                "pather(halt_begin)" -> "HALT"
-                "pather(halt_end)" -> "RESUME"
+                "pather(halt_begin)" -> "STOPPED"
+                "pather(halt_end)" -> "MOVING"
                 else -> ""
             }
         } else if(resource.equals("transporttrolley")) {
+            /*
             res = with(value) {
                 when {
                     contains("transporttrolley(handleDepositRequest)") -> "Moving to INDOOR"
@@ -50,6 +51,17 @@ object ObserversUtils {
                     contains("transporttrolley(arrived_HOME)") -> "HOME Idle"
                     contains("transporttrolley(arrived_") -> value.split("_")[1].replace(")", "")
                     contains("transporttrolley(moving_") -> "Moving to ${value.split("_")[1].replace(")", "")}"
+                    else -> ""
+                }
+            }
+            */
+            res = with(value) {
+                when {
+                    contains("transporttrolley(arrived_INDOOR)") -> "PICKUP"
+                    contains("transporttrolley(depositing)") -> "DEPOSIT"
+                    contains("transporttrolley(arrived_HOME)") -> "IDLE"
+                    contains("transporttrolley(arrived_") -> "IDLE"
+                    contains("transporttrolley(moving_") -> "MOVING"
                     else -> ""
                 }
             }

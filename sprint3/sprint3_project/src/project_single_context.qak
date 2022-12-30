@@ -512,12 +512,10 @@ QActor trolleystateobserver context ctxwasteservice_test {
 					LedState = ws.ObserversUtils.getLedStatusFromCoapUpdate(Resource, Value)
 					
 				TrolleyState = ws.ObserversUtils.getTrolleyStateFromCoapUpdate(Resource, Value)
-				println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA $TrolleyState")
 			#]
 			
 			if [# !CurrentTrolleyState.equals(TrolleyState) #] {
 				//forward guiupdater -m updateRobotState : updateRobotState($TrolleyState)
-				
 				updateResource [# "trolleystateobserver($TrolleyState)" #]
 				[# CurrentTrolleyState = TrolleyState #]	
 			}

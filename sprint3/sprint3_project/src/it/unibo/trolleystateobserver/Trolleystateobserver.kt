@@ -45,7 +45,6 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 													LedState = ws.ObserversUtils.getLedStatusFromCoapUpdate(Resource, Value)
 													
 												TrolleyState = ws.ObserversUtils.getTrolleyStateFromCoapUpdate(Resource, Value)
-												println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA $TrolleyState")
 								if(  !CurrentTrolleyState.equals(TrolleyState)  
 								 ){updateResourceRep( "trolleystateobserver($TrolleyState)"  
 								)
