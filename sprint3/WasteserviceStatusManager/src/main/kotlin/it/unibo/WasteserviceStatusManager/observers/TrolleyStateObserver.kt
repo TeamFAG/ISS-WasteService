@@ -13,6 +13,7 @@ import unibo.comm22.utils.CommUtils
 class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
 
     init {
+
         SystemConfiguration.setTheConfiguration("SystemConfig")
 
         startCoapConnection("trolleystateobserver")
@@ -40,7 +41,7 @@ class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession
     }
 
     private fun startCoapConnection(actor: String) {
-        ColorsOut.outappl("WasteserviceObserver | creating coap connection", ColorsOut.BLUE)
+        ColorsOut.outappl("TSOObserver | creating coap connection", ColorsOut.BLUE)
 
         val context = SystemConfiguration.contexts[actor] as String
         val host = SystemConfiguration.hosts[actor] as String
@@ -51,7 +52,7 @@ class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession
         connection.observeResource(this)
 
         while (connection.request("") == "0") {
-            ColorsOut.outappl("WasteserviceObserver | waiting for connection to wasteservice actor", ColorsOut.BLUE)
+            ColorsOut.outappl("TSOObserver | waiting for connection to trolleystateobserver actor", ColorsOut.BLUE)
             CommUtils.delay(200)
         }
     }
@@ -62,7 +63,7 @@ class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession
                 guiBean.trolleyState = state
             }
 
-            ws.sendMessage(TextMessage("{\"trolleystate\": $state}"))
+            ws.sendMessage(TextMessage("{\"trolleystate\": \"$state\"}"))
         }
     }
 }

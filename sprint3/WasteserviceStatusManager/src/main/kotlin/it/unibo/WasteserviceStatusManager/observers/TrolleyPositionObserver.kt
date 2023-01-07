@@ -39,7 +39,7 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
     }
 
     private fun startCoapConnection(actor: String) {
-        ColorsOut.outappl("WasteserviceObserver | creating coap connection", ColorsOut.BLUE)
+        ColorsOut.outappl("TransportTrolleyObserver | creating coap connection", ColorsOut.BLUE)
 
         val context = SystemConfiguration.contexts[actor] as String
         val host = SystemConfiguration.hosts[actor] as String
@@ -50,7 +50,7 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         connection.observeResource(this)
 
         while (connection.request("") == "0") {
-            ColorsOut.outappl("WasteserviceObserver | waiting for connection to wasteservice actor", ColorsOut.BLUE)
+            ColorsOut.outappl("TransportTrolleyObserver | waiting for connection to transporttrolley actor", ColorsOut.BLUE)
             CommUtils.delay(200)
         }
     }
@@ -61,7 +61,7 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
                 guiBean.trolleyPosition = position
             }
 
-            ws.sendMessage(TextMessage("{\"trolleyposition\": $position}"))
+            ws.sendMessage(TextMessage("{\"trolleyposition\": \"$position\"}"))
         }
     }
 }

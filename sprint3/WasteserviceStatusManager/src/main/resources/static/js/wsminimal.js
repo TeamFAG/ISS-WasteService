@@ -21,8 +21,7 @@ function connect(){
 }//connect
 
 function handleTrolleyStateMsg(message) {
-    const newGuiState = JSON.parse(message)
-    updatePosition(newGuiState["trolleystate"])
+    updateLog(message.toString())
 }
 
 function handleTrolleyPositionMsg(message) {
@@ -33,7 +32,7 @@ function handleTrolleyPositionMsg(message) {
 function handleLedStateMsg(message) {
     const newGuiState = JSON.parse(message)
 
-    switch (newGuiState["ledState"]) {
+    switch (newGuiState["ledstate"]) {
         case "OFF":
             ledOff()
             break
@@ -65,6 +64,7 @@ function handleRefreshMsg(message) {
 }
 
 function handleMsg(message) {
+    console.log(message.toString())
     if (message.toString().includes("bean")) {
         handleRefreshMsg(message)
     }

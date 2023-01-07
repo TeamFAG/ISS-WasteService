@@ -32,8 +32,8 @@ class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession
         if(payload.isNotBlank()) {
             with(payload) {
                 when {
-                    contains("Plastic") -> sendPlasticUpdateToGui(payload.split(" ")[0].replace(")", "").toFloat())
-                    contains("Glass") -> sendGlassUpdateToGui(payload.split(" ")[0].replace(")", "").toFloat())
+                    contains("Plastic") -> sendPlasticUpdateToGui(payload.split(" ")[1].replace(")", "").toFloat())
+                    contains("Glass") -> sendGlassUpdateToGui(payload.split(" ")[1].replace(")", "").toFloat())
                     contains("max") -> {
                         val maxpb = payload.split("(")[1].split(" ")[1].replace(",", "").toFloat()
                         val maxgb = payload.split(" ")[3].replace(")", "").toFloat()

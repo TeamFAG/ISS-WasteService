@@ -14,8 +14,8 @@ class WebSocketHandler: AbstractWebSocketHandler() {
     private val sessions = ArrayList<WebSocketSession>()
     private val guiStatusBean = GuiStatusBean()
     private val wasteserviceObserver = WasteserviceObserver(sessions, guiStatusBean)
-    //private val trolleyStateObserver = TrolleyStateObserver(sessions)
-    //private val trolleyPositionObserver = TrolleyPositionObserver(sessions)
+    private val trolleyStateObserver = TrolleyStateObserver(sessions, guiStatusBean)
+    private val trolleyPositionObserver = TrolleyPositionObserver(sessions, guiStatusBean)
     private val ledObserver = LedObserver(sessions, guiStatusBean)
 
     override fun afterConnectionEstablished(session: WebSocketSession) {

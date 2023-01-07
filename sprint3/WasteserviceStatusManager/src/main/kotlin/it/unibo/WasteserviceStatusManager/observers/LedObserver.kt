@@ -39,7 +39,7 @@ class LedObserver(private val websocketList: ArrayList<WebSocketSession>, privat
     }
 
     private fun startCoapConnection(actor: String) {
-        ColorsOut.outappl("WasteserviceObserver | creating coap connection", ColorsOut.BLUE)
+        ColorsOut.outappl("LedObserver | creating coap connection", ColorsOut.BLUE)
 
         val context = SystemConfiguration.contexts[actor] as String
         val host = SystemConfiguration.hosts[actor] as String
@@ -50,7 +50,7 @@ class LedObserver(private val websocketList: ArrayList<WebSocketSession>, privat
         connection.observeResource(this)
 
         while (connection.request("") == "0") {
-            ColorsOut.outappl("WasteserviceObserver | waiting for connection to wasteservice actor", ColorsOut.BLUE)
+            ColorsOut.outappl("LedObserver | waiting for connection to led actor", ColorsOut.BLUE)
             CommUtils.delay(200)
         }
     }
@@ -61,7 +61,7 @@ class LedObserver(private val websocketList: ArrayList<WebSocketSession>, privat
         }
 
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage("{\"ledstate\": $state}"))
+            ws.sendMessage(TextMessage("{\"ledstate\": \"$state\"}"))
         }
     }
 }

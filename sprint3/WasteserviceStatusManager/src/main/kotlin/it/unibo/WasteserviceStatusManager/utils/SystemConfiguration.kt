@@ -19,7 +19,7 @@ object SystemConfiguration {
         "wasteservice" to "ctwasteservice_test",
         "led" to "ctxwasteservice_test",
         "trolleystateobserver" to "ctxwasteservice_test",
-        "transporttrolley" to "ctxwasteservice_text"
+        "transporttrolley" to "ctxwasteservice_test"
     )
 
     var hosts = mutableMapOf(
