@@ -69,8 +69,24 @@ object ObserversUtils {
         return  res
     }
 
+    fun getTrolleyPositionFromCoapUpdate(resource: String, value: String): String {
+        var res = ""
+
+        res = with(value) {
+            when {
+                contains("HOME") -> "HOME"
+                contains("INDOOR") -> "INDOOR"
+                contains("GLASSBOX") -> "GLASSBOX"
+                contains("PLASTICBOX") -> "PLASTICBOX"
+                else -> ""
+            }
+        }
+
+        return res
+    }
+
     fun getContainersStateFromCoapUpdate(resource: String, value: String): Pair<String, Float> {
-        ColorsOut.outappl("CONTAINERRRRRRRRRRRRRRRRRRRR: $value", ColorsOut.BgCyan)
+        ColorsOut.outappl("CONTAINER: $value", ColorsOut.BgCyan)
 
         var material = ""
         var quantity = 0F

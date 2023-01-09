@@ -26,6 +26,8 @@ class Trolleymover ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 				state("init") { //this:State
 					action { //it:State
 						println("	TROLLEYMOVER | started.")
+						updateResourceRep( "CIAO"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

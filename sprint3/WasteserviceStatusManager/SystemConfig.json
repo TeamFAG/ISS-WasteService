@@ -3,24 +3,28 @@
     "wasteservice": "ctxwasteservice_test",
     "led": "ctxwasteservice_test",
     "trolleystateobserver": "ctxwasteservice_test",
-    "transporttrolley": "ctxwasteservice_text"
+    "transporttrolley": "ctxwasteservice_text",
+    "trolleymover": "ctxwasteservice_text"
   },
   "actors": {
     "wasteservice": "wasteservice",
     "led": "led",
     "trolleystateobserver": "trolleystateobserver",
-    "transporttrolley": "transporttrolley"
+    "transporttrolley": "transporttrolley",
+    "trolleymover": "trolleymover"
   },
   "hosts": {
     "wasteservice": "localhost",
     "led": "localhost",
     "trolleystateobserver": "localhost",
-    "transporttrolley": "localhost"
+    "transporttrolley": "localhost",
+    "trolleymover": "localhost"
   },
   "ports": {
     "wasteservice": 8050,
     "led": 8050,
     "trolleystateobserver": 8050,
-    "transporttrolley": 8050
+    "transporttrolley": 8050,
+    "trolleymover": 8050
   }
 }

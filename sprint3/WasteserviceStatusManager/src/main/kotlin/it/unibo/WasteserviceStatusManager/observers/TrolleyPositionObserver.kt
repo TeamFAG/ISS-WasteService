@@ -13,8 +13,7 @@ import unibo.comm22.utils.CommUtils
 class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
     init {
         SystemConfiguration.setTheConfiguration("SystemConfig")
-
-        startCoapConnection("transporttrolley")
+        startCoapConnection("trolleystateobserver")
     }
 
     override fun onLoad(response: CoapResponse) {
@@ -30,7 +29,8 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         // filtraggio messaggio
         if(payload.isNotBlank()) {
             // transporttrolley(arrived_POSIZIONE)
-            sendUpdateToGui(payload.split("_")[1].replace(")", ""))
+            //sendUpdateToGui(payload.split("_")[1].replace(")", ""))
+            sendUpdateToGui(payload.split("(")[1].replace(")", ""))
         }
     }
 
@@ -46,7 +46,6 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         val port = SystemConfiguration.ports[actor] as Int
 
         val connection = CoapConnection("${host}:${port}", "${context}/${actor}")
-
         connection.observeResource(this)
 
         while (connection.request("") == "0") {

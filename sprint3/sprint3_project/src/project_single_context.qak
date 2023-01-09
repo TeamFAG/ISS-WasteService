@@ -282,6 +282,7 @@ QActor trolleymover context ctxwasteservice_test {
 	
 	State init initial {
 		println("\tTROLLEYMOVER | started.")
+		updateResource [# "CIAO" #]
 	}
 	Goto idle
 	
@@ -489,14 +490,19 @@ QActor trolleystateobserver context ctxwasteservice_test {
 	[#
 		var CurrentState = ws.LedState.OFF
 		var CurrentTrolleyState = ""
+		var CurrentTrolleyPosition = ""
 		var LedState = ws.LedState.OFF
 		var TrolleyState = ""
+		var TrolleyPosition = ""
 	#]
 	
 	State init initial {
 		println("\tTROLLEYSTATEOBSERVER | started.")
 		observeResource transporttrolley
 		observeResource pather
+		
+		updateResource [# "trolleystateobserver(IDLE)" #]
+		updateResource [# "trolleystateobserver(HOME)" #]
 	}
 	Transition t0 whenMsg coapUpdate -> handleCoapUpdate 
 	
@@ -509,6 +515,9 @@ QActor trolleystateobserver context ctxwasteservice_test {
 				
 				if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
 					LedState = ws.ObserversUtils.getLedStatusFromCoapUpdate(Resource, Value)
+					
+				if(Resource.equals("transporttrolley") && Value.contains("arrived"))
+					TrolleyPosition = ws.ObserversUtils.getTrolleyPositionFromCoapUpdate(Resource, Value)
 					
 				TrolleyState = ws.ObserversUtils.getTrolleyStateFromCoapUpdate(Resource, Value)
 			#]
@@ -523,6 +532,11 @@ QActor trolleystateobserver context ctxwasteservice_test {
 			if [# !CurrentState.equals(LedState) #] {
 				forward led -m updateLed : updateLed($LedState)
 				[# CurrentState = LedState #]
+			}
+			
+			if [# !CurrentTrolleyPosition.equals(TrolleyPosition) #] {
+				updateResource [# "trolleystateobserver($TrolleyPosition)" #]
+				[# CurrentTrolleyPosition = TrolleyPosition #]
 			}
 		}
 	}

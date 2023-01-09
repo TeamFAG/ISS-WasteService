@@ -18,14 +18,20 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 		
 				var CurrentState = ws.LedState.OFF
 				var CurrentTrolleyState = ""
+				var CurrentTrolleyPosition = ""
 				var LedState = ws.LedState.OFF
 				var TrolleyState = ""
+				var TrolleyPosition = ""
 		return { //this:ActionBasciFsm
 				state("init") { //this:State
 					action { //it:State
 						println("	TROLLEYSTATEOBSERVER | started.")
 						CoapObserverSupport(myself, "localhost","8050","ctxwasteservice_test","transporttrolley")
 						CoapObserverSupport(myself, "localhost","8050","ctxwasteservice_test","pather")
+						updateResourceRep( "trolleystateobserver(IDLE)"  
+						)
+						updateResourceRep( "trolleystateobserver(HOME)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -44,6 +50,9 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 												if(!Value.contains("pickupDone") && !Value.contains("handleDepositRequest")) 
 													LedState = ws.ObserversUtils.getLedStatusFromCoapUpdate(Resource, Value)
 													
+												if(Resource.equals("transporttrolley") && Value.contains("arrived"))
+													TrolleyPosition = ws.ObserversUtils.getTrolleyPositionFromCoapUpdate(Resource, Value)
+													
 												TrolleyState = ws.ObserversUtils.getTrolleyStateFromCoapUpdate(Resource, Value)
 								if(  !CurrentTrolleyState.equals(TrolleyState)  
 								 ){updateResourceRep( "trolleystateobserver($TrolleyState)"  
@@ -53,6 +62,11 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 								if(  !CurrentState.equals(LedState)  
 								 ){forward("updateLed", "updateLed($LedState)" ,"led" ) 
 								 CurrentState = LedState  
+								}
+								if(  !CurrentTrolleyPosition.equals(TrolleyPosition)  
+								 ){updateResourceRep( "trolleystateobserver($TrolleyPosition)"  
+								)
+								 CurrentTrolleyPosition = TrolleyPosition  
 								}
 						}
 						//genTimer( actor, state )

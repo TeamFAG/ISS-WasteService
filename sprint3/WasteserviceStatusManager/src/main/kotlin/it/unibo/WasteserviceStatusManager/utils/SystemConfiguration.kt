@@ -12,28 +12,32 @@ object SystemConfiguration {
         "wasteservice" to "wasteservice",
         "led" to "led",
         "trolleystateobserver" to "trolleystateobserver",
-        "transporttrolley" to "transporttrolley"
+        "transporttrolley" to "transporttrolley",
+        "trolleymover" to "trolleymover"
     )
 
     var contexts = mutableMapOf(
         "wasteservice" to "ctwasteservice_test",
         "led" to "ctxwasteservice_test",
         "trolleystateobserver" to "ctxwasteservice_test",
-        "transporttrolley" to "ctxwasteservice_test"
+        "transporttrolley" to "ctxwasteservice_test",
+        "trolleymover" to "ctxwasteservice_test",
     )
 
     var hosts = mutableMapOf(
         "wasteservice" to "localhost",
         "led" to "localhost",
         "trolleystateobserver" to "localhost",
-        "transporttrolley" to "localhost"
+        "transporttrolley" to "localhost",
+        "trolleymover" to "localhost",
     )
 
     var ports = mutableMapOf(
         "wasteservice" to 8050,
         "led" to 8050,
         "trolleystateobserver" to 8050,
-        "transporttrolley" to 8050
+        "transporttrolley" to 8050,
+        "trolleymover" to 8050,
     )
 
     public fun setTheConfiguration(fileName: String) {
