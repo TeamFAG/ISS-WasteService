@@ -40,21 +40,6 @@ object ObserversUtils {
                 else -> ""
             }
         } else if(resource.equals("transporttrolley")) {
-            /*
-            res = with(value) {
-                when {
-                    contains("transporttrolley(handleDepositRequest)") -> "Moving to INDOOR"
-                    contains("transporttrolley(arrived_INDOOR)") -> "INDOOR Pickup"
-                    contains("transporttrolley(pickupError)") -> "INDOOR Pickup FAIL"
-                    contains("transporttrolley(depositing)") -> "Deposit"
-                    contains("transporttrolley(depositDone)") -> "Moving to HOME"
-                    contains("transporttrolley(arrived_HOME)") -> "HOME Idle"
-                    contains("transporttrolley(arrived_") -> value.split("_")[1].replace(")", "")
-                    contains("transporttrolley(moving_") -> "Moving to ${value.split("_")[1].replace(")", "")}"
-                    else -> ""
-                }
-            }
-            */
             res = with(value) {
                 when {
                     contains("transporttrolley(arrived_INDOOR)") -> "PICKUP"

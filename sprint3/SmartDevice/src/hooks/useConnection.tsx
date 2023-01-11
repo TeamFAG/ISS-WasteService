@@ -14,7 +14,12 @@ const useConnection = (
 		if (clientRef.current) return;
 
 		try {
-			clientRef.current = TcpSockets.createConnection(tcpOptions, () => {
+			const options = {
+				port: tcpOptions.port,
+				host: tcpOptions.host,
+			};
+
+			clientRef.current = TcpSockets.createConnection(options, () => {
 				onConnectedHandler(client);
 			});
 		} catch (error) {
