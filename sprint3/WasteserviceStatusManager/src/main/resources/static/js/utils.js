@@ -138,6 +138,7 @@ function updateLog(newEntry) {
   curLog += ("</br>" + newEntry);
 
   log.innerHTML = curLog;
+  log.scrollTop = log.scrollHeight;
 }
 
 function updPosTest() {
