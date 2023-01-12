@@ -12,7 +12,34 @@ var ledCurState = ledState.OFF;
 var robCurPos = "HOME"
 
 // LOG
-let curLog = ""
+// let curLog = ""
+
+let curLog = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
+  Vivamus arcu felis bibendum ut tristique. Felis eget velit aliquet sagittis id consectetur purus. Suspendisse faucibus interdum posuere \
+  lorem ipsum dolor sit amet consectetur. A diam sollicitudin tempor id eu nisl. Dolor morbi non arcu risus quis varius. Pellentesque habitant \
+  morbi tristique senectus et netus et malesuada fames. Nunc mi ipsum faucibus vitae aliquet nec ullamcorper. Sed sed risus pretium quam vulputate \
+  dignissim suspendisse in est. Non arcu risus quis varius quam quisque id. Sed egestas egestas fringilla phasellus. Pulvinar etiam non quam lacus. \
+  Accumsan lacus vel facilisis volutpat est velit egestas. At tellus at urna condimentum mattis pellentesque id nibh. Mi tempus imperdiet nulla \
+  malesuada pellentesque. Parturient montes nascetur ridiculus mus mauris vitae ultricies leo. Adipiscing diam donec adipiscing tristique risus \
+  nec feugiat. Sit amet tellus cras adipiscing enim eu turpis egestas. Elit ullamcorper dignissim cras tincidunt. Egestas diam in arcu cursus \
+  euismod quis viverra nibh cras. Nullam ac tortor vitae purus faucibus ornare suspendisse sed. Sit amet consectetur adipiscing elit duis. \
+  Malesuada fames ac turpis egestas sed. Amet massa vitae tortor condimentum lacinia quis. Vestibulum rhoncus est pellentesque elit ullamcorper \
+  dignissim cras tincidunt lobortis. Mi quis hendrerit dolor magna eget est lorem ipsum dolor. Morbi leo urna molestie at elementum eu facilisis. \
+  Arcu dictum varius duis at consectetur lorem donec massa. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus est. Urna nunc id \
+  cursus metus aliquam eleifend mi. Senectus et netus et malesuada fames ac turpis. Scelerisque eu ultrices vitae auctor eu augue ut. Porttitor \
+  eget dolor morbi non. Bibendum enim facilisis gravida neque convallis a. Feugiat nibh sed pulvinar proin gravida hendrerit. Euismod nisi porta \
+  lorem mollis aliquam ut. Mattis nunc sed blandit libero volutpat. Nec feugiat in fermentum posuere urna nec tincidunt praesent. Mollis aliquam \
+  ut porttitor leo a diam sollicitudin. Tortor dignissim convallis aenean et tortor at. Neque gravida in fermentum et sollicitudin ac orci phasellus. \
+  Ac orci phasellus egestas tellus rutrum tellus pellentesque eu. Odio ut sem nulla pharetra diam. Sit amet facilisis magna etiam tempor orci. \
+  Aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque. Sed risus pretium quam vulputate dignissim suspendisse in est ante. Et \
+  egestas quis ipsum suspendisse ultrices gravida. Vulputate odio ut enim blandit volutpat maecenas volutpat. At imperdiet dui accumsan sit. Sed \
+  cras ornare arcu dui vivamus. Sit amet consectetur adipiscing elit duis tristique sollicitudin nibh sit. Dignissim suspendisse in est ante in \
+  nibh mauris cursus. Sed velit dignissim sodales ut eu sem integer. Viverra accumsan in nisl nisi scelerisque eu ultrices vitae auctor. Velit \
+  scelerisque in dictum non consectetur a erat. Ut diam quam nulla porttitor massa id neque aliquam vestibulum. Non odio euismod lacinia at quis \
+  risus. Quis hendrerit dolor magna eget est. Ipsum faucibus vitae aliquet nec ullamcorper sit. Integer malesuada nunc vel risus commodo viverra \
+  maecenas. Neque ornare aenean euismod elementum. Sed augue lacus viverra vitae congue eu consequat. Viverra ipsum nunc aliquet bibendum enim \
+  facilisis gravida. Fringilla est ullamcorper eget nulla facilisi. Non arcu risus quis varius quam quisque id diam. Pharetra convallis posuere \
+  morbi leo. Erat velit scelerisque in dictum non consectetur a erat nam. Sagittis orci a scelerisque purus. Praesent semper feugiat nibh sed pulvinar."
 
 function init() {
   // HERE LOAD DATA FROM SERVER

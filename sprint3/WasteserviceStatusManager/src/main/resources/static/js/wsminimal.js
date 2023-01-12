@@ -20,8 +20,48 @@ function connect(){
     return socket;
 }//connect
 
+function handleMsg(message) {
+    console.log(message.toString())
+    if (message.toString().includes("bean")) {
+        handleRefreshMsg(message)
+    }
+    else if (message.toString().includes("MAXPB")) {
+        handleSetupMsg(message)
+    }
+    else if (message.toString().includes("trolleystate")) {
+        handleTrolleyStateMsg(message)
+    }
+    else if (message.toString().includes("trolleyposition")) {
+        handleTrolleyPositionMsg(message)
+    }
+    else if (message.toString().includes("ledstate")) {
+        handleLedStateMsg(message)
+    }
+    else if (message.toString().includes("plastic")) {
+        handlePlasticStateMsg(message)
+    }
+    else if (message.toString().includes("glass")) {
+        handleGlassStateMsg(message)
+    }
+}
+
+function handleRefreshMsg(message) {
+    handleGlassStateMsg(message)
+    handlePlasticStateMsg(message)
+    handleLedStateMsg(message)
+    handleTrolleyStateMsg(message)
+    handleTrolleyPositionMsg(message)
+}
+
+function handleSetupMsg(message) {
+    const newGuiSetup = JSON.parse(message)
+    updateMaxQt(newGuiSetup["MAXGB"], newGuiSetup["MAXPB"])
+}
+
+
 function handleTrolleyStateMsg(message) {
-    updateLog(message.toString())
+    const newGuiState = JSON.parse(message)
+    updateState(newGuiState["trolleystate"])
 }
 
 function handleTrolleyPositionMsg(message) {
@@ -53,43 +93,5 @@ function handlePlasticStateMsg(message) {
 function handleGlassStateMsg(message) {
     const newGuiState = JSON.parse(message)
     updateGlass(newGuiState["glass"])
-}
-
-function handleRefreshMsg(message) {
-    handleGlassStateMsg(message)
-    handlePlasticStateMsg(message)
-    handleLedStateMsg(message)
-    handleTrolleyStateMsg(message)
-    handleTrolleyPositionMsg(message)
-}
-
-function handleMsg(message) {
-    console.log(message.toString())
-    if (message.toString().includes("bean")) {
-        handleRefreshMsg(message)
-    }
-    else if (message.toString().includes("MAXPB")) {
-        handleSetupMsg(message)
-    }
-    else if (message.toString().includes("trolleystate")) {
-        handleTrolleyStateMsg(message)
-    }
-    else if (message.toString().includes("trolleyposition")) {
-        handleTrolleyPositionMsg(message)
-    }
-    else if (message.toString().includes("ledstate")) {
-        handleLedStateMsg(message)
-    }
-    else if (message.toString().includes("plastic")) {
-        handlePlasticStateMsg(message)
-    }
-    else if (message.toString().includes("glass")) {
-        handleGlassStateMsg(message)
-    }
-}
-
-function handleSetupMsg(message) {
-    const newGuiSetup = JSON.parse(message)
-    updateMaxQt(newGuiSetup["MAXGB"], newGuiSetup["MAXPB"])
 }
 
