@@ -13,8 +13,8 @@ var robCurPos = "HOME"
 var robCurState = "IDLE"
 
 // LOG
-// let curLog = ""
-
+let curLog = ""
+/*
 let curLog = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
   Vivamus arcu felis bibendum ut tristique. Felis eget velit aliquet sagittis id consectetur purus. Suspendisse faucibus interdum posuere \
   lorem ipsum dolor sit amet consectetur. A diam sollicitudin tempor id eu nisl. Dolor morbi non arcu risus quis varius. Pellentesque habitant \
@@ -41,6 +41,7 @@ let curLog = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ei
   maecenas. Neque ornare aenean euismod elementum. Sed augue lacus viverra vitae congue eu consequat. Viverra ipsum nunc aliquet bibendum enim \
   facilisis gravida. Fringilla est ullamcorper eget nulla facilisi. Non arcu risus quis varius quam quisque id diam. Pharetra convallis posuere \
   morbi leo. Erat velit scelerisque in dictum non consectetur a erat nam. Sagittis orci a scelerisque purus. Praesent semper feugiat nibh sed pulvinar."
+  */
 
 function init() {
   // HERE LOAD DATA FROM SERVER
@@ -180,6 +181,7 @@ function updateLog(newEntry) {
   curLog += ("</br>" + newEntry);
 
   log.innerHTML = curLog;
+  log.scrollTop = log.scrollHeight;
 }
 
 function updPosTest() {

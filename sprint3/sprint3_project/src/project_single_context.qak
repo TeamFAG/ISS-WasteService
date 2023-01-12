@@ -535,7 +535,7 @@ QActor trolleystateobserver context ctxwasteservice_test {
 			}
 			
 			if [# !CurrentTrolleyPosition.equals(TrolleyPosition) #] {
-				updateResource [# "trolleystateobserver($TrolleyPosition)" #]
+				updateResource [# "trolleystateobserver(arrived_${TrolleyPosition})" #]
 				[# CurrentTrolleyPosition = TrolleyPosition #]
 			}
 		}

@@ -13,7 +13,6 @@ import unibo.comm22.utils.CommUtils
 class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
 
     init {
-
         SystemConfiguration.setTheConfiguration("SystemConfig")
 
         startCoapConnection("trolleystateobserver")
@@ -22,7 +21,7 @@ class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession
     override fun onLoad(response: CoapResponse) {
         val payload = response.responseText
 
-        ColorsOut.outappl(payload, ColorsOut.GREEN)
+        ColorsOut.outappl("TrolleyStateObserver: $payload", ColorsOut.GREEN)
 
         if(payload.isBlank()) {
             // print error
@@ -30,7 +29,7 @@ class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession
         }
 
         // filtraggio messaggio
-        if(payload.isNotBlank()) {
+        if(payload.isNotBlank() && !payload.contains("arrived")) {
             // trolleystateobserver(STATO)
             sendUpdateToGui(payload.split("(")[1].replace(")", ""))
         }
@@ -63,7 +62,12 @@ class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession
                 guiBean.trolleyState = state
             }
 
-            ws.sendMessage(TextMessage("{\"trolleystate\": \"$state\"}"))
+            try {
+                ws.sendMessage(TextMessage("{\"trolleystate\": \"$state\"}"))
+            } catch (e: IllegalStateException) {
+                println(e.cause.toString())
+                ws.sendMessage(TextMessage("{\"trolleystate\": \"$state\"}"))
+            }
         }
     }
 }

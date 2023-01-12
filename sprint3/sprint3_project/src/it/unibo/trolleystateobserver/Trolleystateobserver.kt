@@ -64,7 +64,7 @@ class Trolleystateobserver ( name: String, scope: CoroutineScope  ) : ActorBasic
 								 CurrentState = LedState  
 								}
 								if(  !CurrentTrolleyPosition.equals(TrolleyPosition)  
-								 ){updateResourceRep( "trolleystateobserver($TrolleyPosition)"  
+								 ){updateResourceRep( "trolleystateobserver(arrived_${TrolleyPosition})"  
 								)
 								 CurrentTrolleyPosition = TrolleyPosition  
 								}

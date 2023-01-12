@@ -46,6 +46,7 @@ object ObserversUtils {
                     contains("transporttrolley(depositing)") -> "DEPOSIT"
                     contains("transporttrolley(arrived_") -> "IDLE"
                     contains("transporttrolley(moving_") -> "MOVING"
+                    contains("transporttrolley(depositDone") -> "MOVING"
                     else -> ""
                 }
             }
