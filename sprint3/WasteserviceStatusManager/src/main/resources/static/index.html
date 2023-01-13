@@ -56,6 +56,15 @@
     }
 
     /* Container for flexboxes */
+    .rowT {
+      flex: 1;
+      display: -webkit-flex;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .row {
       flex: 1;
       display: -webkit-flex;
@@ -63,6 +72,8 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+
+      margin-bottom: -7%;
     }
 
     .rowPad {
@@ -73,7 +84,8 @@
       align-items: center;
       justify-content: space-between;
 
-      padding: 10%;
+      padding-top: 10%;
+      margin-bottom: -7%;
     }
 
     .col-side {
@@ -157,8 +169,10 @@
 
     .logContainer {
       overflow-y: scroll;
-      height: 62%;
-      width: 93%;
+      height: 65%;
+      width: 92%;
+
+      margin-bottom: 10%;
     }
 
     .titleBox {
@@ -231,8 +245,6 @@
       to { background-color: #F00; }
     }
 
-
-
     /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
     @media (max-width: 600px) {
       .row {
@@ -266,14 +278,10 @@
       <button onclick="updatePlastic(10)"> RightSIUM 10 -> </button>
       <button onclick="updatePlastic(90)"> RightSIUM 90 -> </button>
       
-      <div class="row">
+      <div class="rowT">
         <button onclick="ledOn()"> ledOn </button>
         <button onclick="ledOff()"> ledOff </button>
         <button onclick="ledBlink()"> ledBlink </button>
-      </div>
-      <div class="row">
-        <textarea id="textArea" rows="1" cols="50">TEMP</textarea>
-        <button onclick="updPosTest()"> updatePos </button>
       </div>
       -->
       <div class="logBox">
@@ -285,6 +293,10 @@
 
         <div class="rowPad">
           <h4>Robot Position:</h4><h4 id="robotPos">TEMP</h4>
+        </div>
+
+        <div class="row">
+          <h4>Robot State:</h4><h4 id="robotState">TEMP</h4>
         </div>
 
         <h3>LOG</h3>

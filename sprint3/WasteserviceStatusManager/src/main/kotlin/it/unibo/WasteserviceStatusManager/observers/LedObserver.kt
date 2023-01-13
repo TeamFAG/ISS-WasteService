@@ -20,7 +20,7 @@ class LedObserver(private val websocketList: ArrayList<WebSocketSession>, privat
     override fun onLoad(response: CoapResponse) {
         val payload = response.responseText
 
-        ColorsOut.outappl(payload, ColorsOut.GREEN)
+        ColorsOut.outappl("LedObserver: $payload", ColorsOut.GREEN)
 
         if(payload.isBlank()) {
             // print error
@@ -61,7 +61,12 @@ class LedObserver(private val websocketList: ArrayList<WebSocketSession>, privat
         }
 
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage("{\"ledstate\": \"$state\"}"))
+            try {
+                ws.sendMessage(TextMessage("{\"ledstate\": \"$state\"}"))
+            } catch (e: IllegalStateException) {
+                println(e.cause.toString())
+                ws.sendMessage(TextMessage("{\"ledstate\": \"$state\"}"))
+            }
         }
     }
 }

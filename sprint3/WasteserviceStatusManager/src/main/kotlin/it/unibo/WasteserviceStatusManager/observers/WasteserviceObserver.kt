@@ -21,7 +21,7 @@ class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession
     override fun onLoad(response: CoapResponse) {
         val payload = response.responseText
 
-        ColorsOut.outappl(payload, ColorsOut.GREEN)
+        ColorsOut.outappl("WasteserviceObserver: $payload", ColorsOut.GREEN)
 
         if(payload.isBlank()) {
             // print error
@@ -92,7 +92,12 @@ class WasteserviceObserver(private val websocketList: ArrayList<WebSocketSession
         }
 
         for(ws in websocketList) {
-            ws.sendMessage(TextMessage("{\"MAXGB\": $maxgb, \"MAXPB\": $maxpb}"))
+            try {
+                ws.sendMessage(TextMessage("{\"MAXGB\": $maxgb, \"MAXPB\": $maxpb}"))
+            } catch (e: IllegalStateException) {
+                println(e.cause.toString())
+                ws.sendMessage(TextMessage("{\"MAXGB\": $maxgb, \"MAXPB\": $maxpb}"))
+            }
         }
     }
 }

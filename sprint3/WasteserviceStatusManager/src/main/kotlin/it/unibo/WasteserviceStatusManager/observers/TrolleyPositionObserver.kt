@@ -19,7 +19,7 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
     override fun onLoad(response: CoapResponse) {
         val payload = response.responseText
 
-        ColorsOut.outappl(payload, ColorsOut.GREEN)
+        ColorsOut.outappl("TrolleyPositionObserver: $payload", ColorsOut.GREEN)
 
         if(payload.isBlank()) {
             // print error
@@ -27,10 +27,10 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         }
 
         // filtraggio messaggio
-        if(payload.isNotBlank()) {
+        if(payload.isNotBlank() && payload.contains("arrived")) {
             // transporttrolley(arrived_POSIZIONE)
             //sendUpdateToGui(payload.split("_")[1].replace(")", ""))
-            sendUpdateToGui(payload.split("(")[1].replace(")", ""))
+            sendUpdateToGui(payload.split("_")[1].replace(")", ""))
         }
     }
 
@@ -60,7 +60,12 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
                 guiBean.trolleyPosition = position
             }
 
-            ws.sendMessage(TextMessage("{\"trolleyposition\": \"$position\"}"))
+            try {
+                ws.sendMessage(TextMessage("{\"trolleyposition\": \"$position\"}"))
+            } catch (e: IllegalStateException) {
+                println(e.cause.toString())
+                ws.sendMessage(TextMessage("{\"trolleyposition\": \"$position\"}"))
+            }
         }
     }
 }
