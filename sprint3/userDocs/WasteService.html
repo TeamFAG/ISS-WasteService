@@ -480,6 +480,44 @@ Dispatch updateRobotState : updateRobotState(STATE)
             the WsConnection class (provided by the customer), to connect to the GUI server and send all new updates received by 
             <ks>guiupdater</ks>.<br/><br/>
 
+            <h3>Connecting to the Wasteservice system - <k>Solving issues presented while testing</k></h3>
+
+            While testing the previous strategy, we found a system-breaking issue involving CoaP based messaging.
+
+            <h5><k>Receiveing messages from multiple observers</k></h5>
+
+            Apparently, CoaP fails when a QakActor is observing multiple resources.<br/><br/>
+            What happens is that of all the messages sent as part of the <k>updateResource</k> function, The observer
+            only receives messages from one resource, losing all other messages.<br/><br/>
+
+            In our case, the updates sent by <ks>transporttrolley</ks> were not received by <ks>guiupdater</ks>.
+
+            <h4><k>A new strategy for the GUI interaction</k></h4>
+
+            We then decided to change the whole messaging architecture between the GUI and the Core System.<br/><br/>
+
+            CoaP messaging is still used, howerver we moved the observers to the GUI side.<br/>
+            Now there is an observer for every resource of our system:
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            Every time an <k>updateResource</k> for one of the observed actors is called, the new kotlin observers receive the update
+            and use SpringBoot to push it to the live web-page.
+
+            The consequences of this are:
+            <ul>
+                <li><b>All updates are independent from one another</b>, which means that the GUI is constantly being updated
+                without any delays.<br/>
+                However, this also means that the network takes on a bigger load as there are more message.<br/>
+                <k>For the sake of this project, after further testing, this solution doesn't have any big impacts.</k></li>
+                <li><b>Coap doesn't behave strangely</b> as no kotlin class observer more than one actor in the Core system.</li>
+                <li></li>
+            </ul>
+
+            <img src="">
+
             <h3>Smart Device re-definition</h3>
 
             Up to this point, our Smart Device has always been a python GUI script that ran inside the main PC.<br/>
