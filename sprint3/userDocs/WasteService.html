@@ -308,8 +308,8 @@
             <h3>SCRUM goal</h3>
             In the final sprint of the project,<b>Sprint3</b>, we are going to analyze and create the WasteService GUI component.<br/>
             <br/>
-            <h4>Raspberry Service</h4>
-            <img src="./imgs/systemarchitecturearch_rasp.png" alt="SystemArchRasp" style="width:auto;height:750px;" class="center"><br/> 
+            <h4>Gui Service</h4>
+            <img src="./imgs/guiarchbase.png" alt="SystemArchRasp" style="width:auto;height:750px;" class="center"><br/> 
             <b>The objectives of this Sprint are:</b>
             <ol><br/>
                 <li>
@@ -364,15 +364,15 @@
             detatched from the core business logic of the system.<br/>
 
             <h4>Desktop Application</h4>
-            With this strategy, the GUI component is an executable that needs to be installed on the target machine.<br/>
+            With this strategy, the <b>GUI</b> component is an executable that needs to be installed on the target machine.<br/>
             <ol>
-                <li>- The App can be independent from the system (if developed as an external program), however it still will be highly
-                    dependent on the OS/platform used to run it.
+                <li>- The App can be independent from the system (<i>if developed as an external program</i>), however it still will be highly
+                    dependent on the <b>OS/platform</b> used to run it.
                 </li>
                 <li>- If developed as an internal component (part of the qak architecture with a Qak actor/codedActor), it will be
                     too dependent on the system itself, limiting present and future development. 
                 </li>
-                <li>- Running this application using Docker is always more difficult, as visualization of the gui needs to be
+                <li>- Running this application using <b>Docker</b> is always more difficult, as visualization of the GUI needs to be
                     handled inside the container.
                 </li>
             </ol>
@@ -382,34 +382,34 @@
             <ol>
                 <li>+ The <b>webApp</b> is detached (or independent) from the system.</li>
                 <li>+ The customer provides support for this choice by presenting other functioning projects.</li>
-                <li>+ There are no OS/platform limitations as the only required application is a browser.</li>
+                <li>+ There are no <b>OS/platform</b> limitations as the only required application is a browser.</li>
                 <li>- Defining the interaction between a Qak based system and an external server could prove to be challenging.</li>
             </ol>
             
             <h3>WasteService to GUI communication handling</h3>
-            One of the core problems of this sprint is the communication of the system and the GUI as the latter needs to be constantly updated
+            One of the core problems of this <b>Sprint</b> is the communication of the system and the GUI as the latter needs to be constantly updated
             by the system.<br/>
-            Infact, the only porpouse of the GUI is to receive status updates from the service and show them to the manager.<br/>
+            Infact, the only porpouse of the GUI is to <b>receive status updates</b> from the service and show them to the manager.<br/>
             Because of this the only two message types that make logical sense are:
             <ul>
                 <li><b>Dispatches</b></li>
                 <li><b>Events</b></li>
             </ul>
-            As we already discussed in Sprint2, Events are sent to all endpoints in the system and represent additional load on the netework.<br/>
-            So Dispatches seem to be the best option.<br/>
+            As we already discussed in <b>Sprint2</b>, <b><i>Events</i></b> are sent to all endpoints in the system and represent additional load on the netework.<br/>
+            So <b><i>Dispatches</i></b> seem to be the best option.<br/>
 
-            <k>However, after further analysis the team realised that Dispatches require the knowledge of the receiving end of the connection.<br/>
-            Which means that they introduce a level of dependency that should be avoided.<br/>
-            We will tackle the issue in a separate part of this Sprint document.</k>
+            <h5><k>However, after further analysis the team realised that Dispatches require the knowledge of the receiving end of the connection.<br/>
+            Which means that they introduce a level of <b>dependency</b> that should be avoided.<br/>
+            We will tackle the issue in a separate part of this <b>Sprint</b> document.</k></h5>
 
             <h3>Update policy</h3>
 
             <k>How do we know when a gui update is needed ?</k>
             <br/>
-            This particular problem is very similar to the sonar and led analysis of Sprint2, in which we had to monitor
+            This particular problem is very similar to the <b><i>sonar</i></b> and <b><i>led</i></b> analysis of Sprint2, in which we had to monitor
             the trolley's behavior to update the state of the system.
             <br/>
-            Consequently, for the same reasons, we decided to use the Observer pattern by implementing CoaP messaging.<br/><br/>
+            Consequently, for the same reasons, we decided to use the <b>Observer</b> pattern by implementing CoaP messaging.<br/><br/>
 
             Our pre-existing <ks>trolleystateobserver</ks> actor already observes the <k>state</k> ad <k>position</k> of the trolley.<br/>
             It also acts as the notifier for the Led state, so reusing it is the best possible choice.<br/>
@@ -429,20 +429,20 @@ Dispatch updateRobotState : updateRobotState(STATE)
             We introduced a new actor called <ks>guiupdater</ks> that receives Dispatches from all the update sources (<k>Observers</k>) and
             consequently uses them to create and ultimately send the final update message.<br/><br/>            
 
-            This was done so that the eventual GUI component will only have to receive one type of message from the system, instead of
-            having to parse each message differently based on its origin.<br/>
+            This was done so that the eventual <b>GUI</b> component will only have to receive one type of message from the system, instead of
+            having to <b>parse each message differently based on its origin</b>.<br/><br/>
             
-            <img src="">
+            <center><img src="./imgs/guiupdater.png" height="350px"></center><br/><br/>
 
-            For now, the only entity that listens to these updates is a CoaP observer built as part of a Test for this particular analysis.<br/>
-            In the project portion of this document we will tackle the issue of the real observer.<br/>
+            <i>For now, the only entity that listens to these updates is a <b>CoaP observer</b> built as part of a <b>Test</b> for this particular analysis.<br/>
+            In the project portion of this document we will tackle the issue of the real observer.</i><br/>
 
             <br/>
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
-                <img src="./imgs/problem_analisysarch.png" alt="waasteserviceProblemArch" style="width:auto;height:1050px;" class="center">
+                <img src="../sprint3_problem/sprint3_problemarch.png" alt="waasteserviceProblemArch" style="width:auto;height:1050px;" class="center">
                 </br>
-                <a href="../sprint3_problem/src/demo_single_context.qak"><k>demo_single_context.qak</k></a>
+                <a href="../sprint3_problem/src/problem.qak"><k>demo_single_context.qak</k></a>
 
                 <h5>Test Plans</h5>
                 <k>The test plans for this particular Sprint have been developed only for the Project section, as they would have 
@@ -454,39 +454,39 @@ Dispatch updateRobotState : updateRobotState(STATE)
 
             <h3>GUI framework</h3>
 
-            As previously discussed, we chose a Web-based solution for our GUI service.<br/>
+            As previously discussed, we chose a <ks>Web-based</ks> solution for our GUI service.<br/>
 
-            We chose Spring Boot as a platform to develop the GUI server.<br/>
+            We chose <b>Spring Boot</b> as a platform to develop the GUI server.<br/>
             We did this for several reasons:
             <ul>
-                <li>We first tried to use React, as it's a light, easily developed library with a lot of support.<br/>
-                Unfortunately, Qak systems cannot communicate with Javascript-based WebSockets, for unknown reasons.</li>
-                <li>Service deployment is handled using WebJar functionality, making it easy to manage.</li>
+                <li>We first tried to use <b>React</b>, as it's a light, easily developed library with a lot of support.<br/>
+                Unfortunately, <k><i>Qak systems cannot communicate with Javascript-based WebSockets</i></k>, for unknown reasons.</li>
+                <li>Service deployment is handled using <b>WebJar</b> functionality, making it easy to manage.</li>
                 <li>The team was alredy familiar with the framework.</li>
             </ul>
 
             <h3>GUI design</h3>
-            As for the GUI design, we wanted to make sure it was as clear and understandable as possible.<br/>
+            As for the <b>GUI design</b>, we wanted to make sure it was as clear and understandable as possible.<br/>
             All assets were used with this in mind.<br/><br/>
 
             <img src="./imgs/gui.png" height="550" width="980">
 
             <h3>Connecting to the Wasteservice system</h3>
 
-            In the problem analysis section of the document, we defined a CoaP based software structure to collect and send
+            In the problem analysis section of the document, we defined a <b>CoaP based software structure</b> to collect and send
             all updates of the system to the GUI.<br/><br/>
 
-            To finally complete the implementation of this structure, we defined a new object called wsDispatcher the uses
-            the WsConnection class (provided by the customer), to connect to the GUI server and send all new updates received by 
+            To finally complete the implementation of this structure, we defined a new object called <a href="../sprint3_project/resources/wsWebSupport/WsDispatcher.kt"><b>wsDispatcher</b></a> the uses
+            the <a href="https://github.com/anatali/issLab2022/blob/main/unibo.comm22/src/unibo/comm22/ws/WsConnection.java"><b>WsConnection</b></a> class (provided by the customer), to connect to the GUI server and send all new updates received by 
             <ks>guiupdater</ks>.<br/><br/>
 
             <h3>Connecting to the Wasteservice system - <k>Solving issues presented while testing</k></h3>
 
-            While testing the previous strategy, we found a system-breaking issue involving CoaP based messaging.
+            While testing the previous strategy, we found a system-breaking issue involving <b>CoaP based messaging</b>.
 
             <h5><k>Receiveing messages from multiple observers</k></h5>
 
-            Apparently, CoaP fails when a QakActor is observing multiple resources.<br/><br/>
+            Apparently, CoaP fails when a <b>QakActor is observing multiple resources</b>.<br/><br/>
             What happens is that of all the messages sent as part of the <k>updateResource</k> function, The observer
             only receives messages from one resource, losing all other messages.<br/><br/>
 
@@ -516,13 +516,13 @@ Dispatch updateRobotState : updateRobotState(STATE)
                 <li><b>All updates are independent from one another</b>, which means that the GUI is constantly being updated
                 without any delays.<br/>
                 However, this also means that the network takes on a bigger load as there are more messages.<br/>
-                <k>For the sake of this project, after further testing, this solution doesn't have any big impacts.</k></li>
+                <h5><k>For the sake of this project, after further testing, this solution doesn't have any big impacts.</k></li></h5>
                 <li><b>Coap doesn't behave strangely</b> as no kotlin class observes more than one actor in the Core System.</li>
                 <li><b>This strategy makes the GUI component more independent</b> as it can be cahnged, reused and repourposed without 
                 affecting the Core System.</li>
             </ul>
 
-            <img src="">
+            <br/><img src="./imgs/WasteserviceStatusManager-uml.png" height="400px">
 
             <h3>Smart Device re-definition</h3>
 
@@ -540,7 +540,7 @@ Dispatch updateRobotState : updateRobotState(STATE)
                 <li><b>Extensive Support</b>: There are many pre-made assets that significantly sped-up the development process.</li>
             </ul>
 
-            <img src="">
+            <img src="./imgs/smartdevice-home.png" height="500px"><img src="./imgs/smartdevice-request.png" height="500px"><img src="./imgs/smartdevice-settings.png" height="500px">
 
             <h3>MQTT and its possible use in our project</h3>
 
@@ -569,9 +569,9 @@ Dispatch updateRobotState : updateRobotState(STATE)
 
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
-                <img src="./imgs/sprint2_projectarch.png" alt="demo" style="width:900px;height:auto;" class="center">
+                <img src="../sprint3_project/sprint3_projectarch.png" alt="demo" style="width:900px;height:auto;" class="center">
                 <br/>
-                <a href="../sprint2_project/src/demo_project.qak"><k>Demo QAK</k></a>
+                <a href="../sprint3_project/src/project.qak"><k>Demo QAK</k></a>
                 <br/>
 
                 <h5>Test Plans</h5>
