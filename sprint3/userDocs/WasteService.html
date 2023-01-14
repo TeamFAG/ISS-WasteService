@@ -499,9 +499,14 @@ Dispatch updateRobotState : updateRobotState(STATE)
             CoaP messaging is still used, howerver we moved the observers to the GUI side.<br/>
             Now there is an observer for every resource of our system:
             <ul>
-                <li></li>
-                <li></li>
-                <li></li>
+                <li><ks>LedObserver</ks>: observes the <ks>led</ks> actor.</li>
+                <li><ks>TrolleyStateObserver</ks>: observes the <ks>trolleystateobserver</ks> actor.</li>
+                <li><ks>TrolleyPositionObserver</ks>: observes the <ks>trolleystateobserver</ks> actor.<br/>
+                <h5><k>Initially, <ks>TrolleyPositionObserver</ks> observed the <ks>transporttrolley</ks> actor as it 
+                was the obvious source of data about the position of the trolley, however we found that 
+                it wasn't being correctly observed by the GUI CoaP class. <br/>
+                We fixed this issue by incorporating the information about the position of the trolley into <ks>trolleystateobserver</ks></k></h5></li>
+                <li><ks>WasteServiceObserver</ks>: observes the <ks>wasteservice</ks></li>
             </ul>
             Every time an <k>updateResource</k> for one of the observed actors is called, the new kotlin observers receive the update
             and use SpringBoot to push it to the live web-page.
@@ -510,10 +515,11 @@ Dispatch updateRobotState : updateRobotState(STATE)
             <ul>
                 <li><b>All updates are independent from one another</b>, which means that the GUI is constantly being updated
                 without any delays.<br/>
-                However, this also means that the network takes on a bigger load as there are more message.<br/>
+                However, this also means that the network takes on a bigger load as there are more messages.<br/>
                 <k>For the sake of this project, after further testing, this solution doesn't have any big impacts.</k></li>
-                <li><b>Coap doesn't behave strangely</b> as no kotlin class observer more than one actor in the Core system.</li>
-                <li></li>
+                <li><b>Coap doesn't behave strangely</b> as no kotlin class observes more than one actor in the Core System.</li>
+                <li><b>This strategy makes the GUI component more independent</b> as it can be cahnged, reused and repourposed without 
+                affecting the Core System.</li>
             </ul>
 
             <img src="">
@@ -538,7 +544,7 @@ Dispatch updateRobotState : updateRobotState(STATE)
 
             <h3>MQTT and its possible use in our project</h3>
 
-            Right now, our core system needs to know the endpoint of the GUI server to be able to send update messages.<br/>
+            Right now, our GUI needs to know the endpoint of the Core System to be able to receive CoaP update messages.<br/>
             This means that there is still some dependency between the two components, which violates the clean architecture mentioned
             in the analysis section of the document.
 
@@ -567,16 +573,16 @@ Dispatch updateRobotState : updateRobotState(STATE)
                 <br/>
                 <a href="../sprint2_project/src/demo_project.qak"><k>Demo QAK</k></a>
                 <br/>
-                <h4>Handling Implementation Oversights</h4>
-                During the project phase, we found a mistake made in the problem analysis phase of this Sprint.<br/>
-                Regarding the update messages for the Led and Robot state forwaded to <ks>guiupdater</ks>, they were being sent by the <ks>transporttrolley</ks> actor instead
-                of the <ks>trolleystateobserver</ks> actor.<br/>
+
                 <h5>Test Plans</h5>
                 <dd>
                     We have prepared the following tests for this particular model:
                     <ol>
                         <li><a href="../sprint3_project/test/IntegrationTestGuiUpdater.kt"><k>IntegrationTestGuiUpdater.kt</k></a>: Integration testing to ensure the correct behavior of the Gui updates inside the system using CoaP.</li>
                     </ol>
+                    <h5><k>This previous test helped us understand how CoaP messaging was failing due to the observation of multiple actors, 
+                        causing the change in project architecture for the GUI service.
+                    </k></h5>
                 </dd>
             </div>
         </div>
