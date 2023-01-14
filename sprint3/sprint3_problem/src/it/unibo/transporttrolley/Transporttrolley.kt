@@ -79,13 +79,13 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 						updateResourceRep( "transporttrolley(pickupDone)"  
 						)
 						println("	TRANSPORTTROLLEY | pickup done")
-						answer("depositRequest", "pickupDone", "pickupDone(OK)"   )  
+						answer("depositRequest", "pickupDone", "pickupDone(OK)","wasteservice"   )  
 						}
 						else
 						 {forward("updateRobotState", "updateRobotState("INDOOR - Pickup FAIL")" ,"wsgui" ) 
 						 println("	TRANSPORTTROLLEY | failed pickup")
 						  Error = true  
-						 answer("depositRequest", "pickupDone", "pickupDone(NO)"   )  
+						 answer("depositRequest", "pickupDone", "pickupDone(NO)","wasteservice"   )  
 						 }
 						//genTimer( actor, state )
 					}
