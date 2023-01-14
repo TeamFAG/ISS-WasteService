@@ -630,8 +630,8 @@ QActor halteventshandler context ctxrasp {
 	Goto idle
 }
 
-CodedQActor datacleaner    context ctxrasp className "rx.dataCleaner"
-CodedQActor distancefilter context ctxrasp className "rx.distanceFilter"
+CodedQActor datacleaner    context ctxtrolley className "rx.dataCleaner"
+CodedQActor distancefilter context ctxtrolley className "rx.distanceFilter"
  
 QActor basicrobot context ctxtrolley {
 [#

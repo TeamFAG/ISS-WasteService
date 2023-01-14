@@ -28,6 +28,8 @@ with Diagram('sprint3_projectArch', show=False, outformat='png', graph_attr=grap
           trolleystateobserver=Custom('trolleystateobserver','./qakicons/symActorSmall.png')
           basicrobot=Custom('basicrobot','./qakicons/symActorSmall.png')
           envsonarhandler=Custom('envsonarhandler','./qakicons/symActorSmall.png')
+          datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
+          distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
      with Cluster('ctxrasp', graph_attr=nodeattr):
           led=Custom('led','./qakicons/symActorSmall.png')
           sonar=Custom('sonar','./qakicons/symActorSmall.png')
@@ -36,8 +38,6 @@ with Diagram('sprint3_projectArch', show=False, outformat='png', graph_attr=grap
           sonaremitterconcrete=Custom('sonaremitterconcrete(coded)','./qakicons/codedQActor.png')
           wsdatacleaner=Custom('wsdatacleaner(coded)','./qakicons/codedQActor.png')
           wsdistanceFilter=Custom('wsdistanceFilter(coded)','./qakicons/codedQActor.png')
-          datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
-          distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
      wasteservice >> Edge(color='magenta', style='solid', xlabel='depositRequest', fontcolor='magenta') >> transporttrolley
      transporttrolley >> Edge(color='magenta', style='solid', xlabel='move', fontcolor='magenta') >> trolleymover
      trolleymover >> Edge(color='magenta', style='solid', xlabel='stopPath', fontcolor='magenta') >> pather

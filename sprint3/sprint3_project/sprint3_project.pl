@@ -16,7 +16,7 @@ context(ctxrasp, "localhost",  "TCP", "8070").
   qactor( led, ctxrasp, "it.unibo.led.Led").
   qactor( sonar, ctxrasp, "it.unibo.sonar.Sonar").
   qactor( halteventshandler, ctxrasp, "it.unibo.halteventshandler.Halteventshandler").
-  qactor( datacleaner, ctxrasp, "rx.dataCleaner").
-  qactor( distancefilter, ctxrasp, "rx.distanceFilter").
+  qactor( datacleaner, ctxtrolley, "rx.dataCleaner").
+  qactor( distancefilter, ctxtrolley, "rx.distanceFilter").
   qactor( basicrobot, ctxtrolley, "it.unibo.basicrobot.Basicrobot").
   qactor( envsonarhandler, ctxtrolley, "it.unibo.envsonarhandler.Envsonarhandler").
