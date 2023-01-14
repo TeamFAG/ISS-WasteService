@@ -617,7 +617,6 @@ QActor led context ctxwasteservice_test {
 				  
 }
 
-
 QActor sonar context ctxwasteservice_test {
 	[#
 		var Simulation: Boolean = false
