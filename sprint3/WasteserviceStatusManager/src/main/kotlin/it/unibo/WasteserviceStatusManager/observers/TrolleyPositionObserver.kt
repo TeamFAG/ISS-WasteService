@@ -46,6 +46,7 @@ class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSess
         val port = SystemConfiguration.ports[actor] as Int
 
         val connection = CoapConnection("${host}:${port}", "${context}/${actor}")
+
         connection.observeResource(this)
 
         while (connection.request("") == "0") {
