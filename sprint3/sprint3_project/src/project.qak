@@ -191,13 +191,13 @@ QActor transporttrolley context ctxtrolley {
 			updateResource [# "transporttrolley(pickupDone)" #]
 			println("\tTRANSPORTTROLLEY | pickup done")
 			
-			replyTo depositRequest with pickupDone : pickupDone(OK)
+			replyTo depositRequest with pickupDone : pickupDone(OK) caller==wasteservice
 		} else {
 			updateResource [#"transporttrolley(pickupError)"#]
 			println("\tTRANSPORTTROLLEY | failed pickup")
 			[# Error = true #]
 			
-			replyTo depositRequest with pickupDone : pickupDone(NO)
+			replyTo depositRequest with pickupDone : pickupDone(NO) caller==wasteservice
 		}
 	}
 	Goto moveToBox if [# Error == false #] else errorHandler
@@ -344,7 +344,7 @@ QActor trolleymover context ctxtrolley {
 		updateResource [# "trolleymover(handlePathDone_$Loc, POS: ${pos.x}_${pos.y})" #]
 		println("\tTROLLEYMOVER | arrived to $Loc")
 		
-		replyTo move with moveDone : moveDone(OK)
+		replyTo move with moveDone : moveDone(OK) caller==transporttrolley
 	}
 	Goto idle
 	
@@ -353,7 +353,7 @@ QActor trolleymover context ctxtrolley {
 		updateResource [# "trolleymover(handlePathFail_$Loc)" #]
 		println("\tTROLLEYMOVER | path failed to $Loc")
 		
-		replyTo move with moveDone : moveDone(NO)
+		replyTo move with moveDone : moveDone(NO) caller==transporttrolley
 	}
 	Goto idle
 }
@@ -395,7 +395,7 @@ QActor pather context ctxtrolley {
 			
 	
 	State handleStopPath {
-		replyTo stopPath with stopAck : stopAck(_)
+		replyTo stopPath with stopAck : stopAck(_) caller==trolleymover
 	}
 	Goto init
 	
@@ -440,14 +440,14 @@ QActor pather context ctxtrolley {
 	
 	State endWorkOk {
 		println("\tPATHEXECUTOR | path done")
-		replyTo doPath with doPathDone : doPathDone(OK)
+		replyTo doPath with doPathDone : doPathDone(OK) caller==trolleymover
 	}
 	Goto init
 	
 	State endWorkKo {
 		[# var PathStillTodo = ws.pathing.pathut.getPathTodo() #]
 		println("\tPATHEXECUTOR | path failure - PathStillTodo: $PathStillTodo")
-		replyTo doPath with doPathFail : doPathFail($PathStillTodo)
+		replyTo doPath with doPathFail : doPathFail($PathStillTodo) caller==trolleymover
 	}
 	Transition t3 whenEvent alarm -> handleAlarm
 }
@@ -631,7 +631,7 @@ QActor halteventshandler context ctxrasp {
 }
 
 CodedQActor datacleaner    context ctxtrolley className "rx.dataCleaner"
-CodedQActor distancefilter context ctxtrolley className "rx.distanceFilter"
+CodedQActor distancefilter context ctxtrolley       className "rx.distanceFilter"
  
 QActor basicrobot context ctxtrolley {
 [#
@@ -723,7 +723,7 @@ QActor basicrobot context ctxtrolley {
  		run unibo.robot.robotSupport.move( "h" )  //stop the real robot already done ???
 		updateResource [# "stepDone($StepTime)" #]
    		//emit info : info( stepdone($StepTime) )
-   		replyTo step with stepdone : stepdone(ok)
+   		replyTo step with stepdone : stepdone(ok) caller==pather
 		println("basicrobot | stepDone reply done")
   	}
 	Goto work  
@@ -740,7 +740,7 @@ QActor basicrobot context ctxtrolley {
 			run unibo.robot.robotSupport.move( "h" ) 
  		updateResource [# "stepFail($Duration)" #] 
  		//emit info : info( stepFail($Duration) )
- 		replyTo step with stepfail : stepfail($Duration, obst)
+ 		replyTo step with stepfail : stepfail($Duration, obst) caller==pather
     }
 	Goto work
 	
