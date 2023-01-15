@@ -4,7 +4,7 @@ services:
     image: wasteservice
     build: 
       context: ../../
-      dockerfile: distribution/local/Dockerfile-ctxwasteservice 
+      dockerfile: distribution/distributed/Dockerfile-ctxwasteservice 
     container_name: wasteservice
     expose:
       - "8050"
@@ -16,7 +16,7 @@ services:
     image: trolley
     build:
       context: ../../
-      dockerfile: distribution/local/Dockerfile-ctxtrolley
+      dockerfile: distribution/distributed/Dockerfile-ctxtrolley
     container_name: trolley
     expose:
       - "8060"
@@ -24,25 +24,11 @@ services:
       - "wasteservice"
     ports:
       - "8060:8060"
-  rasp:
-    image: rasp
-    build:
-      context: ../../
-      dockerfile: distribution/local/Dockerfile-ctxrasp
-    container_name: rasp
-    #environment:
-    #  - DISPLAY=IP:0
-    expose:
-      - "8070"
-    depends_on:
-      - "wasteservice"
-    ports:
-      - "8070:8070"
   statusmanager:
     image: statusmanager
     build:
       context: ../../
-      dockerfile: distribution/local/Dockerfile-statusmanager
+      dockerfile: distribution/distributed/Dockerfile-statusmanager
     container_name: statusmanager
     expose:
       - "8085"

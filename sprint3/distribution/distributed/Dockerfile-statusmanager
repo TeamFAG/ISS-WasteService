@@ -1,0 +1,12 @@
+FROM adoptopenjdk/openjdk11
+EXPOSE 8085
+
+RUN apt-get update -y
+
+RUN mkdir ./MainStatusManager/
+
+WORKDIR ./MainStatusManager/
+COPY ./WasteserviceStatusManager/build/libs/WasteserviceStatusManager-0.0.1-SNAPSHOT.jar ./
+COPY ./distribution/distributed/*.json ./
+
+CMD [ "java", "-jar", "WasteserviceStatusManager-0.0.1-SNAPSHOT.jar" ]

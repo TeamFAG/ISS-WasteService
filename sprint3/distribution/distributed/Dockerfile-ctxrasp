@@ -1,0 +1,24 @@
+FROM adoptopenjdk/openjdk11
+EXPOSE 8070
+
+COPY ./sprint3_project/resources/wsSonar/wiringpi-2.61-1-armhf.deb ./
+
+RUN apt-get update -y
+RUN apt-get install -y sudo
+RUN apt-get install -y build-essential 
+RUN apt-get install -y g++
+RUN apt install ./wiringpi-2.61-1-armhf.deb
+
+RUN mkdir ./MainRasp/
+
+WORKDIR ./MainRasp/
+COPY ./sprint3_project/build/libs/it.unibo.ctxrasp.MainCtxraspKt-1.0.jar ./
+COPY ./distribution/distributed/*.pl ./
+COPY ./distribution/distributed/*.json ./
+COPY ./sprint3_project/resources/wsLed/led25GpioTurnOff.sh ./
+COPY ./sprint3_project/resources/wsLed/led25GpioTurnOn.sh ./
+COPY ./sprint3_project/resources/wsSonar/SonarAlone.c ./
+
+RUN g++ SonarAlone.c -l wiringPi -o SonarAlone
+
+CMD [ "java", "-jar", "it.unibo.ctxrasp.MainCtxraspKt-1.0.jar" ]
