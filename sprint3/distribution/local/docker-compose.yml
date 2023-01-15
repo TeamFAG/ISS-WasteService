@@ -1,0 +1,72 @@
+version: "3.3"
+services:
+  wasteservice:
+    image: wasteservice
+    build: 
+      context: ../../
+      dockerfile: distribution/local/Dockerfile-ctxwasteservice 
+    container_name: wasteservice
+    expose:
+      - "8050"
+    networks:
+      - wsnetwork
+    depends_on:
+      - "wenv"
+    ports:
+      - "0.0.0.0:8050:8050"
+  trolley:
+    image: trolley
+    build:
+      context: ../../
+      dockerfile: distribution/local/Dockerfile-ctxtrolley
+    container_name: trolley
+    expose:
+      - "8060"
+    depends_on:
+      - "wasteservice"
+    networks:
+      - wsnetwork
+    ports:
+      - "8060:8060"
+  rasp:
+    image: rasp
+    build:
+      context: ../../
+      dockerfile: distribution/local/Dockerfile-ctxrasp
+    container_name: rasp
+    #environment:
+    #  - DISPLAY=IP:0
+    expose:
+      - "8070"
+    depends_on:
+      - "wasteservice"
+    networks:
+      - wsnetwork
+    ports:
+      - "8070:8070"
+  statusmanager:
+    image: statusmanager
+    build:
+      context: ../../
+      dockerfile: distribution/local/Dockerfile-statusmanager
+    container_name: statusmanager
+    expose:
+      - "8085"
+    depends_on:
+      - "wasteservice"
+    networks:
+      - wsnetwork
+    ports:
+      - "8085:8085"
+  wenv:
+    image: wenvl
+    build:
+      context: ../../../it.unibo.virtualRobot2020/
+    container_name: wenvl
+    networks:
+      - wsnetwork
+    ports:
+      - "0.0.0.0:8090:8090"
+      - "8091:8091"
+networks:
+  wsnetwork:

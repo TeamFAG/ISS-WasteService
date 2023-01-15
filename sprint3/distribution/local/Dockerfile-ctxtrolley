@@ -1,0 +1,15 @@
+
+FROM adoptopenjdk/openjdk11
+EXPOSE 8060
+
+RUN apt-get update -y
+
+RUN mkdir ./MainWasteservice/
+
+WORKDIR ./MainTrolley/
+COPY ./sprint3_project/build/libs/it.unibo.ctxtrolley.MainCtxtrolleyKt-1.0.jar ./
+COPY ./distribution/local/*.pl ./
+COPY ./distribution/local/*.json ./
+COPY ./distribution/distributed/*.bin ./
+
+CMD [ "java", "-jar", "it.unibo.ctxtrolley.MainCtxtrolleyKt-1.0.jar" ]

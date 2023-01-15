@@ -1,0 +1,30 @@
+{
+  "contexts": {
+    "wasteservice": "ctxwasteservice",
+    "led": "ctxrasp",
+    "trolleystateobserver": "ctxtrolley",
+    "transporttrolley": "ctxtrolley",
+    "trolleymover": "ctxtrolley"
+  },
+  "actors": {
+    "wasteservice": "wasteservice",
+    "led": "led",
+    "trolleystateobserver": "trolleystateobserver",
+    "transporttrolley": "transporttrolley",
+    "trolleymover": "trolleymover"
+  },
+  "hosts": {
+    "wasteservice": "wasteservice",
+    "led": "rasp",
+    "trolleystateobserver": "trolley",
+    "transporttrolley": "trolley",
+    "trolleymover": "trolley"
+  },
+  "ports": {
+    "wasteservice": 8050,
+    "led": 8070,
+    "trolleystateobserver": 8060,
+    "transporttrolley": 8060,
+    "trolleymover": 8060
+  }
+}
