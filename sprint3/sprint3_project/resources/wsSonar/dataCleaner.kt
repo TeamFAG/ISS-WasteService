@@ -21,7 +21,7 @@ class dataCleaner (name : String ) : ActorBasic( name ) {
 
  		val data  = (Term.createTerm( msg.msgContent() ) as Struct).getArg(0).toString()
 		val Distance = Integer.parseInt( data )
-		println("\tCLEANER | distance: $Distance")
+		//println("\tCLEANER | distance: $Distance")
  		if( Distance > LimitLow && Distance < LimitHigh ){
 			emitLocalStreamEvent( msg ) //propagate
      	}else{

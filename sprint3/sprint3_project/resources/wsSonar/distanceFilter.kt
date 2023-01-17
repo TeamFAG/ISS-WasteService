@@ -23,13 +23,17 @@ class distanceFilter (name : String ) : ActorBasic( name ) {
 			underThreshold = true
 			ColorsOut.outappl("$tt $name | DISTANCE: $Distance", ColorsOut.GREEN)
 			ColorsOut.outappl("$tt $name | DISTANCE IS UNDER THRESHOLD", ColorsOut.GREEN)
-			emit( m1 ) //propagate event obstacle
+			//emit( m1 ) //propagate event obstacle
+			//forward("startHalt", "startHalt(_)", "halteventshandler")
+			emit("startHalt", "startHalt(_)")
      	}else if( Distance > LimitDistance && underThreshold) {
 			val m1 = MsgUtil.buildEvent(name, "stopHalt", "stopHalt(_)")
 			underThreshold = false
 			ColorsOut.outappl("$tt $name | DISTANCE: $Distance", ColorsOut.GREEN)
 			ColorsOut.outappl("$tt $name | DISTANCE IS NO MORE UNDER THRESHOLD", ColorsOut.GREEN)
-			emit( m1 )
+			//emit( m1 )
+			//forward("stopHalt", "stopHalt(_)", "halteventshandler")
+			emit("stopHalt", "stopHalt(_)")
 		}
 	}
 }

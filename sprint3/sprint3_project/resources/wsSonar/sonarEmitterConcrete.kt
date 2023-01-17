@@ -6,6 +6,7 @@ import it.unibo.kactor.MsgUtil
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import unibo.comm22.utils.ColorsOut
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -21,15 +22,14 @@ class sonarEmitterConcrete(name: String): ActorBasic(name) {
         try{
             val p = Runtime.getRuntime().exec("sudo ./SonarAlone")
             reader = BufferedReader(InputStreamReader(p.getInputStream()))
-            println("\tsonarEmitterConcrete | before startRead")
             startRead()
         }catch( e : Exception){
+            e.printStackTrace()
             println("$tt $name | WARNING:  does not find SonarAlone")
         }
     }
 
     suspend fun startRead(){
-        println("\tsonarEmitterConcrete | startRead")
         var counter = 0
         GlobalScope.launch{	//to allow message handling
             while( true ){
@@ -41,6 +41,7 @@ class sonarEmitterConcrete(name: String): ActorBasic(name) {
                         if( v <= 150 ){	//A first filter ...
                             val m1 = "distance($v)"
                             val event = MsgUtil.buildEvent( name,"sonar",m1)
+
                             emitLocalStreamEvent( event )		//not propagated to remote actors
                             //println("sonarEmitterConcrete | ${counter++}: $event "   )
                         }

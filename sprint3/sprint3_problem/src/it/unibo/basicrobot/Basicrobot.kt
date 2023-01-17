@@ -122,7 +122,7 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						unibo.robot.robotSupport.move( "h"  )
 						updateResourceRep( "stepDone($StepTime)"  
 						)
-						answer("step", "stepdone", "stepdone(ok)","pather"   )  
+						answer("step", "stepdone", "stepdone(ok)"   )  
 						println("basicrobot | stepDone reply done")
 						//genTimer( actor, state )
 					}
@@ -142,7 +142,7 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						unibo.robot.robotSupport.move( "h"  )
 						updateResourceRep( "stepFail($Duration)"  
 						)
-						answer("step", "stepfail", "stepfail($Duration,obst)","pather"   )  
+						answer("step", "stepfail", "stepfail($Duration,obst)"   )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

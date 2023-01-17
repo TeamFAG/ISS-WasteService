@@ -1,7 +1,7 @@
 from diagrams import Cluster, Diagram, Edge
 from diagrams.custom import Custom
 import os
-os.environ['PATH'] += os.pathsep + 'D:/Programmi/Graphviz/bin/'
+os.environ['PATH'] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
 
 graphattr = {     #https://www.graphviz.org/doc/info/attrs.html
     'fontsize': '22',
@@ -34,7 +34,6 @@ with Diagram('sprint3_projectArch', show=False, outformat='png', graph_attr=grap
           led=Custom('led','./qakicons/symActorSmall.png')
           sonar=Custom('sonar','./qakicons/symActorSmall.png')
           halteventshandler=Custom('halteventshandler','./qakicons/symActorSmall.png')
-          sonaremittersimulator=Custom('sonaremittersimulator(coded)','./qakicons/codedQActor.png')
           sonaremitterconcrete=Custom('sonaremitterconcrete(coded)','./qakicons/codedQActor.png')
           wsdatacleaner=Custom('wsdatacleaner(coded)','./qakicons/codedQActor.png')
           wsdistanceFilter=Custom('wsdistanceFilter(coded)','./qakicons/codedQActor.png')
@@ -53,6 +52,7 @@ with Diagram('sprint3_projectArch', show=False, outformat='png', graph_attr=grap
      transporttrolley >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
      pather >> Edge(color='blue', style='solid', xlabel='coapUpdate', fontcolor='blue') >> trolleystateobserver
      trolleystateobserver >> Edge(color='blue', style='solid', xlabel='updateLed', fontcolor='blue') >> led
+     sonar >> Edge(color='blue', style='solid', xlabel='sonarActivate', fontcolor='blue') >> sonaremitterconcrete
      sys >> Edge(color='red', style='dashed', xlabel='startHalt', fontcolor='red') >> halteventshandler
      halteventshandler >> Edge(color='blue', style='solid', xlabel='halt', fontcolor='blue') >> pather
      sys >> Edge(color='red', style='dashed', xlabel='stopHalt', fontcolor='red') >> halteventshandler

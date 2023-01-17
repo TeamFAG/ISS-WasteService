@@ -34,13 +34,19 @@ services:
       - "8085"
     depends_on:
       - "wasteservice"
+      - "trolley"
     ports:
       - "8085:8085"
+  #wenv:
+  #  image: docker.io/natbodocker/virtualrobotdisi:4.0
+  #  ports:
+  #    - 8090:8090
+  #    - 8091:8091
   wenv:
     image: wenvl
     build:
       context: ../../../it.unibo.virtualRobot2020/
     container_name: wenvl
     ports:
-      - "0.0.0.0:8090:8090"
+      - "8090:8090"
       - "8091:8091"

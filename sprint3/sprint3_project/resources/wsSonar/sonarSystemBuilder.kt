@@ -2,6 +2,7 @@ package wsSonar
 
 import it.unibo.kactor.ActorBasic
 import it.unibo.kactor.sysUtil
+import unibo.comm22.utils.ColorsOut
 
 object sonarSystemBuilder {
 
@@ -9,10 +10,13 @@ object sonarSystemBuilder {
 
     fun createSonar(simulation: Boolean, log: Boolean) {
         SystemConfig.setTheConfiguration("SystemConfiguration")
+
+        ColorsOut.outappl("sonarSystemBuilder | create the sonar, simulation is $simulation", ColorsOut.YELLOW)
+
         buildSonarPipe(simulation, log)
     }
 
-    fun buildSonarPipe(simulation: Boolean, log: Boolean) {
+    private fun buildSonarPipe(simulation: Boolean, log: Boolean) {
         if(simulation)
             firstActorInPipe = sysUtil.getActor("sonaremittersimulator")!!
         else

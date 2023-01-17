@@ -41,4 +41,4 @@ Lanciare il seguente comando per pullare l'immagine del rasp (è già in una rep
 
 Una volta pullato, per eseguire l'immagine lanciare il comando:
 
-    docker run -i -t --rm --privileged federicoand98/rasp:rasp
+    docker run -i -t --rm --privileged --network=host federicoand98/rasp:rasp

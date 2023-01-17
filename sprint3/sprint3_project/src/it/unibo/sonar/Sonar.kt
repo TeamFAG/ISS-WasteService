@@ -28,6 +28,8 @@ class Sonar ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 									Log = SystemConfig.sonar["log"] as Boolean
 						println("	SONAR | simulation is $Simulation")
 						wsSonar.sonarSystemBuilder.createSonar( Simulation, Log  )
+						delay(100) 
+						forward("sonarActivate", "sonarActivate(_)" ,"sonaremitterconcrete" ) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

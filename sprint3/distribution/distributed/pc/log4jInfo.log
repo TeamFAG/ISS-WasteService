@@ -1,0 +1,390 @@
+2023-01-16 20:35:14 INFO  Configuration:827 - writing properties to /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:35:14 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:35:14 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:35:14 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:35:14 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:35:14 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:35:14 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:35:14 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:35:14 INFO  ban:380 - Started.
+2023-01-16 20:35:14 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:35:14 INFO  ban:380 - Started.
+2023-01-16 20:35:14 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:35:14 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:35:14 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:35:14 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:35:14 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:35:14 INFO  CoapServer:292 - Starting server
+2023-01-16 20:35:14 INFO  CoapServer:292 - Starting server
+2023-01-16 20:35:14 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:35:14 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:35:14 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-16 20:35:14 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:35:14 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:35:14 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-16 20:35:14 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:35:14 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:35:14 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:35:14 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-16 20:35:14 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:35:14 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:52751, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:35:14 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:52751
+2023-01-16 20:35:14 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:52751 for coap
+2023-01-16 20:35:14 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:52751#83DC78E40C1E8FA3 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:52751], size 1)
+2023-01-16 20:35:14 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:52751#D9AF108F6063BC7C and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:52751], size 1)
+2023-01-16 20:35:59 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:35:59 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:35:59 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:35:59 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:35:59 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:35:59 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:36:00 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:36:00 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:36:00 INFO  ban:380 - Started.
+2023-01-16 20:36:00 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:36:00 INFO  ban:380 - Started.
+2023-01-16 20:36:00 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:36:00 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:36:00 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:36:00 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:36:00 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:36:00 INFO  CoapServer:292 - Starting server
+2023-01-16 20:36:00 INFO  CoapServer:292 - Starting server
+2023-01-16 20:36:00 ERROR CoapServer:322 - cannot start server endpoint [0.0.0.0/0.0.0.0:8050]
+java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bindInternal(DatagramChannelImpl.java:1194)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bind(DatagramChannelImpl.java:1164)
+	at java.base/sun.nio.ch.DatagramSocketAdaptor.bind(DatagramSocketAdaptor.java:107)
+	at java.base/java.net.DatagramSocket.bind(DatagramSocket.java:408)
+	at org.eclipse.californium.elements.UDPConnector.start(UDPConnector.java:214)
+	at org.eclipse.californium.core.network.CoapEndpoint.start(CoapEndpoint.java:487)
+	at org.eclipse.californium.core.CoapServer.start(CoapServer.java:318)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:88)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:8)
+	at it.unibo.kactor.sysUtil.createTheContext(sysUtil.kt:175)
+	at it.unibo.kactor.sysUtil.createContexts(sysUtil.kt:106)
+	at it.unibo.kactor.QakContext$Companion.createContexts(QakContext.kt:46)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt$main$1.invokeSuspend(MainCtxwasteservice.kt:8)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:279)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:85)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:59)
+	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:38)
+	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt:7)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt)
+2023-01-16 20:36:00 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:36:00 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:36:00 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-16 20:36:00 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:36:00 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:36:00 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:36:00 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-16 20:36:00 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:36:00 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:52382, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:36:00 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:52382
+2023-01-16 20:36:00 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:52382 for coap
+2023-01-16 20:36:00 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:52382#A742BC161550F1FD and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:52382], size 1)
+2023-01-16 20:36:00 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:52382#AD75E59A479FE699 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:52382], size 1)
+2023-01-16 20:36:53 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:36:53 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:36:53 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:36:53 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:36:53 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:36:53 INFO  ban:380 - Started.
+2023-01-16 20:36:53 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:36:53 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:36:53 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:36:53 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:36:53 INFO  CoapServer:292 - Starting server
+2023-01-16 20:36:53 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:36:53 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:36:53 ERROR CoapServer:322 - cannot start server endpoint [0.0.0.0/0.0.0.0:8050]
+java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bindInternal(DatagramChannelImpl.java:1194)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bind(DatagramChannelImpl.java:1164)
+	at java.base/sun.nio.ch.DatagramSocketAdaptor.bind(DatagramSocketAdaptor.java:107)
+	at java.base/java.net.DatagramSocket.bind(DatagramSocket.java:408)
+	at org.eclipse.californium.elements.UDPConnector.start(UDPConnector.java:214)
+	at org.eclipse.californium.core.network.CoapEndpoint.start(CoapEndpoint.java:487)
+	at org.eclipse.californium.core.CoapServer.start(CoapServer.java:318)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:88)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:8)
+	at it.unibo.kactor.sysUtil.createTheContext(sysUtil.kt:175)
+	at it.unibo.kactor.sysUtil.createContexts(sysUtil.kt:106)
+	at it.unibo.kactor.QakContext$Companion.createContexts(QakContext.kt:46)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt$main$1.invokeSuspend(MainCtxwasteservice.kt:8)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:279)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:85)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:59)
+	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:38)
+	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt:7)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt)
+2023-01-16 20:36:53 INFO  ban:380 - Started.
+2023-01-16 20:36:53 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:36:53 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:36:53 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:36:53 INFO  CoapServer:292 - Starting server
+2023-01-16 20:36:53 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:36:53 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:36:53 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-16 20:37:34 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:37:34 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:37:34 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:37:34 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:37:34 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:37:34 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:37:34 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:37:34 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:37:34 INFO  ban:380 - Started.
+2023-01-16 20:37:34 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:37:34 INFO  ban:380 - Started.
+2023-01-16 20:37:34 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:37:34 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:37:34 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:37:34 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:37:34 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:37:34 INFO  CoapServer:292 - Starting server
+2023-01-16 20:37:34 INFO  CoapServer:292 - Starting server
+2023-01-16 20:37:34 ERROR CoapServer:322 - cannot start server endpoint [0.0.0.0/0.0.0.0:8050]
+java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bindInternal(DatagramChannelImpl.java:1194)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bind(DatagramChannelImpl.java:1164)
+	at java.base/sun.nio.ch.DatagramSocketAdaptor.bind(DatagramSocketAdaptor.java:107)
+	at java.base/java.net.DatagramSocket.bind(DatagramSocket.java:408)
+	at org.eclipse.californium.elements.UDPConnector.start(UDPConnector.java:214)
+	at org.eclipse.californium.core.network.CoapEndpoint.start(CoapEndpoint.java:487)
+	at org.eclipse.californium.core.CoapServer.start(CoapServer.java:318)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:88)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:8)
+	at it.unibo.kactor.sysUtil.createTheContext(sysUtil.kt:175)
+	at it.unibo.kactor.sysUtil.createContexts(sysUtil.kt:106)
+	at it.unibo.kactor.QakContext$Companion.createContexts(QakContext.kt:46)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt$main$1.invokeSuspend(MainCtxwasteservice.kt:8)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:279)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:85)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:59)
+	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:38)
+	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt:7)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt)
+2023-01-16 20:37:34 ERROR CoapServer:322 - cannot start server endpoint [0.0.0.0/0.0.0.0:8060]
+java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bindInternal(DatagramChannelImpl.java:1194)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bind(DatagramChannelImpl.java:1164)
+	at java.base/sun.nio.ch.DatagramSocketAdaptor.bind(DatagramSocketAdaptor.java:107)
+	at java.base/java.net.DatagramSocket.bind(DatagramSocket.java:408)
+	at org.eclipse.californium.elements.UDPConnector.start(UDPConnector.java:214)
+	at org.eclipse.californium.core.network.CoapEndpoint.start(CoapEndpoint.java:487)
+	at org.eclipse.californium.core.CoapServer.start(CoapServer.java:318)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:88)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:8)
+	at it.unibo.kactor.sysUtil.createTheContext(sysUtil.kt:175)
+	at it.unibo.kactor.sysUtil.createContexts(sysUtil.kt:106)
+	at it.unibo.kactor.QakContext$Companion.createContexts(QakContext.kt:46)
+	at it.unibo.ctxtrolley.MainCtxtrolleyKt$main$1.invokeSuspend(MainCtxtrolley.kt:8)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:279)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:85)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:59)
+	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:38)
+	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+	at it.unibo.ctxtrolley.MainCtxtrolleyKt.main(MainCtxtrolley.kt:7)
+	at it.unibo.ctxtrolley.MainCtxtrolleyKt.main(MainCtxtrolley.kt)
+2023-01-16 20:38:05 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:38:05 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:38:05 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:38:05 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:38:05 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:38:05 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:38:05 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:38:05 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:38:05 INFO  ban:380 - Started.
+2023-01-16 20:38:05 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:38:05 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:38:05 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:38:05 INFO  ban:380 - Started.
+2023-01-16 20:38:05 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:38:05 INFO  CoapServer:292 - Starting server
+2023-01-16 20:38:05 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:38:05 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:38:05 INFO  CoapServer:292 - Starting server
+2023-01-16 20:38:05 ERROR CoapServer:322 - cannot start server endpoint [0.0.0.0/0.0.0.0:8050]
+java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bindInternal(DatagramChannelImpl.java:1194)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bind(DatagramChannelImpl.java:1164)
+	at java.base/sun.nio.ch.DatagramSocketAdaptor.bind(DatagramSocketAdaptor.java:107)
+	at java.base/java.net.DatagramSocket.bind(DatagramSocket.java:408)
+	at org.eclipse.californium.elements.UDPConnector.start(UDPConnector.java:214)
+	at org.eclipse.californium.core.network.CoapEndpoint.start(CoapEndpoint.java:487)
+	at org.eclipse.californium.core.CoapServer.start(CoapServer.java:318)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:88)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:8)
+	at it.unibo.kactor.sysUtil.createTheContext(sysUtil.kt:175)
+	at it.unibo.kactor.sysUtil.createContexts(sysUtil.kt:106)
+	at it.unibo.kactor.QakContext$Companion.createContexts(QakContext.kt:46)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt$main$1.invokeSuspend(MainCtxwasteservice.kt:8)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:279)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:85)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:59)
+	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:38)
+	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt:7)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt)
+2023-01-16 20:38:05 ERROR CoapServer:322 - cannot start server endpoint [0.0.0.0/0.0.0.0:8060]
+java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bindInternal(DatagramChannelImpl.java:1194)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bind(DatagramChannelImpl.java:1164)
+	at java.base/sun.nio.ch.DatagramSocketAdaptor.bind(DatagramSocketAdaptor.java:107)
+	at java.base/java.net.DatagramSocket.bind(DatagramSocket.java:408)
+	at org.eclipse.californium.elements.UDPConnector.start(UDPConnector.java:214)
+	at org.eclipse.californium.core.network.CoapEndpoint.start(CoapEndpoint.java:487)
+	at org.eclipse.californium.core.CoapServer.start(CoapServer.java:318)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:88)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:8)
+	at it.unibo.kactor.sysUtil.createTheContext(sysUtil.kt:175)
+	at it.unibo.kactor.sysUtil.createContexts(sysUtil.kt:106)
+	at it.unibo.kactor.QakContext$Companion.createContexts(QakContext.kt:46)
+	at it.unibo.ctxtrolley.MainCtxtrolleyKt$main$1.invokeSuspend(MainCtxtrolley.kt:8)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:279)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:85)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:59)
+	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:38)
+	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+	at it.unibo.ctxtrolley.MainCtxtrolleyKt.main(MainCtxtrolley.kt:7)
+	at it.unibo.ctxtrolley.MainCtxtrolleyKt.main(MainCtxtrolley.kt)
+2023-01-16 20:38:17 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:38:17 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:38:17 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:38:17 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-16 20:38:17 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:38:17 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:58492, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:38:17 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:58492
+2023-01-16 20:38:17 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:58492 for coap
+2023-01-16 20:38:17 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:58492#BB7F1522B1208C95 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:58492], size 1)
+2023-01-16 20:38:17 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:58492#47792CB6CE57D5DA and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:58492], size 1)
+2023-01-16 20:38:18 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:38:18 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:38:18 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:38:18 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-16 20:38:18 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:38:18 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:49975, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:38:18 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:49975
+2023-01-16 20:38:18 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:49975 for coap
+2023-01-16 20:38:18 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:49975#1799E7CA10349577 and resource /ctxtrolley/transporttrolley (Exchange[R5, 127.0.0.1:49975], size 2)
+2023-01-16 20:38:18 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:49975#5313C46F26C070A2 and resource /ctxtrolley/pather (Exchange[R6, 127.0.0.1:49975], size 2)
+2023-01-16 20:38:18 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:38:18 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:38:18 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:38:18 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-16 20:38:18 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:38:18 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:52584, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:38:18 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:52584
+2023-01-16 20:38:18 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:52584 for coap
+2023-01-16 20:38:18 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:52584#758652FFCD72DA5E and resource /ctxtrolley/transporttrolley (Exchange[R7, 127.0.0.1:52584], size 3)
+2023-01-16 20:38:18 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:52584#43BFFA2B84D10C9A and resource /ctxtrolley/pather (Exchange[R8, 127.0.0.1:52584], size 3)
+2023-01-16 20:39:19 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:58492#BB7F1522B1208C95 and resource /ctxtrolley/transporttrolley (new Exchange[R11, 127.0.0.1:58492], size 3)
+2023-01-16 20:39:19 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:58492#47792CB6CE57D5DA and resource /ctxtrolley/pather (new Exchange[R12, 127.0.0.1:58492], size 3)
+2023-01-16 20:39:20 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:49975#1799E7CA10349577 and resource /ctxtrolley/transporttrolley (new Exchange[R13, 127.0.0.1:49975], size 3)
+2023-01-16 20:39:20 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:49975#5313C46F26C070A2 and resource /ctxtrolley/pather (new Exchange[R14, 127.0.0.1:49975], size 3)
+2023-01-16 20:39:20 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:52584#758652FFCD72DA5E and resource /ctxtrolley/transporttrolley (new Exchange[R15, 127.0.0.1:52584], size 3)
+2023-01-16 20:39:20 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:52584#43BFFA2B84D10C9A and resource /ctxtrolley/pather (new Exchange[R16, 127.0.0.1:52584], size 3)
+2023-01-16 20:40:21 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:58492#47792CB6CE57D5DA and resource /ctxtrolley/pather (new Exchange[R19, 127.0.0.1:58492], size 3)
+2023-01-16 20:40:21 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:58492#BB7F1522B1208C95 and resource /ctxtrolley/transporttrolley (new Exchange[R20, 127.0.0.1:58492], size 3)
+2023-01-16 20:40:22 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:49975#1799E7CA10349577 and resource /ctxtrolley/transporttrolley (new Exchange[R21, 127.0.0.1:49975], size 3)
+2023-01-16 20:40:22 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:49975#5313C46F26C070A2 and resource /ctxtrolley/pather (new Exchange[R22, 127.0.0.1:49975], size 3)
+2023-01-16 20:40:22 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:52584#758652FFCD72DA5E and resource /ctxtrolley/transporttrolley (new Exchange[R23, 127.0.0.1:52584], size 3)
+2023-01-16 20:40:22 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:52584#43BFFA2B84D10C9A and resource /ctxtrolley/pather (new Exchange[R24, 127.0.0.1:52584], size 3)
+2023-01-16 20:41:23 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:58492#BB7F1522B1208C95 and resource /ctxtrolley/transporttrolley (new Exchange[R27, 127.0.0.1:58492], size 3)
+2023-01-16 20:41:23 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:58492#47792CB6CE57D5DA and resource /ctxtrolley/pather (new Exchange[R28, 127.0.0.1:58492], size 3)
+2023-01-16 20:41:24 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:49975#1799E7CA10349577 and resource /ctxtrolley/transporttrolley (new Exchange[R29, 127.0.0.1:49975], size 3)
+2023-01-16 20:41:24 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:49975#5313C46F26C070A2 and resource /ctxtrolley/pather (new Exchange[R30, 127.0.0.1:49975], size 3)
+2023-01-16 20:41:24 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:52584#758652FFCD72DA5E and resource /ctxtrolley/transporttrolley (new Exchange[R31, 127.0.0.1:52584], size 3)
+2023-01-16 20:41:24 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:52584#43BFFA2B84D10C9A and resource /ctxtrolley/pather (new Exchange[R32, 127.0.0.1:52584], size 3)
+2023-01-16 20:42:21 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:42:21 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:42:21 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-16 20:42:21 INFO  Configuration:341 - defaults added UDP.
+2023-01-16 20:42:21 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:42:21 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:42:21 INFO  Configuration:341 - defaults added COAP.
+2023-01-16 20:42:21 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:42:21 INFO  ban:380 - Started.
+2023-01-16 20:42:21 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:42:21 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:42:21 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:42:21 INFO  CoapServer:292 - Starting server
+2023-01-16 20:42:21 INFO  ban:380 - Started.
+2023-01-16 20:42:21 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:42:21 INFO  Configuration:341 - defaults added SYS.
+2023-01-16 20:42:21 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:42:21 ERROR CoapServer:322 - cannot start server endpoint [0.0.0.0/0.0.0.0:8050]
+java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bindInternal(DatagramChannelImpl.java:1194)
+	at java.base/sun.nio.ch.DatagramChannelImpl.bind(DatagramChannelImpl.java:1164)
+	at java.base/sun.nio.ch.DatagramSocketAdaptor.bind(DatagramSocketAdaptor.java:107)
+	at java.base/java.net.DatagramSocket.bind(DatagramSocket.java:408)
+	at org.eclipse.californium.elements.UDPConnector.start(UDPConnector.java:214)
+	at org.eclipse.californium.core.network.CoapEndpoint.start(CoapEndpoint.java:487)
+	at org.eclipse.californium.core.CoapServer.start(CoapServer.java:318)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:88)
+	at it.unibo.kactor.QakContext.<init>(QakContext.kt:8)
+	at it.unibo.kactor.sysUtil.createTheContext(sysUtil.kt:175)
+	at it.unibo.kactor.sysUtil.createContexts(sysUtil.kt:106)
+	at it.unibo.kactor.QakContext$Companion.createContexts(QakContext.kt:46)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt$main$1.invokeSuspend(MainCtxwasteservice.kt:8)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:279)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:85)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:59)
+	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:38)
+	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt:7)
+	at it.unibo.ctxwasteservice.MainCtxwasteserviceKt.main(MainCtxwasteservice.kt)
+2023-01-16 20:42:21 INFO  CoapServer:292 - Starting server
+2023-01-16 20:42:21 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:42:21 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:42:21 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-16 20:42:21 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-16 20:42:21 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-16 20:42:21 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-16 20:42:21 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-16 20:42:21 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-16 20:42:21 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:53201, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-16 20:42:21 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:53201
+2023-01-16 20:42:21 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:53201 for coap
+2023-01-16 20:42:21 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:53201#F3EBB32C47106E93 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:53201], size 1)
+2023-01-16 20:42:21 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:53201#A508A4FB208CE5B6 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:53201], size 1)
