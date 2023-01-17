@@ -567,6 +567,26 @@ Dispatch updateRobotState : updateRobotState(STATE)
 
             The strategy will be implemented as a future update to the service.<br/>
 
+            <h3>Updates to the distribution of the system</h3>
+
+            After the final changes to the <b>architecture</b>, we have updated the methods and tasks for a successful <b>deployment</b>.<br/><br/>
+
+            <k>GUI</k><br/>
+            <ks>SpringBoot</ks> is distributed using <ks>Docker</ks>, in a <a href="../distribution/distributed/pc/docker-compose.yml">docker-compose.yml</a> file that also executes the <b>virtual environment</b>
+            of the robot.<br/><br/>
+
+            <k>Raspberry context</k><br/>
+            The actors and classes that execute on the Raspberry are also deployed using Docker.<br/>
+            By employing a <a href="https://docs.docker.com/registry/">registry</a>, we upload the <a href="../distribution/distributed/Dockerfile-ctxrasp">rasp</a> Docker image from the PC.<br/>
+            Then the image is loaded to the Raspberry and the context is executed.<br/><br/>
+
+            <k>Core System</k><br/>
+
+
+            <br/><br/>
+            <h5><k>All the intructions to follow for a successful deployment can be found <a href="../distribution/distributed/HOWTORUN.txt">here</a></k></h5>
+
+
             <h3>Current system architecture</h3>
             <div class="remark" style="background-color: #bec7fe;">
                 <img src="../sprint3_project/sprint3_projectarch.png" alt="demo" style="width:900px;height:auto;" class="center">
