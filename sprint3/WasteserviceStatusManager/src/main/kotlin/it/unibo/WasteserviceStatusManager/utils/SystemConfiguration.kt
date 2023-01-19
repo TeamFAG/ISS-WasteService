@@ -13,7 +13,6 @@ object SystemConfiguration {
         "led" to "led",
         "trolleystateobserver" to "trolleystateobserver",
         "transporttrolley" to "transporttrolley",
-        "trolleymover" to "trolleymover"
     )
 
     var contexts = mutableMapOf(
@@ -21,7 +20,6 @@ object SystemConfiguration {
         "led" to "ctxwasteservice_test",
         "trolleystateobserver" to "ctxwasteservice_test",
         "transporttrolley" to "ctxwasteservice_test",
-        "trolleymover" to "ctxwasteservice_test",
     )
 
     var hosts = mutableMapOf(
@@ -29,7 +27,6 @@ object SystemConfiguration {
         "led" to "localhost",
         "trolleystateobserver" to "localhost",
         "transporttrolley" to "localhost",
-        "trolleymover" to "localhost",
     )
 
     var ports = mutableMapOf(
@@ -37,7 +34,13 @@ object SystemConfiguration {
         "led" to 8050,
         "trolleystateobserver" to 8050,
         "transporttrolley" to 8050,
-        "trolleymover" to 8050,
+    )
+
+    var activeObserver = mutableMapOf(
+        "wasteservice" to true,
+        "led" to true,
+        "trolleystate" to true,
+        "trolleyposition" to true,
     )
 
     public fun setTheConfiguration(fileName: String) {
@@ -55,6 +58,7 @@ object SystemConfiguration {
             contexts = values.get("contexts") as MutableMap<String, String>
             hosts = values.get("hosts") as MutableMap<String, String>
             ports = values.get("ports") as MutableMap<String, Int>
+            activeObserver = values.get("activeObserver") as MutableMap<String, Boolean>
         } catch (e: FileNotFoundException) {
             ColorsOut.outerr("setTheConfiguration ERROR ${e.message}")
         }

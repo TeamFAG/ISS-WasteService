@@ -3,28 +3,30 @@
     "wasteservice": "ctxwasteservice",
     "led": "ctxrasp",
     "trolleystateobserver": "ctxtrolley",
-    "transporttrolley": "ctxtrolley",
-    "trolleymover": "ctxtrolley"
+    "transporttrolley": "ctxtrolley"
   },
   "actors": {
     "wasteservice": "wasteservice",
     "led": "led",
     "trolleystateobserver": "trolleystateobserver",
-    "transporttrolley": "transporttrolley",
-    "trolleymover": "trolleymover"
+    "transporttrolley": "transporttrolley"
   },
   "hosts": {
-    "wasteservice": "wasteservice",
+    "wasteservice": "192.168.50.134",
     "led": "192.168.50.13",
-    "trolleystateobserver": "trolley",
-    "transporttrolley": "trolley",
-    "trolleymover": "trolley"
+    "trolleystateobserver": "192.168.50.134",
+    "transporttrolley": "192.168.50.134"
   },
   "ports": {
     "wasteservice": 8050,
     "led": 8070,
     "trolleystateobserver": 8060,
-    "transporttrolley": 8060,
-    "trolleymover": 8060
+    "transporttrolley": 8060
+  },
+  "activeObserver": {
+    "wasteservice": true,
+    "led": true,
+    "trolleystate": true,
+    "trolleyposition": true 
   }
 }

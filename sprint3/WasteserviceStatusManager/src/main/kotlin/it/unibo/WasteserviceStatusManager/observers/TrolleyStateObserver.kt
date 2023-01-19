@@ -13,8 +13,6 @@ import unibo.comm22.utils.CommUtils
 class TrolleyStateObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
 
     init {
-        SystemConfiguration.setTheConfiguration("SystemConfig")
-
         startCoapConnection("trolleystateobserver")
     }
 

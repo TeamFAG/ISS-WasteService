@@ -1,2 +1,0 @@
-item(trolleystateobserver,init,msg(coapUpdate,dispatch,transporttrolley,trolleystateobserver,'coapUpdate(transporttrolley,        ActorBasic(Resource) transporttrolley  | created  )',24)).
-item(trolleystateobserver,handleCoapUpdate,msg(coapUpdate,dispatch,pather,trolleystateobserver,'coapUpdate(pather,        ActorBasic(Resource) pather  | created  )',25)).

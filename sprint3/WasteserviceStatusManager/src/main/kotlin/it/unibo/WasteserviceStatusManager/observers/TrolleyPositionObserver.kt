@@ -12,7 +12,6 @@ import unibo.comm22.utils.CommUtils
 
 class TrolleyPositionObserver(private val websocketList: ArrayList<WebSocketSession>, private val guiBean: GuiStatusBean): CoapHandler {
     init {
-        SystemConfiguration.setTheConfiguration("SystemConfig")
         startCoapConnection("trolleystateobserver")
     }
 
