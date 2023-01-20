@@ -1,0 +1,4 @@
+item(transporttrolley,idle,msg(depositRequest,request,wasteservice,transporttrolley,depositRequest(GLASS,55.0),12)).
+item(transporttrolley,handleDepositRequest,msg(moveDone,reply,trolleymover,transporttrolley,moveDone(OK),47)).
+item(transporttrolley,moveToBox,msg(moveDone,reply,trolleymover,transporttrolley,moveDone(OK),85)).
+item(transporttrolley,depositDone,msg(moveDone,reply,trolleymover,transporttrolley,moveDone(OK),109)).

@@ -15,8 +15,6 @@ run_context() {
         nohup java -jar it.unibo.ctxwasteservice.MainCtxwasteserviceKt-1.0.jar &
         nohup java -jar it.unibo.ctxtrolley.MainCtxtrolleyKt-1.0.jar &
 
-
-
     elif [[ $1 == "wasteservice" ]]
     then
         java -jar it.unibo.ctxwasteservice.MainCtxwasteserviceKt-1.0.jar &

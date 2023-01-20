@@ -1,0 +1,6 @@
+item(trolleymover,idle,msg(move,request,transporttrolley,trolleymover,move(INDOOR),29)).
+item(trolleymover,handleMovement,msg(doPathDone,reply,pather,trolleymover,doPathDone(OK),46)).
+item(trolleymover,idle,msg(move,request,transporttrolley,trolleymover,move(GLASSBOX),51)).
+item(trolleymover,handleMovement,msg(doPathDone,reply,pather,trolleymover,doPathDone(OK),84)).
+item(trolleymover,idle,msg(move,request,transporttrolley,trolleymover,move(HOME),90)).
+item(trolleymover,handleMovement,msg(doPathDone,reply,pather,trolleymover,doPathDone(OK),108)).

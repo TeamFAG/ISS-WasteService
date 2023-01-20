@@ -1,0 +1,773 @@
+2023-01-19 16:18:31 INFO  Configuration:827 - writing properties to /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-19 16:18:31 INFO  Configuration:341 - defaults added UDP.
+2023-01-19 16:18:31 INFO  Configuration:341 - defaults added COAP.
+2023-01-19 16:18:31 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-19 16:18:31 INFO  ban:380 - Started.
+2023-01-19 16:18:31 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-19 16:18:31 INFO  Configuration:341 - defaults added SYS.
+2023-01-19 16:18:31 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-19 16:18:31 INFO  CoapServer:292 - Starting server
+2023-01-19 16:18:31 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-19 16:18:31 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-19 16:18:31 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-19 16:18:32 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-19 16:18:32 INFO  Configuration:341 - defaults added UDP.
+2023-01-19 16:18:32 INFO  Configuration:341 - defaults added COAP.
+2023-01-19 16:18:32 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-19 16:18:32 INFO  ban:380 - Started.
+2023-01-19 16:18:32 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-19 16:18:32 INFO  Configuration:341 - defaults added SYS.
+2023-01-19 16:18:32 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-19 16:18:32 INFO  CoapServer:292 - Starting server
+2023-01-19 16:18:32 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-19 16:18:32 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-19 16:18:32 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-19 16:18:33 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-19 16:18:33 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-19 16:18:33 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-19 16:18:33 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-19 16:18:33 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-19 16:18:33 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:60066, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-19 16:18:33 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:60066
+2023-01-19 16:18:33 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:60066 for coap
+2023-01-19 16:18:33 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:60066#B149D199753DC1DD and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:60066], size 1)
+2023-01-19 16:18:33 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:60066#B70AC773342932E2 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:60066], size 1)
+2023-01-19 16:18:45 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:62177#25E2E65A48449807 and resource /ctxtrolley/trolleystateobserver (Exchange[R5, 192.168.50.134:62177], size 1)
+2023-01-19 16:18:45 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:62177#AFFAFDE99090CC86 and resource /ctxwasteservice/wasteservice (Exchange[R1, 192.168.50.134:62177], size 1)
+2023-01-19 16:18:45 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:62177#EBF20BD283913A9E and resource /ctxtrolley/trolleystateobserver (Exchange[R7, 192.168.50.134:62177], size 2)
+2023-01-19 16:19:35 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:60066#B149D199753DC1DD and resource /ctxtrolley/transporttrolley (new Exchange[R11, 127.0.0.1:60066], size 1)
+2023-01-19 16:19:35 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:60066#B70AC773342932E2 and resource /ctxtrolley/pather (new Exchange[R12, 127.0.0.1:60066], size 1)
+2023-01-19 16:19:47 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#25E2E65A48449807 and resource /ctxtrolley/trolleystateobserver (new Exchange[R13, 192.168.50.134:62177], size 2)
+2023-01-19 16:19:47 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#AFFAFDE99090CC86 and resource /ctxwasteservice/wasteservice (new Exchange[R3, 192.168.50.134:62177], size 1)
+2023-01-19 16:19:47 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#EBF20BD283913A9E and resource /ctxtrolley/trolleystateobserver (new Exchange[R14, 192.168.50.134:62177], size 2)
+2023-01-19 16:20:37 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:60066#B149D199753DC1DD and resource /ctxtrolley/transporttrolley (new Exchange[R18, 127.0.0.1:60066], size 1)
+2023-01-19 16:20:49 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#AFFAFDE99090CC86 and resource /ctxwasteservice/wasteservice (new Exchange[R4, 192.168.50.134:62177], size 1)
+2023-01-19 16:21:19 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#25E2E65A48449807 and resource /ctxtrolley/trolleystateobserver (new Exchange[R19, 192.168.50.134:62177], size 2)
+2023-01-19 16:21:19 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#EBF20BD283913A9E and resource /ctxtrolley/trolleystateobserver (new Exchange[R20, 192.168.50.134:62177], size 2)
+2023-01-19 16:21:19 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:60066#B70AC773342932E2 and resource /ctxtrolley/pather (new Exchange[R22, 127.0.0.1:60066], size 1)
+2023-01-19 16:21:39 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:60066#B149D199753DC1DD and resource /ctxtrolley/transporttrolley (new Exchange[R24, 127.0.0.1:60066], size 1)
+2023-01-19 16:21:51 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#AFFAFDE99090CC86 and resource /ctxwasteservice/wasteservice (new Exchange[R5, 192.168.50.134:62177], size 1)
+2023-01-19 16:22:21 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#25E2E65A48449807 and resource /ctxtrolley/trolleystateobserver (new Exchange[R25, 192.168.50.134:62177], size 2)
+2023-01-19 16:22:21 INFO  CoapResource:816 - replacing observe relation between 192.168.50.134:62177#EBF20BD283913A9E and resource /ctxtrolley/trolleystateobserver (new Exchange[R26, 192.168.50.134:62177], size 2)
+2023-01-19 16:22:21 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:60066#B70AC773342932E2 and resource /ctxtrolley/pather (new Exchange[R28, 127.0.0.1:60066], size 1)
+2023-01-19 16:22:25 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-32458]
+2023-01-19 16:22:25 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-32459]
+2023-01-19 16:22:25 INFO  Exchange:659 - Exchange[R24, 127.0.0.1:60066] store NON notification: KeyMID[127.0.0.1:60066-43388]
+2023-01-19 16:22:25 INFO  Exchange:659 - Exchange[R25, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59867]
+2023-01-19 16:22:25 INFO  Exchange:659 - Exchange[R26, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59868]
+2023-01-19 16:22:53 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:52600#AFFAFDE99090CC86 and resource /ctxwasteservice/wasteservice (Exchange[R6, 192.168.50.134:52600], size 2)
+2023-01-19 16:22:55 INFO  Exchange:659 - Exchange[R24, 127.0.0.1:60066] store NON notification: KeyMID[127.0.0.1:60066-43389]
+2023-01-19 16:22:55 INFO  Exchange:659 - Exchange[R25, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59869]
+2023-01-19 16:22:55 INFO  Exchange:659 - Exchange[R26, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59870]
+2023-01-19 16:22:55 INFO  Exchange:659 - Exchange[R25, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59871]
+2023-01-19 16:22:55 INFO  Exchange:659 - Exchange[R26, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59872]
+2023-01-19 16:22:57 INFO  Exchange:659 - Exchange[R24, 127.0.0.1:60066] store NON notification: KeyMID[127.0.0.1:60066-43391]
+2023-01-19 16:22:57 INFO  Exchange:659 - Exchange[R24, 127.0.0.1:60066] store NON notification: KeyMID[127.0.0.1:60066-43392]
+2023-01-19 16:22:57 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-32460]
+2023-01-19 16:22:57 INFO  Exchange:659 - Exchange[R25, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59873]
+2023-01-19 16:22:57 INFO  Exchange:659 - Exchange[R26, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59874]
+2023-01-19 16:22:57 INFO  Exchange:659 - Exchange[R25, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59875]
+2023-01-19 16:22:57 INFO  Exchange:659 - Exchange[R26, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59876]
+2023-01-19 16:23:04 INFO  Exchange:659 - Exchange[R28, 127.0.0.1:60066] store NON notification: KeyMID[127.0.0.1:60066-43390]
+2023-01-19 16:23:04 INFO  Exchange:659 - Exchange[R25, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59877]
+2023-01-19 16:23:04 INFO  Exchange:659 - Exchange[R26, 192.168.50.134:62177] store NON notification: KeyMID[192.168.50.134:62177-59878]
+2023-01-20 15:36:42 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:36:43 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:36:43 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:36:43 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:36:43 INFO  ban:380 - Started.
+2023-01-20 15:36:43 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:36:43 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:36:43 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:36:43 INFO  CoapServer:292 - Starting server
+2023-01-20 15:36:43 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:36:43 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:36:43 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:36:46 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:36:46 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:36:46 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:36:46 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:36:46 INFO  ban:380 - Started.
+2023-01-20 15:36:46 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:36:46 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:36:46 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:36:46 INFO  CoapServer:292 - Starting server
+2023-01-20 15:36:46 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:36:46 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:36:46 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:36:46 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:36:46 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:36:46 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:36:46 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:36:46 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:36:46 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:64303, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:36:46 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:64303
+2023-01-20 15:36:46 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:64303 for coap
+2023-01-20 15:36:46 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:64303#A93DCC9EDF119788 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:64303], size 1)
+2023-01-20 15:36:46 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:64303#D5C4E5378D1BDF86 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:64303], size 1)
+2023-01-20 15:37:06 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55804#118EEFCA546574DB and resource /ctxtrolley/trolleystateobserver (Exchange[R5, 192.168.50.134:55804], size 1)
+2023-01-20 15:37:06 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55804#EF8CEF4AB4A5E08F and resource /ctxwasteservice/wasteservice (Exchange[R1, 192.168.50.134:55804], size 1)
+2023-01-20 15:37:06 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55804#535CD7F6BEFDECDC and resource /ctxtrolley/trolleystateobserver (Exchange[R7, 192.168.50.134:55804], size 2)
+2023-01-20 15:37:41 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-46047]
+2023-01-20 15:37:41 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-46048]
+2023-01-20 15:37:41 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64303] store NON notification: KeyMID[127.0.0.1:64303-61105]
+2023-01-20 15:37:44 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64303] store NON notification: KeyMID[127.0.0.1:64303-61106]
+2023-01-20 15:37:44 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4560]
+2023-01-20 15:37:44 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4561]
+2023-01-20 15:37:44 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4562]
+2023-01-20 15:37:44 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4563]
+2023-01-20 15:37:46 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64303] store NON notification: KeyMID[127.0.0.1:64303-61107]
+2023-01-20 15:37:46 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64303] store NON notification: KeyMID[127.0.0.1:64303-61108]
+2023-01-20 15:37:46 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-46049]
+2023-01-20 15:37:46 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4564]
+2023-01-20 15:37:46 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4565]
+2023-01-20 15:37:46 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4566]
+2023-01-20 15:37:46 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4567]
+2023-01-20 15:37:48 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:64303#D5C4E5378D1BDF86 and resource /ctxtrolley/pather (new Exchange[R18, 127.0.0.1:64303], size 1)
+2023-01-20 15:38:03 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64303] store NON notification: KeyMID[127.0.0.1:64303-61109]
+2023-01-20 15:38:03 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64303] store NON notification: KeyMID[127.0.0.1:64303-61110]
+2023-01-20 15:38:03 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4568]
+2023-01-20 15:38:03 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4569]
+2023-01-20 15:38:03 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4570]
+2023-01-20 15:38:03 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4571]
+2023-01-20 15:38:03 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4572]
+2023-01-20 15:38:03 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4573]
+2023-01-20 15:38:04 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64303] store NON notification: KeyMID[127.0.0.1:64303-61111]
+2023-01-20 15:38:04 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4574]
+2023-01-20 15:38:04 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4575]
+2023-01-20 15:38:08 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64303] store NON notification: KeyMID[127.0.0.1:64303-61112]
+2023-01-20 15:38:08 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4576]
+2023-01-20 15:38:08 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4577]
+2023-01-20 15:38:08 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4578]
+2023-01-20 15:38:08 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55804] store NON notification: KeyMID[192.168.50.134:55804-4579]
+2023-01-20 15:38:08 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:56773#118EEFCA546574DB and resource /ctxtrolley/trolleystateobserver (Exchange[R27, 192.168.50.134:56773], size 3)
+2023-01-20 15:38:08 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:56773#EF8CEF4AB4A5E08F and resource /ctxwasteservice/wasteservice (Exchange[R3, 192.168.50.134:56773], size 2)
+2023-01-20 15:38:08 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:56773#535CD7F6BEFDECDC and resource /ctxtrolley/trolleystateobserver (Exchange[R28, 192.168.50.134:56773], size 4)
+2023-01-20 15:40:28 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:40:28 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:40:28 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:40:28 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:40:28 INFO  ban:380 - Started.
+2023-01-20 15:40:28 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:40:28 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:40:28 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:40:28 INFO  CoapServer:292 - Starting server
+2023-01-20 15:40:28 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:40:28 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:40:28 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:40:31 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:40:31 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:40:31 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:40:31 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:40:31 INFO  ban:380 - Started.
+2023-01-20 15:40:31 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:40:31 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:40:31 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:40:31 INFO  CoapServer:292 - Starting server
+2023-01-20 15:40:31 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:40:31 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:40:31 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:40:31 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:40:31 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:40:31 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:40:31 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:40:31 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:40:31 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:64362, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:40:31 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:64362
+2023-01-20 15:40:31 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:64362 for coap
+2023-01-20 15:40:31 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:64362#95298E5BF3226A13 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:64362], size 1)
+2023-01-20 15:40:31 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:64362#C310BECCE38A90FA and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:64362], size 1)
+2023-01-20 15:41:45 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:41:45 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:41:45 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:41:45 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:41:45 INFO  ban:380 - Started.
+2023-01-20 15:41:45 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:41:45 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:41:45 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:41:45 INFO  CoapServer:292 - Starting server
+2023-01-20 15:41:45 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:41:45 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:41:45 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:41:47 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:41:47 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:41:47 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:41:47 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:41:47 INFO  ban:380 - Started.
+2023-01-20 15:41:47 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:41:47 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:41:47 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:41:47 INFO  CoapServer:292 - Starting server
+2023-01-20 15:41:47 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:41:47 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:41:47 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:41:48 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:41:48 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:41:48 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:41:48 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:41:48 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:41:48 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:61249, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:41:48 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:61249
+2023-01-20 15:41:48 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:61249 for coap
+2023-01-20 15:41:48 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:61249#3BF1191EE938CEB3 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:61249], size 1)
+2023-01-20 15:41:48 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:61249#DB7F9C9ACE61F5AA and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:61249], size 1)
+2023-01-20 15:42:05 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:59177#1305ED7EB3D226B4 and resource /ctxtrolley/trolleystateobserver (Exchange[R5, 192.168.50.134:59177], size 1)
+2023-01-20 15:42:05 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:59177#076FECF4D984EB1E and resource /ctxwasteservice/wasteservice (Exchange[R1, 192.168.50.134:59177], size 1)
+2023-01-20 15:42:05 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:59177#AF249913CBDB90B3 and resource /ctxtrolley/trolleystateobserver (Exchange[R7, 192.168.50.134:59177], size 2)
+2023-01-20 15:42:26 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-63145]
+2023-01-20 15:42:26 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-63146]
+2023-01-20 15:42:26 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:61249] store NON notification: KeyMID[127.0.0.1:61249-61102]
+2023-01-20 15:42:29 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:61249] store NON notification: KeyMID[127.0.0.1:61249-61103]
+2023-01-20 15:42:29 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22169]
+2023-01-20 15:42:29 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22170]
+2023-01-20 15:42:29 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22171]
+2023-01-20 15:42:29 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22172]
+2023-01-20 15:42:31 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:61249] store NON notification: KeyMID[127.0.0.1:61249-61104]
+2023-01-20 15:42:31 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:61249] store NON notification: KeyMID[127.0.0.1:61249-61105]
+2023-01-20 15:42:31 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-63147]
+2023-01-20 15:42:31 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22173]
+2023-01-20 15:42:31 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22174]
+2023-01-20 15:42:31 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22175]
+2023-01-20 15:42:31 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22176]
+2023-01-20 15:42:46 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:61249] store NON notification: KeyMID[127.0.0.1:61249-61106]
+2023-01-20 15:42:46 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:61249] store NON notification: KeyMID[127.0.0.1:61249-61107]
+2023-01-20 15:42:46 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22177]
+2023-01-20 15:42:46 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22178]
+2023-01-20 15:42:46 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22179]
+2023-01-20 15:42:46 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22180]
+2023-01-20 15:42:46 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22181]
+2023-01-20 15:42:46 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22182]
+2023-01-20 15:42:47 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:61249] store NON notification: KeyMID[127.0.0.1:61249-61108]
+2023-01-20 15:42:47 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22183]
+2023-01-20 15:42:47 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22184]
+2023-01-20 15:42:50 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:61249#DB7F9C9ACE61F5AA and resource /ctxtrolley/pather (new Exchange[R24, 127.0.0.1:61249], size 1)
+2023-01-20 15:42:51 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:61249] store NON notification: KeyMID[127.0.0.1:61249-61109]
+2023-01-20 15:42:51 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22185]
+2023-01-20 15:42:51 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22186]
+2023-01-20 15:42:51 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22187]
+2023-01-20 15:42:51 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59177] store NON notification: KeyMID[192.168.50.134:59177-22188]
+2023-01-20 15:46:22 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:46:22 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:46:22 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:46:22 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:46:22 INFO  ban:380 - Started.
+2023-01-20 15:46:22 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:46:22 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:46:22 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:46:22 INFO  CoapServer:292 - Starting server
+2023-01-20 15:46:22 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:46:22 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:46:22 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:46:24 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:46:24 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:46:24 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:46:24 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:46:24 INFO  ban:380 - Started.
+2023-01-20 15:46:24 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:46:24 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:46:24 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:46:24 INFO  CoapServer:292 - Starting server
+2023-01-20 15:46:24 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:46:24 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:46:24 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:46:24 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:46:24 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:46:24 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:46:24 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:46:24 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:46:24 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:50786, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:46:24 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:50786
+2023-01-20 15:46:24 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:50786 for coap
+2023-01-20 15:46:24 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:50786#17256540EC69DA28 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:50786], size 1)
+2023-01-20 15:46:24 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:50786#313BB0CF97171E3C and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:50786], size 1)
+2023-01-20 15:46:36 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:61491#1B60F2544EB45164 and resource /ctxtrolley/trolleystateobserver (Exchange[R5, 192.168.50.134:61491], size 1)
+2023-01-20 15:46:36 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:61491#0DC45B42F8557AA7 and resource /ctxwasteservice/wasteservice (Exchange[R1, 192.168.50.134:61491], size 1)
+2023-01-20 15:46:36 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:61491#B73CC623A91495CE and resource /ctxtrolley/trolleystateobserver (Exchange[R7, 192.168.50.134:61491], size 2)
+2023-01-20 15:46:52 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-18841]
+2023-01-20 15:46:52 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-18842]
+2023-01-20 15:46:52 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:50786] store NON notification: KeyMID[127.0.0.1:50786-35265]
+2023-01-20 15:46:55 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:50786] store NON notification: KeyMID[127.0.0.1:50786-35266]
+2023-01-20 15:46:55 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54282]
+2023-01-20 15:46:55 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54283]
+2023-01-20 15:46:55 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54284]
+2023-01-20 15:46:55 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54285]
+2023-01-20 15:46:57 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:50786] store NON notification: KeyMID[127.0.0.1:50786-35267]
+2023-01-20 15:46:57 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:50786] store NON notification: KeyMID[127.0.0.1:50786-35268]
+2023-01-20 15:46:57 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-18843]
+2023-01-20 15:46:57 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54286]
+2023-01-20 15:46:57 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54287]
+2023-01-20 15:46:57 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54288]
+2023-01-20 15:46:57 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54289]
+2023-01-20 15:47:04 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:50786] store NON notification: KeyMID[127.0.0.1:50786-35269]
+2023-01-20 15:47:04 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:50786] store NON notification: KeyMID[127.0.0.1:50786-35270]
+2023-01-20 15:47:04 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54290]
+2023-01-20 15:47:04 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54291]
+2023-01-20 15:47:04 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54292]
+2023-01-20 15:47:04 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54293]
+2023-01-20 15:47:04 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54294]
+2023-01-20 15:47:04 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54295]
+2023-01-20 15:47:05 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:50786] store NON notification: KeyMID[127.0.0.1:50786-35271]
+2023-01-20 15:47:05 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54296]
+2023-01-20 15:47:05 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54297]
+2023-01-20 15:47:09 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:50786] store NON notification: KeyMID[127.0.0.1:50786-35272]
+2023-01-20 15:47:09 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54298]
+2023-01-20 15:47:09 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54299]
+2023-01-20 15:47:09 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54300]
+2023-01-20 15:47:09 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:61491] store NON notification: KeyMID[192.168.50.134:61491-54301]
+2023-01-20 15:49:43 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:49:43 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:49:43 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:49:43 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:49:43 INFO  ban:380 - Started.
+2023-01-20 15:49:43 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:49:43 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:49:43 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:49:43 INFO  CoapServer:292 - Starting server
+2023-01-20 15:49:43 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:49:43 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:49:43 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:49:46 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:49:46 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:49:46 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:49:46 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:49:46 INFO  ban:380 - Started.
+2023-01-20 15:49:46 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:49:46 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:49:46 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:49:46 INFO  CoapServer:292 - Starting server
+2023-01-20 15:49:46 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:49:46 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:49:46 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:49:46 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:49:46 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:49:46 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:49:46 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:49:46 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:49:46 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:59019, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:49:46 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:59019
+2023-01-20 15:49:46 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:59019 for coap
+2023-01-20 15:49:47 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:59019#4398FAF1946B13BF and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:59019], size 1)
+2023-01-20 15:49:47 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:59019#176223182CA2EAFC and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:59019], size 1)
+2023-01-20 15:49:59 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59019] store NON notification: KeyMID[127.0.0.1:59019-10680]
+2023-01-20 15:50:02 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59019] store NON notification: KeyMID[127.0.0.1:59019-10681]
+2023-01-20 15:50:04 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59019] store NON notification: KeyMID[127.0.0.1:59019-10682]
+2023-01-20 15:50:04 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59019] store NON notification: KeyMID[127.0.0.1:59019-10683]
+2023-01-20 15:50:11 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59019] store NON notification: KeyMID[127.0.0.1:59019-10684]
+2023-01-20 15:50:11 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59019] store NON notification: KeyMID[127.0.0.1:59019-10685]
+2023-01-20 15:50:12 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59019] store NON notification: KeyMID[127.0.0.1:59019-10686]
+2023-01-20 15:50:16 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59019] store NON notification: KeyMID[127.0.0.1:59019-10687]
+2023-01-20 15:51:58 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:51:58 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:51:59 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:51:59 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:51:59 INFO  ban:380 - Started.
+2023-01-20 15:51:59 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:51:59 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:51:59 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:51:59 INFO  CoapServer:292 - Starting server
+2023-01-20 15:51:59 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:51:59 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:51:59 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:52:00 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:52:00 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:52:00 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:52:00 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:52:00 INFO  ban:380 - Started.
+2023-01-20 15:52:00 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:52:00 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:52:00 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:52:00 INFO  CoapServer:292 - Starting server
+2023-01-20 15:52:00 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:52:00 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:52:00 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:52:01 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:52:01 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:52:01 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:52:01 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:52:01 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:52:01 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:60740, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:52:01 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:60740
+2023-01-20 15:52:01 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:60740 for coap
+2023-01-20 15:52:02 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:60740#B3611F5217DBF184 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:60740], size 1)
+2023-01-20 15:52:02 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:60740#817B8BCC9B982511 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:60740], size 1)
+2023-01-20 15:52:19 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:64847#E3BFDAA1D9EAF1B2 and resource /ctxtrolley/trolleystateobserver (Exchange[R5, 192.168.50.134:64847], size 1)
+2023-01-20 15:52:20 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:64847#BDE6BA288FC14BE8 and resource /ctxwasteservice/wasteservice (Exchange[R1, 192.168.50.134:64847], size 1)
+2023-01-20 15:52:20 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:64847#1D78DE9DA7DAB991 and resource /ctxtrolley/trolleystateobserver (Exchange[R7, 192.168.50.134:64847], size 2)
+2023-01-20 15:52:35 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-60711]
+2023-01-20 15:52:35 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-60712]
+2023-01-20 15:52:35 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60740] store NON notification: KeyMID[127.0.0.1:60740-40262]
+2023-01-20 15:52:38 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60740] store NON notification: KeyMID[127.0.0.1:60740-40263]
+2023-01-20 15:52:38 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-29206]
+2023-01-20 15:52:38 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-29207]
+2023-01-20 15:52:38 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-29208]
+2023-01-20 15:52:38 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-29209]
+2023-01-20 15:52:40 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60740] store NON notification: KeyMID[127.0.0.1:60740-40264]
+2023-01-20 15:52:40 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60740] store NON notification: KeyMID[127.0.0.1:60740-40265]
+2023-01-20 15:52:40 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-60713]
+2023-01-20 15:52:40 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-29210]
+2023-01-20 15:52:40 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-29211]
+2023-01-20 15:52:40 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-29212]
+2023-01-20 15:52:40 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:64847] store NON notification: KeyMID[192.168.50.134:64847-29213]
+2023-01-20 15:54:01 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:54:01 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:54:01 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:54:01 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:54:01 INFO  ban:380 - Started.
+2023-01-20 15:54:01 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:54:01 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:54:01 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:54:01 INFO  CoapServer:292 - Starting server
+2023-01-20 15:54:01 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:54:01 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:54:01 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:54:02 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:54:02 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:54:02 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:54:02 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:54:02 INFO  ban:380 - Started.
+2023-01-20 15:54:02 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:54:02 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:54:02 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:54:02 INFO  CoapServer:292 - Starting server
+2023-01-20 15:54:02 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:54:02 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:54:02 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:54:04 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:54:04 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:54:04 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:54:04 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:54:04 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:54:04 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:65265, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:54:04 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:65265
+2023-01-20 15:54:04 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:65265 for coap
+2023-01-20 15:54:04 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:65265#D19AC3C735D42B01 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:65265], size 1)
+2023-01-20 15:54:04 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:65265#EBBB86FCF45D0CCC and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:65265], size 1)
+2023-01-20 15:54:14 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:59511#97BEFE7C540FF750 and resource /ctxtrolley/trolleystateobserver (Exchange[R5, 192.168.50.134:59511], size 1)
+2023-01-20 15:54:14 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:59511#DFEB7314EC1B61D1 and resource /ctxwasteservice/wasteservice (Exchange[R1, 192.168.50.134:59511], size 1)
+2023-01-20 15:54:14 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:59511#E57B2C490F42A8C4 and resource /ctxtrolley/trolleystateobserver (Exchange[R7, 192.168.50.134:59511], size 2)
+2023-01-20 15:54:24 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-36583]
+2023-01-20 15:54:24 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-36584]
+2023-01-20 15:54:24 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:65265] store NON notification: KeyMID[127.0.0.1:65265-48947]
+2023-01-20 15:54:27 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:65265] store NON notification: KeyMID[127.0.0.1:65265-48948]
+2023-01-20 15:54:27 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7512]
+2023-01-20 15:54:27 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7513]
+2023-01-20 15:54:27 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7514]
+2023-01-20 15:54:27 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7515]
+2023-01-20 15:54:29 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:65265] store NON notification: KeyMID[127.0.0.1:65265-48949]
+2023-01-20 15:54:29 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:65265] store NON notification: KeyMID[127.0.0.1:65265-48950]
+2023-01-20 15:54:29 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-36585]
+2023-01-20 15:54:29 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7516]
+2023-01-20 15:54:29 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7517]
+2023-01-20 15:54:29 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7518]
+2023-01-20 15:54:29 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7519]
+2023-01-20 15:54:36 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:65265] store NON notification: KeyMID[127.0.0.1:65265-48951]
+2023-01-20 15:54:36 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:65265] store NON notification: KeyMID[127.0.0.1:65265-48952]
+2023-01-20 15:54:36 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7520]
+2023-01-20 15:54:36 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7521]
+2023-01-20 15:54:36 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7522]
+2023-01-20 15:54:36 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7523]
+2023-01-20 15:54:36 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7524]
+2023-01-20 15:54:36 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7525]
+2023-01-20 15:54:37 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:65265] store NON notification: KeyMID[127.0.0.1:65265-48953]
+2023-01-20 15:54:37 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7526]
+2023-01-20 15:54:37 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:59511] store NON notification: KeyMID[192.168.50.134:59511-7527]
+2023-01-20 15:55:29 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:55:29 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:55:29 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:55:29 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:55:29 INFO  ban:380 - Started.
+2023-01-20 15:55:29 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:55:29 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:55:29 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:55:29 INFO  CoapServer:292 - Starting server
+2023-01-20 15:55:29 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:55:29 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:55:29 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:55:30 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:55:30 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:55:30 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:55:30 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:55:30 INFO  ban:380 - Started.
+2023-01-20 15:55:30 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:55:30 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:55:30 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:55:30 INFO  CoapServer:292 - Starting server
+2023-01-20 15:55:31 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:55:31 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:55:31 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:55:33 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:55:33 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:55:33 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:55:33 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:55:33 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:55:33 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:62247, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:55:33 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:62247
+2023-01-20 15:55:33 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:62247 for coap
+2023-01-20 15:55:33 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:62247#B734A955A6FA13EC and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:62247], size 1)
+2023-01-20 15:55:33 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:62247#2587D664628B6410 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:62247], size 1)
+2023-01-20 15:55:56 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:62247] store NON notification: KeyMID[127.0.0.1:62247-5414]
+2023-01-20 15:55:59 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:62247] store NON notification: KeyMID[127.0.0.1:62247-5415]
+2023-01-20 15:56:01 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:62247] store NON notification: KeyMID[127.0.0.1:62247-5416]
+2023-01-20 15:56:01 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:62247] store NON notification: KeyMID[127.0.0.1:62247-5417]
+2023-01-20 15:56:08 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:62247] store NON notification: KeyMID[127.0.0.1:62247-5418]
+2023-01-20 15:56:08 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:62247] store NON notification: KeyMID[127.0.0.1:62247-5419]
+2023-01-20 15:56:58 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:56:58 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:56:59 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:56:59 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:56:59 INFO  ban:380 - Started.
+2023-01-20 15:56:59 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:56:59 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:56:59 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:56:59 INFO  CoapServer:292 - Starting server
+2023-01-20 15:56:59 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:56:59 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:56:59 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 15:57:00 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 15:57:00 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 15:57:00 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 15:57:00 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:57:00 INFO  ban:380 - Started.
+2023-01-20 15:57:00 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:57:00 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 15:57:00 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:57:00 INFO  CoapServer:292 - Starting server
+2023-01-20 15:57:01 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:57:01 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:57:01 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 15:57:01 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 15:57:01 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 15:57:01 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 15:57:01 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 15:57:01 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 15:57:01 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:63237, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 15:57:01 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:63237
+2023-01-20 15:57:01 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:63237 for coap
+2023-01-20 15:57:02 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:63237#6D67475216E95BD7 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:63237], size 1)
+2023-01-20 15:57:02 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:63237#796F842A4D3E9E8F and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:63237], size 1)
+2023-01-20 15:57:49 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:63237] store NON notification: KeyMID[127.0.0.1:63237-6200]
+2023-01-20 15:57:52 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:63237] store NON notification: KeyMID[127.0.0.1:63237-6201]
+2023-01-20 15:57:54 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:63237] store NON notification: KeyMID[127.0.0.1:63237-6202]
+2023-01-20 15:57:54 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:63237] store NON notification: KeyMID[127.0.0.1:63237-6203]
+2023-01-20 15:58:01 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:63237] store NON notification: KeyMID[127.0.0.1:63237-6204]
+2023-01-20 15:58:01 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:63237] store NON notification: KeyMID[127.0.0.1:63237-6205]
+2023-01-20 15:58:02 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:63237] store NON notification: KeyMID[127.0.0.1:63237-6206]
+2023-01-20 16:11:47 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 16:11:47 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 16:11:47 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 16:11:47 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:11:47 INFO  ban:380 - Started.
+2023-01-20 16:11:47 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:11:47 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 16:11:47 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:11:47 INFO  CoapServer:292 - Starting server
+2023-01-20 16:11:47 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:11:47 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:11:47 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 16:11:48 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 16:11:48 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 16:11:48 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 16:11:48 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:11:48 INFO  ban:380 - Started.
+2023-01-20 16:11:48 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:11:48 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 16:11:48 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:11:48 INFO  CoapServer:292 - Starting server
+2023-01-20 16:11:48 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:11:48 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:11:48 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 16:11:49 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:11:49 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:11:49 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:11:49 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 16:11:49 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:11:49 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:59068, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:11:49 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:59068
+2023-01-20 16:11:49 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:59068 for coap
+2023-01-20 16:11:49 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:59068#77BF991A803E9960 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:59068], size 1)
+2023-01-20 16:11:49 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:59068#012187CB763793A9 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:59068], size 1)
+2023-01-20 16:12:36 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59068] store NON notification: KeyMID[127.0.0.1:59068-16943]
+2023-01-20 16:12:39 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59068] store NON notification: KeyMID[127.0.0.1:59068-16944]
+2023-01-20 16:12:41 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59068] store NON notification: KeyMID[127.0.0.1:59068-16945]
+2023-01-20 16:12:41 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:59068] store NON notification: KeyMID[127.0.0.1:59068-16946]
+2023-01-20 16:12:54 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 16:12:54 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 16:12:54 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 16:12:54 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:12:54 INFO  ban:380 - Started.
+2023-01-20 16:12:54 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:12:54 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 16:12:54 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:12:54 INFO  CoapServer:292 - Starting server
+2023-01-20 16:12:54 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:12:54 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:12:54 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 16:12:56 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 16:12:56 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 16:12:56 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 16:12:56 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:12:56 INFO  ban:380 - Started.
+2023-01-20 16:12:56 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:12:56 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 16:12:56 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:12:56 INFO  CoapServer:292 - Starting server
+2023-01-20 16:12:56 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:12:56 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:12:56 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 16:12:57 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:12:57 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:12:57 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:12:57 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 16:12:57 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:12:57 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:53496, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:12:57 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:53496
+2023-01-20 16:12:57 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:53496 for coap
+2023-01-20 16:12:57 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:53496#59CDFC17154A93F0 and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:53496], size 1)
+2023-01-20 16:12:57 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:53496#1552746579AEEBC0 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:53496], size 1)
+2023-01-20 16:13:11 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:53496] store NON notification: KeyMID[127.0.0.1:53496-9093]
+2023-01-20 16:13:14 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:53496] store NON notification: KeyMID[127.0.0.1:53496-9094]
+2023-01-20 16:13:16 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:53496] store NON notification: KeyMID[127.0.0.1:53496-9095]
+2023-01-20 16:13:16 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:53496] store NON notification: KeyMID[127.0.0.1:53496-9096]
+2023-01-20 16:13:23 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:53496] store NON notification: KeyMID[127.0.0.1:53496-9097]
+2023-01-20 16:13:23 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:53496] store NON notification: KeyMID[127.0.0.1:53496-9098]
+2023-01-20 16:13:24 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:53496] store NON notification: KeyMID[127.0.0.1:53496-9099]
+2023-01-20 16:13:28 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:53496] store NON notification: KeyMID[127.0.0.1:53496-9100]
+2023-01-20 16:14:28 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 16:14:28 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 16:14:28 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 16:14:28 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:14:28 INFO  ban:380 - Started.
+2023-01-20 16:14:28 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:14:28 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 16:14:28 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:14:28 INFO  CoapServer:292 - Starting server
+2023-01-20 16:14:28 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:14:28 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:14:28 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 16:14:30 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 16:14:30 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 16:14:30 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 16:14:30 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:14:30 INFO  ban:380 - Started.
+2023-01-20 16:14:30 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:14:30 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 16:14:30 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:14:30 INFO  CoapServer:292 - Starting server
+2023-01-20 16:14:30 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:14:30 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:14:30 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 16:14:31 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:14:31 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:14:31 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:14:31 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 16:14:31 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:14:31 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:60735, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:14:31 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:60735
+2023-01-20 16:14:31 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:60735 for coap
+2023-01-20 16:14:31 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:60735#2B2386C52B9AED3A and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:60735], size 1)
+2023-01-20 16:14:31 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:60735#2DA94B2A1EC02FE9 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:60735], size 1)
+2023-01-20 16:14:32 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55795#B11ADB25CC671FF7 and resource /ctxtrolley/trolleystateobserver (Exchange[R5, 192.168.50.134:55795], size 1)
+2023-01-20 16:14:32 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55795#AF2E8C91747F7F9D and resource /ctxwasteservice/wasteservice (Exchange[R1, 192.168.50.134:55795], size 1)
+2023-01-20 16:14:32 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55795#DBAA1984A8259361 and resource /ctxtrolley/trolleystateobserver (Exchange[R7, 192.168.50.134:55795], size 2)
+2023-01-20 16:14:46 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-22217]
+2023-01-20 16:14:46 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-22218]
+2023-01-20 16:14:46 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60735] store NON notification: KeyMID[127.0.0.1:60735-35868]
+2023-01-20 16:14:49 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60735] store NON notification: KeyMID[127.0.0.1:60735-35869]
+2023-01-20 16:14:49 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16971]
+2023-01-20 16:14:49 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16972]
+2023-01-20 16:14:49 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16973]
+2023-01-20 16:14:49 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16974]
+2023-01-20 16:14:51 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60735] store NON notification: KeyMID[127.0.0.1:60735-35870]
+2023-01-20 16:14:51 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60735] store NON notification: KeyMID[127.0.0.1:60735-35871]
+2023-01-20 16:14:51 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-22219]
+2023-01-20 16:14:51 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16975]
+2023-01-20 16:14:51 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16976]
+2023-01-20 16:14:51 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16977]
+2023-01-20 16:14:51 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16978]
+2023-01-20 16:14:58 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60735] store NON notification: KeyMID[127.0.0.1:60735-35872]
+2023-01-20 16:14:58 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60735] store NON notification: KeyMID[127.0.0.1:60735-35873]
+2023-01-20 16:14:58 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16979]
+2023-01-20 16:14:58 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16980]
+2023-01-20 16:14:58 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16981]
+2023-01-20 16:14:58 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16982]
+2023-01-20 16:14:58 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16983]
+2023-01-20 16:14:58 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16984]
+2023-01-20 16:14:59 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60735] store NON notification: KeyMID[127.0.0.1:60735-35874]
+2023-01-20 16:14:59 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16985]
+2023-01-20 16:14:59 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16986]
+2023-01-20 16:15:03 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:60735] store NON notification: KeyMID[127.0.0.1:60735-35875]
+2023-01-20 16:15:03 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16987]
+2023-01-20 16:15:03 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16988]
+2023-01-20 16:15:03 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16989]
+2023-01-20 16:15:03 INFO  Exchange:659 - Exchange[R7, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-16990]
+2023-01-20 16:15:33 INFO  CoapResource:816 - replacing observe relation between 127.0.0.1:60735#2DA94B2A1EC02FE9 and resource /ctxtrolley/pather (new Exchange[R26, 127.0.0.1:60735], size 1)
+2023-01-20 16:15:43 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 16:15:43 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 16:15:43 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 16:15:43 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:15:43 INFO  ban:380 - Started.
+2023-01-20 16:15:43 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:15:43 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 16:15:43 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:15:43 INFO  CoapServer:292 - Starting server
+2023-01-20 16:15:43 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:15:43 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:15:43 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-20 16:15:45 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-20 16:15:45 INFO  Configuration:341 - defaults added UDP.
+2023-01-20 16:15:45 INFO  Configuration:341 - defaults added COAP.
+2023-01-20 16:15:45 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:15:45 INFO  ban:380 - Started.
+2023-01-20 16:15:45 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:15:45 INFO  Configuration:341 - defaults added SYS.
+2023-01-20 16:15:45 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:15:45 INFO  CoapServer:292 - Starting server
+2023-01-20 16:15:45 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:15:45 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:15:45 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-20 16:15:46 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-20 16:15:46 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-20 16:15:46 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-20 16:15:46 INFO  CoapEndpoint:456 - coap Endpoint [coap://0.0.0.0:0] requires an executor to start, using default single-threaded daemon executor
+2023-01-20 16:15:46 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-20 16:15:46 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:64478, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-20 16:15:46 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:64478
+2023-01-20 16:15:46 INFO  EndpointManager:134 - created implicit endpoint coap://[0:0:0:0:0:0:0:0]:64478 for coap
+2023-01-20 16:15:46 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:64478#C32719D1F2E3021C and resource /ctxtrolley/transporttrolley (Exchange[R3, 127.0.0.1:64478], size 1)
+2023-01-20 16:15:46 INFO  CoapResource:822 - successfully established observe relation between 127.0.0.1:64478#59447F1BF866F548 and resource /ctxtrolley/pather (Exchange[R4, 127.0.0.1:64478], size 1)
+2023-01-20 16:15:53 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55795#AF2E8C91747F7F9D and resource /ctxwasteservice/wasteservice (Exchange[R1, 192.168.50.134:55795], size 1)
+2023-01-20 16:16:05 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55795#DBAA1984A8259361 and resource /ctxtrolley/trolleystateobserver (Exchange[R5, 192.168.50.134:55795], size 1)
+2023-01-20 16:16:05 INFO  CoapResource:822 - successfully established observe relation between 192.168.50.134:55795#B11ADB25CC671FF7 and resource /ctxtrolley/trolleystateobserver (Exchange[R6, 192.168.50.134:55795], size 2)
+2023-01-20 16:16:07 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-8571]
+2023-01-20 16:16:07 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-8572]
+2023-01-20 16:16:07 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64478] store NON notification: KeyMID[127.0.0.1:64478-16841]
+2023-01-20 16:16:10 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64478] store NON notification: KeyMID[127.0.0.1:64478-16842]
+2023-01-20 16:16:10 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51575]
+2023-01-20 16:16:10 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51576]
+2023-01-20 16:16:10 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51577]
+2023-01-20 16:16:10 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51578]
+2023-01-20 16:16:12 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64478] store NON notification: KeyMID[127.0.0.1:64478-16843]
+2023-01-20 16:16:12 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64478] store NON notification: KeyMID[127.0.0.1:64478-16844]
+2023-01-20 16:16:12 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-8573]
+2023-01-20 16:16:12 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51579]
+2023-01-20 16:16:12 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51580]
+2023-01-20 16:16:12 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51581]
+2023-01-20 16:16:12 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51582]
+2023-01-20 16:16:19 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64478] store NON notification: KeyMID[127.0.0.1:64478-16845]
+2023-01-20 16:16:19 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64478] store NON notification: KeyMID[127.0.0.1:64478-16846]
+2023-01-20 16:16:19 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51583]
+2023-01-20 16:16:19 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51584]
+2023-01-20 16:16:19 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51585]
+2023-01-20 16:16:19 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51586]
+2023-01-20 16:16:19 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51587]
+2023-01-20 16:16:19 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51588]
+2023-01-20 16:16:20 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64478] store NON notification: KeyMID[127.0.0.1:64478-16847]
+2023-01-20 16:16:20 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51589]
+2023-01-20 16:16:20 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51590]
+2023-01-20 16:16:23 INFO  Exchange:659 - Exchange[R3, 127.0.0.1:64478] store NON notification: KeyMID[127.0.0.1:64478-16848]
+2023-01-20 16:16:23 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51591]
+2023-01-20 16:16:23 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51592]
+2023-01-20 16:16:23 INFO  Exchange:659 - Exchange[R6, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51593]
+2023-01-20 16:16:23 INFO  Exchange:659 - Exchange[R5, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-51594]
+2023-01-20 16:16:27 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-8574]
+2023-01-20 16:16:27 INFO  Exchange:659 - Exchange[R1, 192.168.50.134:55795] store NON notification: KeyMID[192.168.50.134:55795-8575]

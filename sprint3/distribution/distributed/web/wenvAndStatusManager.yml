@@ -1,5 +1,15 @@
 version: "3.3"
 services:
+  wenv:
+    image: wenvl
+    build:
+      context: ../../../it.unibo.virtualRobot2020/
+    container_name: wenvl
+    expose:
+      - "8090"
+    ports:
+      - "8090:8090"
+      - "8091:8091"
   statusmanager:
     image: statusmanager
     build:
@@ -10,11 +20,3 @@ services:
       - "8085"
     ports:
       - "8085:8085"
-  wenv:
-    image: wenvl
-    build:
-      context: ../../../it.unibo.virtualRobot2020/
-    container_name: wenvl
-    ports:
-      - "8090:8090"
-      - "8091:8091"

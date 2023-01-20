@@ -1,0 +1,1 @@
+item(proxyctxwasteservice,nostate,msg(pickupDone,reply,transporttrolley,wasteservice,pickupDone(OK),50)).
