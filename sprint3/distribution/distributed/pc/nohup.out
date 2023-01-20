@@ -1,0 +1,64 @@
+               %%% sysUtil | createTheContext ctxwasteservice for DIFFERENT node (host=localhost) 
+               %%% sysUtil | createTheContext ctxwasteservice for LOCAL node (host=localhost)  
+               %%% sysUtil | createTheContext ctxtrolley for LOCAL node (host=localhost)  
+               %%% QakContext | createScope  ++++++++++++++++++++++++++++++++++  
+               %%% QakContext | createScope  ++++++++++++++++++++++++++++++++++  
+               %%% QakContextServer serverctxtrolley | READY TO RECEIVE TCP CONNS on 8060 
+[34m%%% QakContextServer serverctxtrolley | waitForConnection protocol=true[0m
+               %%% QakContextServer serverctxwasteservice | READY TO RECEIVE TCP CONNS on 8050 
+[34m%%% QakContextServer serverctxwasteservice | waitForConnection protocol=true[0m
+               %%% sysUtil | createTheContext ctxtrolley for DIFFERENT node (host=localhost) 
+               %%% sysUtil | createTheContext ctxrasp for DIFFERENT node (host=192.168.50.13) 
+               %%% sysUtil | createTheContext ctxrasp for DIFFERENT node (host=192.168.50.13) 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 
+               %%% NodeProxy proxyctxrasp | WAIT/RETRY TO SET PROXY TO 192.168.50.13:8070 

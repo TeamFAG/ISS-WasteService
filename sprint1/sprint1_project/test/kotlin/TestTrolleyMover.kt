@@ -100,7 +100,8 @@ class TestTrolleyMover {
         ColorsOut.outappl("Coord: (${coord.x}, ${coord.y})", ColorsOut.YELLOW)
 
         assertEquals(coord.x, 6)
-        assertEquals(coord.y, 4)
+        //assert(coord.y == 2 || coord.y == 3 || coord.y == 4)
+        assert(coord.y == 4)
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_plasticbox)",

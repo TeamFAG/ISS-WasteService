@@ -26,7 +26,7 @@ class Led ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t00",targetState="handleLedUpdate",cond=whenEvent("updateLed"))
+					 transition(edgeName="t014",targetState="handleLedUpdate",cond=whenEvent("updateLed"))
 				}	 
 				state("handleLedUpdate") { //this:State
 					action { //it:State

@@ -94,14 +94,12 @@ sourceSets {
     main.java.srcDirs += 'resources'
     test.java.srcDirs += 'test'		//test is specific
 }
-  
 
 eclipse {
     classpath {
         sourceSets -= [sourceSets.main, sourceSets.test]	
     }	
  }
-
 
 application {
     // Define the main class for the application.

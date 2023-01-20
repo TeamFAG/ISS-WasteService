@@ -62,7 +62,7 @@ class TestTransporttrolley {
     }
 
     @Test
-    fun testPlasticDepostit() {
+    fun testPlasticDeposit() {
         var answer = simulateRequest(conn, Material.PLASTIC, 5F)
 
         ColorsOut.outappl("Answer: $answer", ColorsOut.GREEN)
