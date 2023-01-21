@@ -855,3 +855,51 @@
 2023-01-20 19:20:28 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
 2023-01-20 19:20:28 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
 2023-01-20 19:20:28 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-21 13:36:24 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-21 13:36:24 INFO  Configuration:341 - defaults added UDP.
+2023-01-21 13:36:24 INFO  Configuration:341 - defaults added COAP.
+2023-01-21 13:36:24 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-21 13:36:24 INFO  ban:380 - Started.
+2023-01-21 13:36:24 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-21 13:36:24 INFO  Configuration:341 - defaults added SYS.
+2023-01-21 13:36:24 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-21 13:36:24 INFO  CoapServer:292 - Starting server
+2023-01-21 13:36:24 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-21 13:36:24 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-21 13:36:24 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-21 13:36:32 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-21 13:36:32 INFO  Configuration:341 - defaults added UDP.
+2023-01-21 13:36:32 INFO  Configuration:341 - defaults added COAP.
+2023-01-21 13:36:32 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-21 13:36:32 INFO  ban:380 - Started.
+2023-01-21 13:36:32 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-21 13:36:32 INFO  Configuration:341 - defaults added SYS.
+2023-01-21 13:36:32 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-21 13:36:32 INFO  CoapServer:292 - Starting server
+2023-01-21 13:36:32 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-21 13:36:32 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-21 13:36:32 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050
+2023-01-21 13:36:41 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-21 13:36:41 INFO  Configuration:341 - defaults added UDP.
+2023-01-21 13:36:41 INFO  Configuration:341 - defaults added COAP.
+2023-01-21 13:36:41 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-21 13:36:41 INFO  Configuration:591 - loading properties from file /Users/federyeeco/Sviluppo/Git/ISS-WasteService/sprint3/distribution/distributed/pc/Californium3.properties
+2023-01-21 13:36:41 INFO  Configuration:341 - defaults added UDP.
+2023-01-21 13:36:41 INFO  ban:380 - Started.
+2023-01-21 13:36:41 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-21 13:36:41 INFO  Configuration:341 - defaults added SYS.
+2023-01-21 13:36:41 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-21 13:36:41 INFO  CoapServer:292 - Starting server
+2023-01-21 13:36:41 INFO  Configuration:341 - defaults added COAP.
+2023-01-21 13:36:41 INFO  RandomTokenGenerator:66 - using tokens of 8 bytes in length
+2023-01-21 13:36:41 INFO  ban:380 - Started.
+2023-01-21 13:36:41 INFO  CoapEndpoint:406 - coap CoapEndpoint uses udp context
+2023-01-21 13:36:41 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-21 13:36:41 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8060, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-21 13:36:41 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8060
+2023-01-21 13:36:41 INFO  Configuration:341 - defaults added SYS.
+2023-01-21 13:36:41 INFO  BlockwiseLayer:386 - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=512, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=8192, BLOCKWISE_STRICT_BLOCK2_OPTION=false
+2023-01-21 13:36:41 INFO  CoapServer:292 - Starting server
+2023-01-21 13:36:41 INFO  UDPConnector:242 - UDPConnector starts up 1 sender threads and 1 receiver threads
+2023-01-21 13:36:41 INFO  UDPConnector:268 - UDPConnector listening on /[0:0:0:0:0:0:0:0]:8050, recv buf = 786896, send buf = 65527, recv packet size = 2048
+2023-01-21 13:36:41 INFO  CoapEndpoint:493 - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:8050

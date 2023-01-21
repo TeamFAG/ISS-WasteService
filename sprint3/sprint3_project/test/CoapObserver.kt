@@ -84,10 +84,31 @@ class CoapObserver : CoapHandler {
         }
     }
 
+    fun removeHistoryInterval(from: Int, to: Int) {
+        lock.withLock {
+            var tempList = mutableListOf<String>()
+
+            for(i in 0 until coapHistory.count()) {
+                if(i in from..to)
+                    continue
+                else
+                    tempList.add(coapHistory[i])
+            }
+
+            coapHistory = tempList
+        }
+    }
+
     fun filterDefinitelyHistory(entry: String) {
         lock.withLock {
             coapHistory = coapHistory.filter { e -> e.contains("led") } as MutableList<String>
             coapHistory.forEach { e -> e.replace("\t", "") }
+        }
+    }
+
+    fun getHistoryIndex(entry: String): Int {
+        lock.withLock {
+            return coapHistory.indexOf(entry)
         }
     }
 

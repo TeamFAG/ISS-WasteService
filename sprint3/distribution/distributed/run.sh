@@ -14,22 +14,17 @@ SPRINT3_DIR=../../../sprint3/sprint3_project
 TEST_RESULTS=()
 
 declare -a TEST_SPRINT1=(
-    "TestUtilityMethods.testGetMapCoord"
-    "TestUtilityMethods.testGetClosestCoord"
+    "TestTrolleyMover"
     "TestWasteservice.testLoadAcceptedPlastic"
     "TestWasteservice.testLoadAcceptedGlass"
     "TestWasteservice.testLoadRejectedPlastic"
     "TestWasteservice.testLoadRejectedGlass"
-    "TestTrolleyMover.A_testHomeToIndoor"
-    "TestTrolleyMover.B_testIndoorToPlasticbox"
-    "TestTrolleyMover.C_testPlasticboxToHome"
-    "TestTrolleyMover.D_testIndoorToGlassbox"
-    "TestTrolleyMover.E_testGlassboxToHome"
-    "TestTrolleyMover.F_testGlassToHomeInterruptedToIndoor"
     "TestTransporttrolley.testPlasticDeposit"
     "TestTransporttrolley.testGlassDeposit"
     "TestTransporttrolley.testPlasticGlassDeposit"
     "TestTransporttrolley.testGlassPlasticDeposit"
+    "TestUtilityMethods.testGetMapCoord"
+    "TestUtilityMethods.testGetClosestCoord"
 )
 
 declare -a TEST_SPRINT2=(
@@ -41,7 +36,7 @@ declare -a TEST_SPRINT2=(
 )
 
 declare -a TEST_SPRINT3=(
-    ""
+    "TrolleyStateObserverTest.testPlasticRoutineUpdates"
 )
 
 red() {
@@ -51,9 +46,7 @@ red() {
 green() {
     echo -e "\033[32m$1\033[0m"
 }
-print_checkmark() {
-  echo -e "\u2714"
-}
+
 run_context() {
     if [[ $1 == "all" ]]
     then

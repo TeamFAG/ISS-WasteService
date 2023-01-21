@@ -282,7 +282,6 @@ QActor trolleymover context ctxwasteservice_test {
 	
 	State init initial {
 		println("\tTROLLEYMOVER | started.")
-		updateResource [# "CIAO" #]
 	}
 	Goto idle
 	
@@ -452,39 +451,6 @@ QActor pather context ctxwasteservice_test {
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
-/*
-QActor wasteserviceobserver context ctxwasteservice_test {
-	[#
-		var Material = ""
-		var Quantity: Float
-	#]
-	
-	State init initial {
-		println("\tWASTESERVICEOBSERVER | started.")
-		
-		observeResource wasteservice
-	}
-	Transition t0 whenMsg coapUpdate -> handleCoapUpdate
-	
-	State handleCoapUpdate {
-		onMsg(coapUpdate : coapUpdate(RESOURCE, VALUE)) {
-			[#				
-				val Resource = payloadArg(0)
-				val Value = payloadArg(1)
-				println("COAPPPPPPPPPPPPPPPPPPPP | $Value")
-				val (mat, qty) = ws.ObserversUtils.getContainersStateFromCoapUpdate(Resource, Value)
-				Material = mat
-				Quantity = qty
-			#]
-			
-			forward guiupdater -m updateMaterial : updateMaterial($Material, $Quantity)
-		}
-		
-	}
-	Transition t0 whenMsg coapUpdate -> handleCoapUpdate
-}
-* 
-*/
 
 QActor trolleystateobserver context ctxwasteservice_test {
 	[#
@@ -523,7 +489,6 @@ QActor trolleystateobserver context ctxwasteservice_test {
 			#]
 			
 			if [# !CurrentTrolleyState.equals(TrolleyState) #] {
-				//forward guiupdater -m updateRobotState : updateRobotState($TrolleyState)
 				updateResource [# "trolleystateobserver($TrolleyState)" #]
 				[# CurrentTrolleyState = TrolleyState #]	
 			}
@@ -662,92 +627,6 @@ QActor halteventshandler context ctxwasteservice_test {
 	}	
 	Goto idle
 }
-//-----------------------------------------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------------------------
-
-	/*
-QActor guiupdater context ctxwasteservice_test {
-	[# 
-		var LedState = ws.LedState.OFF
-		var GlassQty: Float = 0F
-		var PlasticQty: Float = 0F
-		var RobotState: String = "HOME - Idle"
-		var CurrentMaterial: ws.Material
-		var CurrentQuantity: Float
-		SystemConfig.setTheConfiguration("SystemConfiguration")
-		var GuiHost = SystemConfig.guiEP["host"] as String
-		var GuiPort = SystemConfig.guiEP["port"] as String
-		var GuiPath = SystemConfig.guiEP["path"] as String
-		wsWebSupport.WsDispatcher.create(this, GuiHost, GuiPort, GuiPath)
-	#]
-	
-	State init initial {
-		println("\tGUIUPDATER | started.")
-	}
-	Goto idle
-	
-	State idle {
-		
-	}
-	Transition t0 whenMsg updateLed -> updLedHandler
-				  whenMsg updateMaterial -> updMaterialHandler
-				  whenMsg updateRobotState -> updRobotHandler
-	
-	State updLedHandler {
-		onMsg(updateLed : updateLed(STATE)) {
-			[# 
-				LedState = ws.LedState.valueOf(payloadArg(0)) 
-				var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
-				wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
-			#]
-			
-			updateResource [# "guiupdater(LED_$LedState)" #]
-		}
-	}
-	Goto idle
-	
-	State updMaterialHandler {
-		onMsg(updateMaterial : updateMaterial(MATERIAL, QUANTITY)) {
-			[#
-				CurrentMaterial = ws.Material.valueOf(payloadArg(0))
-				CurrentQuantity = payloadArg(1).toFloat()
-			#]
-			
-			if [# CurrentMaterial.equals(ws.Material.GLASS) #] {
-				[# GlassQty = CurrentQuantity #]
-			} else {
-				[# PlasticQty = CurrentQuantity #]
-			}
-			
-			[#
-				var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
-				wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
-			#]
-			
-			updateResource [# "guiupdater(${CurrentMaterial}_$CurrentQuantity)" #]
-			println("\tGUIUPDATER | $CurrentMaterial UPDATE - $CurrentQuantity")
-		}
-	}
-	Goto idle
-	
-	State updRobotHandler {
-		onMsg(updateRobotState : updateRobotState(STATE)) {
-			[#
-				RobotState = payloadArg(0).toString()
-				println("GUIGUIGUIGUIGUIGUIGUI $RobotState")
-				var GuiState = wsWebSupport.GuiStatus(PlasticQty, GlassQty, LedState, RobotState)
-				wsWebSupport.WsDispatcher.dispatchGuiUpdate(GuiState)
-			#]
-			
-			updateResource [# "guiupdater(TROLLEY_$RobotState)" #]
-			println("\tGUIUPDATER | TROLLEY UPDATE - $RobotState")
-		}
-	} 
-	Goto idle
-}
-	* */
-
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------------------

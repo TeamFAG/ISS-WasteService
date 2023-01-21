@@ -101,7 +101,7 @@ class TestTrolleyMover {
 
         assertEquals(coord.x, 6)
         //assert(coord.y == 2 || coord.y == 3 || coord.y == 4)
-        assert(coord.y == 4)
+        assertEquals(coord.y, 4)
 
         assertTrue(obs.checkIfHystoryContainsOrdered(listOf(
             "trolleymover(handleMovement_plasticbox)",
