@@ -303,10 +303,26 @@
     </div>
 
     <div class="body">
+        <h2>Index</h2>
+        <div class="remark">
+            <a
+                href="https://github.com/anatali/issLab2022/blob/main/it.unibo.issLabStart/userDocs/Dispense/lezioni/html/TemaFinale22.html">
+                TemaFinale22
+            </a>
+            <br/>
+            <a href="../../sprint0/userDocs/WasteService.html">Sprint0</a>
+            <br/>
+            <a href="../../sprint1/userDocs/WasteService.html">Sprint1</a>
+            <br/>
+            <a href="../../sprint2/userDocs/WasteService.html">Sprint2</a>
+            <br/>
+            <a href="../../sprint3/userDocs/WasteService.html">Sprint3</a>
+        </div>
+
         <h2>Introduction</h2>
         <div class="remark">
             <h3>SCRUM goal</h3>
-            In the final sprint of the project,<b>Sprint3</b>, we are going to analyze and create the WasteService GUI component.<br/>
+            In the final sprint of the project, <b>Sprint3</b>, we are going to analyze and create the WasteServiceStatusGUI component.<br/>
             <br/>
             <h4>Gui Service</h4>
             <img src="./imgs/guiarchbase.png" alt="SystemArchRasp" style="width:auto;height:750px;" class="center"><br/> 
@@ -324,20 +340,6 @@
             </ol>          
         </div>
 
-        <h2>Index</h2>
-        <div class="remark">
-            <a
-                href="https://github.com/anatali/issLab2022/blob/main/it.unibo.issLabStart/userDocs/Dispense/lezioni/html/TemaFinale22.html">
-                TemaFinale22
-            </a>
-            <br/>
-            <a href="../../sprint0/userDocs/WasteService.html">Sprint0</a>
-            <br/>
-            <a href="../../sprint1/userDocs/WasteService.html">Sprint1</a>
-            <br/>
-            <a href="../../sprint2/userDocs/WasteService.html">Sprint2</a>
-        </div>
-
         <h2>Problem analysis</h2>
         <div class="remark">
 
@@ -345,8 +347,8 @@
 
             <k>What type of GUI do we want for our system ?</k><br/>
             <ul>
-                <li><b>Application</b></li>
-                <li><b>Web-based GUI</b></li>
+                <li><b>Desktop Application</b></li>
+                <li><b>Web Application</b></li>
             </ul>
 
             <h4>Importance of clean architecture in relation to the UI</h4>
@@ -364,7 +366,7 @@
             detatched from the core business logic of the system.<br/>
 
             <h4>Desktop Application</h4>
-            With this strategy, the <b>GUI</b> component is an executable that needs to be installed on the target machine.<br/>
+            With this strategy, the <b>WasteserviceStatusGUI</b> component is an executable that needs to be installed on the target machine.<br/>
             <ol>
                 <li>- The App can be independent from the system (<i>if developed as an external program</i>), however it still will be highly
                     dependent on the <b>OS/platform</b> used to run it.
@@ -378,7 +380,7 @@
             </ol>
 
             <h4>Web Application</h4>
-            With this strategy, the GUI component runs on an external server as a website.<br/>
+            With this strategy, the <b>WasteserviceStatusGUI</b> component runs on an external server as a website.<br/>
             <ol>
                 <li>+ The <b>webApp</b> is detached (or independent) from the system.</li>
                 <li>+ The customer provides support for this choice by presenting other functioning projects.</li>
@@ -432,7 +434,7 @@ Dispatch updateRobotState : updateRobotState(STATE)
             This was done so that the eventual <b>GUI</b> component will only have to receive one type of message from the system, instead of
             having to <b>parse each message differently based on its origin</b>.<br/><br/>
             
-            <center><img src="./imgs/guiupdater.png" height="350px"></center><br/><br/>
+            <center><img src="./imgs/guiupdater.png" height="400px"></center><br/><br/>
 
             <i>For now, the only entity that listens to these updates is a <b>CoaP observer</b> built as part of a <b>Test</b> for this particular analysis.<br/>
             In the project portion of this document we will tackle the issue of the real observer.</i><br/>
@@ -469,7 +471,7 @@ Dispatch updateRobotState : updateRobotState(STATE)
             As for the <b>GUI design</b>, we wanted to make sure it was as clear and understandable as possible.<br/>
             All assets were used with this in mind.<br/><br/>
 
-            <img class="center" src="./imgs/gui.png" height="550" width="980">
+            <img class="center" src="./imgs/gui-updated.png" style="width: auto;height: 500px;">
 
             <h3>Connecting to the Wasteservice system</h3>
 
@@ -496,6 +498,8 @@ Dispatch updateRobotState : updateRobotState(STATE)
 
             We then decided to change the whole messaging architecture between the GUI and the Core System.<br/><br/>
 
+            The first thing that has been done is to remove the two actors introduced earlier (guiupdater and wasteserviceobserver).
+            <br/>
             CoaP messaging is still used, howerver we moved the observers to the GUI side.<br/>
             Now there is an observer for every resource of our system:
             <ul>
@@ -506,7 +510,7 @@ Dispatch updateRobotState : updateRobotState(STATE)
                 was the obvious source of data about the position of the trolley, however we found that 
                 it wasn't being correctly observed by the GUI CoaP class. <br/>
                 We fixed this issue by incorporating the information about the position of the trolley into <ks>trolleystateobserver</ks></k></h5></li>
-                <li><ks>WasteServiceObserver</ks>: observes the <ks>wasteservice</ks></li>
+                <li><ks>WasteServiceObserver</ks>: observes the <ks>wasteservice</ks> actor.</li>
             </ul>
             Every time an <k>updateResource</k> for one of the observed actors is called, the new kotlin observers receive the update
             and use SpringBoot to push it to the live web-page.
@@ -522,6 +526,10 @@ Dispatch updateRobotState : updateRobotState(STATE)
                 affecting the Core System.</li>
             </ul>
 
+            <br/>
+            <br/>
+            This is the uml diagram of the WasteServiceStatusGUI.
+            <br/>
             <br/><img class="center" src="./imgs/WasteserviceStatusManager-uml.png" height="400px">
 
             <h3>Smart Device re-definition</h3>
@@ -541,7 +549,7 @@ Dispatch updateRobotState : updateRobotState(STATE)
             </ul>
 
             <div class="center">
-                <img src="./imgs/smartdevice-home.png" height="500px"><img src="./imgs/smartdevice-request.png" height="500px"><img src="./imgs/smartdevice-settings.png" height="500px">
+                <img src="./imgs/smartdevice-home.png" height="400px"><img src="./imgs/smartdevice-request.png" height="400px"><img src="./imgs/smartdevice-settings.png" height="400px">
             </div>
 
             <h3>MQTT and its possible use in our project</h3>
@@ -573,8 +581,8 @@ Dispatch updateRobotState : updateRobotState(STATE)
 
             After the final changes to the <b>architecture</b>, we have updated the methods and tasks for a successful <b>deployment</b>.<br/><br/>
 
-            <k>GUI</k><br/>
-            <ks>SpringBoot</ks> is distributed using <ks>Docker</ks>, in a <a href="../distribution/distributed/pc/docker-compose.yml">docker-compose.yml</a> file that also executes the <b>virtual environment</b>
+            <k>WasteServiceStatusGUI</k><br/>
+            <ks>SpringBoot</ks> is distributed using <ks>Docker</ks>, in a <a href="../distribution/distributed/web/docker-compose.yml">docker-compose.yml</a> file that also executes the <b>virtual environment</b>
             of the robot.<br/><br/>
 
             <k>Raspberry context</k><br/>
@@ -583,9 +591,20 @@ Dispatch updateRobotState : updateRobotState(STATE)
             Then the image is loaded to the Raspberry and the context is executed.<br/><br/>
 
             <k>Core System</k><br/>
+            In order to run the CoreSystem has been developed a script. This script (<a href="../distribution/distributed/run.sh">run.sh</a>) allows both
+            to launch the system by choosing which context to start, and to automate the execution of all the test plans of the whole system.
 
+<pre><code>// run.sh usage:
 
-            <br/><br/>
+<b>./run.sh [service] [testplan]</b>
+
+<b>wasteservice := wasteservice | trolley | all</b>
+wasteservice -> runs the ctxwasteservice, trolley -> runs the ctxtrolley, all -> runs both the ctxwasteservice and the ctxtrolley
+
+<b>testplan := test1 | test2 | test3</b>
+test1 -> execute all the tests that are in the Sprint1 project, test2 -> all the tests that are in the Sprint2 project, test3 -> Sprint3 project tests
+</code></pre>
+            <br/>
             <h5><k>All the intructions to follow for a successful deployment can be found <a href="../distribution/distributed/HOWTORUN.txt">here</a></k></h5>
 
 
@@ -605,6 +624,10 @@ Dispatch updateRobotState : updateRobotState(STATE)
                     <h5><k>This previous test helped us understand how CoaP messaging was failing due to the observation of multiple actors, 
                         causing the change in project architecture for the GUI service.
                     </k></h5>
+                    After changing the software structure, this is the new test:
+                    <ol>
+                        <li><a href="../sprint3_project/test/TrolleyStateObserverTest.kt"><k>TrolleyStateObserverTest.kt</k></a>: Integration testing to ensure the correct behavior of the TrolleyStateObserver using CoaP.</li>
+                    </ol>
                 </dd>
             </div>
         </div>
@@ -634,13 +657,13 @@ Dispatch updateRobotState : updateRobotState(STATE)
                     <td><center>Federico Andrucci</center></td>
                 </tr>
                 <tr>
-                    <td><center>Qak model editing</center></td>
+                    <td><center>Qak model editing and testing</center></td>
                     <td>Modifying the existing Qak actors and making new ones to implement GUI functionalities.</td>
                     <td><center>Federico Andrucci,<br/>Alex Gianelli,<br/>Gabriele Marconi</center></td>
                 </tr>
                 <tr>
-                    <td><center>Gui Testing</center></td>
-                    <td>Creating tests for GUI interactions.</td>
+                    <td><center>System distribution</center></td>
+                    <td>Creating Dokerfiles and the run.sh script.</td>
                     <td><center>Federico Andrucci</center></td>
                 </tr>
             </table>

@@ -1,33 +1,31 @@
+Prima di ogni cosa ricordarsi di impostare gli ip giusti nei file *.pl
+
 ###########################################################
 #                          PC                             #
 ###########################################################
 
 1. Preparare l'immagine da pushare su raspberry
 
-    Nel file sprint3_project.pl cambiare l'ip del ctxrasp con il vero ip del rasp, e l'ip del ctxtrolley con l'ip del pc,
-    inoltre commentare il ctxwasteservice, quindi:
+    docker buildx build --platform linux/arm/v7 --rm --tag rasp --load -f Dockerfile-ctxrasp ../..
+    docker tag rasp username/rasp:rasp
+    docker push username/rasp:rasp
 
-        % context(ctxwasteservice, "wasteservice",  "TCP", "8050").
-        context(ctxtrolley, "192.168.1.109",  "TCP", "8060").
-        context(ctxrasp, "192.168.1.122",  "TCP", "8070").
+2. Runnare i contesti del PC (ctxwasteservice e ctxtrolley)    
 
-    Per buildare, taggare e pushare su dockerhub (in una repo pubblica) l'immagine del rasp lanciare il comando:
+    posizionarsi nella cartella distribution/distributed.
 
-        docker buildx build --platform linux/arm/v7 --rm --tag rasp --load -f Dockerfile-ctxrasp ../..
-        docker tag rasp username/rasp:rasp
-        docker push username/rasp:rasp
+    E' stato messo a disposizione uno script sh che permette di lanciare singolarmente i contesti oppure contemporaneamente
+    Lo script in questione è run.sh
 
-2. Buildare e runnare il sistema del pc
-    
-    Nel file SistemConfig.json cambiare l'ip del rasp con il vero ip del rasp
-    Nel file sprint3_project.pl cambiare l'ip del ctxrasp con il vero ip del rasp
-    Quindi dovrà essere così (con i giusti ip):
+    USAGE:
 
-        context(ctxwasteservice, "wasteservice",  "TCP", "8050").
-        context(ctxtrolley, "trolley",  "TCP", "8060").
-        context(ctxrasp, "192.168.1.122",  "TCP", "8070").
+        ./run.sh [nome_servizio]                                nome_servizio := wasteservice | trolley | all
 
-    Per eseguire il sistema, lanciare il comando:
+3. Runnare i servizi web (WasteserviceStatusManager e Wenv)
+
+    posizionarsi nella cartella distribution/distributed/web
+
+    Lanciare il comando:
 
         docker-compose -f docker-compose.yml up
 
