@@ -13,8 +13,8 @@ services:
   statusmanager:
     image: statusmanager
     build:
-      context: ../../
-      dockerfile: distribution/distributed/Dockerfile-statusmanager
+      context: ../../../
+      dockerfile: distribution/distributed/web/Dockerfile-statusmanager
     container_name: statusmanager
     expose:
       - "8085"

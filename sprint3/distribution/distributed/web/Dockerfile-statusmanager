@@ -7,6 +7,6 @@ RUN mkdir ./MainStatusManager/
 
 WORKDIR ./MainStatusManager/
 COPY ./WasteserviceStatusManager/build/libs/WasteserviceStatusManager-0.0.1-SNAPSHOT.jar ./
-COPY ./distribution/distributed/SystemConfig.json ./
+COPY ./distribution/distributed/web/SystemConfig.json ./
 
 CMD [ "java", "-jar", "WasteserviceStatusManager-0.0.1-SNAPSHOT.jar" ]
