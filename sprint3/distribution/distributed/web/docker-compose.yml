@@ -3,7 +3,7 @@ services:
   wenv:
     image: wenvl
     build:
-      context: ../../../it.unibo.virtualRobot2020/
+      context: ../../../../it.unibo.virtualRobot2020/
     container_name: wenvl
     expose:
       - "8090"

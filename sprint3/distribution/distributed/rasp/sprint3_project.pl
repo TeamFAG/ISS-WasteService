@@ -2,8 +2,8 @@
 % sprint3_project description   
 %====================================================================================
 % context(ctxwasteservice, "192.168.50.134",  "TCP", "8050").
-context(ctxtrolley, "192.168.50.134",  "TCP", "8060").
-context(ctxrasp, "192.168.50.13",  "TCP", "8070").
+context(ctxtrolley, "192.168.220.83",  "TCP", "8060").
+context(ctxrasp, "192.168.220.124",  "TCP", "8070").
  % qactor( sonaremittersimulator, ctxrasp, "wsSonar.sonarEmitterSimulator").
   qactor( sonaremitterconcrete, ctxrasp, "wsSonar.sonarEmitterConcrete").
   qactor( wsdatacleaner, ctxrasp, "wsSonar.dataCleaner").

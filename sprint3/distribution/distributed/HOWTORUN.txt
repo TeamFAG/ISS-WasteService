@@ -6,7 +6,7 @@ Prima di ogni cosa ricordarsi di impostare gli ip giusti nei file *.pl
 
 1. Preparare l'immagine da pushare su raspberry
 
-    docker buildx build --platform linux/arm/v7 --rm --tag rasp --load -f Dockerfile-ctxrasp ../..
+    docker buildx build --platform linux/arm/v7 --rm --tag rasp --load -f Dockerfile-ctxrasp ../../..
     docker tag rasp username/rasp:rasp
     docker push username/rasp:rasp
 
